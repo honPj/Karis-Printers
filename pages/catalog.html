@@ -39,6 +39,7 @@
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
+            position: relative;
         }
         .logo {
             font-size: 1.8rem;
@@ -48,6 +49,37 @@
         .logo span {
             color: #ff6b00;
         }
+
+        /* ===== HAMBURGER MENU STYLES ===== */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+            padding: 5px;
+            background: none;
+            border: none;
+            z-index: 200;
+        }
+        .hamburger span {
+            display: block;
+            width: 28px;
+            height: 3px;
+            background: #0056b3;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 6px);
+        }
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -6px);
+        }
+
+        /* Navigation - Original Style */
         nav {
             display: flex;
             gap: 25px;
@@ -88,6 +120,33 @@
             line-height: 1.4;
             margin-left: 4px;
         }
+
+        /* ===== CART BUTTON - ALWAYS VISIBLE ON MOBILE ===== */
+        .mobile-cart-btn {
+            display: none;
+            background: #ff6b00;
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 25px;
+            font-weight: 600;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            order: 2;
+            margin-left: 5px;
+        }
+        .mobile-cart-btn:hover {
+            background: #e05500;
+            color: #fff !important;
+        }
+        .mobile-cart-btn .cart-badge {
+            background: rgba(255, 255, 255, 0.25);
+            font-size: 0.65rem;
+            padding: 1px 7px;
+            min-width: 18px;
+            margin-left: 0;
+        }
+
         .page-header {
             background: linear-gradient(135deg, #e8f0fe 0%, #d4e4f7 100%);
             padding: 40px 0 30px;
@@ -523,7 +582,62 @@
         .no-results.show {
             display: block;
         }
+
+        /* ===== RESPONSIVE - MOBILE VIEW ===== */
         @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+                order: 1;
+                margin-left: 10px;
+            }
+
+            /* Show mobile cart button */
+            .mobile-cart-btn {
+                display: inline-flex;
+            }
+
+            /* Hide nav links on mobile */
+            nav {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                padding: 20px 0;
+                gap: 15px;
+                background: #fff;
+                border-top: 1px solid #eee;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+                align-items: center;
+                order: 3;
+            }
+
+            nav.open {
+                display: flex;
+            }
+
+            /* Hide the cart inside the hamburger menu on mobile */
+            nav .nav-cta {
+                display: none !important;
+            }
+
+            /* Keep header layout */
+            header .container {
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                flex-wrap: wrap;
+                position: relative;
+                gap: 0;
+            }
+
+            .logo {
+                font-size: 1.4rem;
+                order: 0;
+                margin-right: auto;
+            }
+
             .category-item {
                 padding: 16px 20px;
             }
@@ -534,15 +648,11 @@
             .product-card .product-image {
                 height: 160px;
             }
-            header .container {
-                flex-direction: column;
-                gap: 12px;
-            }
-            nav {
-                justify-content: center;
-                gap: 15px;
+            .page-header h1 {
+                font-size: 2rem;
             }
         }
+
         @media (max-width: 480px) {
             .product-grid {
                 grid-template-columns: 1fr;
@@ -553,6 +663,26 @@
             .cart-modal {
                 padding: 24px 16px 20px;
             }
+            .logo {
+                font-size: 1.2rem;
+            }
+            .hamburger span {
+                width: 24px;
+                height: 2.5px;
+            }
+            .hamburger {
+                gap: 4px;
+                margin-left: 5px;
+            }
+            .mobile-cart-btn {
+                padding: 5px 10px;
+                font-size: 0.75rem;
+            }
+            .mobile-cart-btn .cart-badge {
+                font-size: 0.55rem;
+                padding: 1px 5px;
+                min-width: 14px;
+            }
         }
     </style>
 </head>
@@ -560,23 +690,40 @@
     <header>
         <div class="container">
             <div class="logo">Karis<span>Printers</span></div>
-            <nav>
+
+            <!-- Hamburger Button (mobile only) -->
+            <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <!-- Mobile Cart Button (visible only on mobile, directly after hamburger) -->
+            <a href="cart.html" class="mobile-cart-btn" id="mobileCartBtn">
+                <i class="fas fa-shopping-cart"></i> Cart <span class="cart-badge" id="mobileCartBadge">0</span>
+            </a>
+
+            <!-- Navigation (desktop) -->
+            <nav id="navLinks">
                 <a href="../index.html">Home</a>
                 <a href="catalog.html" class="active">Catalog</a>
                 <a href="about.html">About</a>
                 <a href="contact.html">Contact</a>
+                <!-- Cart is inside nav on desktop, hidden on mobile -->
                 <a href="cart.html" class="nav-cta">
                     <i class="fas fa-shopping-cart"></i> Cart <span class="cart-badge" id="navCartBadge">0</span>
                 </a>
             </nav>
         </div>
     </header>
+
     <section class="page-header">
         <div class="container">
             <h1>Our Product Catalog</h1>
             <p>Browse categories, then click to explore products.</p>
         </div>
     </section>
+
     <section class="container">
         <div class="back-bar" id="backBar" style="display:none;">
             <button class="back-btn" id="backToCategoriesBtn"><i class="fas fa-arrow-left"></i> All Categories</button>
@@ -590,6 +737,7 @@
             <div class="no-results" id="noResults"><p>No products in this category.</p></div>
         </div>
     </section>
+
     <div class="cart-modal-overlay" id="cartModal">
         <div class="cart-modal">
             <button class="close-modal" id="closeModalBtn">&times;</button>
@@ -623,10 +771,12 @@
             </button>
         </div>
     </div>
+
     <div class="toast-message" id="toastMessage">
         <i class="fas fa-check-circle" style="color:#2a7a4b;"></i>
         <span id="toastText">Item added</span>
     </div>
+
     <footer>
         <div class="container">
             <div class="footer-grid">
@@ -656,6 +806,7 @@
             <div class="copyright">&copy; 2026 Karis Printers. All rights reserved.</div>
         </div>
     </footer>
+
     <script>
         const products = [
             { id: 'business-cards', name: 'Business Cards', category: 'stationery', subcategory: 'Business Stationery', startingPrice: 2500, image: '/images/business card.avif' },
@@ -735,6 +886,7 @@
         function updateBadge() {
             const cart = getCart();
             const total = cart.reduce((sum, i) => sum + i.quantity, 0);
+            // Update both desktop and mobile cart badges
             document.querySelectorAll('.cart-badge').forEach(el => el.textContent = total);
         }
 
@@ -890,6 +1042,34 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
+            // ===== HAMBURGER MENU TOGGLE =====
+            const hamburger = document.getElementById('hamburgerBtn');
+            const navLinks = document.getElementById('navLinks');
+
+            if (hamburger && navLinks) {
+                hamburger.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    this.classList.toggle('active');
+                    navLinks.classList.toggle('open');
+                });
+
+                // Close menu when a link is clicked
+                navLinks.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', function() {
+                        hamburger.classList.remove('active');
+                        navLinks.classList.remove('open');
+                    });
+                });
+
+                // Close menu when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
+                        hamburger.classList.remove('active');
+                        navLinks.classList.remove('open');
+                    }
+                });
+            }
+
             document.getElementById('backToCategoriesBtn').addEventListener('click', goToCategories);
             document.getElementById('closeModalBtn').addEventListener('click', closeCartModal);
             document.getElementById('cartModal').addEventListener('click', function(e) {

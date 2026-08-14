@@ -91,6 +91,7 @@
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
+            position: relative;
         }
         .logo {
             font-size: 1.8rem;
@@ -100,6 +101,37 @@
         .logo span {
             color: #ff6b00;
         }
+
+        /* ===== HAMBURGER MENU STYLES ===== */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+            padding: 5px;
+            background: none;
+            border: none;
+            z-index: 200;
+        }
+        .hamburger span {
+            display: block;
+            width: 28px;
+            height: 3px;
+            background: #0056b3;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 6px);
+        }
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -6px);
+        }
+
+        /* Navigation - Original Style */
         nav {
             display: flex;
             gap: 25px;
@@ -136,6 +168,33 @@
             line-height: 1.4;
             margin-left: 4px;
         }
+
+        /* ===== MOBILE CART BUTTON - VISIBLE ONLY ON MOBILE ===== */
+        .mobile-cart-btn {
+            display: none;
+            background: #ff6b00;
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 25px;
+            font-weight: 600;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            order: 2;
+            margin-left: 5px;
+        }
+        .mobile-cart-btn:hover {
+            background: #e05500;
+            color: #fff !important;
+        }
+        .mobile-cart-btn .cart-badge {
+            background: rgba(255, 255, 255, 0.25);
+            font-size: 0.65rem;
+            padding: 1px 7px;
+            min-width: 18px;
+            margin-left: 0;
+        }
+
         .hero {
             position: relative;
             min-height: 85vh;
@@ -609,20 +668,67 @@
             font-size: 0.9rem;
             color: #777;
         }
+
+        /* ===== RESPONSIVE - MOBILE VIEW ===== */
         @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+                order: 1;
+                margin-left: 10px;
+            }
+
+            /* Show mobile cart button */
+            .mobile-cart-btn {
+                display: inline-flex;
+            }
+
+            /* Hide nav links on mobile */
+            nav {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                padding: 20px 0;
+                gap: 15px;
+                background: #fff;
+                border-top: 1px solid #eee;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+                align-items: center;
+                order: 3;
+            }
+
+            nav.open {
+                display: flex;
+            }
+
+            /* Hide the cart inside the hamburger menu on mobile */
+            nav .nav-cta {
+                display: none !important;
+            }
+
+            /* Keep header layout */
+            header .container {
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                flex-wrap: wrap;
+                position: relative;
+                gap: 0;
+            }
+
+            .logo {
+                font-size: 1.4rem;
+                order: 0;
+                margin-right: auto;
+            }
+
             .hero h1 {
                 font-size: 2rem;
             }
             .hero p {
                 font-size: 1rem;
-            }
-            header .container {
-                flex-direction: column;
-                gap: 12px;
-            }
-            nav {
-                justify-content: center;
-                gap: 15px;
             }
             .product-grid {
                 grid-template-columns: 1fr 1fr;
@@ -635,6 +741,7 @@
                 font-size: 1.5rem;
             }
         }
+
         @media (max-width: 480px) {
             .product-grid {
                 grid-template-columns: 1fr;
@@ -650,6 +757,27 @@
                 height: 180px;
             }
             .cart-modal { padding: 24px 16px 20px; }
+
+            .logo {
+                font-size: 1.2rem;
+            }
+            .hamburger span {
+                width: 24px;
+                height: 2.5px;
+            }
+            .hamburger {
+                gap: 4px;
+                margin-left: 5px;
+            }
+            .mobile-cart-btn {
+                padding: 5px 10px;
+                font-size: 0.75rem;
+            }
+            .mobile-cart-btn .cart-badge {
+                font-size: 0.55rem;
+                padding: 1px 5px;
+                min-width: 14px;
+            }
         }
     </style>
 </head>
@@ -657,17 +785,33 @@
 <header>
     <div class="container">
         <div class="logo">Karis<span>Printers</span></div>
-        <nav>
+
+        <!-- Hamburger Button (mobile only) -->
+        <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <!-- Mobile Cart Button (visible only on mobile, directly after hamburger) -->
+        <a href="pages/cart.html" class="mobile-cart-btn" id="mobileCartBtn">
+            <i class="fas fa-shopping-cart"></i> Cart <span class="cart-badge" id="mobileCartBadge">0</span>
+        </a>
+
+        <!-- Navigation -->
+        <nav id="navLinks">
             <a href="index.html">Home</a>
             <a href="pages/catalog.html">Catalog</a>
             <a href="pages/about.html">About</a>
             <a href="pages/contact.html">Contact</a>
+            <!-- Cart is inside nav on desktop, hidden on mobile -->
             <a href="pages/cart.html" class="nav-cta">
                 <i class="fas fa-shopping-cart"></i> Cart <span class="cart-badge" id="navCartBadge">0</span>
             </a>
         </nav>
     </div>
 </header>
+
 <section class="hero">
     <div class="hero-slides" id="heroSlides">
         <div class="hero-slide active" style="background-image: url('images/carbonless.jpg');"></div>
@@ -685,6 +829,7 @@
         </div>
     </div>
 </section>
+
 <section class="container">
     <h2 class="section-title">Our Products</h2>
     <p class="section-subtitle">See a price. Click order. It's that simple.</p>
@@ -693,6 +838,7 @@
         <a href="pages/catalog.html" class="btn-primary">View Full Catalog →</a>
     </div>
 </section>
+
 <section class="stats">
     <div class="container">
         <div class="stats-grid">
@@ -715,6 +861,7 @@
         </div>
     </div>
 </section>
+
 <section class="testimonials">
     <div class="container">
         <h2 class="section-title" style="margin-top: 0;">What Our Clients Say</h2>
@@ -722,6 +869,7 @@
         <div class="testimonial-dots" id="testimonialDots"></div>
     </div>
 </section>
+
 <div class="cart-modal-overlay" id="cartModal">
     <div class="cart-modal">
         <button class="close-modal" id="closeModalBtn">&times;</button>
@@ -755,10 +903,12 @@
         </button>
     </div>
 </div>
+
 <div class="toast-message" id="toastMessage">
     <i class="fas fa-check-circle" style="color:#2a7a4b;"></i>
     <span id="toastText">Item added</span>
 </div>
+
 <footer>
     <div class="container">
         <div class="footer-grid">
@@ -790,10 +940,12 @@
         </div>
     </div>
 </footer>
+
 <script>
     (function() {
         emailjs.init('ExzmFqrSqTxWvr1LN');
     })();
+
     (function heroSlideshow() {
         const slides = document.querySelectorAll('.hero-slide');
         let current = 0;
@@ -805,6 +957,7 @@
         }
         setInterval(nextSlide, 5000);
     })();
+
     const products = [
         { id: 't-shirts', name: 'Custom T-shirts', category: 'apparel', subcategory: 'Custom Apparel', startingPrice: 1200, specs: '100% cotton • Screen print/DTF • Custom design', image: '/images/t shirt.jpg', description: 'Custom printed t-shirts for teams, events, and promotions.', pricing: { 10: 1200, 25: 2800, 50: 4800, 100: 8500 }, materials: ['Cotton', 'Premium', 'Polyester'] },
         { id: 'hoodies', name: 'Custom Hoodies', category: 'apparel', subcategory: 'Custom Apparel', startingPrice: 2500, specs: '80% cotton • Screen print/DTF • Custom design', image: '/images/download.jpg', description: 'Custom printed hoodies for branding and merchandise.', pricing: { 10: 2500, 25: 5500, 50: 9500, 100: 16500 }, materials: ['Cotton', 'Premium', 'Polyester'] },
@@ -813,6 +966,7 @@
         { id: 'invoice-books', name: 'Carbonless Invoice Books (NCR)', category: 'stationery', subcategory: 'Business Stationery', startingPrice: 1800, specs: '50 sets • 2-part carbonless • Numbered', image: '/images/carbonless.jpg', description: 'Professional NCR invoice/receipt books for your business.', pricing: { 50: 1800, 100: 3000, 250: 4800, 500: 7800 }, materials: ['Standard', 'Premium'] },
         { id: 'brochures-trifold', name: 'Brochures (Tri-fold)', category: 'promotional', subcategory: 'Promotional Print', startingPrice: 3500, specs: 'A4 tri-fold • 150gsm • Full color • 100 pieces', image: '/images/brochures tri.jpg', description: 'Professional tri-fold brochures for your business.', pricing: { 100: 3500, 250: 6000, 500: 9500, 1000: 15000 }, materials: ['Glossy', 'Matte', 'Premium'] }
     ];
+
     function getCart() {
         try { return JSON.parse(localStorage.getItem('karis_cart')) || []; } catch { return []; }
     }
@@ -823,6 +977,7 @@
     function updateBadge() {
         const cart = getCart();
         const total = cart.reduce((sum, i) => sum + i.quantity, 0);
+        // Update both desktop and mobile cart badges
         document.querySelectorAll('.cart-badge').forEach(el => el.textContent = total);
     }
     function getFeaturedProducts() {
@@ -864,6 +1019,7 @@
             `;
         }).join('');
     }
+
     let currentProduct = null;
     function openCartModal(productId) {
         const product = products.find(p => p.id === productId);
@@ -927,6 +1083,7 @@
         clearTimeout(window.toastTimeout);
         window.toastTimeout = setTimeout(() => toast.classList.remove('show'), 3000);
     }
+
     const testimonials = [
         { quote: "I did my Business receipt books and business cards with Karis Printers. Nice work. I recommend.", name: "Waweru James", location: "Nairobi, Kenya" },
         { quote: "I like working with Karis Printers on branding and printing services. Quality prints, affordable prices and timely delivery.", name: "muturi", location: "Nyandarua, Kenya" },
@@ -934,6 +1091,7 @@
         { quote: "I am based in Thika, I find it easy using Karis Printers for our printing works, which include books, brochures, flyers, magazines and labels.", name: "Mohamed Abdul", location: "Thika, Kenya" },
         { quote: "Best Printing company in Kenya. I love your services and quick response.", name: "Terri njeri", location: "Muranga, kenya" }
     ];
+
     let currentTestimonial = 0;
     let testimonialInterval;
     function renderTestimonials() {
@@ -966,11 +1124,42 @@
         clearInterval(testimonialInterval);
         testimonialInterval = setInterval(nextTestimonial, 5000);
     }
+
     document.addEventListener('DOMContentLoaded', function() {
         renderProducts();
         renderTestimonials();
         resetAutoPlay();
         updateBadge();
+
+        // ===== HAMBURGER MENU TOGGLE =====
+        const hamburger = document.getElementById('hamburgerBtn');
+        const navLinks = document.getElementById('navLinks');
+
+        if (hamburger && navLinks) {
+            hamburger.addEventListener('click', function(e) {
+                e.stopPropagation();
+                this.classList.toggle('active');
+                navLinks.classList.toggle('open');
+            });
+
+            // Close menu when a link is clicked
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', function() {
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('open');
+                });
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('open');
+                }
+            });
+        }
+
+        // Modal controls
         document.getElementById('closeModalBtn').addEventListener('click', closeCartModal);
         document.getElementById('cartModal').addEventListener('click', function(e) {
             if (e.target === this) closeCartModal();
