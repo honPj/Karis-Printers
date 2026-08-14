@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmed - Inkpaste Printers</title>
+    
+    <style>
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f9fa;
+            color: #1a1a1a;
+            line-height: 1.6;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* ===== HEADER ===== */
+        header {
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            padding: 15px 0;
+        }
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #0056b3;
+        }
+        .logo span {
+            color: #ff6b00;
+        }
+        nav {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        nav a {
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        nav a:hover {
+            color: #0056b3;
+        }
+        .nav-cta {
+            background: #ff6b00;
+            color: #fff;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+        }
+        .nav-cta:hover {
+            background: #e05500;
+            color: #fff !important;
+        }
+        
+        /* ===== CONFIRMATION ===== */
+        .confirmation {
+            text-align: center;
+            padding: 60px 0;
+        }
+        .confirmation .checkmark {
+            font-size: 5rem;
+            color: #28a745;
+            margin-bottom: 20px;
+        }
+        .confirmation h1 {
+            font-size: 2.5rem;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+        }
+        .confirmation .order-id {
+            background: #fff;
+            padding: 15px 30px;
+            border-radius: 8px;
+            display: inline-block;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #0056b3;
+            margin: 15px 0;
+            border: 2px dashed #0056b3;
+        }
+        .confirmation .steps {
+            max-width: 500px;
+            margin: 30px auto;
+            text-align: left;
+            background: #fff;
+            padding: 25px 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        }
+        .confirmation .steps h3 {
+            color: #0056b3;
+            margin-bottom: 10px;
+        }
+        .confirmation .steps li {
+            padding: 6px 0;
+            color: #444;
+        }
+        .confirmation .btn-primary {
+            background: #0056b3;
+            color: #fff;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            display: inline-block;
+            margin: 5px;
+        }
+        .confirmation .btn-primary:hover {
+            background: #003d80;
+        }
+        .confirmation .btn-outline {
+            background: transparent;
+            color: #0056b3;
+            padding: 12px 30px;
+            border: 2px solid #0056b3;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+            margin: 5px;
+        }
+        .confirmation .btn-outline:hover {
+            background: #0056b3;
+            color: #fff;
+        }
+        
+        /* ===== FOOTER ===== */
+        footer {
+            background: #1a1a1a;
+            color: #ccc;
+            padding: 40px 0 20px;
+            margin-top: 30px;
+        }
+        footer .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        footer h4 {
+            color: #fff;
+            margin-bottom: 12px;
+        }
+        footer a {
+            display: block;
+            color: #aaa;
+            margin-bottom: 6px;
+            transition: color 0.3s;
+        }
+        footer a:hover {
+            color: #fff;
+        }
+        footer .copyright {
+            text-align: center;
+            border-top: 1px solid #333;
+            padding-top: 20px;
+            font-size: 0.9rem;
+            color: #777;
+        }
+        
+        @media (max-width: 768px) {
+            header .container {
+                flex-direction: column;
+                gap: 12px;
+            }
+            nav {
+                justify-content: center;
+                gap: 15px;
+            }
+            .confirmation h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header>
+    <div class="container">
+        <div class="logo">Karis<span>Printers</span></div>
+        <nav>
+              <a href="../index.html">Home</a>
+            <a href="catalog.html">Catalog</a>
+            <a href="about.html">About</a>
+            <a href="contact.html" class="active">Contact</a>
+            <a href="cart.html" class="nav-cta">
+                <i class="fas fa-shopping-cart"></i> Cart
+            </a>
+        </nav>
+    </div>
+</header>
+
+<!-- ===== CONFIRMATION ===== -->
+<section class="confirmation">
+    <div class="container">
+        <div class="checkmark">✅</div>
+        <h1>Order Confirmed!</h1>
+        <p style="color: #555; font-size: 1.1rem;">Thank you for your order. We'll start production as soon as we confirm your payment.</p>
+        
+        <div class="order-id" id="orderIdDisplay">INK-20260101-ABCD</div>
+        
+        <div class="steps">
+            <h3>📋 What Happens Next?</h3>
+            <ol>
+                <li><strong>Pay via M-Pesa:</strong> Paybill <strong>123456</strong> | Account: <span id="orderIdRef">Your Order ID</span></li>
+                <li><strong>Confirmation:</strong> We'll confirm your payment within 2 hours.</li>
+                <li><strong>Production:</strong> Your order goes into production (2-3 days).</li>
+                <li><strong>Delivery:</strong> We'll deliver to your address or notify you for pickup.</li>
+            </ol>
+            <p style="margin-top: 15px; color: #888; font-size: 0.95rem;">
+                💡 Keep your Order ID safe. You'll need it for any follow-ups.
+            </p>
+        </div>
+        
+        <div style="margin-top: 30px;">
+            <a href="../index.html" class="btn-primary">🏠 Back to Home</a>
+            <a href="catalog.html" class="btn-outline">📚 Browse More Products</a>
+        </div>
+    </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+    <div class="container">
+        <div class="footer-grid">
+            <div>
+                <h4>Karis Printers</h4>
+                <p style="color: #aaa; font-size: 0.95rem;">Quality printing services in Kenya. Fast, affordable, and reliable.</p>
+            </div>
+            <div>
+                <h4>Quick Links</h4>
+                 <a href="../index.html">Home</a>
+            <a href="catalog.html">Catalog</a>
+            <a href="about.html">About</a>
+            <a href="contact.html" class="active">Contact</a>
+            <a href="cart.html" class="nav-cta">
+                <i class="fas fa-shopping-cart"></i> Cart
+            </a>
+            <div>
+                <h4>Contact</h4>
+                <a href="tel:+254703551225">📞 +254 703551225</a>
+                <a href="KarisPrinters@gmail.com">✉️ KarisPrinters@gmail.com</a>
+                <a href="#">📍 Nairobi, Kenya</a>
+            </div>
+            <div>
+                <h4>M-Pesa Paybill</h4>
+                <p style="color: #fff; font-weight: 600; font-size: 1.2rem;">Paybill: 123456</p>
+                <p style="color: #aaa; font-size: 0.9rem;">Account: Order ID</p>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2026 Karis Printers. All rights reserved.
+        </div>
+    </div>
+</footer>
+
+
+
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+    // Get Order ID from URL
+    document.addEventListener('DOMContentLoaded', function() {
+        const params = new URLSearchParams(window.location.search);
+        const orderId = params.get('id') || 'INK-20260101-ABCD';
+        
+        document.getElementById('orderIdDisplay').textContent = orderId;
+        document.getElementById('orderIdRef').textContent = orderId;
+    });
+</script>
+
+</body>
+</html>

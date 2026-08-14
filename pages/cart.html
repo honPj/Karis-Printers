@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart – Karis Printers</title>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <style>
+        /* ===== RESET & BASE ===== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            background: #f8f9fa;
+            color: #1a1a1a;
+            line-height: 1.6;
+        }
+        a { text-decoration: none; color: inherit; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        /* ===== HEADER ===== */
+        header {
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #0056b3;
+        }
+        .logo span { color: #ff6b00; }
+        nav {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        nav a {
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        nav a:hover { color: #0056b3; }
+        nav a.active { color: #0056b3; font-weight: 600; }
+        .nav-cta {
+            background: #ff6b00;
+            color: #fff;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+        }
+        .nav-cta:hover {
+            background: #e05500;
+            color: #fff !important;
+        }
+        .cart-badge {
+            background: #ff6b00;
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 20px;
+            min-width: 20px;
+            text-align: center;
+            line-height: 1.4;
+            margin-left: 4px;
+        }
+
+        /* ===== PAGE HEADER ===== */
+        .page-header {
+            background: linear-gradient(135deg, #e8f0fe 0%, #d4e4f7 100%);
+            padding: 40px 0 30px;
+            text-align: center;
+        }
+        .page-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+        .page-header p {
+            color: #555;
+            font-size: 1.1rem;
+        }
+
+        /* ===== CART SECTION ===== */
+        .cart-section {
+            margin: 40px 0 60px;
+        }
+        .cart-grid {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 40px;
+        }
+
+        /* Cart Items */
+        .cart-items {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+            border: 1px solid #eef2f6;
+            overflow: hidden;
+        }
+        .cart-items .cart-header {
+            padding: 20px 28px;
+            border-bottom: 1px solid #eef2f6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fafcff;
+        }
+        .cart-items .cart-header h2 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #0a1e33;
+        }
+        .cart-items .cart-header .item-count {
+            color: #6a8aa8;
+            font-size: 0.9rem;
+        }
+        .cart-item {
+            display: grid;
+            grid-template-columns: 100px 1fr auto;
+            gap: 20px;
+            padding: 20px 28px;
+            border-bottom: 1px solid #f0f3f8;
+            align-items: center;
+            transition: 0.2s;
+        }
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+        .cart-item:hover {
+            background: #fafcff;
+        }
+        .cart-item .item-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 12px;
+            background: #eef2f7;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .cart-item .item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .cart-item .item-image .no-image {
+            font-size: 2rem;
+            color: #a0b8d0;
+        }
+        .cart-item .item-details {
+            flex: 1;
+        }
+        .cart-item .item-details h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #0a1e33;
+            margin-bottom: 2px;
+        }
+        .cart-item .item-details .item-sub {
+            font-size: 0.8rem;
+            color: #6a8aa8;
+            margin-bottom: 6px;
+        }
+        .cart-item .item-details .item-price {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #0f3b5e;
+        }
+        .cart-item .item-details .design-status {
+            font-size: 0.8rem;
+            color: #2a7a4b;
+            margin-top: 4px;
+        }
+        .cart-item .item-details .design-status i {
+            margin-right: 4px;
+        }
+        .cart-item .item-actions {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 10px;
+        }
+        .cart-item .item-actions .qty-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .cart-item .item-actions .qty-control button {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid #dce4ee;
+            background: #fff;
+            cursor: pointer;
+            font-weight: 700;
+            color: #1a2e44;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .cart-item .item-actions .qty-control button:hover {
+            border-color: #0056b3;
+            background: #eef3fc;
+        }
+        .cart-item .item-actions .qty-control .qty-display {
+            font-weight: 700;
+            font-size: 1.1rem;
+            min-width: 30px;
+            text-align: center;
+            color: #0a1e33;
+        }
+        .cart-item .item-actions .item-total {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #0f3b5e;
+        }
+        .cart-item .item-actions .remove-btn {
+            background: none;
+            border: none;
+            color: #b0c0d0;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: 0.2s;
+        }
+        .cart-item .item-actions .remove-btn:hover {
+            color: #d9534f;
+        }
+
+        /* Cart Summary */
+        .cart-summary {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+            border: 1px solid #eef2f6;
+            padding: 28px 24px;
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+        .cart-summary h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #0a1e33;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #eef2f6;
+        }
+        .cart-summary .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 0.95rem;
+            color: #1a2e44;
+        }
+        .cart-summary .summary-row .label {
+            color: #6a8aa8;
+        }
+        .cart-summary .summary-row .value {
+            font-weight: 600;
+        }
+        .cart-summary .summary-row.total {
+            border-top: 2px solid #dce4ee;
+            margin-top: 12px;
+            padding-top: 16px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #0a1e33;
+        }
+        .cart-summary .summary-row.total .value {
+            color: #0f3b5e;
+        }
+        .cart-summary .checkout-btn {
+            width: 100%;
+            padding: 14px;
+            background: #0d2f4f;
+            color: #fff;
+            border: none;
+            border-radius: 60px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 20px;
+            box-shadow: 0 4px 16px rgba(13, 47, 79, 0.25);
+        }
+        .cart-summary .checkout-btn:hover {
+            background: #1a3f64;
+            transform: scale(1.01);
+        }
+        .cart-summary .checkout-btn:disabled {
+            background: #b0b8c0;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .cart-summary .continue-shopping {
+            display: block;
+            text-align: center;
+            margin-top: 14px;
+            color: #6a8aa8;
+            font-size: 0.9rem;
+            transition: 0.2s;
+        }
+        .cart-summary .continue-shopping:hover {
+            color: #0056b3;
+        }
+
+        /* Empty Cart */
+        .empty-cart {
+            text-align: center;
+            padding: 60px 20px;
+            background: #fff;
+            border-radius: 20px;
+            border: 1px solid #eef2f6;
+        }
+        .empty-cart .empty-icon {
+            font-size: 4rem;
+            color: #c0d0e0;
+            margin-bottom: 16px;
+        }
+        .empty-cart h2 {
+            font-size: 1.6rem;
+            color: #0a1e33;
+            margin-bottom: 8px;
+        }
+        .empty-cart p {
+            color: #6a8aa8;
+            margin-bottom: 20px;
+        }
+        .empty-cart .btn-primary {
+            display: inline-block;
+            background: #0d2f4f;
+            color: #fff;
+            padding: 12px 32px;
+            border-radius: 60px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+        .empty-cart .btn-primary:hover {
+            background: #1a3f64;
+            transform: scale(1.01);
+        }
+
+        /* ===== CHECKOUT MODAL ===== */
+        .checkout-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            /* backdrop-filter: blur(4px); */
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .checkout-modal-overlay.show { display: flex; }
+        .checkout-modal {
+            background: #fff;
+            border-radius: 28px;
+            max-width: 560px;
+            width: 100%;
+            padding: 36px 32px 32px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            position: relative;
+            animation: modalSlideIn 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        @keyframes modalSlideIn {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .checkout-modal .close-modal {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #999;
+            cursor: pointer;
+        }
+        .checkout-modal .close-modal:hover {
+            color: #333;
+            transform: rotate(90deg);
+        }
+        .checkout-modal h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #0a1e33;
+            margin-bottom: 6px;
+        }
+        .checkout-modal .subtitle {
+            color: #6a8aa8;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+        .checkout-modal .form-group {
+            margin-bottom: 15px;
+        }
+        .checkout-modal .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #1a2e44;
+            margin-bottom: 5px;
+        }
+        .checkout-modal .form-group input,
+        .checkout-modal .form-group textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 2px solid #e0e6ed;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: 0.2s;
+            font-family: inherit;
+        }
+        .checkout-modal .form-group input:focus,
+        .checkout-modal .form-group textarea:focus {
+            outline: none;
+            border-color: #0056b3;
+        }
+        .checkout-modal .form-group textarea {
+            min-height: 60px;
+            resize: vertical;
+        }
+        .checkout-modal .order-summary-mini {
+            background: #f5f8fc;
+            border-radius: 14px;
+            padding: 16px 20px;
+            margin: 16px 0 20px;
+        }
+        .checkout-modal .order-summary-mini .mini-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 0;
+            font-size: 0.9rem;
+        }
+        .checkout-modal .order-summary-mini .mini-row.total {
+            border-top: 2px solid #dce4ee;
+            margin-top: 8px;
+            padding-top: 10px;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        .checkout-modal .btn-place-order {
+            width: 100%;
+            padding: 14px;
+            background: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 60px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 4px 16px rgba(40, 167, 69, 0.25);
+        }
+        .checkout-modal .btn-place-order:hover {
+            background: #1e7e34;
+            transform: scale(1.01);
+        }
+        .checkout-modal .btn-place-order:disabled {
+            background: #888;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .checkout-modal .mpesa-info {
+            background: #f0f7e8;
+            padding: 14px 18px;
+            border-radius: 12px;
+            margin: 12px 0 16px;
+            border-left: 4px solid #28a745;
+        }
+        .checkout-modal .mpesa-info .paybill {
+            font-weight: 700;
+            color: #0056b3;
+            font-size: 1.1rem;
+        }
+
+        /* ===== SUCCESS OVERLAY ===== */
+        .success-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            /* backdrop-filter: blur(4px); */
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .success-overlay.show { display: flex; }
+        .success-modal {
+            background: #fff;
+            border-radius: 28px;
+            max-width: 480px;
+            width: 100%;
+            padding: 40px 32px;
+            text-align: center;
+            animation: modalSlideIn 0.3s ease;
+        }
+        .success-modal .icon {
+            font-size: 4rem;
+            color: #28a745;
+            margin-bottom: 12px;
+        }
+        .success-modal h2 {
+            color: #0a1e33;
+            margin-bottom: 8px;
+        }
+        .success-modal p {
+            color: #6a8aa8;
+            margin-bottom: 6px;
+        }
+        .success-modal .order-id {
+            background: #f5f8fc;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 700;
+            color: #0056b3;
+            margin: 12px 0 20px;
+            font-size: 1.1rem;
+        }
+        .success-modal .btn-continue {
+            background: #0056b3;
+            color: #fff;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .success-modal .btn-continue:hover {
+            background: #003d80;
+        }
+
+        /* ===== TOAST ===== */
+        .toast-message {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 16px 24px;
+            background: #e5f4e6;
+            border-radius: 60px;
+            color: #1f5e3a;
+            font-weight: 500;
+            font-size: 0.95rem;
+            display: none;
+            align-items: center;
+            gap: 12px;
+            border: 1px solid #b8d9b8;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            z-index: 3000;
+            animation: slideUp 0.3s ease;
+        }
+        .toast-message.show { display: flex; }
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: #1a1a1a;
+            color: #ccc;
+            padding: 40px 0 20px;
+            margin-top: 30px;
+        }
+        footer .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        footer h4 { color: #fff; margin-bottom: 12px; }
+        footer a {
+            display: block;
+            color: #aaa;
+            margin-bottom: 6px;
+            transition: color 0.3s;
+        }
+        footer a:hover { color: #fff; }
+        footer .copyright {
+            text-align: center;
+            border-top: 1px solid #333;
+            padding-top: 20px;
+            font-size: 0.9rem;
+            color: #777;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 992px) {
+            .cart-grid {
+                grid-template-columns: 1fr;
+            }
+            .cart-summary {
+                position: static;
+            }
+        }
+        @media (max-width: 768px) {
+            .cart-item {
+                grid-template-columns: 80px 1fr;
+                gap: 14px;
+                padding: 16px 18px;
+            }
+            .cart-item .item-image {
+                width: 80px;
+                height: 80px;
+            }
+            .cart-item .item-actions {
+                grid-column: 1 / -1;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                padding-top: 10px;
+                border-top: 1px solid #f0f3f8;
+            }
+            .cart-items .cart-header {
+                padding: 16px 18px;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 4px;
+            }
+            header .container { flex-direction: column; gap: 12px; }
+            nav { justify-content: center; gap: 15px; }
+            .page-header h1 { font-size: 1.8rem; }
+            .cart-summary { padding: 20px 18px; }
+            .checkout-modal { padding: 24px 18px; }
+        }
+        @media (max-width: 480px) {
+            .cart-item {
+                grid-template-columns: 1fr;
+                gap: 10px;
+                padding: 14px;
+            }
+            .cart-item .item-image {
+                width: 100%;
+                height: 120px;
+            }
+            .cart-item .item-actions {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header>
+    <div class="container">
+        <div class="logo">Karis<span>Printers</span></div>
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="catalog.html">Catalog</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="cart.html" class="nav-cta">
+                <i class="fas fa-shopping-cart"></i> Cart <span class="cart-badge" id="navCartBadge">0</span>
+            </a>
+        </nav>
+    </div>
+</header>
+
+<!-- ===== PAGE HEADER ===== -->
+<section class="page-header">
+    <div class="container">
+        <h1>Shopping Cart</h1>
+        <p>Review your items and proceed to checkout.</p>
+    </div>
+</section>
+
+<!-- ===== CART SECTION ===== -->
+<section class="cart-section">
+    <div class="container">
+        <div class="cart-grid" id="cartGrid">
+            <!-- Cart Items Column -->
+            <div id="cartItemsColumn">
+                <!-- Dynamic content rendered by JavaScript -->
+            </div>
+
+            <!-- Cart Summary -->
+            <div class="cart-summary" id="cartSummary">
+                <h3>Order Summary</h3>
+                <div id="summaryContent">
+                    <div class="summary-row">
+                        <span class="label">Subtotal</span>
+                        <span class="value" id="subtotal">KSh 0</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="label">Items</span>
+                        <span class="value" id="itemCount">0</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span class="label">Total</span>
+                        <span class="value" id="grandTotal">KSh 0</span>
+                    </div>
+                    <button class="checkout-btn" id="checkoutBtn" disabled>Proceed to Checkout</button>
+                    <a href="catalog.html" class="continue-shopping"><i class="fas fa-arrow-left"></i> Continue Shopping</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== CHECKOUT MODAL ===== -->
+<div class="checkout-modal-overlay" id="checkoutModal">
+    <div class="checkout-modal">
+        <button class="close-modal" id="closeCheckoutModal">&times;</button>
+        <h2>Complete Your Order</h2>
+        <div class="subtitle">Fill in your details to place this order</div>
+
+        <div class="form-group">
+            <label>Full Name *</label>
+            <input type="text" id="checkoutName" placeholder="John Mwangi">
+        </div>
+        <div class="form-group">
+            <label>Email Address *</label>
+            <input type="email" id="checkoutEmail" placeholder="john@example.com">
+        </div>
+        <div class="form-group">
+            <label>Phone Number *</label>
+            <input type="tel" id="checkoutPhone" placeholder="0712 345 678">
+        </div>
+        <div class="form-group">
+            <label>Delivery Address *</label>
+            <input type="text" id="checkoutAddress" placeholder="Nairobi, Westlands, ABC Building">
+        </div>
+        <div class="form-group">
+            <label>Special Instructions (Optional)</label>
+            <textarea id="checkoutInstructions" placeholder="Any additional notes..."></textarea>
+        </div>
+
+        <div class="mpesa-info">
+            <strong>💰 M-Pesa Payment</strong><br>
+            Paybill: <span class="paybill">123456</span> &nbsp;|&nbsp; Account: <span id="checkoutOrderId">Order ID</span>
+            <p style="font-size: 0.85rem; color: #666; margin-top: 6px;">
+                Enter your M-Pesa transaction code below after payment.
+            </p>
+        </div>
+
+        <div class="form-group">
+            <label>M-Pesa Transaction Code</label>
+            <input type="text" id="checkoutTransaction" placeholder="e.g., QWERTY123">
+        </div>
+
+        <div class="order-summary-mini" id="checkoutSummary">
+            <div class="mini-row"><span>Items:</span><span id="checkoutItemCount">0</span></div>
+            <div class="mini-row"><span>Subtotal:</span><span id="checkoutSubtotal">KSh 0</span></div>
+            <div class="mini-row total"><span>Total:</span><span id="checkoutTotal">KSh 0</span></div>
+        </div>
+
+        <button class="btn-place-order" id="placeOrderBtn">
+            <i class="fas fa-check"></i> Place Order
+        </button>
+    </div>
+</div>
+
+<!-- ===== SUCCESS OVERLAY ===== -->
+<div class="success-overlay" id="successOverlay">
+    <div class="success-modal">
+        <div class="icon">✅</div>
+        <h2>Order Placed Successfully!</h2>
+        <p>Your order has been received and is being processed.</p>
+        <div class="order-id">Order ID: <span id="successOrderId">KARIS-XXXX</span></div>
+        <p style="font-size: 0.9rem; color: #888;">
+            We'll confirm your payment and start production within 2 hours.
+        </p>
+        <br>
+        <button class="btn-continue" onclick="closeSuccessAndClearCart()">
+            <i class="fas fa-arrow-left"></i> Continue Shopping
+        </button>
+    </div>
+</div>
+
+<!-- ===== TOAST ===== -->
+<div class="toast-message" id="toastMessage">
+    <i class="fas fa-check-circle" style="color:#2a7a4b;"></i>
+    <span id="toastText">Item removed</span>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+    <div class="container">
+        <div class="footer-grid">
+            <div>
+                <h4>Karis Printers</h4>
+                <p style="color: #aaa; font-size: 0.95rem;">Quality printing services in Kenya. Fast, affordable, and reliable.</p>
+            </div>
+            <div>
+                <h4>Quick Links</h4>
+                <a href="catalog.html">Catalog</a>
+                <a href="cart.html">Order Now</a>
+                <a href="about.html">About Us</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <div>
+                <h4>Contact</h4>
+                <a href="tel:+254703551225">📞 +254 703551225</a>
+                <a href="mailto:KarisPrinters@gmail.com">✉️ KarisPrinters@gmail.com</a>
+                <a href="#">📍 Nairobi, Kenya</a>
+            </div>
+            <div>
+                <h4>M-Pesa Paybill</h4>
+                <p style="color: #fff; font-weight: 600; font-size: 1.2rem;">Paybill: 123456</p>
+                <p style="color: #aaa; font-size: 0.9rem;">Account: Order ID</p>
+            </div>
+        </div>
+        <div class="copyright">&copy; 2026 Karis Printers. All rights reserved.</div>
+    </div>
+</footer>
+
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+    // =============================================
+    // INITIALIZE EMAILJS
+    // =============================================
+    (function() {
+        emailjs.init('ExzmFqrSqTxWvr1LN');
+    })();
+
+    // =============================================
+    // CART DATA (stored in localStorage)
+    // =============================================
+    function getCart() {
+        try {
+            return JSON.parse(localStorage.getItem('karis_cart')) || [];
+        } catch {
+            return [];
+        }
+    }
+
+    function saveCart(cart) {
+        localStorage.setItem('karis_cart', JSON.stringify(cart));
+        updateCartBadge();
+    }
+
+    function updateCartBadge() {
+        const cart = getCart();
+        const total = cart.reduce((sum, item) => sum + item.quantity, 0);
+        document.querySelectorAll('.cart-badge').forEach(badge => {
+            badge.textContent = total;
+        });
+    }
+
+    // =============================================
+    // PRODUCT DATA - MATCHED WITH CATALOG PAGE
+    // =============================================
+    const products = [
+        // Business Stationery
+        { id: 'business-cards', name: 'Business Cards', category: 'stationery', subcategory: 'Business Stationery', startingPrice: 2500, image: '/images/business card.avif' },
+        { id: 'letterheads', name: 'Letterheads', category: 'stationery', subcategory: 'Business Stationery', startingPrice: 1500, image: '/images/letterhead.jpg' },
+        { id: 'branded-envelopes', name: 'Branded Envelopes', category: 'stationery', subcategory: 'Business Stationery', startingPrice: 1800, image: '/images/envelope.jpg' },
+        { id: 'presentation-folders', name: 'Presentation Folders', category: 'stationery', subcategory: 'Business Stationery', startingPrice: 3500, image: '/images/presentation folder.jpg' },
+        { id: 'invoice-books', name: 'Carbonless Invoice Books (NCR)', category: 'stationery', subcategory: 'Business Stationery', startingPrice: 1800, image: '/images/carbonless.jpg' },
+        // Promotional Print
+        { id: 'flyers', name: 'Flyers (A5)', category: 'promotional', subcategory: 'Promotional Print', startingPrice: 1200, image: '/images/flyers.jpg' },
+        { id: 'brochures-trifold', name: 'Brochures (Tri-fold)', category: 'promotional', subcategory: 'Promotional Print', startingPrice: 3500, image: '/images/brochures tri.jpg' },
+        { id: 'brochures-bifold', name: 'Brochures (Bi-fold)', category: 'promotional', subcategory: 'Promotional Print', startingPrice: 3200, image: '/images/bronchure bi.jpg' },
+        { id: 'postcards', name: 'Postcards', category: 'promotional', subcategory: 'Promotional Print', startingPrice: 1500, image: '/images/postcards.jpg' },
+        { id: 'door-hangers', name: 'Door Hangers', category: 'promotional', subcategory: 'Promotional Print', startingPrice: 2000, image: '/images/door hangers.jpg' },
+        { id: 'rack-cards', name: 'Rack Cards', category: 'promotional', subcategory: 'Promotional Print', startingPrice: 1800, image: '/images/rack cards.jpg' },
+        { id: 'menu-cards', name: 'Menu Cards', category: 'promotional', subcategory: 'Promotional Print', startingPrice: 2200, image: '/images/menucard.jpg' },
+        // Publications
+        { id: 'catalogs', name: 'Catalogs', category: 'publications', subcategory: 'Publications', startingPrice: 3500, image: '/images/catalog.jpg' },
+        { id: 'magazines', name: 'Magazines', category: 'publications', subcategory: 'Publications', startingPrice: 4500, image: '/images/magazine.jpg' },
+        { id: 'booklets', name: 'Booklets', category: 'publications', subcategory: 'Publications', startingPrice: 2500, image: '/images/booklets.jpg' },
+        { id: 'company-manuals', name: 'Company Manuals', category: 'publications', subcategory: 'Publications', startingPrice: 4000, image: '/images/manuals.jpg' },
+        { id: 'annual-reports', name: 'Annual Reports', category: 'publications', subcategory: 'Publications', startingPrice: 5000, image: 'images/products/annual-reports.jpg' },
+        { id: 'perfect-bound-books', name: 'Perfect-Bound Books', category: 'publications', subcategory: 'Publications', startingPrice: 3000, image: 'images/products/perfect-bound-books.jpg' },
+        // Banners & Display
+        { id: 'vinyl-banners', name: 'Vinyl Banners', category: 'banners', subcategory: 'Banners & Display', startingPrice: 4500, image: '/images/vinyl.jpg' },
+        { id: 'pullup-banners', name: 'Pull-up / Roll-up Banners', category: 'banners', subcategory: 'Banners & Display', startingPrice: 8500, image: '/images/pull up.jpg' },
+        { id: 'teardrop-flags', name: 'Teardrop Flags', category: 'banners', subcategory: 'Banners & Display', startingPrice: 6500, image: '/images/teardrop.jpg' },
+        { id: 'backdrop-banners', name: 'Backdrop Banners', category: 'banners', subcategory: 'Banners & Display', startingPrice: 12000, image: '/images/backdrop.jpg' },
+        // Rigid Signs
+        { id: 'foamboard-prints', name: 'Foam-board Prints', category: 'signs', subcategory: 'Rigid Signs', startingPrice: 2800, image: 'images/products/foamboard-prints.jpg' },
+        { id: 'correx-signs', name: 'Correx Directional Signs', category: 'signs', subcategory: 'Rigid Signs', startingPrice: 3500, image: '/images/corex.jpg' },
+        { id: 'acrylic-wall-plaques', name: 'Acrylic Wall Plaques', category: 'signs', subcategory: 'Rigid Signs', startingPrice: 4500, image: 'images/products/acrylic-wall-plaques.jpg' },
+        { id: 'aluminum-composite-signs', name: 'Aluminum Composite Signage', category: 'signs', subcategory: 'Rigid Signs', startingPrice: 5500, image: 'images/products/aluminum-composite-signs.jpg' },
+        // Posters & Art
+        { id: 'blueprints', name: 'Architectural Blueprints', category: 'posters', subcategory: 'Posters & Art', startingPrice: 1500, image: '/images/blueprint.jpg' },
+        { id: 'advertising-posters', name: 'High-gloss Advertising Posters', category: 'posters', subcategory: 'Posters & Art', startingPrice: 1200, image: 'images/products/advertising-posters.jpg' },
+        { id: 'canvas-prints', name: 'Canvas Photo Prints', category: 'posters', subcategory: 'Posters & Art', startingPrice: 3500, image: '/images/canvas.jpg' },
+        { id: 'wall-murals', name: 'Wall Murals & Decals', category: 'posters', subcategory: 'Posters & Art', startingPrice: 6000, image: 'images/products/wall-murals.jpg' },
+        // Custom Apparel
+        { id: 't-shirts', name: 'Custom T-shirts', category: 'apparel', subcategory: 'Custom Apparel', startingPrice: 1200, image: '/images/t shirt.jpg' },
+        { id: 'hoodies', name: 'Custom Hoodies', category: 'apparel', subcategory: 'Custom Apparel', startingPrice: 2500, image: '/images/download.jpg' },
+        { id: 'jerseys', name: 'Custom Jerseys', category: 'apparel', subcategory: 'Custom Apparel', startingPrice: 1800, image: 'images/products/jerseys.jpg' },
+        { id: 'caps', name: 'Custom Caps', category: 'apparel', subcategory: 'Custom Apparel', startingPrice: 800, image: 'images/products/caps.jpg' },
+        { id: 'totes', name: 'Custom Totes', category: 'apparel', subcategory: 'Custom Apparel', startingPrice: 600, image: 'images/products/totes.jpg' },
+        { id: 'workwear-uniforms', name: 'Workwear Uniforms', category: 'apparel', subcategory: 'Custom Apparel', startingPrice: 2000, image: 'images/products/workwear-uniforms.jpg' },
+        // Promotional Items
+        { id: 'mugs', name: 'Custom Mugs', category: 'promo-items', subcategory: 'Promotional Items', startingPrice: 400, image: 'images/products/mugs.jpg' },
+        { id: 'water-bottles', name: 'Custom Water Bottles', category: 'promo-items', subcategory: 'Promotional Items', startingPrice: 450, image: 'images/products/water-bottles.jpg' },
+        { id: 'keychains', name: 'Custom Keychains', category: 'promo-items', subcategory: 'Promotional Items', startingPrice: 250, image: 'images/products/keychains.jpg' },
+        { id: 'lanyards', name: 'Custom Lanyards', category: 'promo-items', subcategory: 'Promotional Items', startingPrice: 180, image: 'images/products/lanyards.jpg' },
+        { id: 'mousepads', name: 'Custom Mousepads', category: 'promo-items', subcategory: 'Promotional Items', startingPrice: 300, image: 'images/products/mousepads.jpg' },
+        { id: 'branded-pens', name: 'Branded Pens', category: 'promo-items', subcategory: 'Promotional Items', startingPrice: 150, image: 'images/products/branded-pens.jpg' },
+        // Custom Packaging
+        { id: 'product-boxes', name: 'Custom Product Boxes', category: 'packaging', subcategory: 'Custom Packaging', startingPrice: 2500, image: 'images/products/product-boxes.jpg' },
+        { id: 'mailer-sleeves', name: 'Mailer Sleeves', category: 'packaging', subcategory: 'Custom Packaging', startingPrice: 1800, image: 'images/products/mailer-sleeves.jpg' },
+        { id: 'shopping-bags', name: 'Paper Shopping Bags', category: 'packaging', subcategory: 'Custom Packaging', startingPrice: 1500, image: 'images/products/shopping-bags.jpg' },
+        { id: 'tissue-paper', name: 'Custom Tissue Paper', category: 'packaging', subcategory: 'Custom Packaging', startingPrice: 1200, image: 'images/products/tissue-paper.jpg' },
+        // Labels & Stickers
+        { id: 'diecut-stickers', name: 'Die-cut Vinyl Stickers', category: 'labels', subcategory: 'Labels & Stickers', startingPrice: 800, image: 'images/products/diecut-stickers.jpg' },
+        { id: 'roll-labels', name: 'Roll Labels (Bottles/Jars)', category: 'labels', subcategory: 'Labels & Stickers', startingPrice: 1200, image: 'images/products/roll-labels.jpg' },
+        { id: 'product-seal-stickers', name: 'Product Seal Stickers', category: 'labels', subcategory: 'Labels & Stickers', startingPrice: 600, image: 'images/products/product-seal-stickers.jpg' },
+        { id: 'window-graphics', name: 'Window Graphics', category: 'labels', subcategory: 'Labels & Stickers', startingPrice: 3500, image: 'images/products/window-graphics.jpg' }
+    ];
+
+    // =============================================
+    // GENERATE ORDER ID
+    // =============================================
+    function generateOrderId() {
+        const date = new Date();
+        const timestamp = date.getFullYear() +
+            String(date.getMonth() + 1).padStart(2, '0') +
+            String(date.getDate()).padStart(2, '0') +
+            String(date.getHours()).padStart(2, '0') +
+            String(date.getMinutes()).padStart(2, '0');
+        const random = Math.random().toString(36).substr(2, 4).toUpperCase();
+        return `KARIS-${timestamp}-${random}`;
+    }
+
+    // =============================================
+    // SANITIZATION
+    // =============================================
+    function sanitizeInput(input) {
+        if (!input) return '';
+        let sanitized = input.replace(/<[^>]*>/g, '');
+        sanitized = sanitized.replace(/&/g, '&amp;')
+                            .replace(/"/g, '&quot;')
+                            .replace(/</g, '&lt;')
+                            .replace(/>/g, '&gt;');
+        return sanitized.trim();
+    }
+
+    // =============================================
+    // RENDER CART
+    // =============================================
+    function renderCart() {
+        const cart = getCart();
+        const container = document.getElementById('cartItemsColumn');
+        const subtotalEl = document.getElementById('subtotal');
+        const grandTotalEl = document.getElementById('grandTotal');
+        const itemCountEl = document.getElementById('itemCount');
+        const checkoutBtn = document.getElementById('checkoutBtn');
+
+        if (cart.length === 0) {
+            container.innerHTML = `
+                <div class="empty-cart">
+                    <div class="empty-icon"><i class="fas fa-shopping-cart"></i></div>
+                    <h2>Your cart is empty</h2>
+                    <p>Looks like you haven't added any items yet.</p>
+                    <a href="catalog.html" class="btn-primary"><i class="fas fa-arrow-left"></i> Browse Products</a>
+                </div>
+            `;
+            subtotalEl.textContent = 'KSh 0';
+            grandTotalEl.textContent = 'KSh 0';
+            itemCountEl.textContent = '0';
+            checkoutBtn.disabled = true;
+            return;
+        }
+
+        // Build cart items HTML
+        let html = `
+            <div class="cart-items">
+                <div class="cart-header">
+                    <h2>Shopping Cart</h2>
+                    <span class="item-count">${cart.reduce((sum, i) => sum + i.quantity, 0)} items</span>
+                </div>
+        `;
+
+        cart.forEach((item, index) => {
+            const product = products.find(p => p.id === item.productId);
+            if (!product) return;
+
+            const total = product.startingPrice * item.quantity;
+            const designStatus = item.hasDesign ? 
+                '<span class="design-status"><i class="fas fa-check-circle"></i> Design uploaded: ' + (item.designFile || 'Yes') + '</span>' : 
+                '<span class="design-status" style="color:#888;"><i class="fas fa-circle" style="font-size:0.5rem;"></i> No design</span>';
+
+            html += `
+                <div class="cart-item" data-index="${index}">
+                    <div class="item-image">
+                        ${product.image ? 
+                            `<img src="${product.image}" alt="${product.name}" onerror="this.style.display='none'; this.parentElement.innerHTML='<span class=\\'no-image\\'>📄</span>'">` : 
+                            `<span class="no-image">📄</span>`
+                        }
+                    </div>
+                    <div class="item-details">
+                        <h3>${product.name}</h3>
+                        <div class="item-sub">${product.subcategory}</div>
+                        <div class="item-price">KSh ${product.startingPrice.toLocaleString()} / unit</div>
+                        ${designStatus}
+                    </div>
+                    <div class="item-actions">
+                        <div class="qty-control">
+                            <button onclick="updateQuantity(${index}, -1)">−</button>
+                            <span class="qty-display">${item.quantity}</span>
+                            <button onclick="updateQuantity(${index}, 1)">+</button>
+                        </div>
+                        <div class="item-total">KSh ${total.toLocaleString()}</div>
+                        <button class="remove-btn" onclick="removeItem(${index})"><i class="fas fa-trash"></i></button>
+                    </div>
+                </div>
+            `;
+        });
+
+        html += `</div>`;
+        container.innerHTML = html;
+
+        // Update summary
+        const subtotal = cart.reduce((sum, item) => {
+            const product = products.find(p => p.id === item.productId);
+            return sum + (product ? product.startingPrice * item.quantity : 0);
+        }, 0);
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+        subtotalEl.textContent = `KSh ${subtotal.toLocaleString()}`;
+        grandTotalEl.textContent = `KSh ${subtotal.toLocaleString()}`;
+        itemCountEl.textContent = totalItems;
+        checkoutBtn.disabled = false;
+    }
+
+    // =============================================
+    // CART OPERATIONS
+    // =============================================
+    function updateQuantity(index, change) {
+        const cart = getCart();
+        if (!cart[index]) return;
+
+        const newQty = cart[index].quantity + change;
+        if (newQty < 1) return;
+
+        cart[index].quantity = newQty;
+        saveCart(cart);
+        renderCart();
+        showToast('Cart updated!');
+    }
+
+    function removeItem(index) {
+        const cart = getCart();
+        if (!cart[index]) return;
+
+        const product = products.find(p => p.id === cart[index].productId);
+        cart.splice(index, 1);
+        saveCart(cart);
+        renderCart();
+        showToast(product ? `"${product.name}" removed from cart` : 'Item removed');
+    }
+
+    function showToast(message) {
+        const toast = document.getElementById('toastMessage');
+        const text = document.getElementById('toastText');
+        text.textContent = message;
+        toast.classList.add('show');
+        clearTimeout(window.toastTimeout);
+        window.toastTimeout = setTimeout(() => {
+            toast.classList.remove('show');
+        }, 3000);
+    }
+
+    // =============================================
+    // OPEN CHECKOUT MODAL
+    // =============================================
+    function openCheckoutModal() {
+        const cart = getCart();
+        if (cart.length === 0) {
+            showToast('Your cart is empty!');
+            return;
+        }
+
+        const subtotal = cart.reduce((sum, item) => {
+            const product = products.find(p => p.id === item.productId);
+            return sum + (product ? product.startingPrice * item.quantity : 0);
+        }, 0);
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        const orderId = generateOrderId();
+
+        // Update checkout modal
+        document.getElementById('checkoutOrderId').textContent = orderId;
+        document.getElementById('checkoutItemCount').textContent = totalItems;
+        document.getElementById('checkoutSubtotal').textContent = `KSh ${subtotal.toLocaleString()}`;
+        document.getElementById('checkoutTotal').textContent = `KSh ${subtotal.toLocaleString()}`;
+        document.getElementById('successOrderId').textContent = orderId;
+
+        // Store order ID for later
+        window._currentOrderId = orderId;
+
+        // Reset form
+        document.getElementById('checkoutName').value = '';
+        document.getElementById('checkoutEmail').value = '';
+        document.getElementById('checkoutPhone').value = '';
+        document.getElementById('checkoutAddress').value = '';
+        document.getElementById('checkoutInstructions').value = '';
+        document.getElementById('checkoutTransaction').value = '';
+
+        // Show modal
+        document.getElementById('checkoutModal').classList.add('show');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeCheckoutModal() {
+        document.getElementById('checkoutModal').classList.remove('show');
+        document.body.style.overflow = '';
+    }
+
+    async function placeOrder() {
+    const name = document.getElementById('checkoutName').value.trim();
+    const email = document.getElementById('checkoutEmail').value.trim();
+    const phone = document.getElementById('checkoutPhone').value.trim();
+    const address = document.getElementById('checkoutAddress').value.trim();
+    const instructions = document.getElementById('checkoutInstructions').value.trim();
+    const transactionCode = document.getElementById('checkoutTransaction').value.trim();
+
+    // Validate
+    if (!name || !email || !phone || !address) {
+        alert('Please fill in all required fields.');
+        return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        alert('Please enter a valid email address.');
+        return;
+    }
+
+    const phoneRegex = /^(07|01|02)\d{8}$/;
+    if (!phoneRegex.test(phone.replace(/\s/g, ''))) {
+        alert('Please enter a valid Kenyan phone number (e.g., 0712 345 678).');
+        return;
+    }
+
+    const cart = getCart();
+    if (cart.length === 0) {
+        alert('Your cart is empty!');
+        return;
+    }
+
+    // Sanitize inputs
+    const sanitized = {
+        name: sanitizeInput(name),
+        email: sanitizeInput(email),
+        phone: sanitizeInput(phone),
+        address: sanitizeInput(address),
+        instructions: sanitizeInput(instructions),
+        transactionCode: sanitizeInput(transactionCode)
+    };
+
+    // Build order items
+    const orderItems = cart.map((item, index) => {
+        const product = products.find(p => p.id === item.productId);
+        return {
+            index: index + 1,
+            name: product ? product.name : '⚠️ UNKNOWN',
+            subcategory: product ? product.subcategory : 'N/A',
+            quantity: item.quantity,
+            price: product ? product.startingPrice : 0,
+            subtotal: product ? product.startingPrice * item.quantity : 0,
+            hasDesign: item.hasDesign ? 'Yes' : 'No',
+            designFile: item.designFile || 'None'
+        };
+    });
+
+    const subtotal = orderItems.reduce((sum, item) => sum + item.subtotal, 0);
+    const totalItems = orderItems.reduce((sum, item) => sum + item.quantity, 0);
+    const orderId = window._currentOrderId || generateOrderId();
+
+    // =============================================
+    // BUILD HTML TABLE WITH ALL ITEMS
+    // =============================================
+    let itemsRows = '';
+    orderItems.forEach(item => {
+        const designDisplay = item.hasDesign === 'Yes' 
+            ? `<span class="design-file">📎 ${item.designFile}</span>` 
+            : `<span class="no-design">— No design</span>`;
+        
+        itemsRows += `
+            <tr>
+                <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">${item.index}</td>
+                <td style="padding: 10px; border: 1px solid #ddd; text-align: left;">
+                    <span class="product-name">${item.name}</span>
+                    <span class="product-sub">${item.subcategory}</span>
+                </td>
+                <td style="padding: 10px; border: 1px solid #ddd; text-align: center; font-weight: 600;">${item.quantity}</td>
+                <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">${item.price.toLocaleString()}</td>
+                <td style="padding: 10px; border: 1px solid #ddd; text-align: center; font-weight: 600; color: #0056b3;">${item.subtotal.toLocaleString()}</td>
+                <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">${designDisplay}</td>
+            </tr>`;
+    });
+
+    // Build the complete HTML table
+    const itemsTable = `
+        <table>
+            <thead>
+                <tr>
+                    <th style="padding: 10px; border: 1px solid #ddd; text-align: left; width: 40px;">#</th>
+                    <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Product</th>
+                    <th style="padding: 10px; border: 1px solid #ddd; text-align: center; width: 70px;">Qty</th>
+                    <th style="padding: 10px; border: 1px solid #ddd; text-align: center; width: 90px;">Price (KSh)</th>
+                    <th style="padding: 10px; border: 1px solid #ddd; text-align: center; width: 110px;">Subtotal (KSh)</th>
+                    <th style="padding: 10px; border: 1px solid #ddd; text-align: center; width: 150px;">Design File</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${itemsRows}
+            </tbody>
+            <tfoot>
+                <tr style="background: #f5f8fc;">
+                    <td colspan="4" style="padding: 10px; border: 1px solid #ddd; text-align: right; font-weight: 700;">Total Items:</td>
+                    <td style="padding: 10px; border: 1px solid #ddd; text-align: center; font-weight: 700;">${totalItems}</td>
+                    <td style="padding: 10px; border: 1px solid #ddd; text-align: center;"></td>
+                </tr>
+                <tr style="background: #e8f0fe;">
+                    <td colspan="4" style="padding: 10px; border: 1px solid #ddd; text-align: right; font-weight: 700; font-size: 16px;">GRAND TOTAL:</td>
+                    <td colspan="2" style="padding: 10px; border: 1px solid #ddd; text-align: center; font-weight: 700; font-size: 18px; color: #0056b3;">KSh ${subtotal.toLocaleString()}</td>
+                </tr>
+            </tfoot>
+        </table>
+    `;
+
+    console.log('📊 Generated Table:', itemsTable);
+
+    // =============================================
+    // SEND TO EMAILJS USING YOUR WORKING TEMPLATE
+    // =============================================
+    const btn = document.getElementById('placeOrderBtn');
+    btn.textContent = '⏳ Processing...';
+    btn.disabled = true;
+
+    try {
+        const response = await emailjs.send(
+            'service_56efobd',
+            'template_3h5vdjv',
+            {
+                orderId: orderId,
+                customerName: sanitized.name,
+                customerEmail: sanitized.email,
+                customerPhone: sanitized.phone,
+                customerAddress: sanitized.address,
+                instructions: sanitized.instructions || 'None',
+                transactionCode: sanitized.transactionCode || 'Not provided',
+                itemsTable: itemsTable,
+                itemCount: totalItems,
+                subtotal: `KSh ${subtotal.toLocaleString()}`,
+                total: `KSh ${subtotal.toLocaleString()}`,
+                timestamp: new Date().toLocaleString('en-KE', {
+                    timeZone: 'Africa/Nairobi',
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                })
+            }
+        );
+
+        console.log('✅ Order email sent!', response);
+        closeCheckoutModal();
+        document.getElementById('successOrderId').textContent = orderId;
+        document.getElementById('successOverlay').classList.add('show');
+        saveCart([]);
+        renderCart();
+        btn.textContent = '✅ Order Placed!';
+
+    } catch (error) {
+        console.error('❌ Order failed:', error);
+        alert('There was an error placing your order. Please try again or contact us directly.');
+        btn.textContent = 'Place Order';
+        btn.disabled = false;
+    }
+}
+    // =============================================
+    // CLOSE SUCCESS & CLEAR CART
+    // =============================================
+    function closeSuccessAndClearCart() {
+        document.getElementById('successOverlay').classList.remove('show');
+        // Redirect to catalog
+        window.location.href = 'catalog.html';
+    }
+
+    // =============================================
+    // INIT
+    // =============================================
+    document.addEventListener('DOMContentLoaded', function() {
+        // Checkout button
+        document.getElementById('checkoutBtn').addEventListener('click', openCheckoutModal);
+
+        // Modal close
+        document.getElementById('closeCheckoutModal').addEventListener('click', closeCheckoutModal);
+        document.getElementById('checkoutModal').addEventListener('click', function(e) {
+            if (e.target === this) closeCheckoutModal();
+        });
+
+        // Place order button
+        document.getElementById('placeOrderBtn').addEventListener('click', placeOrder);
+
+        // Keyboard shortcut
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeCheckoutModal();
+            }
+        });
+
+        // Render cart
+        renderCart();
+        updateCartBadge();
+    });
+</script>
+</body>
+</html>
