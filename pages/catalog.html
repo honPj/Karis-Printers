@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+         <link rel="icon" type="image/x-icon" href="../images/teardrop.jpg">
     <title>Catalog – Karis Printers</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -145,6 +146,24 @@
             padding: 1px 7px;
             min-width: 18px;
             margin-left: 0;
+        }
+
+        /* ===== AUTH LINKS ===== */
+        .auth-link {
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .auth-link:hover {
+            color: #0056b3;
+        }
+        #authLinks { display: inline; }
+        #userLinks { display: none; }
+        .user-name-link {
+            font-weight: 600;
+            color: #0056b3;
+        }
+        .user-name-link:hover {
+            color: #003d80;
         }
 
         .page-header {
@@ -709,7 +728,19 @@
                 <a href="catalog.html" class="active">Catalog</a>
                 <a href="about.html">About</a>
                 <a href="contact.html">Contact</a>
-                <!-- Cart is inside nav on desktop, hidden on mobile -->
+                
+                <!-- Auth Links (Dynamic) -->
+                <span id="authLinks">
+                    <a href="login.html" class="auth-link">Login</a>
+                    <a href="register.html" class="auth-link">Register</a>
+                </span>
+                
+                <!-- User Links (Hidden by default, shown when logged in) -->
+                <span id="userLinks" style="display: none;">
+                    <a href="account.html" id="accountLink" class="user-name-link">My Account</a>
+                    <a href="#" id="logoutLink" style="color: #dc3545; cursor: pointer; font-weight: 500;">Logout</a>
+                </span>
+                
                 <a href="cart.html" class="nav-cta">
                     <i class="fas fa-shopping-cart"></i> Cart <span class="cart-badge" id="navCartBadge">0</span>
                 </a>
@@ -807,7 +838,51 @@
         </div>
     </footer>
 
-    <script>
+    <script type="module">
+        // =============================================
+        // IMPORTS
+        // =============================================
+        import { getCurrentUser, logoutUser, onAuthChange } from '../js/auth.js';
+
+        // =============================================
+        // AUTH NAVIGATION - SHOW/HIDE LINKS
+        // =============================================
+        function updateAuthUI(user) {
+            const authLinks = document.getElementById('authLinks');
+            const userLinks = document.getElementById('userLinks');
+            const accountLink = document.getElementById('accountLink');
+            const logoutLink = document.getElementById('logoutLink');
+            
+            if (user) {
+                // User is logged in - hide Login/Register, show My Account/Logout
+                authLinks.style.display = 'none';
+                userLinks.style.display = 'inline';
+                if (accountLink) {
+                    accountLink.textContent = user.displayName || 'My Account';
+                }
+            } else {
+                // User is logged out - show Login/Register, hide My Account/Logout
+                authLinks.style.display = 'inline';
+                userLinks.style.display = 'none';
+            }
+        }
+
+        // =============================================
+        // LOGOUT FUNCTION
+        // =============================================
+        async function handleLogout(e) {
+            if (e) e.preventDefault();
+            if (confirm('Are you sure you want to logout?')) {
+                const result = await logoutUser();
+                if (result.success) {
+                    window.location.replace('login.html');
+                }
+            }
+        }
+
+        // =============================================
+        // PRODUCT DATA
+        // =============================================
         const products = [
             { id: 'business-cards', name: 'Business Cards', category: 'stationery', subcategory: 'Business Stationery', startingPrice: 2500, image: '/images/business card.avif' },
             { id: 'letterheads', name: 'Letterheads', category: 'stationery', subcategory: 'Business Stationery', startingPrice: 1500, image: '/images/letterhead.jpg' },
@@ -874,6 +949,9 @@
             'labels': { label: 'Labels' }
         };
 
+        // =============================================
+        // CART FUNCTIONS
+        // =============================================
         function getCart() {
             try { return JSON.parse(localStorage.getItem('karis_cart')) || []; } catch { return []; }
         }
@@ -886,13 +964,15 @@
         function updateBadge() {
             const cart = getCart();
             const total = cart.reduce((sum, i) => sum + i.quantity, 0);
-            // Update both desktop and mobile cart badges
             document.querySelectorAll('.cart-badge').forEach(el => el.textContent = total);
         }
 
         let currentCategory = null;
         let currentProduct = null;
 
+        // =============================================
+        // RENDER FUNCTIONS
+        // =============================================
         function renderCategories() {
             const list = document.getElementById('categoryList');
             const cats = Object.keys(categoryMeta);
@@ -950,7 +1030,7 @@
                             <div class="price">KSh ${p.startingPrice.toLocaleString()} <small>starting</small></div>
                             <div class="card-actions">
                                 <div class="btn-group">
-                                    <button class="btn btn-primary" onclick="openCartModal('${p.id}')">
+                                    <button class="btn btn-primary" onclick="window.openCartModal('${p.id}')">
                                         <i class="fas fa-cart-plus"></i> Add to cart
                                     </button>
                                     <a href="contact.html" class="btn btn-enquire" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 12px 14px; border-radius: 60px; font-weight: 600; font-size: 0.9rem; border: 2px solid #b8d5b0; background: #eaf3e8; color: #1b5e3a; cursor: pointer; transition: 0.2s ease; flex: 1 1 0;">
@@ -970,6 +1050,9 @@
             document.getElementById('backBar').style.display = 'none';
         }
 
+        // =============================================
+        // CART MODAL FUNCTIONS
+        // =============================================
         function openCartModal(productId) {
             const product = products.find(p => p.id === productId);
             if (!product) return;
@@ -1041,7 +1124,33 @@
             window.toastTimeout = setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
+        // =============================================
+        // EXPOSE FUNCTIONS TO GLOBAL SCOPE
+        // =============================================
+        window.openCartModal = openCartModal;
+        window.closeCartModal = closeCartModal;
+        window.confirmAddToCart = confirmAddToCart;
+        window.updateModalPrice = updateModalPrice;
+
+        // =============================================
+        // DOM EVENT LISTENERS
+        // =============================================
         document.addEventListener('DOMContentLoaded', function() {
+            // ===== CHECK AUTH STATE =====
+            const user = getCurrentUser();
+            updateAuthUI(user);
+
+            // Listen for auth changes
+            onAuthChange((user) => {
+                updateAuthUI(user);
+            });
+
+            // ===== LOGOUT FUNCTIONALITY =====
+            const logoutLink = document.getElementById('logoutLink');
+            if (logoutLink) {
+                logoutLink.addEventListener('click', handleLogout);
+            }
+
             // ===== HAMBURGER MENU TOGGLE =====
             const hamburger = document.getElementById('hamburgerBtn');
             const navLinks = document.getElementById('navLinks');
@@ -1053,7 +1162,6 @@
                     navLinks.classList.toggle('open');
                 });
 
-                // Close menu when a link is clicked
                 navLinks.querySelectorAll('a').forEach(link => {
                     link.addEventListener('click', function() {
                         hamburger.classList.remove('active');
@@ -1061,7 +1169,6 @@
                     });
                 });
 
-                // Close menu when clicking outside
                 document.addEventListener('click', function(e) {
                     if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
                         hamburger.classList.remove('active');

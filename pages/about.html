@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+         <link rel="icon" type="image/x-icon" href="../images/teardrop.jpg">
     <title>About - Karis Printers</title>
     
     <!-- Font Awesome -->
@@ -169,6 +170,24 @@
             min-width: 18px;
             margin-left: 0;
         }
+
+        /* ===== AUTH LINKS - UPDATED ===== */
+        .auth-link {
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .auth-link:hover {
+            color: #0056b3;
+        }
+        #authLinks { display: inline; }
+        #userLinks { display: none; }
+        .user-name-link {
+            font-weight: 600;
+            color: #0056b3;
+        }
+        .user-name-link:hover {
+            color: #003d80;
+        }
         
         /* ===== PAGE HEADER ===== */
         .page-header {
@@ -233,7 +252,6 @@
             padding: 30px 20px;
             background: transparent;
         }
-        /* slides container */
         .about-image-slides {
             position: absolute;
             top: 0;
@@ -256,7 +274,6 @@
         .about-image-slide.active {
             opacity: 1;
         }
-        /* overlay for readability */
         .about-image-overlay {
             position: absolute;
             top: 0;
@@ -266,7 +283,6 @@
             background: rgba(0, 0, 0, 0.4);
             z-index: 1;
         }
-        /* content on top of slides */
         .about-image-content {
             position: relative;
             z-index: 2;
@@ -592,12 +608,10 @@
                 margin-left: 10px;
             }
 
-            /* Show mobile cart button */
             .mobile-cart-btn {
                 display: inline-flex;
             }
 
-            /* Hide nav links on mobile */
             nav {
                 display: none;
                 flex-direction: column;
@@ -618,12 +632,10 @@
                 display: flex;
             }
 
-            /* Hide the cart inside the hamburger menu on mobile */
             nav .nav-cta {
                 display: none !important;
             }
 
-            /* Keep header layout */
             header .container {
                 display: flex;
                 justify-content: flex-start;
@@ -721,6 +733,19 @@
             <a href="catalog.html">Catalog</a>
             <a href="about.html" class="active">About</a>
             <a href="contact.html">Contact</a>
+            
+            <!-- Auth Links (Dynamic) -->
+            <span id="authLinks">
+                <a href="login.html" class="auth-link">Login</a>
+                <a href="register.html" class="auth-link">Register</a>
+            </span>
+            
+            <!-- User Links (Hidden by default, shown when logged in) -->
+            <span id="userLinks" style="display: none;">
+                <a href="account.html" id="accountLink" class="user-name-link">My Account</a>
+                <a href="#" id="logoutLink" style="color: #dc3545; cursor: pointer; font-weight: 500;">Logout</a>
+            </span>
+            
             <a href="cart.html" class="nav-cta">
                 <i class="fas fa-shopping-cart"></i> Cart <span class="cart-badge" id="navCartBadge">0</span>
             </a>
@@ -758,15 +783,12 @@
             
             <!-- ===== ABOUT IMAGE with SLIDESHOW (3 images) ===== -->
             <div class="about-image" id="aboutImageContainer">
-                <!-- Slides - using URL encoding for spaces in filenames -->
                 <div class="about-image-slides" id="aboutImageSlides">
                     <div class="about-image-slide active" style="background-image: url('/images/printer 1.jpg');"></div>
                     <div class="about-image-slide" style="background-image: url('/images/printer2.jpg');"></div>
                     <div class="about-image-slide" style="background-image: url('/images/printer3.jpg');"></div>
                 </div>
-                <!-- Overlay -->
                 <div class="about-image-overlay"></div>
-                <!-- Content on top -->
                 <div class="about-image-content">
                     <h3>Karis Printers</h3>
                     <p>Quality printing services in Kenya</p>
@@ -782,7 +804,6 @@
         <h2>Our Comprehensive Services</h2>
         <p class="subtitle">Explore our full range of professional printing solutions</p>
         
-        <!-- Category 1: Commercial & Marketing Materials -->
         <div class="service-category">
             <h3><span class="icon"></span> Commercial & Marketing Materials</h3>
             <div class="service-items">
@@ -807,7 +828,6 @@
             </div>
         </div>
         
-        <!-- Category 2: Large Format & Signage -->
         <div class="service-category">
             <h3></span> Large Format & Signage</h3>
             <div class="service-items">
@@ -826,7 +846,6 @@
             </div>
         </div>
         
-        <!-- Category 3: Branded Merchandise & Apparel -->
         <div class="service-category">
             <h3></span> Branded Merchandise & Apparel</h3>
             <div class="service-items">
@@ -845,7 +864,6 @@
             </div>
         </div>
         
-        <!-- Category 4: Packaging & Labels -->
         <div class="service-category">
             <h3></span> Packaging & Labels</h3>
             <div class="service-items">
@@ -887,7 +905,6 @@
                 <h4>Quality Guarantee</h4>
                 <p>We use premium materials and state-of-the-art printing equipment.</p>
             </div>
-            
             <div class="why-item">
                 <div class="icon">💬</div>
                 <h4>Customer First</h4>
@@ -953,7 +970,7 @@
             <div>
                 <h4>Quick Links</h4>
                 <a href="catalog.html">Catalog</a>
-                <a href="order.html">Order Now</a>
+                <a href="cart.html">Order Now</a>
                 <a href="about.html">About Us</a>
                 <a href="contact.html">Contact</a>
             </div>
@@ -975,7 +992,12 @@
     </div>
 </footer>
 
-<script>
+<script type="module">
+    // =============================================
+    // IMPORTS
+    // =============================================
+    import { getCurrentUser, logoutUser, onAuthChange } from '../js/auth.js';
+
     // =============================================
     // SLIDESHOW FOR ABOUT IMAGE (3 images)
     // =============================================
@@ -991,6 +1013,29 @@
         }
         setInterval(nextSlide, 5000);
     })();
+
+    // =============================================
+    // AUTH NAVIGATION - SHOW/HIDE LINKS
+    // =============================================
+    function updateAuthUI(user) {
+        const authLinks = document.getElementById('authLinks');
+        const userLinks = document.getElementById('userLinks');
+        const accountLink = document.getElementById('accountLink');
+        const logoutLink = document.getElementById('logoutLink');
+        
+        if (user) {
+            // User is logged in - hide Login/Register, show My Account/Logout
+            authLinks.style.display = 'none';
+            userLinks.style.display = 'inline';
+            if (accountLink) {
+                accountLink.textContent = user.displayName || 'My Account';
+            }
+        } else {
+            // User is logged out - show Login/Register, hide My Account/Logout
+            authLinks.style.display = 'inline';
+            userLinks.style.display = 'none';
+        }
+    }
 
     // =============================================
     // PRODUCT DATA (for the cart modal)
@@ -1098,10 +1143,36 @@
     }
 
     // =============================================
+    // LOGOUT FUNCTION
+    // =============================================
+    async function handleLogout(e) {
+        if (e) e.preventDefault();
+        if (confirm('Are you sure you want to logout?')) {
+            const result = await logoutUser();
+            if (result.success) {
+                window.location.replace('login.html');
+            }
+        }
+    }
+
+    // =============================================
     // EVENT LISTENERS
     // =============================================
     document.addEventListener('DOMContentLoaded', function() {
-        updateBadge();
+        // Check auth state
+        const user = getCurrentUser();
+        updateAuthUI(user);
+
+        // Listen for auth changes
+        onAuthChange((user) => {
+            updateAuthUI(user);
+        });
+
+        // Logout functionality
+        const logoutLink = document.getElementById('logoutLink');
+        if (logoutLink) {
+            logoutLink.addEventListener('click', handleLogout);
+        }
 
         // ===== HAMBURGER MENU TOGGLE =====
         const hamburger = document.getElementById('hamburgerBtn');
@@ -1114,7 +1185,6 @@
                 navLinks.classList.toggle('open');
             });
 
-            // Close menu when a link is clicked
             navLinks.querySelectorAll('a').forEach(link => {
                 link.addEventListener('click', function() {
                     hamburger.classList.remove('active');
@@ -1122,7 +1192,6 @@
                 });
             });
 
-            // Close menu when clicking outside
             document.addEventListener('click', function(e) {
                 if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
                     hamburger.classList.remove('active');
@@ -1131,6 +1200,7 @@
             });
         }
 
+        // Cart modal
         document.getElementById('closeModalBtn').addEventListener('click', closeCartModal);
         document.getElementById('cartModal').addEventListener('click', function(e) {
             if (e.target === this) closeCartModal();
@@ -1149,6 +1219,8 @@
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') closeCartModal();
         });
+
+        updateBadge();
     });
 </script>
 

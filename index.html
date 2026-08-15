@@ -22,7 +22,7 @@
     <meta name="twitter:description" content="Professional printing services with clear prices. Fast turnaround, free delivery.">
     <meta name="twitter:image" content="https://karisprinters.co.ke/images/og-image.jpg">
     <link rel="canonical" href="https://karisprinters.co.ke">
-    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="./images/teardrop.jpg">
     <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
@@ -798,17 +798,31 @@
             <i class="fas fa-shopping-cart"></i> Cart <span class="cart-badge" id="mobileCartBadge">0</span>
         </a>
 
-        <!-- Navigation -->
-        <nav id="navLinks">
+        <!-- ===== UPDATED NAVIGATION ===== -->
+        <nav id="mainNav">
             <a href="index.html">Home</a>
             <a href="pages/catalog.html">Catalog</a>
             <a href="pages/about.html">About</a>
             <a href="pages/contact.html">Contact</a>
-            <!-- Cart is inside nav on desktop, hidden on mobile -->
+            
+            <!-- Auth Links (Dynamic - shown when logged out) -->
+            <span id="authLinks">
+                <a href="pages/login.html" id="loginLink">Login</a>
+                <a href="pages/register.html" id="registerLink">Register</a>
+            </span>
+            
+            <!-- User Links (Dynamic - hidden by default, shown when logged in) -->
+            <span id="userLinks" style="display: none;">
+                <a href="pages/account.html" id="accountLink">My Account</a>
+                <a href="#" id="logoutLink" style="color: #dc3545;">Logout</a>
+            </span>
+            
             <a href="pages/cart.html" class="nav-cta">
                 <i class="fas fa-shopping-cart"></i> Cart <span class="cart-badge" id="navCartBadge">0</span>
             </a>
         </nav>
+        <!-- ===== END UPDATED NAVIGATION ===== -->
+        
     </div>
 </header>
 
@@ -941,11 +955,64 @@
     </div>
 </footer>
 
-<script>
-    (function() {
-        emailjs.init('ExzmFqrSqTxWvr1LN');
-    })();
+<!-- ===== UPDATED SCRIPT WITH AUTH NAVIGATION ===== -->
+<script type="module">
+    // =============================================
+    // EMAILJS INIT
+    // =============================================
+    emailjs.init('ExzmFqrSqTxWvr1LN');
 
+    // =============================================
+    // AUTH NAVIGATION - SHOW/HIDE LINKS
+    // =============================================
+    import { getCurrentUser, logoutUser, onAuthChange } from './js/auth.js';
+
+    function updateAuthUI(user) {
+        const authLinks = document.getElementById('authLinks');
+        const userLinks = document.getElementById('userLinks');
+        const accountLink = document.getElementById('accountLink');
+        const logoutLink = document.getElementById('logoutLink');
+        
+        if (user) {
+            // User is logged in
+            authLinks.style.display = 'none';
+            userLinks.style.display = 'inline';
+            if (accountLink) {
+                accountLink.textContent = user.displayName || 'My Account';
+            }
+        } else {
+            // User is logged out
+            authLinks.style.display = 'inline';
+            userLinks.style.display = 'none';
+        }
+    }
+
+    // Check auth state on page load
+    const user = getCurrentUser();
+    updateAuthUI(user);
+    
+    // Listen for auth changes
+    onAuthChange((user) => {
+        updateAuthUI(user);
+    });
+    
+    // Logout functionality
+    const logoutLink = document.getElementById('logoutLink');
+    if (logoutLink) {
+        logoutLink.addEventListener('click', async function(e) {
+            e.preventDefault();
+            if (confirm('Are you sure you want to logout?')) {
+                const result = await logoutUser();
+                if (result.success) {
+                    window.location.href = 'pages/login.html';
+                }
+            }
+        });
+    }
+
+    // =============================================
+    // HERO SLIDESHOW
+    // =============================================
     (function heroSlideshow() {
         const slides = document.querySelectorAll('.hero-slide');
         let current = 0;
@@ -958,6 +1025,9 @@
         setInterval(nextSlide, 5000);
     })();
 
+    // =============================================
+    // PRODUCT DATA
+    // =============================================
     const products = [
         { id: 't-shirts', name: 'Custom T-shirts', category: 'apparel', subcategory: 'Custom Apparel', startingPrice: 1200, specs: '100% cotton • Screen print/DTF • Custom design', image: '/images/t shirt.jpg', description: 'Custom printed t-shirts for teams, events, and promotions.', pricing: { 10: 1200, 25: 2800, 50: 4800, 100: 8500 }, materials: ['Cotton', 'Premium', 'Polyester'] },
         { id: 'hoodies', name: 'Custom Hoodies', category: 'apparel', subcategory: 'Custom Apparel', startingPrice: 2500, specs: '80% cotton • Screen print/DTF • Custom design', image: '/images/download.jpg', description: 'Custom printed hoodies for branding and merchandise.', pricing: { 10: 2500, 25: 5500, 50: 9500, 100: 16500 }, materials: ['Cotton', 'Premium', 'Polyester'] },
@@ -967,6 +1037,9 @@
         { id: 'brochures-trifold', name: 'Brochures (Tri-fold)', category: 'promotional', subcategory: 'Promotional Print', startingPrice: 3500, specs: 'A4 tri-fold • 150gsm • Full color • 100 pieces', image: '/images/brochures tri.jpg', description: 'Professional tri-fold brochures for your business.', pricing: { 100: 3500, 250: 6000, 500: 9500, 1000: 15000 }, materials: ['Glossy', 'Matte', 'Premium'] }
     ];
 
+    // =============================================
+    // CART FUNCTIONS
+    // =============================================
     function getCart() {
         try { return JSON.parse(localStorage.getItem('karis_cart')) || []; } catch { return []; }
     }
@@ -977,7 +1050,6 @@
     function updateBadge() {
         const cart = getCart();
         const total = cart.reduce((sum, i) => sum + i.quantity, 0);
-        // Update both desktop and mobile cart badges
         document.querySelectorAll('.cart-badge').forEach(el => el.textContent = total);
     }
     function getFeaturedProducts() {
@@ -1020,8 +1092,11 @@
         }).join('');
     }
 
+    // =============================================
+    // CART MODAL FUNCTIONS
+    // =============================================
     let currentProduct = null;
-    function openCartModal(productId) {
+    window.openCartModal = function(productId) {
         const product = products.find(p => p.id === productId);
         if (!product) return;
         currentProduct = product;
@@ -1046,7 +1121,7 @@
         document.getElementById('modalQuantityDisplay').textContent = qty;
         document.getElementById('modalTotalPrice').textContent = `KSh ${total.toLocaleString()}`;
     }
-    function confirmAddToCart() {
+    window.confirmAddToCart = function() {
         if (!currentProduct) return;
         const qty = parseInt(document.getElementById('quantityInput').value) || 0;
         if (qty < 1) {
@@ -1084,6 +1159,9 @@
         window.toastTimeout = setTimeout(() => toast.classList.remove('show'), 3000);
     }
 
+    // =============================================
+    // TESTIMONIALS
+    // =============================================
     const testimonials = [
         { quote: "I did my Business receipt books and business cards with Karis Printers. Nice work. I recommend.", name: "Waweru James", location: "Nairobi, Kenya" },
         { quote: "I like working with Karis Printers on branding and printing services. Quality prints, affordable prices and timely delivery.", name: "muturi", location: "Nyandarua, Kenya" },
@@ -1111,7 +1189,7 @@
                     onclick="goToTestimonial(${index})"></button>
         `).join('');
     }
-    function goToTestimonial(index) {
+    window.goToTestimonial = function(index) {
         currentTestimonial = index;
         renderTestimonials();
         resetAutoPlay();
@@ -1125,6 +1203,9 @@
         testimonialInterval = setInterval(nextTestimonial, 5000);
     }
 
+    // =============================================
+    // DOM CONTENT LOADED
+    // =============================================
     document.addEventListener('DOMContentLoaded', function() {
         renderProducts();
         renderTestimonials();
@@ -1133,7 +1214,7 @@
 
         // ===== HAMBURGER MENU TOGGLE =====
         const hamburger = document.getElementById('hamburgerBtn');
-        const navLinks = document.getElementById('navLinks');
+        const navLinks = document.getElementById('mainNav');
 
         if (hamburger && navLinks) {
             hamburger.addEventListener('click', function(e) {
@@ -1174,7 +1255,7 @@
                 display.classList.remove('show');
             }
         });
-        document.getElementById('confirmAddToCartBtn').addEventListener('click', confirmAddToCart);
+        document.getElementById('confirmAddToCartBtn').addEventListener('click', window.confirmAddToCart);
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') closeCartModal();
         });

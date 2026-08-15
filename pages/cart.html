@@ -3,13 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+         <link rel="icon" type="image/x-icon" href="../images/teardrop.jpg">
     <title>Shopping Cart – Karis Printers</title>
-    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- EmailJS -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
-        /* ===== RESET & BASE ===== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
@@ -20,7 +18,6 @@
         a { text-decoration: none; color: inherit; }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
-        /* ===== HEADER ===== */
         header {
             background: #fff;
             box-shadow: 0 2px 10px rgba(0,0,0,0.08);
@@ -43,7 +40,6 @@
         }
         .logo span { color: #ff6b00; }
 
-        /* ===== HAMBURGER MENU STYLES ===== */
         .hamburger {
             display: none;
             flex-direction: column;
@@ -72,7 +68,6 @@
             transform: rotate(-45deg) translate(5px, -6px);
         }
 
-        /* Navigation - Original Style */
         nav {
             display: flex;
             gap: 25px;
@@ -109,7 +104,6 @@
             margin-left: 4px;
         }
 
-        /* ===== MOBILE CART BUTTON - VISIBLE ONLY ON MOBILE ===== */
         .mobile-cart-btn {
             display: none;
             background: #ff6b00;
@@ -135,7 +129,9 @@
             margin-left: 0;
         }
 
-        /* ===== PAGE HEADER ===== */
+        #authLinks { display: inline; }
+        #userLinks { display: none; }
+
         .page-header {
             background: linear-gradient(135deg, #e8f0fe 0%, #d4e4f7 100%);
             padding: 40px 0 30px;
@@ -151,7 +147,6 @@
             font-size: 1.1rem;
         }
 
-        /* ===== CART SECTION ===== */
         .cart-section {
             margin: 40px 0 60px;
         }
@@ -161,7 +156,6 @@
             gap: 40px;
         }
 
-        /* Cart Items */
         .cart-items {
             background: #fff;
             border-radius: 20px;
@@ -301,7 +295,6 @@
             color: #d9534f;
         }
 
-        /* Cart Summary */
         .cart-summary {
             background: #fff;
             border-radius: 20px;
@@ -379,7 +372,6 @@
             color: #0056b3;
         }
 
-        /* Empty Cart */
         .empty-cart {
             text-align: center;
             padding: 60px 20px;
@@ -415,7 +407,6 @@
             transform: scale(1.01);
         }
 
-        /* ===== CHECKOUT MODAL ===== */
         .checkout-modal-overlay {
             display: none;
             position: fixed;
@@ -424,7 +415,6 @@
             width: 100%;
             height: 100%;
             background: rgba(0,0,0,0.5);
-            /* backdrop-filter: blur(4px); */
             z-index: 1000;
             justify-content: center;
             align-items: center;
@@ -555,7 +545,6 @@
             font-size: 1.1rem;
         }
 
-        /* ===== SUCCESS OVERLAY ===== */
         .success-overlay {
             display: none;
             position: fixed;
@@ -564,7 +553,6 @@
             width: 100%;
             height: 100%;
             background: rgba(0,0,0,0.5);
-            /* backdrop-filter: blur(4px); */
             z-index: 2000;
             justify-content: center;
             align-items: center;
@@ -602,6 +590,86 @@
             margin: 12px 0 20px;
             font-size: 1.1rem;
         }
+
+        /* ===== CUSTOM NOTIFICATION POPUP ===== */
+        .order-notification {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            max-width: 550px;
+            width: 90%;
+            padding: 18px 24px;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            z-index: 5000;
+            display: none;
+            animation: slideUpNotif 0.5s ease;
+            text-align: left;
+            border-left: 5px solid;
+        }
+        .order-notification.show {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .order-notification .notif-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+        .order-notification .notif-content {
+            flex: 1;
+        }
+        .order-notification .notif-content h4 {
+            margin-bottom: 2px;
+            font-size: 1rem;
+        }
+        .order-notification .notif-content p {
+            font-size: 0.9rem;
+            margin: 0;
+            opacity: 0.9;
+        }
+        .order-notification .notif-close {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: 0.2s;
+            color: inherit;
+        }
+        .order-notification .notif-close:hover {
+            opacity: 1;
+        }
+
+        .order-notification.guest {
+            background: #fff3cd;
+            border-left-color: #ffc107;
+            color: #856404;
+        }
+        .order-notification.guest .notif-icon {
+            color: #ffc107;
+        }
+        .order-notification.registered {
+            background: #d4edda;
+            border-left-color: #28a745;
+            color: #155724;
+        }
+        .order-notification.registered .notif-icon {
+            color: #28a745;
+        }
+
+        @keyframes slideUpNotif {
+            from {
+                transform: translateX(-50%) translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(-50%) translateY(0);
+                opacity: 1;
+            }
+        }
+
         .success-modal .btn-continue {
             background: #0056b3;
             color: #fff;
@@ -617,7 +685,6 @@
             background: #003d80;
         }
 
-        /* ===== TOAST ===== */
         .toast-message {
             position: fixed;
             bottom: 30px;
@@ -642,7 +709,6 @@
             to { transform: translateY(0); opacity: 1; }
         }
 
-        /* ===== FOOTER ===== */
         footer {
             background: #1a1a1a;
             color: #ccc;
@@ -671,7 +737,6 @@
             color: #777;
         }
 
-        /* ===== RESPONSIVE ===== */
         @media (max-width: 992px) {
             .cart-grid {
                 grid-template-columns: 1fr;
@@ -687,13 +752,9 @@
                 order: 1;
                 margin-left: 10px;
             }
-
-            /* Show mobile cart button */
             .mobile-cart-btn {
                 display: inline-flex;
             }
-
-            /* Hide nav links on mobile */
             nav {
                 display: none;
                 flex-direction: column;
@@ -709,17 +770,12 @@
                 align-items: center;
                 order: 3;
             }
-
             nav.open {
                 display: flex;
             }
-
-            /* Hide the cart inside the hamburger menu on mobile */
             nav .nav-cta {
                 display: none !important;
             }
-
-            /* Keep header layout */
             header .container {
                 display: flex;
                 justify-content: flex-start;
@@ -728,13 +784,11 @@
                 position: relative;
                 gap: 0;
             }
-
             .logo {
                 font-size: 1.4rem;
                 order: 0;
                 margin-right: auto;
             }
-
             .cart-item {
                 grid-template-columns: 80px 1fr;
                 gap: 14px;
@@ -761,29 +815,22 @@
             .page-header h1 { font-size: 1.8rem; }
             .cart-summary { padding: 20px 18px; }
             .checkout-modal { padding: 24px 18px; }
+            .order-notification {
+                bottom: 15px;
+                padding: 14px 18px;
+                width: 95%;
+            }
+            .order-notification .notif-icon {
+                font-size: 1.5rem;
+            }
         }
 
         @media (max-width: 480px) {
-            .logo {
-                font-size: 1.2rem;
-            }
-            .hamburger span {
-                width: 24px;
-                height: 2.5px;
-            }
-            .hamburger {
-                gap: 4px;
-                margin-left: 5px;
-            }
-            .mobile-cart-btn {
-                padding: 5px 10px;
-                font-size: 0.75rem;
-            }
-            .mobile-cart-btn .cart-badge {
-                font-size: 0.55rem;
-                padding: 1px 5px;
-                min-width: 14px;
-            }
+            .logo { font-size: 1.2rem; }
+            .hamburger span { width: 24px; height: 2.5px; }
+            .hamburger { gap: 4px; margin-left: 5px; }
+            .mobile-cart-btn { padding: 5px 10px; font-size: 0.75rem; }
+            .mobile-cart-btn .cart-badge { font-size: 0.55rem; padding: 1px 5px; min-width: 14px; }
             .cart-item {
                 grid-template-columns: 1fr;
                 gap: 10px;
@@ -797,8 +844,11 @@
                 flex-wrap: wrap;
                 justify-content: center;
             }
-            .cart-modal {
-                padding: 20px 14px 16px;
+            .order-notification .notif-content h4 {
+                font-size: 0.85rem;
+            }
+            .order-notification .notif-content p {
+                font-size: 0.8rem;
             }
         }
     </style>
@@ -810,14 +860,12 @@
     <div class="container">
         <div class="logo">Karis<span>Printers</span></div>
 
-        <!-- Hamburger Button (mobile only) -->
         <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
             <span></span>
             <span></span>
             <span></span>
         </button>
 
-        <!-- Mobile Cart Button (visible only on mobile, directly after hamburger) -->
         <a href="cart.html" class="mobile-cart-btn" id="mobileCartBtn">
             <i class="fas fa-shopping-cart"></i> Cart <span class="cart-badge" id="mobileCartBadge">0</span>
         </a>
@@ -827,6 +875,17 @@
             <a href="catalog.html">Catalog</a>
             <a href="about.html">About</a>
             <a href="contact.html">Contact</a>
+            
+            <span id="authLinks">
+                <a href="login.html">Login</a>
+                <a href="register.html">Register</a>
+            </span>
+            
+            <span id="userLinks" style="display: none;">
+                <a href="account.html" id="accountLink">My Account</a>
+                <a href="#" id="logoutLink" style="color: #dc3545;">Logout</a>
+            </span>
+            
             <a href="cart.html" class="nav-cta">
                 <i class="fas fa-shopping-cart"></i> Cart <span class="cart-badge" id="navCartBadge">0</span>
             </a>
@@ -846,12 +905,8 @@
 <section class="cart-section">
     <div class="container">
         <div class="cart-grid" id="cartGrid">
-            <!-- Cart Items Column -->
-            <div id="cartItemsColumn">
-                <!-- Dynamic content rendered by JavaScript -->
-            </div>
+            <div id="cartItemsColumn"></div>
 
-            <!-- Cart Summary -->
             <div class="cart-summary" id="cartSummary">
                 <h3>Order Summary</h3>
                 <div id="summaryContent">
@@ -945,6 +1000,16 @@
     </div>
 </div>
 
+<!-- ===== ORDER NOTIFICATION POPUP ===== -->
+<div class="order-notification" id="orderNotification">
+    <div class="notif-icon" id="notifIcon">📧</div>
+    <div class="notif-content">
+        <h4 id="notifTitle">Order Confirmation</h4>
+        <p id="notifMessage">Your order has been placed successfully!</p>
+    </div>
+    <button class="notif-close" onclick="closeNotification()">&times;</button>
+</div>
+
 <!-- ===== TOAST ===== -->
 <div class="toast-message" id="toastMessage">
     <i class="fas fa-check-circle" style="color:#2a7a4b;"></i>
@@ -982,17 +1047,23 @@
     </div>
 </footer>
 
-<!-- ===== JAVASCRIPT ===== -->
-<script>
+<script type="module">
+    // =============================================
+    // IMPORTS
+    // =============================================
+    import { getCurrentUser, logoutUser, onAuthChange } from '../js/auth.js';
+    import { db } from '../js/firebase-config.js';
+    import { 
+        collection, addDoc, serverTimestamp 
+    } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js";
+
     // =============================================
     // INITIALIZE EMAILJS
     // =============================================
-    (function() {
-        emailjs.init('ExzmFqrSqTxWvr1LN');
-    })();
+    emailjs.init('ExzmFqrSqTxWvr1LN');
 
     // =============================================
-    // CART DATA (stored in localStorage)
+    // CART DATA
     // =============================================
     function getCart() {
         try {
@@ -1016,16 +1087,14 @@
     }
 
     // =============================================
-    // PRODUCT DATA - MATCHED WITH CATALOG PAGE
+    // PRODUCT DATA
     // =============================================
     const products = [
-        // Business Stationery
         { id: 'business-cards', name: 'Business Cards', category: 'stationery', subcategory: 'Business Stationery', startingPrice: 2500, image: '/images/business card.avif' },
         { id: 'letterheads', name: 'Letterheads', category: 'stationery', subcategory: 'Business Stationery', startingPrice: 1500, image: '/images/letterhead.jpg' },
         { id: 'branded-envelopes', name: 'Branded Envelopes', category: 'stationery', subcategory: 'Business Stationery', startingPrice: 1800, image: '/images/envelope.jpg' },
         { id: 'presentation-folders', name: 'Presentation Folders', category: 'stationery', subcategory: 'Business Stationery', startingPrice: 3500, image: '/images/presentation folder.jpg' },
         { id: 'invoice-books', name: 'Carbonless Invoice Books (NCR)', category: 'stationery', subcategory: 'Business Stationery', startingPrice: 1800, image: '/images/carbonless.jpg' },
-        // Promotional Print
         { id: 'flyers', name: 'Flyers (A5)', category: 'promotional', subcategory: 'Promotional Print', startingPrice: 1200, image: '/images/flyers.jpg' },
         { id: 'brochures-trifold', name: 'Brochures (Tri-fold)', category: 'promotional', subcategory: 'Promotional Print', startingPrice: 3500, image: '/images/brochures tri.jpg' },
         { id: 'brochures-bifold', name: 'Brochures (Bi-fold)', category: 'promotional', subcategory: 'Promotional Print', startingPrice: 3200, image: '/images/bronchure bi.jpg' },
@@ -1033,48 +1102,40 @@
         { id: 'door-hangers', name: 'Door Hangers', category: 'promotional', subcategory: 'Promotional Print', startingPrice: 2000, image: '/images/door hangers.jpg' },
         { id: 'rack-cards', name: 'Rack Cards', category: 'promotional', subcategory: 'Promotional Print', startingPrice: 1800, image: '/images/rack cards.jpg' },
         { id: 'menu-cards', name: 'Menu Cards', category: 'promotional', subcategory: 'Promotional Print', startingPrice: 2200, image: '/images/menucard.jpg' },
-        // Publications
         { id: 'catalogs', name: 'Catalogs', category: 'publications', subcategory: 'Publications', startingPrice: 3500, image: '/images/catalog.jpg' },
         { id: 'magazines', name: 'Magazines', category: 'publications', subcategory: 'Publications', startingPrice: 4500, image: '/images/magazine.jpg' },
         { id: 'booklets', name: 'Booklets', category: 'publications', subcategory: 'Publications', startingPrice: 2500, image: '/images/booklets.jpg' },
         { id: 'company-manuals', name: 'Company Manuals', category: 'publications', subcategory: 'Publications', startingPrice: 4000, image: '/images/manuals.jpg' },
         { id: 'annual-reports', name: 'Annual Reports', category: 'publications', subcategory: 'Publications', startingPrice: 5000, image: 'images/products/annual-reports.jpg' },
         { id: 'perfect-bound-books', name: 'Perfect-Bound Books', category: 'publications', subcategory: 'Publications', startingPrice: 3000, image: 'images/products/perfect-bound-books.jpg' },
-        // Banners & Display
         { id: 'vinyl-banners', name: 'Vinyl Banners', category: 'banners', subcategory: 'Banners & Display', startingPrice: 4500, image: '/images/vinyl.jpg' },
         { id: 'pullup-banners', name: 'Pull-up / Roll-up Banners', category: 'banners', subcategory: 'Banners & Display', startingPrice: 8500, image: '/images/pull up.jpg' },
         { id: 'teardrop-flags', name: 'Teardrop Flags', category: 'banners', subcategory: 'Banners & Display', startingPrice: 6500, image: '/images/teardrop.jpg' },
         { id: 'backdrop-banners', name: 'Backdrop Banners', category: 'banners', subcategory: 'Banners & Display', startingPrice: 12000, image: '/images/backdrop.jpg' },
-        // Rigid Signs
         { id: 'foamboard-prints', name: 'Foam-board Prints', category: 'signs', subcategory: 'Rigid Signs', startingPrice: 2800, image: 'images/products/foamboard-prints.jpg' },
         { id: 'correx-signs', name: 'Correx Directional Signs', category: 'signs', subcategory: 'Rigid Signs', startingPrice: 3500, image: '/images/corex.jpg' },
         { id: 'acrylic-wall-plaques', name: 'Acrylic Wall Plaques', category: 'signs', subcategory: 'Rigid Signs', startingPrice: 4500, image: 'images/products/acrylic-wall-plaques.jpg' },
         { id: 'aluminum-composite-signs', name: 'Aluminum Composite Signage', category: 'signs', subcategory: 'Rigid Signs', startingPrice: 5500, image: 'images/products/aluminum-composite-signs.jpg' },
-        // Posters & Art
         { id: 'blueprints', name: 'Architectural Blueprints', category: 'posters', subcategory: 'Posters & Art', startingPrice: 1500, image: '/images/blueprint.jpg' },
         { id: 'advertising-posters', name: 'High-gloss Advertising Posters', category: 'posters', subcategory: 'Posters & Art', startingPrice: 1200, image: 'images/products/advertising-posters.jpg' },
         { id: 'canvas-prints', name: 'Canvas Photo Prints', category: 'posters', subcategory: 'Posters & Art', startingPrice: 3500, image: '/images/canvas.jpg' },
         { id: 'wall-murals', name: 'Wall Murals & Decals', category: 'posters', subcategory: 'Posters & Art', startingPrice: 6000, image: 'images/products/wall-murals.jpg' },
-        // Custom Apparel
         { id: 't-shirts', name: 'Custom T-shirts', category: 'apparel', subcategory: 'Custom Apparel', startingPrice: 1200, image: '/images/t shirt.jpg' },
         { id: 'hoodies', name: 'Custom Hoodies', category: 'apparel', subcategory: 'Custom Apparel', startingPrice: 2500, image: '/images/download.jpg' },
         { id: 'jerseys', name: 'Custom Jerseys', category: 'apparel', subcategory: 'Custom Apparel', startingPrice: 1800, image: 'images/products/jerseys.jpg' },
         { id: 'caps', name: 'Custom Caps', category: 'apparel', subcategory: 'Custom Apparel', startingPrice: 800, image: 'images/products/caps.jpg' },
         { id: 'totes', name: 'Custom Totes', category: 'apparel', subcategory: 'Custom Apparel', startingPrice: 600, image: 'images/products/totes.jpg' },
         { id: 'workwear-uniforms', name: 'Workwear Uniforms', category: 'apparel', subcategory: 'Custom Apparel', startingPrice: 2000, image: 'images/products/workwear-uniforms.jpg' },
-        // Promotional Items
         { id: 'mugs', name: 'Custom Mugs', category: 'promo-items', subcategory: 'Promotional Items', startingPrice: 400, image: 'images/products/mugs.jpg' },
         { id: 'water-bottles', name: 'Custom Water Bottles', category: 'promo-items', subcategory: 'Promotional Items', startingPrice: 450, image: 'images/products/water-bottles.jpg' },
         { id: 'keychains', name: 'Custom Keychains', category: 'promo-items', subcategory: 'Promotional Items', startingPrice: 250, image: 'images/products/keychains.jpg' },
         { id: 'lanyards', name: 'Custom Lanyards', category: 'promo-items', subcategory: 'Promotional Items', startingPrice: 180, image: 'images/products/lanyards.jpg' },
         { id: 'mousepads', name: 'Custom Mousepads', category: 'promo-items', subcategory: 'Promotional Items', startingPrice: 300, image: 'images/products/mousepads.jpg' },
         { id: 'branded-pens', name: 'Branded Pens', category: 'promo-items', subcategory: 'Promotional Items', startingPrice: 150, image: 'images/products/branded-pens.jpg' },
-        // Custom Packaging
         { id: 'product-boxes', name: 'Custom Product Boxes', category: 'packaging', subcategory: 'Custom Packaging', startingPrice: 2500, image: 'images/products/product-boxes.jpg' },
         { id: 'mailer-sleeves', name: 'Mailer Sleeves', category: 'packaging', subcategory: 'Custom Packaging', startingPrice: 1800, image: 'images/products/mailer-sleeves.jpg' },
         { id: 'shopping-bags', name: 'Paper Shopping Bags', category: 'packaging', subcategory: 'Custom Packaging', startingPrice: 1500, image: 'images/products/shopping-bags.jpg' },
         { id: 'tissue-paper', name: 'Custom Tissue Paper', category: 'packaging', subcategory: 'Custom Packaging', startingPrice: 1200, image: 'images/products/tissue-paper.jpg' },
-        // Labels & Stickers
         { id: 'diecut-stickers', name: 'Die-cut Vinyl Stickers', category: 'labels', subcategory: 'Labels & Stickers', startingPrice: 800, image: 'images/products/diecut-stickers.jpg' },
         { id: 'roll-labels', name: 'Roll Labels (Bottles/Jars)', category: 'labels', subcategory: 'Labels & Stickers', startingPrice: 1200, image: 'images/products/roll-labels.jpg' },
         { id: 'product-seal-stickers', name: 'Product Seal Stickers', category: 'labels', subcategory: 'Labels & Stickers', startingPrice: 600, image: 'images/products/product-seal-stickers.jpg' },
@@ -1109,6 +1170,59 @@
     }
 
     // =============================================
+    // SHOW NOTIFICATION
+    // =============================================
+    let notificationTimeout = null;
+
+    function showNotification(isGuest, orderId) {
+        const notification = document.getElementById('orderNotification');
+        const icon = document.getElementById('notifIcon');
+        const title = document.getElementById('notifTitle');
+        const message = document.getElementById('notifMessage');
+
+        // Clear any existing timeout
+        if (notificationTimeout) {
+            clearTimeout(notificationTimeout);
+        }
+
+        if (isGuest) {
+            notification.className = 'order-notification guest show';
+            icon.textContent = '📧';
+            title.textContent = '📩 Guest Order Confirmed!';
+            message.innerHTML = `
+                <strong>Order ID: ${orderId}</strong><br>
+                To track your order, please email us at 
+                <strong><a href="mailto:KarisPrinters@gmail.com" style="color: #856404; text-decoration: underline;">KarisPrinters@gmail.com</a></strong> 
+                with your Order ID.
+            `;
+        } else {
+            notification.className = 'order-notification registered show';
+            icon.textContent = '👤';
+            title.textContent = '✅ Order Confirmed!';
+            message.innerHTML = `
+                <strong>Order ID: ${orderId}</strong><br>
+                Track your order anytime in your 
+                <strong><a href="account.html" style="color: #155724; text-decoration: underline;">My Account</a></strong> 
+                under "My Orders".
+            `;
+        }
+
+        // Auto-hide after 10 seconds
+        notificationTimeout = setTimeout(() => {
+            closeNotification();
+        }, 10000);
+    }
+
+    function closeNotification() {
+        const notification = document.getElementById('orderNotification');
+        notification.classList.remove('show');
+        if (notificationTimeout) {
+            clearTimeout(notificationTimeout);
+            notificationTimeout = null;
+        }
+    }
+
+    // =============================================
     // RENDER CART
     // =============================================
     function renderCart() {
@@ -1135,7 +1249,6 @@
             return;
         }
 
-        // Build cart items HTML
         let html = `
             <div class="cart-items">
                 <div class="cart-header">
@@ -1169,12 +1282,12 @@
                     </div>
                     <div class="item-actions">
                         <div class="qty-control">
-                            <button onclick="updateQuantity(${index}, -1)">−</button>
+                            <button onclick="window.updateQuantity(${index}, -1)">−</button>
                             <span class="qty-display">${item.quantity}</span>
-                            <button onclick="updateQuantity(${index}, 1)">+</button>
+                            <button onclick="window.updateQuantity(${index}, 1)">+</button>
                         </div>
                         <div class="item-total">KSh ${total.toLocaleString()}</div>
-                        <button class="remove-btn" onclick="removeItem(${index})"><i class="fas fa-trash"></i></button>
+                        <button class="remove-btn" onclick="window.removeItem(${index})"><i class="fas fa-trash"></i></button>
                     </div>
                 </div>
             `;
@@ -1183,7 +1296,6 @@
         html += `</div>`;
         container.innerHTML = html;
 
-        // Update summary
         const subtotal = cart.reduce((sum, item) => {
             const product = products.find(p => p.id === item.productId);
             return sum + (product ? product.startingPrice * item.quantity : 0);
@@ -1199,29 +1311,26 @@
     // =============================================
     // CART OPERATIONS
     // =============================================
-    function updateQuantity(index, change) {
+    window.updateQuantity = function(index, change) {
         const cart = getCart();
         if (!cart[index]) return;
-
         const newQty = cart[index].quantity + change;
         if (newQty < 1) return;
-
         cart[index].quantity = newQty;
         saveCart(cart);
         renderCart();
         showToast('Cart updated!');
-    }
+    };
 
-    function removeItem(index) {
+    window.removeItem = function(index) {
         const cart = getCart();
         if (!cart[index]) return;
-
         const product = products.find(p => p.id === cart[index].productId);
         cart.splice(index, 1);
         saveCart(cart);
         renderCart();
         showToast(product ? `"${product.name}" removed from cart` : 'Item removed');
-    }
+    };
 
     function showToast(message) {
         const toast = document.getElementById('toastMessage');
@@ -1251,25 +1360,33 @@
         const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
         const orderId = generateOrderId();
 
-        // Update checkout modal
         document.getElementById('checkoutOrderId').textContent = orderId;
         document.getElementById('checkoutItemCount').textContent = totalItems;
         document.getElementById('checkoutSubtotal').textContent = `KSh ${subtotal.toLocaleString()}`;
         document.getElementById('checkoutTotal').textContent = `KSh ${subtotal.toLocaleString()}`;
         document.getElementById('successOrderId').textContent = orderId;
 
-        // Store order ID for later
         window._currentOrderId = orderId;
 
-        // Reset form
-        document.getElementById('checkoutName').value = '';
-        document.getElementById('checkoutEmail').value = '';
-        document.getElementById('checkoutPhone').value = '';
-        document.getElementById('checkoutAddress').value = '';
+        const user = getCurrentUser();
+        if (user) {
+            document.getElementById('checkoutName').value = user.displayName || '';
+            document.getElementById('checkoutEmail').value = user.email || '';
+            try {
+                const userData = JSON.parse(localStorage.getItem('karis_user_data')) || {};
+                document.getElementById('checkoutPhone').value = userData.phone || '';
+                document.getElementById('checkoutAddress').value = userData.address || '';
+            } catch { /* ignore */ }
+        } else {
+            document.getElementById('checkoutName').value = '';
+            document.getElementById('checkoutEmail').value = '';
+            document.getElementById('checkoutPhone').value = '';
+            document.getElementById('checkoutAddress').value = '';
+        }
+
         document.getElementById('checkoutInstructions').value = '';
         document.getElementById('checkoutTransaction').value = '';
 
-        // Show modal
         document.getElementById('checkoutModal').classList.add('show');
         document.body.style.overflow = 'hidden';
     }
@@ -1279,185 +1396,277 @@
         document.body.style.overflow = '';
     }
 
+    // =============================================
+    // PLACE ORDER - WITH FIRESTORE SAVE
+    // =============================================
     async function placeOrder() {
-    const name = document.getElementById('checkoutName').value.trim();
-    const email = document.getElementById('checkoutEmail').value.trim();
-    const phone = document.getElementById('checkoutPhone').value.trim();
-    const address = document.getElementById('checkoutAddress').value.trim();
-    const instructions = document.getElementById('checkoutInstructions').value.trim();
-    const transactionCode = document.getElementById('checkoutTransaction').value.trim();
+        const name = document.getElementById('checkoutName').value.trim();
+        const email = document.getElementById('checkoutEmail').value.trim();
+        const phone = document.getElementById('checkoutPhone').value.trim();
+        const address = document.getElementById('checkoutAddress').value.trim();
+        const instructions = document.getElementById('checkoutInstructions').value.trim();
+        const transactionCode = document.getElementById('checkoutTransaction').value.trim();
 
-    // Validate
-    if (!name || !email || !phone || !address) {
-        alert('Please fill in all required fields.');
-        return;
-    }
+        if (!name || !email || !phone || !address) {
+            alert('Please fill in all required fields.');
+            return;
+        }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-        alert('Please enter a valid email address.');
-        return;
-    }
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            alert('Please enter a valid email address.');
+            return;
+        }
 
-    const phoneRegex = /^(07|01|02)\d{8}$/;
-    if (!phoneRegex.test(phone.replace(/\s/g, ''))) {
-        alert('Please enter a valid Kenyan phone number (e.g., 0712 345 678).');
-        return;
-    }
+        const phoneRegex = /^(07|01|02)\d{8}$/;
+        if (!phoneRegex.test(phone.replace(/\s/g, ''))) {
+            alert('Please enter a valid Kenyan phone number (e.g., 0712 345 678).');
+            return;
+        }
 
-    const cart = getCart();
-    if (cart.length === 0) {
-        alert('Your cart is empty!');
-        return;
-    }
+        const cart = getCart();
+        if (cart.length === 0) {
+            alert('Your cart is empty!');
+            return;
+        }
 
-    // Sanitize inputs
-    const sanitized = {
-        name: sanitizeInput(name),
-        email: sanitizeInput(email),
-        phone: sanitizeInput(phone),
-        address: sanitizeInput(address),
-        instructions: sanitizeInput(instructions),
-        transactionCode: sanitizeInput(transactionCode)
-    };
-
-    // Build order items
-    const orderItems = cart.map((item, index) => {
-        const product = products.find(p => p.id === item.productId);
-        return {
-            index: index + 1,
-            name: product ? product.name : '⚠️ UNKNOWN',
-            subcategory: product ? product.subcategory : 'N/A',
-            quantity: item.quantity,
-            price: product ? product.startingPrice : 0,
-            subtotal: product ? product.startingPrice * item.quantity : 0,
-            hasDesign: item.hasDesign ? 'Yes' : 'No',
-            designFile: item.designFile || 'None'
+        const sanitized = {
+            name: sanitizeInput(name),
+            email: sanitizeInput(email),
+            phone: sanitizeInput(phone),
+            address: sanitizeInput(address),
+            instructions: sanitizeInput(instructions),
+            transactionCode: sanitizeInput(transactionCode)
         };
-    });
 
-    const subtotal = orderItems.reduce((sum, item) => sum + item.subtotal, 0);
-    const totalItems = orderItems.reduce((sum, item) => sum + item.quantity, 0);
-    const orderId = window._currentOrderId || generateOrderId();
+        try {
+            localStorage.setItem('karis_user_data', JSON.stringify({
+                phone: phone,
+                address: address
+            }));
+        } catch { /* ignore */ }
 
-    // =============================================
-    // BUILD HTML TABLE WITH ALL ITEMS
-    // =============================================
-    let itemsRows = '';
-    orderItems.forEach(item => {
-        const designDisplay = item.hasDesign === 'Yes' 
-            ? `<span class="design-file">📎 ${item.designFile}</span>` 
-            : `<span class="no-design">— No design</span>`;
-        
-        itemsRows += `
-            <tr>
-                <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">${item.index}</td>
-                <td style="padding: 10px; border: 1px solid #ddd; text-align: left;">
-                    <span class="product-name">${item.name}</span>
-                    <span class="product-sub">${item.subcategory}</span>
-                </td>
-                <td style="padding: 10px; border: 1px solid #ddd; text-align: center; font-weight: 600;">${item.quantity}</td>
-                <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">${item.price.toLocaleString()}</td>
-                <td style="padding: 10px; border: 1px solid #ddd; text-align: center; font-weight: 600; color: #0056b3;">${item.subtotal.toLocaleString()}</td>
-                <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">${designDisplay}</td>
-            </tr>`;
-    });
+        const orderItems = cart.map((item, index) => {
+            const product = products.find(p => p.id === item.productId);
+            return {
+                index: index + 1,
+                name: product ? product.name : '⚠️ UNKNOWN',
+                subcategory: product ? product.subcategory : 'N/A',
+                quantity: item.quantity,
+                price: product ? product.startingPrice : 0,
+                subtotal: product ? product.startingPrice * item.quantity : 0,
+                hasDesign: item.hasDesign ? 'Yes' : 'No',
+                designFile: item.designFile || 'None'
+            };
+        });
 
-    // Build the complete HTML table
-    const itemsTable = `
-        <table>
-            <thead>
-                <tr>
-                    <th style="padding: 10px; border: 1px solid #ddd; text-align: left; width: 40px;">#</th>
-                    <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Product</th>
-                    <th style="padding: 10px; border: 1px solid #ddd; text-align: center; width: 70px;">Qty</th>
-                    <th style="padding: 10px; border: 1px solid #ddd; text-align: center; width: 90px;">Price (KSh)</th>
-                    <th style="padding: 10px; border: 1px solid #ddd; text-align: center; width: 110px;">Subtotal (KSh)</th>
-                    <th style="padding: 10px; border: 1px solid #ddd; text-align: center; width: 150px;">Design File</th>
-                </tr>
-            </thead>
-            <tbody>
-                ${itemsRows}
-            </tbody>
-            <tfoot>
-                <tr style="background: #f5f8fc;">
-                    <td colspan="4" style="padding: 10px; border: 1px solid #ddd; text-align: right; font-weight: 700;">Total Items:</td>
-                    <td style="padding: 10px; border: 1px solid #ddd; text-align: center; font-weight: 700;">${totalItems}</td>
-                    <td style="padding: 10px; border: 1px solid #ddd; text-align: center;"></td>
-                </tr>
-                <tr style="background: #e8f0fe;">
-                    <td colspan="4" style="padding: 10px; border: 1px solid #ddd; text-align: right; font-weight: 700; font-size: 16px;">GRAND TOTAL:</td>
-                    <td colspan="2" style="padding: 10px; border: 1px solid #ddd; text-align: center; font-weight: 700; font-size: 18px; color: #0056b3;">KSh ${subtotal.toLocaleString()}</td>
-                </tr>
-            </tfoot>
-        </table>
-    `;
+        const subtotal = orderItems.reduce((sum, item) => sum + item.subtotal, 0);
+        const totalItems = orderItems.reduce((sum, item) => sum + item.quantity, 0);
+        const orderId = window._currentOrderId || generateOrderId();
 
-    console.log('📊 Generated Table:', itemsTable);
+        // =============================================
+        // CHECK IF USER IS GUEST OR REGISTERED
+        // =============================================
+        const user = getCurrentUser();
+        const isGuest = user ? false : true;
 
-    // =============================================
-    // SEND TO EMAILJS USING YOUR WORKING TEMPLATE
-    // =============================================
-    const btn = document.getElementById('placeOrderBtn');
-    btn.textContent = '⏳ Processing...';
-    btn.disabled = true;
-
-    try {
-        const response = await emailjs.send(
-            'service_56efobd',
-            'template_3h5vdjv',
-            {
+        // =============================================
+        // SAVE ORDER TO FIRESTORE
+        // =============================================
+        try {
+            const orderData = {
                 orderId: orderId,
+                userId: user ? user.uid : 'guest',
                 customerName: sanitized.name,
                 customerEmail: sanitized.email,
                 customerPhone: sanitized.phone,
-                customerAddress: sanitized.address,
+                deliveryAddress: sanitized.address,
                 instructions: sanitized.instructions || 'None',
                 transactionCode: sanitized.transactionCode || 'Not provided',
-                itemsTable: itemsTable,
+                items: orderItems,
                 itemCount: totalItems,
-                subtotal: `KSh ${subtotal.toLocaleString()}`,
-                total: `KSh ${subtotal.toLocaleString()}`,
-                timestamp: new Date().toLocaleString('en-KE', {
-                    timeZone: 'Africa/Nairobi',
-                    day: '2-digit',
-                    month: 'short',
-                    year: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit'
-                })
-            }
-        );
+                subtotal: subtotal,
+                total: subtotal,
+                status: 'Pending',
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString(),
+                isGuest: isGuest
+            };
 
-        console.log('✅ Order email sent!', response);
-        closeCheckoutModal();
-        document.getElementById('successOrderId').textContent = orderId;
-        document.getElementById('successOverlay').classList.add('show');
-        saveCart([]);
-        renderCart();
-        btn.textContent = '✅ Order Placed!';
+            const ordersRef = collection(db, 'orders');
+            const docRef = await addDoc(ordersRef, orderData);
+            console.log('✅ Order saved to Firestore with ID:', docRef.id);
+            
+        } catch (firestoreError) {
+            console.warn('⚠️ Firestore save failed:', firestoreError);
+        }
 
-    } catch (error) {
-        console.error('❌ Order failed:', error);
-        alert('There was an error placing your order. Please try again or contact us directly.');
-        btn.textContent = 'Place Order';
-        btn.disabled = false;
+        // =============================================
+        // BUILD HTML TABLE
+        // =============================================
+        let itemsRows = '';
+        orderItems.forEach(item => {
+            const designDisplay = item.hasDesign === 'Yes' 
+                ? `<span class="design-file">📎 ${item.designFile}</span>` 
+                : `<span class="no-design">— No design</span>`;
+            
+            itemsRows += `
+                <tr>
+                    <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">${item.index}</td>
+                    <td style="padding: 10px; border: 1px solid #ddd; text-align: left;">
+                        <span class="product-name">${item.name}</span>
+                        <span class="product-sub">${item.subcategory}</span>
+                    </td>
+                    <td style="padding: 10px; border: 1px solid #ddd; text-align: center; font-weight: 600;">${item.quantity}</td>
+                    <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">${item.price.toLocaleString()}</td>
+                    <td style="padding: 10px; border: 1px solid #ddd; text-align: center; font-weight: 600; color: #0056b3;">${item.subtotal.toLocaleString()}</td>
+                    <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">${designDisplay}</td>
+                </tr>`;
+        });
+
+        const itemsTable = `
+            <table>
+                <thead>
+                    <tr>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left; width: 40px;">#</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Product</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: center; width: 70px;">Qty</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: center; width: 90px;">Price (KSh)</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: center; width: 110px;">Subtotal (KSh)</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: center; width: 150px;">Design File</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${itemsRows}
+                </tbody>
+                <tfoot>
+                    <tr style="background: #f5f8fc;">
+                        <td colspan="4" style="padding: 10px; border: 1px solid #ddd; text-align: right; font-weight: 700;">Total Items:</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: center; font-weight: 700;">${totalItems}</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: center;"></td>
+                    </tr>
+                    <tr style="background: #e8f0fe;">
+                        <td colspan="4" style="padding: 10px; border: 1px solid #ddd; text-align: right; font-weight: 700; font-size: 16px;">GRAND TOTAL:</td>
+                        <td colspan="2" style="padding: 10px; border: 1px solid #ddd; text-align: center; font-weight: 700; font-size: 18px; color: #0056b3;">KSh ${subtotal.toLocaleString()}</td>
+                    </tr>
+                </tfoot>
+            </table>
+        `;
+
+        // =============================================
+        // SEND EMAIL
+        // =============================================
+        const btn = document.getElementById('placeOrderBtn');
+        btn.textContent = '⏳ Processing...';
+        btn.disabled = true;
+
+        try {
+            const response = await emailjs.send(
+                'service_56efobd',
+                'template_3h5vdjv',
+                {
+                    orderId: orderId,
+                    customerName: sanitized.name,
+                    customerEmail: sanitized.email,
+                    customerPhone: sanitized.phone,
+                    customerAddress: sanitized.address,
+                    instructions: sanitized.instructions || 'None',
+                    transactionCode: sanitized.transactionCode || 'Not provided',
+                    itemsTable: itemsTable,
+                    itemCount: totalItems,
+                    subtotal: `KSh ${subtotal.toLocaleString()}`,
+                    total: `KSh ${subtotal.toLocaleString()}`,
+                    timestamp: new Date().toLocaleString('en-KE', {
+                        timeZone: 'Africa/Nairobi',
+                        day: '2-digit',
+                        month: 'short',
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    })
+                }
+            );
+
+            console.log('✅ Order email sent!', response);
+            closeCheckoutModal();
+            document.getElementById('successOrderId').textContent = orderId;
+            document.getElementById('successOverlay').classList.add('show');
+            saveCart([]);
+            renderCart();
+            btn.textContent = '✅ Order Placed!';
+
+            // =============================================
+            // SHOW NOTIFICATION BASED ON USER STATUS
+            // =============================================
+            setTimeout(() => {
+                showNotification(isGuest, orderId);
+            }, 500);
+
+        } catch (error) {
+            console.error('❌ Order failed:', error);
+            alert('There was an error placing your order. Please try again or contact us directly.');
+            btn.textContent = 'Place Order';
+            btn.disabled = false;
+        }
     }
-}
+
     // =============================================
     // CLOSE SUCCESS & CLEAR CART
     // =============================================
-    function closeSuccessAndClearCart() {
+    window.closeSuccessAndClearCart = function() {
         document.getElementById('successOverlay').classList.remove('show');
-        // Redirect to catalog
         window.location.href = 'catalog.html';
+    };
+
+    // =============================================
+    // AUTH NAVIGATION
+    // =============================================
+    function updateAuthUI(user) {
+        const authLinks = document.getElementById('authLinks');
+        const userLinks = document.getElementById('userLinks');
+        const accountLink = document.getElementById('accountLink');
+        const logoutLink = document.getElementById('logoutLink');
+        
+        if (user) {
+            authLinks.style.display = 'none';
+            userLinks.style.display = 'inline';
+            if (accountLink) {
+                accountLink.textContent = user.displayName || 'My Account';
+            }
+        } else {
+            authLinks.style.display = 'inline';
+            userLinks.style.display = 'none';
+        }
+    }
+
+    async function handleLogout(e) {
+        if (e) e.preventDefault();
+        if (confirm('Are you sure you want to logout?')) {
+            const result = await logoutUser();
+            if (result.success) {
+                window.location.replace('login.html');
+            }
+        }
     }
 
     // =============================================
     // INIT
     // =============================================
     document.addEventListener('DOMContentLoaded', function() {
-        // ===== HAMBURGER MENU TOGGLE =====
+        // Auth
+        const user = getCurrentUser();
+        updateAuthUI(user);
+        
+        onAuthChange((user) => {
+            updateAuthUI(user);
+        });
+
+        const logoutLink = document.getElementById('logoutLink');
+        if (logoutLink) {
+            logoutLink.addEventListener('click', handleLogout);
+        }
+
+        // Hamburger
         const hamburger = document.getElementById('hamburgerBtn');
         const navLinks = document.getElementById('navLinks');
 
@@ -1468,7 +1677,6 @@
                 navLinks.classList.toggle('open');
             });
 
-            // Close menu when a link is clicked
             navLinks.querySelectorAll('a').forEach(link => {
                 link.addEventListener('click', function() {
                     hamburger.classList.remove('active');
@@ -1476,7 +1684,6 @@
                 });
             });
 
-            // Close menu when clicking outside
             document.addEventListener('click', function(e) {
                 if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
                     hamburger.classList.remove('active');
@@ -1485,29 +1692,24 @@
             });
         }
 
-        // Checkout button
+        // Checkout
         document.getElementById('checkoutBtn').addEventListener('click', openCheckoutModal);
-
-        // Modal close
         document.getElementById('closeCheckoutModal').addEventListener('click', closeCheckoutModal);
         document.getElementById('checkoutModal').addEventListener('click', function(e) {
             if (e.target === this) closeCheckoutModal();
         });
-
-        // Place order button
         document.getElementById('placeOrderBtn').addEventListener('click', placeOrder);
 
-        // Keyboard shortcut
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 closeCheckoutModal();
             }
         });
 
-        // Render cart
         renderCart();
         updateCartBadge();
     });
 </script>
+
 </body>
 </html>

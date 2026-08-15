@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+         <link rel="icon" type="image/x-icon" href="../images/teardrop.jpg">
+    <title>My Account - Karis Printers</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f9fa;
+            color: #1a1a1a;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        /* ===== HAMBURGER MENU STYLES ===== */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+            padding: 5px;
+            background: none;
+            border: none;
+            z-index: 200;
+        }
+        .hamburger span {
+            display: block;
+            width: 28px;
+            height: 3px;
+            background: #0056b3;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 6px);
+        }
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -6px);
+        }
+        
+        header {
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            position: relative;
+        }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #0056b3;
+        }
+        .logo span { color: #ff6b00; }
+        
+        nav {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        nav a {
+            font-weight: 500;
+            transition: color 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+        nav a:hover { color: #0056b3; }
+        nav a.active { color: #0056b3; font-weight: 600; }
+        .nav-cta {
+            background: #ff6b00;
+            color: #fff;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+        }
+        .nav-cta:hover { background: #e05500; color: #fff !important; }
+        .cart-badge {
+            background: #ff6b00;
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 20px;
+            min-width: 20px;
+            text-align: center;
+            line-height: 1.4;
+            margin-left: 4px;
+        }
+
+        /* ===== MOBILE CART BUTTON ===== */
+        .mobile-cart-btn {
+            display: none;
+            background: #ff6b00;
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 25px;
+            font-weight: 600;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            order: 2;
+            margin-left: 5px;
+        }
+        .mobile-cart-btn:hover {
+            background: #e05500;
+            color: #fff !important;
+        }
+        .mobile-cart-btn .cart-badge {
+            background: rgba(255, 255, 255, 0.25);
+            font-size: 0.65rem;
+            padding: 1px 7px;
+            min-width: 18px;
+            margin-left: 0;
+        }
+
+        /* ===== AUTH LINKS ===== */
+        #authLinks { display: inline; }
+        #userLinks { display: none; }
+        
+        .page-header {
+            background: linear-gradient(135deg, #e8f0fe 0%, #d4e4f7 100%);
+            padding: 40px 0 30px;
+            text-align: center;
+        }
+        .page-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+        .page-header p {
+            color: #555;
+            font-size: 1.1rem;
+        }
+        
+        .account-section {
+            padding: 40px 0 60px;
+        }
+        .account-grid {
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            gap: 40px;
+        }
+        .sidebar {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #eef2f6;
+            height: fit-content;
+        }
+        .sidebar .user-info {
+            text-align: center;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #eef2f6;
+            margin-bottom: 16px;
+        }
+        .sidebar .user-info .avatar {
+            font-size: 3rem;
+            color: #0056b3;
+        }
+        .sidebar .user-info .name {
+            font-weight: 700;
+            margin-top: 6px;
+        }
+        .sidebar .user-info .email {
+            color: #6a8aa8;
+            font-size: 0.85rem;
+        }
+        .sidebar a {
+            display: block;
+            padding: 10px 14px;
+            border-radius: 8px;
+            color: #1a2e44;
+            transition: 0.2s;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .sidebar a:hover { background: #eef3fc; }
+        .sidebar a.active { background: #eef3fc; color: #0056b3; }
+        .sidebar a .icon { margin-right: 10px; }
+        .sidebar .logout-btn {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #eef2f6;
+            color: #dc3545;
+            cursor: pointer;
+        }
+        .sidebar .logout-btn:hover { background: #f8d7da; }
+        
+        .main-content {
+            background: #fff;
+            border-radius: 12px;
+            padding: 30px;
+            border: 1px solid #eef2f6;
+        }
+        .main-content h2 {
+            margin-bottom: 20px;
+            color: #0a1e33;
+        }
+        .main-content .info-row {
+            display: flex;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f3f8;
+        }
+        .main-content .info-row .label {
+            width: 140px;
+            font-weight: 600;
+            color: #6a8aa8;
+        }
+        .main-content .info-row .value {
+            flex: 1;
+        }
+        .main-content .info-row:last-child {
+            border-bottom: none;
+        }
+        
+        .btn-primary {
+            padding: 10px 24px;
+            background: #0056b3;
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .btn-primary:hover { background: #003d80; }
+        .btn-success {
+            background: #28a745;
+        }
+        .btn-success:hover { background: #1e7e34; }
+        
+        .loading-spinner {
+            text-align: center;
+            padding: 50px;
+            color: #6a8aa8;
+        }
+        .loading-spinner i {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        .quick-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .quick-actions .action-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid #eef2f6;
+            transition: 0.2s;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+        .quick-actions .action-card:hover {
+            background: #eef3fc;
+            border-color: #0056b3;
+            transform: translateY(-2px);
+        }
+        .quick-actions .action-card .icon {
+            font-size: 2rem;
+            color: #0056b3;
+            margin-bottom: 8px;
+        }
+        .quick-actions .action-card .title {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        .quick-actions .action-card .desc {
+            font-size: 0.8rem;
+            color: #6a8aa8;
+        }
+        
+        footer {
+            background: #1a1a1a;
+            color: #ccc;
+            padding: 40px 0 20px;
+            margin-top: 30px;
+        }
+        footer .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        footer h4 { color: #fff; margin-bottom: 12px; }
+        footer a {
+            display: block;
+            color: #aaa;
+            margin-bottom: 6px;
+            transition: color 0.3s;
+            text-decoration: none;
+        }
+        footer a:hover { color: #fff; }
+        footer .copyright {
+            text-align: center;
+            border-top: 1px solid #333;
+            padding-top: 20px;
+            font-size: 0.9rem;
+            color: #777;
+        }
+
+        /* ===== RESPONSIVE - MOBILE VIEW ===== */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+                order: 1;
+                margin-left: 10px;
+            }
+            .mobile-cart-btn {
+                display: inline-flex;
+            }
+            nav {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                padding: 20px 0;
+                gap: 15px;
+                background: #fff;
+                border-top: 1px solid #eee;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+                align-items: center;
+                order: 3;
+            }
+            nav.open {
+                display: flex;
+            }
+            nav .nav-cta {
+                display: none !important;
+            }
+            header .container {
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                flex-wrap: wrap;
+                position: relative;
+                gap: 0;
+            }
+            .logo {
+                font-size: 1.4rem;
+                order: 0;
+                margin-right: auto;
+            }
+            .account-grid { grid-template-columns: 1fr; }
+            .main-content .info-row { flex-direction: column; gap: 4px; }
+            .main-content .info-row .label { width: 100%; }
+            .quick-actions { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 480px) {
+            .logo { font-size: 1.2rem; }
+            .hamburger span { width: 24px; height: 2.5px; }
+            .hamburger { gap: 4px; margin-left: 5px; }
+            .mobile-cart-btn { padding: 5px 10px; font-size: 0.75rem; }
+            .mobile-cart-btn .cart-badge { font-size: 0.55rem; padding: 1px 5px; min-width: 14px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+    <div class="container">
+        <div class="logo">Karis<span>Printers</span></div>
+
+        <!-- Hamburger Button (mobile only) -->
+        <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <!-- Mobile Cart Button (visible only on mobile) -->
+        <a href="cart.html" class="mobile-cart-btn" id="mobileCartBtn">
+            <i class="fas fa-shopping-cart"></i> Cart <span class="cart-badge" id="mobileCartBadge">0</span>
+        </a>
+
+        <!-- Navigation -->
+        <nav id="navLinks">
+            <a href="../index.html">Home</a>
+            <a href="catalog.html">Catalog</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            
+            <!-- Auth Links (Dynamic) -->
+            <span id="authLinks">
+                <a href="login.html">Login</a>
+                <a href="register.html">Register</a>
+            </span>
+            
+            <!-- User Links (Hidden by default) -->
+            <span id="userLinks" style="display: none;">
+                <a href="account.html" id="accountLink">My Account</a>
+                <a href="#" id="logoutLink" style="color: #dc3545; cursor: pointer;">Logout</a>
+            </span>
+            
+            <a href="cart.html" class="nav-cta">
+                <i class="fas fa-shopping-cart"></i> Cart <span class="cart-badge" id="navCartBadge">0</span>
+            </a>
+        </nav>
+    </div>
+</header>
+
+<!-- PAGE HEADER -->
+<section class="page-header">
+    <div class="container">
+        <h1>My Account</h1>
+        <p>Manage your profile and orders</p>
+    </div>
+</section>
+
+<!-- ACCOUNT CONTENT -->
+<section class="account-section">
+    <div class="container">
+        <div class="account-grid">
+            
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="user-info">
+                    <div class="avatar">👤</div>
+                    <div class="name" id="userName">Loading...</div>
+                    <div class="email" id="userEmail">Loading...</div>
+                </div>
+                <a href="account.html" class="active"><span class="icon">📋</span> My Profile</a>
+                <a href="profile.html"><span class="icon">✏️</span> Edit Profile</a>
+                <a href="order.html"><span class="icon">📦</span> My Orders</a>
+                <a href="#" class="logout-btn" id="logoutBtn"><span class="icon">🚪</span> Logout</a>
+            </div>
+            
+            <!-- Main Content -->
+            <div class="main-content">
+                <div id="accountContent">
+                    <div class="loading-spinner">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        Loading your profile...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="container">
+        <div class="footer-grid">
+            <div>
+                <h4>Karis Printers</h4>
+                <p style="color: #aaa; font-size: 0.95rem;">Quality printing services in Kenya. Fast, affordable, and reliable.</p>
+            </div>
+            <div>
+                <h4>Quick Links</h4>
+                <a href="catalog.html">Catalog</a>
+                <a href="cart.html">Order Now</a>
+                <a href="about.html">About Us</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <div>
+                <h4>Contact</h4>
+                <a href="tel:+254703551225">📞 +254 703551225</a>
+                <a href="mailto:KarisPrinters@gmail.com">✉️ KarisPrinters@gmail.com</a>
+                <a href="#">📍 Nairobi, Kenya</a>
+            </div>
+            <div>
+                <h4>M-Pesa Paybill</h4>
+                <p style="color: #fff; font-weight: 600; font-size: 1.2rem;">Paybill: 123456</p>
+                <p style="color: #aaa; font-size: 0.9rem;">Account: Order ID</p>
+            </div>
+        </div>
+        <div class="copyright">&copy; 2026 Karis Printers. All rights reserved.</div>
+    </div>
+</footer>
+
+<script type="module">
+    // =============================================
+    // IMPORTS
+    // =============================================
+    import { getCurrentUser, logoutUser, onAuthChange } from '../js/auth.js';
+
+    // =============================================
+    // DOM ELEMENTS
+    // =============================================
+    const accountContent = document.getElementById('accountContent');
+
+    // =============================================
+    // DISPLAY USER PROFILE
+    // =============================================
+    function displayUserProfile(user) {
+        if (!user) {
+            window.location.replace('login.html');
+            return;
+        }
+
+        // Update sidebar
+        document.getElementById('userName').textContent = user.displayName || 'User';
+        document.getElementById('userEmail').textContent = user.email;
+
+        // Update main content with quick actions
+        accountContent.innerHTML = `
+            <h2>Welcome, ${user.displayName || 'User'}! 👋</h2>
+            <p style="color: #6a8aa8; margin-bottom: 20px;">Manage your profile, orders, and account settings.</p>
+            
+            <div class="info-row">
+                <span class="label">Full Name</span>
+                <span class="value">${user.displayName || 'Not set'}</span>
+            </div>
+            <div class="info-row">
+                <span class="label">Email Address</span>
+                <span class="value">${user.email}</span>
+            </div>
+            <div class="info-row">
+                <span class="label">Account Status</span>
+                <span class="value"><span style="color:#28a745;">✅ Active</span></span>
+            </div>
+            
+            <div style="margin-top: 25px;">
+                <h3 style="color: #0a1e33; font-size: 1.1rem; margin-bottom: 15px;">Quick Actions</h3>
+                <div class="quick-actions">
+                    <a href="catalog.html" class="action-card">
+                        <div class="icon">🛍️</div>
+                        <div class="title">Shop Products</div>
+                        <div class="desc">Browse our catalog</div>
+                    </a>
+                    <a href="cart.html" class="action-card">
+                        <div class="icon">🛒</div>
+                        <div class="title">View Cart</div>
+                        <div class="desc">${getCartItemCount()} items in cart</div>
+                    </a>
+                    <a href="order.html" class="action-card">
+                        <div class="icon">📦</div>
+                        <div class="title">My Orders</div>
+                        <div class="desc">Track your orders</div>
+                    </a>
+                    <a href="profile.html" class="action-card">
+                        <div class="icon">✏️</div>
+                        <div class="title">Edit Profile</div>
+                        <div class="desc">Update your info</div>
+                    </a>
+                </div>
+            </div>
+        `;
+
+        // Update cart badge on the page
+        updateCartBadge();
+    }
+
+    // =============================================
+    // GET CART ITEM COUNT
+    // =============================================
+    function getCartItemCount() {
+        try {
+            const cart = JSON.parse(localStorage.getItem('karis_cart')) || [];
+            return cart.reduce((sum, i) => sum + i.quantity, 0);
+        } catch { return 0; }
+    }
+
+    // =============================================
+    // AUTH NAVIGATION - SHOW/HIDE LINKS
+    // =============================================
+    function updateAuthUI(user) {
+        const authLinks = document.getElementById('authLinks');
+        const userLinks = document.getElementById('userLinks');
+        const accountLink = document.getElementById('accountLink');
+        const logoutLink = document.getElementById('logoutLink');
+        
+        if (user) {
+            authLinks.style.display = 'none';
+            userLinks.style.display = 'inline';
+            if (accountLink) {
+                accountLink.textContent = user.displayName || 'My Account';
+            }
+            if (logoutLink) {
+                logoutLink.style.display = 'inline';
+            }
+        } else {
+            authLinks.style.display = 'inline';
+            userLinks.style.display = 'none';
+        }
+    }
+
+    // =============================================
+    // LOGOUT FUNCTION (Reusable)
+    // =============================================
+    async function handleLogout(e) {
+        if (e) e.preventDefault();
+        if (confirm('Are you sure you want to logout?')) {
+            const result = await logoutUser();
+            if (result.success) {
+                window.location.replace('login.html');
+            } else {
+                alert('Logout failed. Please try again.');
+            }
+        }
+    }
+
+    // =============================================
+    // UPDATE CART BADGE
+    // =============================================
+    function updateCartBadge() {
+        try {
+            const cart = JSON.parse(localStorage.getItem('karis_cart')) || [];
+            const total = cart.reduce((sum, i) => sum + i.quantity, 0);
+            document.querySelectorAll('.cart-badge').forEach(el => el.textContent = total);
+        } catch { /* ignore */ }
+    }
+
+    // =============================================
+    // DOM CONTENT LOADED
+    // =============================================
+    document.addEventListener('DOMContentLoaded', function() {
+        // Check auth state
+        const user = getCurrentUser();
+        
+        if (user) {
+            displayUserProfile(user);
+            updateAuthUI(user);
+        } else {
+            accountContent.innerHTML = `
+                <div class="loading-spinner">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    Verifying your session...
+                </div>
+            `;
+        }
+
+        // Listen for auth changes
+        onAuthChange((user) => {
+            if (user) {
+                displayUserProfile(user);
+                updateAuthUI(user);
+            } else {
+                window.location.replace('login.html');
+            }
+        });
+        
+        // Logout buttons
+        const logoutBtn = document.getElementById('logoutBtn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', handleLogout);
+        }
+
+        const logoutLink = document.getElementById('logoutLink');
+        if (logoutLink) {
+            logoutLink.addEventListener('click', handleLogout);
+        }
+
+        // ===== HAMBURGER MENU TOGGLE =====
+        const hamburger = document.getElementById('hamburgerBtn');
+        const navLinks = document.getElementById('navLinks');
+
+        if (hamburger && navLinks) {
+            hamburger.addEventListener('click', function(e) {
+                e.stopPropagation();
+                this.classList.toggle('active');
+                navLinks.classList.toggle('open');
+            });
+
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', function() {
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('open');
+                });
+            });
+
+            document.addEventListener('click', function(e) {
+                if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('open');
+                }
+            });
+        }
+
+        updateCartBadge();
+
+        // Listen for cart updates from other tabs/pages
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'karis_cart') {
+                updateCartBadge();
+                // Refresh the cart count in quick actions if user is logged in
+                const user = getCurrentUser();
+                if (user) {
+                    displayUserProfile(user);
+                }
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

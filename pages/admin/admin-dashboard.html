@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+         <link rel="icon" type="image/x-icon" href="../images/teardrop.jpg">
+    <title>Admin Dashboard - Karis Printers</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f2f5;
+            color: #1a1a1a;
+        }
+        .container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
+
+        header {
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #0056b3;
+        }
+        .logo span { color: #ff6b00; }
+        .admin-badge {
+            background: #dc3545;
+            color: #fff;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        nav {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        nav a {
+            font-weight: 500;
+            transition: color 0.3s ease;
+            text-decoration: none;
+            color: #333;
+        }
+        nav a:hover { color: #0056b3; }
+        nav a.active { color: #0056b3; font-weight: 600; }
+        .logout-btn {
+            background: #dc3545;
+            color: #fff !important;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+        }
+        .logout-btn:hover { background: #c82333; color: #fff !important; }
+
+        .page-header {
+            padding: 30px 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .page-header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+        .page-header .stats {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .page-header .stat-card {
+            background: #fff;
+            padding: 12px 24px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            text-align: center;
+            min-width: 100px;
+        }
+        .page-header .stat-card .number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #0056b3;
+        }
+        .page-header .stat-card .label {
+            font-size: 0.75rem;
+            color: #6a8aa8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .filters {
+            background: #fff;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .filters select, .filters input {
+            padding: 8px 14px;
+            border: 2px solid #e0e6ed;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            background: #fff;
+            transition: 0.2s;
+        }
+        .filters select:focus, .filters input:focus {
+            outline: none;
+            border-color: #0056b3;
+        }
+        .filters .search-box {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .filters .search-box input { min-width: 200px; }
+        .filters .refresh-btn {
+            background: #0056b3;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s;
+            margin-left: auto;
+        }
+        .filters .refresh-btn:hover { background: #003d80; }
+
+        .filters label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #1a2e44;
+        }
+        .filters .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .table-container {
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        .table-container .table-wrapper { overflow-x: auto; padding: 0; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+        table thead {
+            background: #f8f9fa;
+            border-bottom: 2px solid #eef2f6;
+        }
+        table th {
+            padding: 14px 16px;
+            text-align: left;
+            font-weight: 600;
+            color: #1a2e44;
+            white-space: nowrap;
+        }
+        table td {
+            padding: 14px 16px;
+            border-bottom: 1px solid #f0f3f8;
+            vertical-align: middle;
+        }
+        table tr:hover td { background: #fafcff; }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            min-width: 80px;
+            text-align: center;
+        }
+        .status-pending { background: #fff3cd; color: #856404; }
+        .status-processing { background: #cce5ff; color: #004085; }
+        .status-printed { background: #d4edda; color: #155724; }
+        .status-shipped { background: #d1ecf1; color: #0c5460; }
+        .status-delivered { background: #28a745; color: #fff; }
+        .status-cancelled { background: #f8d7da; color: #721c24; }
+
+        .status-select {
+            padding: 4px 8px;
+            border: 2px solid #e0e6ed;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            background: #fff;
+            transition: 0.2s;
+        }
+        .status-select:focus { outline: none; border-color: #0056b3; }
+        .status-select.status-pending { border-color: #ffc107; color: #856404; }
+        .status-select.status-processing { border-color: #17a2b8; color: #004085; }
+        .status-select.status-printed { border-color: #28a745; color: #155724; }
+        .status-select.status-shipped { border-color: #0056b3; color: #0c5460; }
+        .status-select.status-delivered { border-color: #28a745; color: #28a745; }
+        .status-select.status-cancelled { border-color: #dc3545; color: #721c24; }
+
+        .loading-spinner {
+            text-align: center;
+            padding: 60px;
+            color: #6a8aa8;
+        }
+        .loading-spinner i {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        .empty-state .icon {
+            font-size: 4rem;
+            color: #c0d0e0;
+            margin-bottom: 16px;
+        }
+        .empty-state h3 { color: #0a1e33; margin-bottom: 8px; }
+        .empty-state p { color: #6a8aa8; }
+
+        .toast-message {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 14px 24px;
+            border-radius: 10px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            display: none;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            z-index: 2000;
+            animation: slideUp 0.3s ease;
+        }
+        .toast-message.show { display: flex; }
+        .toast-message.success { background: #d4edda; color: #155724; border: 1px solid #b8d9b8; }
+        .toast-message.error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .toast-message.info { background: #cce5ff; color: #004085; border: 1px solid #b8d4f0; }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .page-header { flex-direction: column; align-items: flex-start; gap: 15px; }
+            .page-header .stats { width: 100%; justify-content: space-between; }
+            .page-header .stat-card { flex: 1; min-width: 60px; padding: 10px 12px; }
+            .page-header .stat-card .number { font-size: 1.3rem; }
+            .filters { flex-direction: column; }
+            .filters .search-box input { min-width: 100%; }
+            .filters .refresh-btn { width: 100%; justify-content: center; }
+            table { font-size: 0.8rem; }
+            table th, table td { padding: 10px 12px; }
+        }
+        @media (max-width: 480px) {
+            .logo { font-size: 1.2rem; }
+            .page-header .stat-card .number { font-size: 1.1rem; }
+            .page-header .stat-card .label { font-size: 0.6rem; }
+            table th, table td { padding: 8px 10px; font-size: 0.7rem; }
+            .status-badge { min-width: 60px; font-size: 0.6rem; padding: 2px 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <div class="logo">Karis<span>Printers</span> <span class="admin-badge">Admin</span></div>
+        <nav>
+            <a href="admin-dashboard.html" class="active">Dashboard</a>
+            <a href="#" class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </nav>
+    </div>
+</header>
+
+<div class="container">
+    <div class="page-header">
+        <h1><i class="fas fa-tachometer-alt" style="color: #0056b3;"></i> Orders Dashboard</h1>
+        <div class="stats">
+            <div class="stat-card"><div class="number" id="totalOrders">0</div><div class="label">Total Orders</div></div>
+            <div class="stat-card"><div class="number" id="pendingOrders">0</div><div class="label">Pending</div></div>
+            <div class="stat-card"><div class="number" id="processingOrders">0</div><div class="label">Processing</div></div>
+            <div class="stat-card"><div class="number" id="deliveredOrders">0</div><div class="label">Delivered</div></div>
+        </div>
+    </div>
+
+    <div class="filters">
+        <div class="search-box">
+            <i class="fas fa-search" style="color: #6a8aa8;"></i>
+            <input type="text" id="searchInput" placeholder="Search by Order ID, Name, Email..." aria-label="Search orders">
+        </div>
+        <div class="filter-group">
+            <label for="statusFilter">Status:</label>
+            <select id="statusFilter" aria-label="Filter orders by status">
+                <option value="all">All Statuses</option>
+                <option value="Pending">Pending</option>
+                <option value="Processing">Processing</option>
+                <option value="Printed">Printed</option>
+                <option value="Shipped">Shipped</option>
+                <option value="Delivered">Delivered</option>
+                <option value="Cancelled">Cancelled</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label for="sortFilter">Sort:</label>
+            <select id="sortFilter" aria-label="Sort orders">
+                <option value="newest">Newest First</option>
+                <option value="oldest">Oldest First</option>
+            </select>
+        </div>
+        <button class="refresh-btn" id="refreshBtn"><i class="fas fa-sync"></i> Refresh</button>
+    </div>
+
+    <div class="table-container">
+        <div id="ordersContainer">
+            <div class="loading-spinner">
+                <i class="fas fa-spinner fa-spin"></i>
+                Loading orders...
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="toast-message" id="toastMessage">
+    <i class="fas fa-check-circle" id="toastIcon"></i>
+    <span id="toastText">Order updated!</span>
+</div>
+
+<script type="module">
+    import { getCurrentUser, logoutUser } from '../../js/auth.js';
+    import { db } from '../../js/firebase-config.js';
+    import { 
+        collection, query, getDocs, orderBy, doc, updateDoc, getDoc
+    } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js";
+    import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
+    import { auth } from '../../js/firebase-config.js';
+
+    // =============================================
+    // CHECK ADMIN FROM FIRESTORE
+    // =============================================
+    async function isAdminUser(user) {
+        if (!user) return false;
+        try {
+            const adminDoc = doc(db, 'admins', user.uid);
+            const docSnap = await getDoc(adminDoc);
+            if (docSnap.exists() && docSnap.data().role === 'admin') {
+                console.log('✅ Admin verified from Firestore:', user.email);
+                return true;
+            }
+            console.log('❌ Not an admin:', user.email);
+            return false;
+        } catch (error) {
+            console.error('Error checking admin status:', error);
+            return false;
+        }
+    }
+
+    const ordersContainer = document.getElementById('ordersContainer');
+    const totalOrdersEl = document.getElementById('totalOrders');
+    const pendingOrdersEl = document.getElementById('pendingOrders');
+    const processingOrdersEl = document.getElementById('processingOrders');
+    const deliveredOrdersEl = document.getElementById('deliveredOrders');
+    const searchInput = document.getElementById('searchInput');
+    const statusFilter = document.getElementById('statusFilter');
+    const sortFilter = document.getElementById('sortFilter');
+    const refreshBtn = document.getElementById('refreshBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    let allOrders = [];
+    let filteredOrders = [];
+    let authInitialized = false;
+
+    const statusConfig = {
+        'Pending': { class: 'status-pending', label: 'Pending' },
+        'Processing': { class: 'status-processing', label: 'Processing' },
+        'Printed': { class: 'status-printed', label: 'Printed' },
+        'Shipped': { class: 'status-shipped', label: 'Shipped' },
+        'Delivered': { class: 'status-delivered', label: 'Delivered' },
+        'Cancelled': { class: 'status-cancelled', label: 'Cancelled' }
+    };
+
+    const statusOptions = ['Pending', 'Processing', 'Printed', 'Shipped', 'Delivered', 'Cancelled'];
+
+    // =============================================
+    // LOAD ORDERS
+    // =============================================
+    async function loadOrders() {
+        try {
+            ordersContainer.innerHTML = `
+                <div class="loading-spinner">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    Loading orders...
+                </div>
+            `;
+
+            const ordersRef = collection(db, 'orders');
+            const q = query(ordersRef, orderBy('createdAt', 'desc'));
+            const querySnapshot = await getDocs(q);
+
+            allOrders = [];
+            querySnapshot.forEach((doc) => {
+                const order = doc.data();
+                order.id = doc.id;
+                allOrders.push(order);
+            });
+
+            console.log('📦 Orders loaded:', allOrders.length);
+            updateStats();
+            applyFilters();
+
+        } catch (error) {
+            console.error('Error loading orders:', error);
+            ordersContainer.innerHTML = `
+                <div class="empty-state">
+                    <div class="icon">⚠️</div>
+                    <h3>Error loading orders</h3>
+                    <p>${error.message || 'Please try again later.'}</p>
+                    <button onclick="window.loadOrders()" style="margin-top: 16px; padding: 10px 24px; background: #0056b3; color: #fff; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                        <i class="fas fa-sync"></i> Retry
+                    </button>
+                </div>
+            `;
+        }
+    }
+
+    function updateStats() {
+        const total = allOrders.length;
+        const pending = allOrders.filter(o => o.status === 'Pending' || !o.status).length;
+        const processing = allOrders.filter(o => o.status === 'Processing').length;
+        const delivered = allOrders.filter(o => o.status === 'Delivered').length;
+
+        totalOrdersEl.textContent = total;
+        pendingOrdersEl.textContent = pending;
+        processingOrdersEl.textContent = processing;
+        deliveredOrdersEl.textContent = delivered;
+    }
+
+    function applyFilters() {
+        const search = searchInput.value.toLowerCase().trim();
+        const status = statusFilter.value;
+
+        filteredOrders = allOrders.filter(order => {
+            if (status !== 'all' && order.status !== status) return false;
+            if (search) {
+                const searchable = [
+                    order.orderId || '',
+                    order.customerName || '',
+                    order.customerEmail || '',
+                    order.customerPhone || '',
+                    order.deliveryAddress || ''
+                ].join(' ').toLowerCase();
+                if (!searchable.includes(search)) return false;
+            }
+            return true;
+        });
+
+        if (sortFilter.value === 'oldest') {
+            filteredOrders.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+        } else {
+            filteredOrders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        }
+
+        renderOrders();
+    }
+
+    function renderOrders() {
+        if (filteredOrders.length === 0) {
+            ordersContainer.innerHTML = `
+                <div class="empty-state">
+                    <div class="icon">📭</div>
+                    <h3>No orders found</h3>
+                    <p>${allOrders.length === 0 ? 'No orders have been placed yet.' : 'No orders match your filters.'}</p>
+                </div>
+            `;
+            return;
+        }
+
+        let html = `
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Customer</th>
+                            <th>Items</th>
+                            <th>Total</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+        `;
+
+        filteredOrders.forEach(order => {
+            const date = order.createdAt ? new Date(order.createdAt) : new Date();
+            const formattedDate = date.toLocaleDateString('en-KE', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric'
+            });
+
+            const status = order.status || 'Pending';
+            const statusInfo = statusConfig[status] || statusConfig['Pending'];
+            const itemCount = order.items ? order.items.length : order.itemCount || 0;
+
+            html += `
+                <tr>
+                    <td><strong>${order.orderId || 'N/A'}</strong></td>
+                    <td>
+                        <div><strong>${order.customerName || 'N/A'}</strong></div>
+                        <div style="font-size:0.75rem; color:#6a8aa8;">${order.customerEmail || ''}</div>
+                    </td>
+                    <td>${itemCount}</td>
+                    <td><strong>KSh ${(order.total || 0).toLocaleString()}</strong></td>
+                    <td>${formattedDate}</td>
+                    <td>
+                        <span class="status-badge ${statusInfo.class}">${statusInfo.label}</span>
+                    </td>
+                    <td>
+                        <select class="status-select ${statusInfo.class}" 
+                                data-order-id="${order.id}" 
+                                onchange="window.updateOrderStatus('${order.id}', this.value)"
+                                aria-label="Update order status for ${order.orderId}">
+                            ${statusOptions.map(opt => `
+                                <option value="${opt}" ${opt === status ? 'selected' : ''}>${opt}</option>
+                            `).join('')}
+                        </select>
+                    </td>
+                </tr>
+            `;
+        });
+
+        html += `
+                    </tbody>
+                </table>
+            </div>
+            <div style="padding: 12px 16px; background: #f8f9fa; border-top: 1px solid #eef2f6; font-size: 0.85rem; color: #6a8aa8;">
+                Showing ${filteredOrders.length} of ${allOrders.length} orders
+            </div>
+        `;
+
+        ordersContainer.innerHTML = html;
+    }
+
+    window.updateOrderStatus = async function(orderId, newStatus) {
+        try {
+            const orderRef = doc(db, 'orders', orderId);
+            await updateDoc(orderRef, {
+                status: newStatus,
+                updatedAt: new Date().toISOString()
+            });
+
+            const order = allOrders.find(o => o.id === orderId);
+            if (order) order.status = newStatus;
+
+            showToast(`✅ Order status updated to "${newStatus}"`, 'success');
+            applyFilters();
+
+        } catch (error) {
+            console.error('Error updating order status:', error);
+            showToast('❌ Error updating order status. Please try again.', 'error');
+        }
+    };
+
+    function showToast(message, type = 'success') {
+        const toast = document.getElementById('toastMessage');
+        const text = document.getElementById('toastText');
+        const icon = document.getElementById('toastIcon');
+
+        toast.className = 'toast-message show ' + type;
+        text.textContent = message;
+        icon.className = type === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
+
+        clearTimeout(window.toastTimeout);
+        window.toastTimeout = setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    async function handleLogout(e) {
+        e.preventDefault();
+        if (confirm('Are you sure you want to logout?')) {
+            const result = await logoutUser();
+            if (result.success) {
+                window.location.replace('../login.html');
+            }
+        }
+    }
+
+    searchInput.addEventListener('input', applyFilters);
+    statusFilter.addEventListener('change', applyFilters);
+    sortFilter.addEventListener('change', applyFilters);
+    refreshBtn.addEventListener('click', loadOrders);
+    logoutBtn.addEventListener('click', handleLogout);
+
+    // =============================================
+    // AUTHENTICATION CHECK WITH PROPER INITIALIZATION
+    // =============================================
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('🚀 Admin Dashboard loaded - waiting for auth...');
+        
+        // Show loading state
+        ordersContainer.innerHTML = `
+            <div class="loading-spinner">
+                <i class="fas fa-spinner fa-spin"></i>
+                Authenticating...
+            </div>
+        `;
+
+        // Use onAuthStateChanged to wait for Firebase auth to initialize
+        const unsubscribe = onAuthStateChanged(auth, async (user) => {
+            console.log('👤 Auth state changed:', user ? user.email : 'No user');
+            
+            if (authInitialized) return; // Prevent duplicate processing
+            
+            authInitialized = true;
+            unsubscribe(); // Remove listener after first check
+
+            if (!user) {
+                console.log('❌ No user, redirecting to login');
+                window.location.replace('../login.html');
+                return;
+            }
+
+            console.log('✅ User authenticated, checking admin status...');
+            const isAdmin = await isAdminUser(user);
+            
+            if (isAdmin) {
+                console.log('✅ Admin confirmed, loading dashboard...');
+                loadOrders();
+            } else {
+                console.log('❌ Not admin, redirecting to login');
+                alert('⚠️ Unauthorized access. Admin only.');
+                window.location.replace('../login.html');
+            }
+        });
+
+        // Fallback: If auth doesn't initialize within 3 seconds, check current user
+        setTimeout(async () => {
+            if (!authInitialized) {
+                console.log('⏰ Auth timeout - checking current user...');
+                const user = getCurrentUser();
+                if (user) {
+                    const isAdmin = await isAdminUser(user);
+                    if (isAdmin) {
+                        authInitialized = true;
+                        console.log('✅ Admin found via fallback, loading dashboard...');
+                        loadOrders();
+                    } else {
+                        console.log('❌ Not admin or no user, redirecting');
+                        window.location.replace('../login.html');
+                    }
+                } else {
+                    console.log('❌ No user found, redirecting');
+                    window.location.replace('../login.html');
+                }
+            }
+        }, 3000);
+    });
+
+    window.loadOrders = loadOrders;
+</script>
+
+</body>
+</html>
