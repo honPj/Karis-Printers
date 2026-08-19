@@ -3,11 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-         <link rel="icon" type="image/x-icon" href="../images/teardrop.jpg">
-    <title>Shopping Cart – Karis Printers</title>
+    <link rel="icon" type="image/x-icon" href="../images/teardrop.jpg">
+    <title>Shopping Cart – Rise Axis Solutions</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
+        /* === BRAND COLORS === */
+        :root {
+            --brand-blue: #19589d;
+            --brand-red: #dc1c2c;
+            --brand-green: #10aa51;
+            --brand-brown: #8f5c38;
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
@@ -36,9 +44,9 @@
         .logo {
             font-size: 1.8rem;
             font-weight: 700;
-            color: #0056b3;
+            color: var(--brand-blue);
         }
-        .logo span { color: #ff6b00; }
+        .logo span { color: var(--brand-red); }
 
         .hamburger {
             display: none;
@@ -54,7 +62,7 @@
             display: block;
             width: 28px;
             height: 3px;
-            background: #0056b3;
+            background: var(--brand-blue);
             border-radius: 3px;
             transition: all 0.3s ease;
         }
@@ -78,21 +86,90 @@
             font-weight: 500;
             transition: color 0.3s ease;
         }
-        nav a:hover { color: #0056b3; }
-        nav a.active { color: #0056b3; font-weight: 600; }
+        nav a:hover { color: var(--brand-blue); }
+        nav a.active { color: var(--brand-blue); font-weight: 600; }
+
+        /* ----- SERVICES DROPDOWN IN NAV ----- */
+        .nav-dropdown {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .nav-dropdown .nav-dropdown-label {
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #1a1a1a;
+            transition: color 0.3s ease;
+        }
+        .nav-dropdown .nav-dropdown-label:hover {
+            color: var(--brand-blue);
+        }
+        .nav-dropdown .nav-dropdown-label .arrow-icon {
+            font-size: 0.65rem;
+            transition: transform 0.25s ease;
+        }
+        .nav-dropdown .nav-dropdown-label .arrow-icon.open {
+            transform: rotate(180deg);
+        }
+
+        .nav-dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #fff;
+            min-width: 260px;
+            border-radius: 16px;
+            box-shadow: 0 12px 36px rgba(0,0,0,0.12);
+            border: 1px solid #eef2f6;
+            padding: 8px 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(8px);
+            transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+            z-index: 200;
+        }
+        .nav-dropdown-menu.open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0px);
+        }
+        .nav-dropdown-menu .dropdown-item {
+            display: block;
+            padding: 10px 20px;
+            font-weight: 500;
+            color: #1d2b3a;
+            font-size: 0.92rem;
+            transition: background 0.15s;
+            cursor: pointer;
+            border-left: 3px solid transparent;
+        }
+        .nav-dropdown-menu .dropdown-item:hover {
+            background: #f0f6fe;
+            border-left-color: var(--brand-blue);
+            color: var(--brand-blue);
+        }
+        .nav-dropdown-menu .dropdown-item.active {
+            background: #e8f0fe;
+            border-left-color: var(--brand-blue);
+            color: var(--brand-blue);
+            font-weight: 600;
+        }
+
         .nav-cta {
-            background: #ff6b00;
+            background: var(--brand-red);
             color: #fff;
             padding: 8px 20px;
             border-radius: 25px;
             font-weight: 600;
         }
         .nav-cta:hover {
-            background: #e05500;
+            background: #b31624;
             color: #fff !important;
         }
         .cart-badge {
-            background: #ff6b00;
+            background: var(--brand-red);
             color: #fff;
             font-size: 0.7rem;
             font-weight: 700;
@@ -106,7 +183,7 @@
 
         .mobile-cart-btn {
             display: none;
-            background: #ff6b00;
+            background: var(--brand-red);
             color: #fff;
             padding: 6px 14px;
             border-radius: 25px;
@@ -118,7 +195,7 @@
             margin-left: 5px;
         }
         .mobile-cart-btn:hover {
-            background: #e05500;
+            background: #b31624;
             color: #fff !important;
         }
         .mobile-cart-btn .cart-badge {
@@ -236,7 +313,7 @@
         }
         .cart-item .item-details .design-status {
             font-size: 0.8rem;
-            color: #2a7a4b;
+            color: var(--brand-green);
             margin-top: 4px;
         }
         .cart-item .item-details .design-status i {
@@ -268,7 +345,7 @@
             justify-content: center;
         }
         .cart-item .item-actions .qty-control button:hover {
-            border-color: #0056b3;
+            border-color: var(--brand-blue);
             background: #eef3fc;
         }
         .cart-item .item-actions .qty-control .qty-display {
@@ -292,7 +369,7 @@
             transition: 0.2s;
         }
         .cart-item .item-actions .remove-btn:hover {
-            color: #d9534f;
+            color: var(--brand-red);
         }
 
         .cart-summary {
@@ -340,7 +417,7 @@
         .cart-summary .checkout-btn {
             width: 100%;
             padding: 14px;
-            background: #0d2f4f;
+            background: var(--brand-blue);
             color: #fff;
             border: none;
             border-radius: 60px;
@@ -349,10 +426,10 @@
             cursor: pointer;
             transition: 0.2s;
             margin-top: 20px;
-            box-shadow: 0 4px 16px rgba(13, 47, 79, 0.25);
+            box-shadow: 0 4px 16px rgba(25, 88, 157, 0.3);
         }
         .cart-summary .checkout-btn:hover {
-            background: #1a3f64;
+            background: #0e3f70;
             transform: scale(1.01);
         }
         .cart-summary .checkout-btn:disabled {
@@ -369,7 +446,7 @@
             transition: 0.2s;
         }
         .cart-summary .continue-shopping:hover {
-            color: #0056b3;
+            color: var(--brand-blue);
         }
 
         .empty-cart {
@@ -395,7 +472,7 @@
         }
         .empty-cart .btn-primary {
             display: inline-block;
-            background: #0d2f4f;
+            background: var(--brand-blue);
             color: #fff;
             padding: 12px 32px;
             border-radius: 60px;
@@ -403,7 +480,7 @@
             transition: 0.2s;
         }
         .empty-cart .btn-primary:hover {
-            background: #1a3f64;
+            background: #0e3f70;
             transform: scale(1.01);
         }
 
@@ -485,7 +562,7 @@
         .checkout-modal .form-group input:focus,
         .checkout-modal .form-group textarea:focus {
             outline: none;
-            border-color: #0056b3;
+            border-color: var(--brand-blue);
         }
         .checkout-modal .form-group textarea {
             min-height: 60px;
@@ -513,7 +590,7 @@
         .checkout-modal .btn-place-order {
             width: 100%;
             padding: 14px;
-            background: #28a745;
+            background: var(--brand-green);
             color: #fff;
             border: none;
             border-radius: 60px;
@@ -521,10 +598,10 @@
             font-weight: 700;
             cursor: pointer;
             transition: 0.2s;
-            box-shadow: 0 4px 16px rgba(40, 167, 69, 0.25);
+            box-shadow: 0 4px 16px rgba(16, 170, 81, 0.3);
         }
         .checkout-modal .btn-place-order:hover {
-            background: #1e7e34;
+            background: #0b8a44;
             transform: scale(1.01);
         }
         .checkout-modal .btn-place-order:disabled {
@@ -537,11 +614,11 @@
             padding: 14px 18px;
             border-radius: 12px;
             margin: 12px 0 16px;
-            border-left: 4px solid #28a745;
+            border-left: 4px solid var(--brand-green);
         }
         .checkout-modal .mpesa-info .paybill {
             font-weight: 700;
-            color: #0056b3;
+            color: var(--brand-blue);
             font-size: 1.1rem;
         }
 
@@ -570,7 +647,7 @@
         }
         .success-modal .icon {
             font-size: 4rem;
-            color: #28a745;
+            color: var(--brand-green);
             margin-bottom: 12px;
         }
         .success-modal h2 {
@@ -586,12 +663,11 @@
             padding: 10px;
             border-radius: 8px;
             font-weight: 700;
-            color: #0056b3;
+            color: var(--brand-blue);
             margin: 12px 0 20px;
             font-size: 1.1rem;
         }
 
-        /* ===== CUSTOM NOTIFICATION POPUP ===== */
         .order-notification {
             position: fixed;
             bottom: 30px;
@@ -652,11 +728,11 @@
         }
         .order-notification.registered {
             background: #d4edda;
-            border-left-color: #28a745;
+            border-left-color: var(--brand-green);
             color: #155724;
         }
         .order-notification.registered .notif-icon {
-            color: #28a745;
+            color: var(--brand-green);
         }
 
         @keyframes slideUpNotif {
@@ -671,7 +747,7 @@
         }
 
         .success-modal .btn-continue {
-            background: #0056b3;
+            background: var(--brand-blue);
             color: #fff;
             padding: 12px 30px;
             border: none;
@@ -682,7 +758,7 @@
             transition: 0.2s;
         }
         .success-modal .btn-continue:hover {
-            background: #003d80;
+            background: #0e3f70;
         }
 
         .toast-message {
@@ -692,7 +768,7 @@
             padding: 16px 24px;
             background: #e5f4e6;
             border-radius: 60px;
-            color: #1f5e3a;
+            color: var(--brand-green);
             font-weight: 500;
             font-size: 0.95rem;
             display: none;
@@ -776,6 +852,35 @@
             nav .nav-cta {
                 display: none !important;
             }
+            .nav-dropdown {
+                width: 100%;
+                text-align: center;
+            }
+            .nav-dropdown .nav-dropdown-label {
+                justify-content: center;
+            }
+            .nav-dropdown-menu {
+                position: static;
+                box-shadow: none;
+                border: none;
+                border-top: 1px solid #eee;
+                border-radius: 0;
+                padding: 0;
+                transform: none;
+                background: #f8f9fa;
+            }
+            .nav-dropdown-menu.open {
+                transform: none;
+            }
+            .nav-dropdown-menu .dropdown-item {
+                padding: 10px 20px;
+                text-align: center;
+                border-left: none;
+                border-bottom: 1px solid #eee;
+            }
+            .nav-dropdown-menu .dropdown-item:hover {
+                background: #e8f0fe;
+            }
             header .container {
                 display: flex;
                 justify-content: flex-start;
@@ -855,10 +960,9 @@
 </head>
 <body>
 
-<!-- ===== HEADER ===== -->
 <header>
     <div class="container">
-        <div class="logo">Karis<span>Printers</span></div>
+        <div class="logo">Rise Axis<span> Solutions</span></div>
 
         <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
             <span></span>
@@ -872,6 +976,23 @@
 
         <nav id="navLinks">
             <a href="../index.html">Home</a>
+            
+            <!-- SERVICES DROPDOWN -->
+            <div class="nav-dropdown" id="navDropdown">
+                <span class="nav-dropdown-label" id="navDropdownLabel">
+                    Services
+                    <i class="fas fa-chevron-down arrow-icon" id="navDropdownArrow"></i>
+                </span>
+                <div class="nav-dropdown-menu" id="navDropdownMenu">
+                    <div class="dropdown-item" data-category="Commercial & Marketing Materials">Commercial & Marketing Materials</div>
+                    <div class="dropdown-item" data-category="Large Format & Signage">Large Format & Signage</div>
+                    <div class="dropdown-item" data-category="Branded Merchandise & Apparel">Branded Merchandise & Apparel</div>
+                    <div class="dropdown-item" data-category="Packaging & Labels">Packaging & Labels</div>
+                    <div class="dropdown-item" data-category="Graphic design">Graphic Design</div>
+                    <div class="dropdown-item" data-category="Website development">Website Development</div>
+                </div>
+            </div>
+            
             <a href="catalog.html">Catalog</a>
             <a href="about.html">About</a>
             <a href="contact.html">Contact</a>
@@ -883,7 +1004,7 @@
             
             <span id="userLinks" style="display: none;">
                 <a href="account.html" id="accountLink">My Account</a>
-                <a href="#" id="logoutLink" style="color: #dc3545;">Logout</a>
+                <a href="#" id="logoutLink" style="color: var(--brand-red);">Logout</a>
             </span>
             
             <a href="cart.html" class="nav-cta">
@@ -893,7 +1014,6 @@
     </div>
 </header>
 
-<!-- ===== PAGE HEADER ===== -->
 <section class="page-header">
     <div class="container">
         <h1>Shopping Cart</h1>
@@ -901,7 +1021,6 @@
     </div>
 </section>
 
-<!-- ===== CART SECTION ===== -->
 <section class="cart-section">
     <div class="container">
         <div class="cart-grid" id="cartGrid">
@@ -1012,7 +1131,7 @@
 
 <!-- ===== TOAST ===== -->
 <div class="toast-message" id="toastMessage">
-    <i class="fas fa-check-circle" style="color:#2a7a4b;"></i>
+    <i class="fas fa-check-circle" style="color:var(--brand-green);"></i>
     <span id="toastText">Item removed</span>
 </div>
 
@@ -1021,8 +1140,8 @@
     <div class="container">
         <div class="footer-grid">
             <div>
-                <h4>Karis Printers</h4>
-                <p style="color: #aaa; font-size: 0.95rem;">Quality printing services in Kenya. Fast, affordable, and reliable.</p>
+                <h4>Rise Axis Solutions</h4>
+                <p style="color: #aaa; font-size: 0.95rem;">Quality services countrywide. Fast, affordable, and reliable.</p>
             </div>
             <div>
                 <h4>Quick Links</h4>
@@ -1033,20 +1152,23 @@
             </div>
             <div>
                 <h4>Contact</h4>
-                <a href="tel:+254703551225">📞 +254 703551225</a>
-                <a href="mailto:KarisPrinters@gmail.com">✉️ KarisPrinters@gmail.com</a>
-                <a href="#">📍 Nairobi, Kenya</a>
+                <a href="tel:+254-700-123-456">📞 +254-700-123-456</a>
+                <a href="mailto:contact@riseaxis.co.ke">✉️ contact@riseaxis.co.ke</a>
+                <a href="#"><p>📍 188 Hood Avenue, 3rd Floor
+
+                    72</p> Riverside Drive, Office 5</a>
             </div>
-            <div>
+            <!-- <div>
                 <h4>M-Pesa Paybill</h4>
                 <p style="color: #fff; font-weight: 600; font-size: 1.2rem;">Paybill: 123456</p>
                 <p style="color: #aaa; font-size: 0.9rem;">Account: Order ID</p>
-            </div>
+            </div> -->
         </div>
-        <div class="copyright">&copy; 2026 Karis Printers. All rights reserved.</div>
+        <div class="copyright">
+            &copy; 2026 Rise Axis Solutions. All rights reserved.
+        </div>
     </div>
 </footer>
-
 <script type="module">
     // =============================================
     // IMPORTS
@@ -1056,6 +1178,58 @@
     import { 
         collection, addDoc, serverTimestamp 
     } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js";
+
+    // =============================================
+    // SERVICES DROPDOWN TOGGLE
+    // =============================================
+    let navDropdownOpen = false;
+
+    function toggleNavDropdown() {
+        navDropdownOpen = !navDropdownOpen;
+        updateNavUI();
+    }
+
+    function closeNavDropdown() {
+        navDropdownOpen = false;
+        updateNavUI();
+    }
+
+    function updateNavUI() {
+        const menu = document.getElementById('navDropdownMenu');
+        const arrow = document.getElementById('navDropdownArrow');
+        if (!menu || !arrow) return;
+        if (navDropdownOpen) {
+            menu.classList.add('open');
+            arrow.classList.add('open');
+        } else {
+            menu.classList.remove('open');
+            arrow.classList.remove('open');
+        }
+    }
+
+    const navLabel = document.getElementById('navDropdownLabel');
+    if (navLabel) {
+        navLabel.addEventListener('click', function(e) {
+            e.stopPropagation();
+            toggleNavDropdown();
+        });
+    }
+
+    document.querySelectorAll('.dropdown-item').forEach(item => {
+        item.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const category = this.dataset.category;
+            closeNavDropdown();
+            window.location.href = `service.html?category=${encodeURIComponent(category)}`;
+        });
+    });
+
+    document.addEventListener('click', function(e) {
+        const navDropdown = document.getElementById('navDropdown');
+        if (navDropdown && !navDropdown.contains(e.target)) {
+            closeNavDropdown();
+        }
+    });
 
     // =============================================
     // INITIALIZE EMAILJS
@@ -1180,7 +1354,6 @@
         const title = document.getElementById('notifTitle');
         const message = document.getElementById('notifMessage');
 
-        // Clear any existing timeout
         if (notificationTimeout) {
             clearTimeout(notificationTimeout);
         }
@@ -1192,7 +1365,7 @@
             message.innerHTML = `
                 <strong>Order ID: ${orderId}</strong><br>
                 To track your order, please email us at 
-                <strong><a href="mailto:KarisPrinters@gmail.com" style="color: #856404; text-decoration: underline;">KarisPrinters@gmail.com</a></strong> 
+                <strong><a href="mailto:contact@riseaxis.co.ke" style="color: #856404; text-decoration: underline;">contact@riseaxis.co.ke</a></strong> 
                 with your Order ID.
             `;
         } else {
@@ -1207,7 +1380,6 @@
             `;
         }
 
-        // Auto-hide after 10 seconds
         notificationTimeout = setTimeout(() => {
             closeNotification();
         }, 10000);
@@ -1464,15 +1636,10 @@
         const totalItems = orderItems.reduce((sum, item) => sum + item.quantity, 0);
         const orderId = window._currentOrderId || generateOrderId();
 
-        // =============================================
-        // CHECK IF USER IS GUEST OR REGISTERED
-        // =============================================
         const user = getCurrentUser();
         const isGuest = user ? false : true;
 
-        // =============================================
-        // SAVE ORDER TO FIRESTORE
-        // =============================================
+        // Save order to Firestore
         try {
             const orderData = {
                 orderId: orderId,
@@ -1501,9 +1668,7 @@
             console.warn('⚠️ Firestore save failed:', firestoreError);
         }
 
-        // =============================================
-        // BUILD HTML TABLE
-        // =============================================
+        // Build HTML table for email
         let itemsRows = '';
         orderItems.forEach(item => {
             const designDisplay = item.hasDesign === 'Yes' 
@@ -1519,7 +1684,7 @@
                     </td>
                     <td style="padding: 10px; border: 1px solid #ddd; text-align: center; font-weight: 600;">${item.quantity}</td>
                     <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">${item.price.toLocaleString()}</td>
-                    <td style="padding: 10px; border: 1px solid #ddd; text-align: center; font-weight: 600; color: #0056b3;">${item.subtotal.toLocaleString()}</td>
+                    <td style="padding: 10px; border: 1px solid #ddd; text-align: center; font-weight: 600; color: var(--brand-blue);">${item.subtotal.toLocaleString()}</td>
                     <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">${designDisplay}</td>
                 </tr>`;
         });
@@ -1547,15 +1712,13 @@
                     </tr>
                     <tr style="background: #e8f0fe;">
                         <td colspan="4" style="padding: 10px; border: 1px solid #ddd; text-align: right; font-weight: 700; font-size: 16px;">GRAND TOTAL:</td>
-                        <td colspan="2" style="padding: 10px; border: 1px solid #ddd; text-align: center; font-weight: 700; font-size: 18px; color: #0056b3;">KSh ${subtotal.toLocaleString()}</td>
+                        <td colspan="2" style="padding: 10px; border: 1px solid #ddd; text-align: center; font-weight: 700; font-size: 18px; color: var(--brand-blue);">KSh ${subtotal.toLocaleString()}</td>
                     </tr>
                 </tfoot>
             </table>
         `;
 
-        // =============================================
-        // SEND EMAIL
-        // =============================================
+        // Send email
         const btn = document.getElementById('placeOrderBtn');
         btn.textContent = '⏳ Processing...';
         btn.disabled = true;
@@ -1595,9 +1758,6 @@
             renderCart();
             btn.textContent = '✅ Order Placed!';
 
-            // =============================================
-            // SHOW NOTIFICATION BASED ON USER STATUS
-            // =============================================
             setTimeout(() => {
                 showNotification(isGuest, orderId);
             }, 500);
@@ -1710,6 +1870,5 @@
         updateCartBadge();
     });
 </script>
-
 </body>
 </html>

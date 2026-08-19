@@ -3,10 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-         <link rel="icon" type="image/x-icon" href="../images/teardrop.jpg">
-    <title>My Orders - Karis Printers</title>
+    <link rel="icon" type="image/x-icon" href="../images/teardrop.jpg">
+    <title>My Orders - Rise Axis Solutions</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
+        /* === BRAND COLORS === */
+        :root {
+            --brand-blue: #19589d;
+            --brand-red: #dc1c2c;
+            --brand-green: #10aa51;
+            --brand-brown: #8f5c38;
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -30,7 +38,7 @@
             display: block;
             width: 28px;
             height: 3px;
-            background: #0056b3;
+            background: var(--brand-blue);
             border-radius: 3px;
             transition: all 0.3s ease;
         }
@@ -62,9 +70,9 @@
         .logo {
             font-size: 1.8rem;
             font-weight: 700;
-            color: #0056b3;
+            color: var(--brand-blue);
         }
-        .logo span { color: #ff6b00; }
+        .logo span { color: var(--brand-red); }
         
         nav {
             display: flex;
@@ -78,18 +86,87 @@
             text-decoration: none;
             color: inherit;
         }
-        nav a:hover { color: #0056b3; }
-        nav a.active { color: #0056b3; font-weight: 600; }
+        nav a:hover { color: var(--brand-blue); }
+        nav a.active { color: var(--brand-blue); font-weight: 600; }
+
+        /* ----- SERVICES DROPDOWN IN NAV ----- */
+        .nav-dropdown {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .nav-dropdown .nav-dropdown-label {
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #1a1a1a;
+            transition: color 0.3s ease;
+        }
+        .nav-dropdown .nav-dropdown-label:hover {
+            color: var(--brand-blue);
+        }
+        .nav-dropdown .nav-dropdown-label .arrow-icon {
+            font-size: 0.65rem;
+            transition: transform 0.25s ease;
+        }
+        .nav-dropdown .nav-dropdown-label .arrow-icon.open {
+            transform: rotate(180deg);
+        }
+
+        .nav-dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #fff;
+            min-width: 260px;
+            border-radius: 16px;
+            box-shadow: 0 12px 36px rgba(0,0,0,0.12);
+            border: 1px solid #eef2f6;
+            padding: 8px 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(8px);
+            transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+            z-index: 200;
+        }
+        .nav-dropdown-menu.open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0px);
+        }
+        .nav-dropdown-menu .dropdown-item {
+            display: block;
+            padding: 10px 20px;
+            font-weight: 500;
+            color: #1d2b3a;
+            font-size: 0.92rem;
+            transition: background 0.15s;
+            cursor: pointer;
+            border-left: 3px solid transparent;
+        }
+        .nav-dropdown-menu .dropdown-item:hover {
+            background: #f0f6fe;
+            border-left-color: var(--brand-blue);
+            color: var(--brand-blue);
+        }
+        .nav-dropdown-menu .dropdown-item.active {
+            background: #e8f0fe;
+            border-left-color: var(--brand-blue);
+            color: var(--brand-blue);
+            font-weight: 600;
+        }
+
         .nav-cta {
-            background: #ff6b00;
+            background: var(--brand-red);
             color: #fff;
             padding: 8px 20px;
             border-radius: 25px;
             font-weight: 600;
         }
-        .nav-cta:hover { background: #e05500; color: #fff !important; }
+        .nav-cta:hover { background: #b31624; color: #fff !important; }
         .cart-badge {
-            background: #ff6b00;
+            background: var(--brand-red);
             color: #fff;
             font-size: 0.7rem;
             font-weight: 700;
@@ -104,7 +181,7 @@
         /* ===== MOBILE CART BUTTON ===== */
         .mobile-cart-btn {
             display: none;
-            background: #ff6b00;
+            background: var(--brand-red);
             color: #fff;
             padding: 6px 14px;
             border-radius: 25px;
@@ -116,7 +193,7 @@
             margin-left: 5px;
         }
         .mobile-cart-btn:hover {
-            background: #e05500;
+            background: #b31624;
             color: #fff !important;
         }
         .mobile-cart-btn .cart-badge {
@@ -134,12 +211,12 @@
             font-weight: 500;
             transition: color 0.3s ease;
         }
-        .auth-link:hover { color: #0056b3; }
+        .auth-link:hover { color: var(--brand-blue); }
         .user-name-link {
             font-weight: 600;
-            color: #0056b3;
+            color: var(--brand-blue);
         }
-        .user-name-link:hover { color: #003d80; }
+        .user-name-link:hover { color: #0e3f70; }
         
         .page-header {
             background: linear-gradient(135deg, #e8f0fe 0%, #d4e4f7 100%);
@@ -179,7 +256,7 @@
         }
         .sidebar .user-info .avatar {
             font-size: 3rem;
-            color: #0056b3;
+            color: var(--brand-blue);
         }
         .sidebar .user-info .name {
             font-weight: 700;
@@ -199,13 +276,13 @@
             font-weight: 500;
         }
         .sidebar a:hover { background: #eef3fc; }
-        .sidebar a.active { background: #eef3fc; color: #0056b3; }
+        .sidebar a.active { background: #eef3fc; color: var(--brand-blue); }
         .sidebar a .icon { margin-right: 10px; }
         .sidebar .logout-btn {
             margin-top: 16px;
             padding-top: 16px;
             border-top: 1px solid #eef2f6;
-            color: #dc3545;
+            color: var(--brand-red);
             cursor: pointer;
         }
         .sidebar .logout-btn:hover { background: #f8d7da; }
@@ -244,7 +321,7 @@
         }
         .order-card .order-id {
             font-weight: 700;
-            color: #0056b3;
+            color: var(--brand-blue);
             font-size: 1.1rem;
         }
         .order-card .order-date {
@@ -300,7 +377,7 @@
         .status-processing { background: #cce5ff; color: #004085; }
         .status-printed { background: #d4edda; color: #155724; }
         .status-shipped { background: #d1ecf1; color: #0c5460; }
-        .status-delivered { background: #28a745; color: #fff; }
+        .status-delivered { background: var(--brand-green); color: #fff; }
         .status-cancelled { background: #f8d7da; color: #721c24; }
 
         /* ===== STATUS TRACKING BAR ===== */
@@ -357,26 +434,26 @@
             font-weight: 600;
         }
         .status-track .step.completed .circle {
-            background: #28a745;
-            border-color: #28a745;
+            background: var(--brand-green);
+            border-color: var(--brand-green);
         }
         .status-track .step.active .circle {
-            background: #0056b3;
-            border-color: #0056b3;
+            background: var(--brand-blue);
+            border-color: var(--brand-blue);
             animation: pulse 1.5s infinite;
         }
         .status-track .step.completed .label,
         .status-track .step.active .label {
-            color: #0056b3;
+            color: var(--brand-blue);
         }
         .status-track .step.completed .label {
-            color: #28a745;
+            color: var(--brand-green);
         }
 
         @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(0, 86, 179, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(0, 86, 179, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(0, 86, 179, 0); }
+            0% { box-shadow: 0 0 0 0 rgba(25, 88, 157, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(25, 88, 157, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(25, 88, 157, 0); }
         }
 
         /* ===== EMPTY STATE ===== */
@@ -400,14 +477,14 @@
             display: inline-block;
             margin-top: 16px;
             padding: 12px 30px;
-            background: #0056b3;
+            background: var(--brand-blue);
             color: #fff;
             border-radius: 30px;
             text-decoration: none;
             font-weight: 600;
             transition: 0.2s;
         }
-        .empty-orders .btn-primary:hover { background: #003d80; }
+        .empty-orders .btn-primary:hover { background: #0e3f70; }
         
         .loading-spinner {
             text-align: center;
@@ -471,7 +548,7 @@
             color: #0a1e33;
         }
         .order-detail-modal .order-id-display {
-            color: #0056b3;
+            color: var(--brand-blue);
             font-weight: 700;
             margin-bottom: 16px;
         }
@@ -507,7 +584,7 @@
         }
         .order-detail-modal .items-list .item-row .qty {
             font-weight: 600;
-            color: #0056b3;
+            color: var(--brand-blue);
         }
         .order-detail-modal .total-row {
             font-weight: 700;
@@ -584,6 +661,36 @@
             nav .nav-cta {
                 display: none !important;
             }
+            /* Mobile dropdown - make it full width */
+            .nav-dropdown {
+                width: 100%;
+                text-align: center;
+            }
+            .nav-dropdown .nav-dropdown-label {
+                justify-content: center;
+            }
+            .nav-dropdown-menu {
+                position: static;
+                box-shadow: none;
+                border: none;
+                border-top: 1px solid #eee;
+                border-radius: 0;
+                padding: 0;
+                transform: none;
+                background: #f8f9fa;
+            }
+            .nav-dropdown-menu.open {
+                transform: none;
+            }
+            .nav-dropdown-menu .dropdown-item {
+                padding: 10px 20px;
+                text-align: center;
+                border-left: none;
+                border-bottom: 1px solid #eee;
+            }
+            .nav-dropdown-menu .dropdown-item:hover {
+                background: #e8f0fe;
+            }
             header .container {
                 display: flex;
                 justify-content: flex-start;
@@ -630,7 +737,7 @@
 <!-- ===== HEADER ===== -->
 <header>
     <div class="container">
-        <div class="logo">Karis<span>Printers</span></div>
+        <div class="logo">Rise Axis<span> Solutions</span></div>
 
         <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
             <span></span>
@@ -644,6 +751,23 @@
 
         <nav id="navLinks">
             <a href="../index.html">Home</a>
+            
+            <!-- SERVICES DROPDOWN -->
+            <div class="nav-dropdown" id="navDropdown">
+                <span class="nav-dropdown-label" id="navDropdownLabel">
+                    Services
+                    <i class="fas fa-chevron-down arrow-icon" id="navDropdownArrow"></i>
+                </span>
+                <div class="nav-dropdown-menu" id="navDropdownMenu">
+                    <div class="dropdown-item" data-category="Commercial & Marketing Materials">Commercial & Marketing Materials</div>
+                    <div class="dropdown-item" data-category="Large Format & Signage">Large Format & Signage</div>
+                    <div class="dropdown-item" data-category="Branded Merchandise & Apparel">Branded Merchandise & Apparel</div>
+                    <div class="dropdown-item" data-category="Packaging & Labels">Packaging & Labels</div>
+                    <div class="dropdown-item" data-category="Graphic design">Graphic Design</div>
+                    <div class="dropdown-item" data-category="Website development">Website Development</div>
+                </div>
+            </div>
+            
             <a href="catalog.html">Catalog</a>
             <a href="about.html">About</a>
             <a href="contact.html">Contact</a>
@@ -655,7 +779,7 @@
             
             <span id="userLinks" style="display: none;">
                 <a href="account.html" id="accountLink" class="user-name-link">My Account</a>
-                <a href="#" id="logoutLink" style="color: #dc3545; cursor: pointer; font-weight: 500;">Logout</a>
+                <a href="#" id="logoutLink" style="color: var(--brand-red); cursor: pointer; font-weight: 500;">Logout</a>
             </span>
             
             <a href="cart.html" class="nav-cta">
@@ -752,14 +876,13 @@
         </div>
     </div>
 </div>
-
 <!-- ===== FOOTER ===== -->
 <footer>
     <div class="container">
         <div class="footer-grid">
             <div>
-                <h4>Karis Printers</h4>
-                <p style="color: #aaa; font-size: 0.95rem;">Quality printing services in Kenya. Fast, affordable, and reliable.</p>
+                <h4>Rise Axis Solutions</h4>
+                <p style="color: #aaa; font-size: 0.95rem;">Quality services countrywide. Fast, affordable, and reliable.</p>
             </div>
             <div>
                 <h4>Quick Links</h4>
@@ -770,20 +893,23 @@
             </div>
             <div>
                 <h4>Contact</h4>
-                <a href="tel:+254703551225">📞 +254 703551225</a>
-                <a href="mailto:KarisPrinters@gmail.com">✉️ KarisPrinters@gmail.com</a>
-                <a href="#">📍 Nairobi, Kenya</a>
+                <a href="tel:+254-700-123-456">📞 +254-700-123-456</a>
+                <a href="mailto:contact@riseaxis.co.ke">✉️ contact@riseaxis.co.ke</a>
+                <a href="#"><p>📍 188 Hood Avenue, 3rd Floor
+
+                    72</p> Riverside Drive, Office 5</a>
             </div>
-            <div>
+            <!-- <div>
                 <h4>M-Pesa Paybill</h4>
                 <p style="color: #fff; font-weight: 600; font-size: 1.2rem;">Paybill: 123456</p>
                 <p style="color: #aaa; font-size: 0.9rem;">Account: Order ID</p>
-            </div>
+            </div> -->
         </div>
-        <div class="copyright">&copy; 2026 Karis Printers. All rights reserved.</div>
+        <div class="copyright">
+            &copy; 2026 Rise Axis Solutions. All rights reserved.
+        </div>
     </div>
 </footer>
-
 <script type="module">
     // =============================================
     // IMPORTS
@@ -793,6 +919,61 @@
     import { 
         collection, query, where, getDocs, orderBy
     } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js";
+
+    // =============================================
+    // SERVICES DROPDOWN TOGGLE
+    // =============================================
+    let navDropdownOpen = false;
+
+    function toggleNavDropdown() {
+        navDropdownOpen = !navDropdownOpen;
+        updateNavUI();
+    }
+
+    function closeNavDropdown() {
+        navDropdownOpen = false;
+        updateNavUI();
+    }
+
+    function updateNavUI() {
+        const menu = document.getElementById('navDropdownMenu');
+        const arrow = document.getElementById('navDropdownArrow');
+        if (!menu || !arrow) return;
+        if (navDropdownOpen) {
+            menu.classList.add('open');
+            arrow.classList.add('open');
+        } else {
+            menu.classList.remove('open');
+            arrow.classList.remove('open');
+        }
+    }
+
+    // Dropdown label click
+    const navLabel = document.getElementById('navDropdownLabel');
+    if (navLabel) {
+        navLabel.addEventListener('click', function(e) {
+            e.stopPropagation();
+            toggleNavDropdown();
+        });
+    }
+
+    // Dropdown item click - navigate to services.html with category param
+    document.querySelectorAll('.dropdown-item').forEach(item => {
+        item.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const category = this.dataset.category;
+            closeNavDropdown();
+            window.location.href = `service.html?category=${encodeURIComponent(category)}`;
+        });
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+        const navDropdown = document.getElementById('navDropdown');
+        if (navDropdown && !navDropdown.contains(e.target)) {
+            closeNavDropdown();
+        }
+    });
 
     // =============================================
     // DOM ELEMENTS
@@ -945,7 +1126,7 @@
                     <div class="icon">⚠️</div>
                     <h3>Error loading orders</h3>
                     <p>${error.message || 'There was an error loading your orders. Please try again later.'}</p>
-                    <button onclick="loadOrders()" style="margin-top: 16px; padding: 12px 30px; background: #0056b3; color: #fff; border: none; border-radius: 30px; cursor: pointer; font-weight: 600;">
+                    <button onclick="location.reload()" style="margin-top: 16px; padding: 12px 30px; background: var(--brand-blue); color: #fff; border: none; border-radius: 30px; cursor: pointer; font-weight: 600;">
                         <i class="fas fa-sync"></i> Retry
                     </button>
                 </div>
@@ -959,7 +1140,7 @@
                 <div class="icon">📦</div>
                 <h3>No orders yet</h3>
                 <p>You haven't placed any orders. Start shopping!</p>
-                <a href="catalog.html" class="btn-primary" style="display: inline-block; margin-top: 16px; padding: 12px 30px; background: #0056b3; color: #fff; border-radius: 30px; text-decoration: none; font-weight: 600; transition: 0.2s;">
+                <a href="catalog.html" class="btn-primary" style="display: inline-block; margin-top: 16px; padding: 12px 30px; background: var(--brand-blue); color: #fff; border-radius: 30px; text-decoration: none; font-weight: 600; transition: 0.2s;">
                     <i class="fas fa-arrow-left"></i> Browse Products
                 </a>
             </div>
@@ -1046,7 +1227,7 @@
                 </div>
                 
                 <div style="text-align: right; margin-top: 8px;">
-                    <span style="font-size: 0.8rem; color: #0056b3; cursor: pointer;">
+                    <span style="font-size: 0.8rem; color: var(--brand-blue); cursor: pointer;">
                         View Details <i class="fas fa-chevron-right"></i>
                     </span>
                 </div>
@@ -1231,6 +1412,14 @@
         // Load orders
         loadOrders();
         updateCartBadge();
+        
+        // Close dropdown on mobile menu close
+        document.addEventListener('click', function(e) {
+            const navDropdown = document.getElementById('navDropdown');
+            if (navDropdown && !navDropdown.contains(e.target)) {
+                closeNavDropdown();
+            }
+        });
     });
 </script>
 

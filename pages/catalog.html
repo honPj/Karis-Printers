@@ -3,10 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-         <link rel="icon" type="image/x-icon" href="../images/teardrop.jpg">
-    <title>Catalog – Karis Printers</title>
+    <link rel="icon" type="image/x-icon" href="../images/teardrop.jpg">
+    <title>Catalog – Rise Axis Solutions</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        /* === BRAND COLORS === */
+        :root {
+            --brand-blue: #19589d;
+            --brand-red: #dc1c2c;
+            --brand-green: #10aa51;
+            --brand-brown: #8f5c38;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -45,10 +53,10 @@
         .logo {
             font-size: 1.8rem;
             font-weight: 700;
-            color: #0056b3;
+            color: var(--brand-blue);
         }
         .logo span {
-            color: #ff6b00;
+            color: var(--brand-red);
         }
 
         /* ===== HAMBURGER MENU STYLES ===== */
@@ -66,7 +74,7 @@
             display: block;
             width: 28px;
             height: 3px;
-            background: #0056b3;
+            background: var(--brand-blue);
             border-radius: 3px;
             transition: all 0.3s ease;
         }
@@ -92,25 +100,94 @@
             transition: color 0.3s ease;
         }
         nav a:hover {
-            color: #0056b3;
+            color: var(--brand-blue);
         }
         nav a.active {
-            color: #0056b3;
+            color: var(--brand-blue);
             font-weight: 600;
         }
+
+        /* ----- SERVICES DROPDOWN IN NAV ----- */
+        .nav-dropdown {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .nav-dropdown .nav-dropdown-label {
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #1a1a1a;
+            transition: color 0.3s ease;
+        }
+        .nav-dropdown .nav-dropdown-label:hover {
+            color: var(--brand-blue);
+        }
+        .nav-dropdown .nav-dropdown-label .arrow-icon {
+            font-size: 0.65rem;
+            transition: transform 0.25s ease;
+        }
+        .nav-dropdown .nav-dropdown-label .arrow-icon.open {
+            transform: rotate(180deg);
+        }
+
+        .nav-dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #fff;
+            min-width: 260px;
+            border-radius: 16px;
+            box-shadow: 0 12px 36px rgba(0,0,0,0.12);
+            border: 1px solid #eef2f6;
+            padding: 8px 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(8px);
+            transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+            z-index: 200;
+        }
+        .nav-dropdown-menu.open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0px);
+        }
+        .nav-dropdown-menu .dropdown-item {
+            display: block;
+            padding: 10px 20px;
+            font-weight: 500;
+            color: #1d2b3a;
+            font-size: 0.92rem;
+            transition: background 0.15s;
+            cursor: pointer;
+            border-left: 3px solid transparent;
+        }
+        .nav-dropdown-menu .dropdown-item:hover {
+            background: #f0f6fe;
+            border-left-color: var(--brand-blue);
+            color: var(--brand-blue);
+        }
+        .nav-dropdown-menu .dropdown-item.active {
+            background: #e8f0fe;
+            border-left-color: var(--brand-blue);
+            color: var(--brand-blue);
+            font-weight: 600;
+        }
+
         .nav-cta {
-            background: #ff6b00;
+            background: var(--brand-red);
             color: #fff;
             padding: 8px 20px;
             border-radius: 25px;
             font-weight: 600;
         }
         .nav-cta:hover {
-            background: #e05500;
+            background: #b31624;
             color: #fff !important;
         }
         .cart-badge {
-            background: #ff6b00;
+            background: var(--brand-red);
             color: #fff;
             font-size: 0.7rem;
             font-weight: 700;
@@ -125,7 +202,7 @@
         /* ===== CART BUTTON - ALWAYS VISIBLE ON MOBILE ===== */
         .mobile-cart-btn {
             display: none;
-            background: #ff6b00;
+            background: var(--brand-red);
             color: #fff;
             padding: 6px 14px;
             border-radius: 25px;
@@ -137,7 +214,7 @@
             margin-left: 5px;
         }
         .mobile-cart-btn:hover {
-            background: #e05500;
+            background: #b31624;
             color: #fff !important;
         }
         .mobile-cart-btn .cart-badge {
@@ -154,16 +231,16 @@
             transition: color 0.3s ease;
         }
         .auth-link:hover {
-            color: #0056b3;
+            color: var(--brand-blue);
         }
         #authLinks { display: inline; }
         #userLinks { display: none; }
         .user-name-link {
             font-weight: 600;
-            color: #0056b3;
+            color: var(--brand-blue);
         }
         .user-name-link:hover {
-            color: #003d80;
+            color: #0e3f70;
         }
 
         .page-header {
@@ -222,7 +299,7 @@
             transition: 0.2s;
         }
         .category-item:hover .cat-arrow {
-            color: #0056b3;
+            color: var(--brand-blue);
             transform: translateX(4px);
         }
         .product-grid {
@@ -252,6 +329,8 @@
             align-items: center;
             justify-content: center;
             overflow: hidden;
+            cursor: pointer;
+            position: relative;
         }
         .product-card .product-image img {
             width: 100%;
@@ -263,6 +342,45 @@
             font-size: 2.8rem;
             color: #a0b8d0;
         }
+        .product-card .product-image .quality-badge {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background: rgba(0,0,0,0.7);
+            color: #fff;
+            font-size: 0.65rem;
+            padding: 2px 12px;
+            border-radius: 30px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            backdrop-filter: blur(2px);
+        }
+        .product-card .product-image .tap-indicator {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.75);
+            color: #fff;
+            font-size: 0.85rem;
+            font-weight: 500;
+            padding: 8px 20px;
+            border-radius: 30px;
+            letter-spacing: 0.3px;
+            backdrop-filter: blur(4px);
+            white-space: nowrap;
+            border: 1px solid rgba(255,255,255,0.15);
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .product-card .product-image .tap-indicator i {
+            font-size: 0.7rem;
+            opacity: 0.8;
+            margin-right: 6px;
+        }
+        .product-card .product-image:hover .tap-indicator {
+            opacity: 0.7;
+        }
         .product-card .card-tags {
             display: flex;
             gap: 8px;
@@ -271,7 +389,7 @@
         }
         .product-card .tag {
             background: #eef3fc;
-            color: #1e4c7a;
+            color: var(--brand-blue);
             font-size: 0.6rem;
             font-weight: 600;
             text-transform: uppercase;
@@ -293,7 +411,7 @@
         .product-card .price {
             font-size: 1.5rem;
             font-weight: 700;
-            color: #0f3b5e;
+            color: var(--brand-blue);
             margin: 6px 0 14px 0;
         }
         .product-card .price small {
@@ -301,51 +419,6 @@
             font-weight: 400;
             color: #6a8aa8;
             margin-left: 4px;
-        }
-        .product-card .card-actions {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 6px;
-        }
-        .product-card .btn-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        .product-card .btn {
-            flex: 1 1 0;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            padding: 12px 14px;
-            border-radius: 60px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            border: none;
-            cursor: pointer;
-            transition: 0.2s ease;
-            background: #f0f2f5;
-            color: #1d2b3a;
-        }
-        .product-card .btn-primary {
-            background: #0d2f4f;
-            color: white;
-            box-shadow: 0 4px 12px rgba(13, 47, 79, 0.15);
-        }
-        .product-card .btn-primary:hover {
-            background: #1a3f64;
-            transform: scale(1.01);
-        }
-        .product-card .btn-enquire {
-            background: #eaf3e8;
-            color: #1b5e3a;
-            border: 2px solid #b8d5b0;
-        }
-        .product-card .btn-enquire:hover {
-            background: #d9ebd6;
-            border-color: #2a7a4b;
         }
         .back-bar {
             display: flex;
@@ -360,7 +433,7 @@
             border-radius: 40px;
             font-weight: 600;
             font-size: 0.95rem;
-            color: #1e4c7a;
+            color: var(--brand-blue);
             cursor: pointer;
             transition: 0.2s;
             display: inline-flex;
@@ -460,7 +533,7 @@
         }
         .cart-modal .form-group input[type="number"]:focus {
             outline: none;
-            border-color: #0056b3;
+            border-color: var(--brand-blue);
             background: #fff;
         }
         .cart-modal .form-group input[type="file"] {
@@ -473,17 +546,46 @@
             background: #fafcff;
         }
         .cart-modal .form-group input[type="file"]:hover {
-            border-color: #0056b3;
+            border-color: var(--brand-blue);
             background: #f5f9ff;
         }
         .cart-modal .form-group .file-name {
             font-size: 0.85rem;
-            color: #2a7a4b;
+            color: var(--brand-green);
             margin-top: 6px;
             display: none;
         }
         .cart-modal .form-group .file-name.show {
             display: block;
+        }
+        /* quality selector inside modal */
+        .quality-selector {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 6px 0 4px;
+        }
+        .quality-selector .quality-option {
+            padding: 6px 18px;
+            border-radius: 40px;
+            border: 2px solid #d0d8e0;
+            background: #fafcff;
+            font-weight: 600;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #1a2e44;
+            flex: 1 0 auto;
+            text-align: center;
+        }
+        .quality-selector .quality-option:hover {
+            border-color: var(--brand-blue);
+            background: #eef3fc;
+        }
+        .quality-selector .quality-option.active {
+            border-color: var(--brand-blue);
+            background: var(--brand-blue);
+            color: #fff;
         }
         .cart-modal .price-breakdown {
             background: #f5f8fc;
@@ -515,7 +617,7 @@
         .cart-modal .btn-add-to-cart {
             width: 100%;
             padding: 14px;
-            background: #0d2f4f;
+            background: var(--brand-blue);
             color: #fff;
             border: none;
             border-radius: 60px;
@@ -523,10 +625,10 @@
             font-weight: 700;
             cursor: pointer;
             transition: 0.2s;
-            box-shadow: 0 4px 16px rgba(13, 47, 79, 0.25);
+            box-shadow: 0 4px 16px rgba(25, 88, 157, 0.3);
         }
         .cart-modal .btn-add-to-cart:hover {
-            background: #1a3f64;
+            background: #0e3f70;
             transform: scale(1.01);
         }
         .toast-message {
@@ -536,7 +638,7 @@
             padding: 16px 24px;
             background: #e5f4e6;
             border-radius: 60px;
-            color: #1f5e3a;
+            color: var(--brand-green);
             font-weight: 500;
             font-size: 0.95rem;
             display: none;
@@ -546,6 +648,7 @@
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             z-index: 2000;
             animation: slideUp 0.3s ease;
+            max-width: 90%;
         }
         .toast-message.show {
             display: flex;
@@ -602,6 +705,174 @@
             display: block;
         }
 
+        /* ===== QUALITY PICKER OVERLAY ===== */
+        .quality-picker-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1500;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .quality-picker-overlay.show {
+            display: flex;
+        }
+        .quality-picker-card {
+            background: #fff;
+            border-radius: 32px;
+            max-width: 600px;
+            width: 100%;
+            padding: 30px 28px 28px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.3);
+            animation: modalSlideIn 0.25s ease;
+            position: relative;
+        }
+        .quality-picker-card .close-picker {
+            position: absolute;
+            top: 14px;
+            right: 18px;
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            color: #aaa;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .quality-picker-card .close-picker:hover {
+            color: #222;
+            transform: rotate(90deg);
+        }
+        .quality-picker-card h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #0a1e33;
+            margin-bottom: 4px;
+        }
+        .quality-picker-card .subtitle {
+            color: #6a8aa8;
+            margin-bottom: 24px;
+            font-size: 0.95rem;
+        }
+        .quality-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin: 12px 0 20px;
+        }
+        .quality-grid .quality-item {
+            background: #f8fafc;
+            border-radius: 20px;
+            padding: 16px 8px 18px;
+            text-align: center;
+            border: 2px solid #eef2f6;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .quality-grid .quality-item:hover {
+            border-color: #b0c8dd;
+            transform: translateY(-3px);
+        }
+        .quality-grid .quality-item.active {
+            border-color: var(--brand-blue);
+            background: #eaf1fa;
+        }
+        .quality-grid .quality-item .quality-img {
+            width: 100%;
+            aspect-ratio: 1/1;
+            background: #eef2f7;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+        .quality-grid .quality-item .quality-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .quality-grid .quality-item .quality-img .no-img {
+            font-size: 2.2rem;
+            color: #a0b8d0;
+        }
+        .quality-grid .quality-item .q-name {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: #0a1e33;
+        }
+        .quality-grid .quality-item .q-price {
+            font-size: 0.85rem;
+            color: var(--brand-green);
+            font-weight: 600;
+        }
+        .quality-picker-card .picker-footer {
+            display: flex;
+            gap: 12px;
+            margin-top: 12px;
+        }
+        .quality-picker-card .picker-footer .btn-picker-add {
+            flex: 1;
+            padding: 14px 20px;
+            background: var(--brand-blue);
+            color: #fff;
+            border: none;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-align: center;
+        }
+        .quality-picker-card .picker-footer .btn-picker-add:hover {
+            background: #0e3f70;
+        }
+        .quality-picker-card .picker-footer .btn-enquire {
+            flex: 1;
+            padding: 14px 20px;
+            background: #eaf3e8;
+            color: var(--brand-green);
+            border: 2px solid var(--brand-green);
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-align: center;
+        }
+        .quality-picker-card .picker-footer .btn-enquire:hover {
+            background: #d9ebd6;
+            border-color: #0b8a44;
+            transform: translateY(-2px);
+        }
+        @media (max-width: 480px) {
+            .quality-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .quality-picker-card .picker-footer {
+                flex-direction: column;
+            }
+            .quality-picker-card .picker-footer .btn-picker-add,
+            .quality-picker-card .picker-footer .btn-enquire {
+                flex: none;
+                width: 100%;
+            }
+        }
+
         /* ===== RESPONSIVE - MOBILE VIEW ===== */
         @media (max-width: 768px) {
             .hamburger {
@@ -641,6 +912,37 @@
                 display: none !important;
             }
 
+            /* Mobile dropdown - make it full width */
+            .nav-dropdown {
+                width: 100%;
+                text-align: center;
+            }
+            .nav-dropdown .nav-dropdown-label {
+                justify-content: center;
+            }
+            .nav-dropdown-menu {
+                position: static;
+                box-shadow: none;
+                border: none;
+                border-top: 1px solid #eee;
+                border-radius: 0;
+                padding: 0;
+                transform: none;
+                background: #f8f9fa;
+            }
+            .nav-dropdown-menu.open {
+                transform: none;
+            }
+            .nav-dropdown-menu .dropdown-item {
+                padding: 10px 20px;
+                text-align: center;
+                border-left: none;
+                border-bottom: 1px solid #eee;
+            }
+            .nav-dropdown-menu .dropdown-item:hover {
+                background: #e8f0fe;
+            }
+
             /* Keep header layout */
             header .container {
                 display: flex;
@@ -669,6 +971,11 @@
             }
             .page-header h1 {
                 font-size: 2rem;
+            }
+            .product-card .product-image .tap-indicator {
+                font-size: 0.7rem;
+                padding: 6px 14px;
+                bottom: 40px;
             }
         }
 
@@ -702,13 +1009,22 @@
                 padding: 1px 5px;
                 min-width: 14px;
             }
+            .quality-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .product-card .product-image .tap-indicator {
+                font-size: 0.6rem;
+                padding: 5px 12px;
+                bottom: 32px;
+                white-space: normal;
+            }
         }
     </style>
 </head>
 <body>
     <header>
         <div class="container">
-            <div class="logo">Karis<span>Printers</span></div>
+            <div class="logo">Rise Axis<span> Solutions</span></div>
 
             <!-- Hamburger Button (mobile only) -->
             <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
@@ -725,6 +1041,23 @@
             <!-- Navigation (desktop) -->
             <nav id="navLinks">
                 <a href="../index.html">Home</a>
+                
+                <!-- SERVICES DROPDOWN -->
+                <div class="nav-dropdown" id="navDropdown">
+                    <span class="nav-dropdown-label" id="navDropdownLabel">
+                        Services
+                        <i class="fas fa-chevron-down arrow-icon" id="navDropdownArrow"></i>
+                    </span>
+                    <div class="nav-dropdown-menu" id="navDropdownMenu">
+                        <div class="dropdown-item" data-category="Commercial & Marketing Materials">Commercial & Marketing Materials</div>
+                        <div class="dropdown-item" data-category="Large Format & Signage">Large Format & Signage</div>
+                        <div class="dropdown-item" data-category="Branded Merchandise & Apparel">Branded Merchandise & Apparel</div>
+                        <div class="dropdown-item" data-category="Packaging & Labels">Packaging & Labels</div>
+                        <div class="dropdown-item" data-category="Graphic design">Graphic Design</div>
+                        <div class="dropdown-item" data-category="Website development">Website Development</div>
+                    </div>
+                </div>
+                
                 <a href="catalog.html" class="active">Catalog</a>
                 <a href="about.html">About</a>
                 <a href="contact.html">Contact</a>
@@ -738,7 +1071,7 @@
                 <!-- User Links (Hidden by default, shown when logged in) -->
                 <span id="userLinks" style="display: none;">
                     <a href="account.html" id="accountLink" class="user-name-link">My Account</a>
-                    <a href="#" id="logoutLink" style="color: #dc3545; cursor: pointer; font-weight: 500;">Logout</a>
+                    <a href="#" id="logoutLink" style="color: var(--brand-red); cursor: pointer; font-weight: 500;">Logout</a>
                 </span>
                 
                 <a href="cart.html" class="nav-cta">
@@ -769,11 +1102,39 @@
         </div>
     </section>
 
+    <!-- Quality Picker Modal (popup on image click) -->
+    <div class="quality-picker-overlay" id="qualityPickerOverlay">
+        <div class="quality-picker-card">
+            <button class="close-picker" id="closePickerBtn">&times;</button>
+            <h2 id="pickerProductName">Product Name</h2>
+            <div class="subtitle">Choose your quality level</div>
+            <div class="quality-grid" id="qualityGrid">
+                <!-- dynamically filled -->
+            </div>
+            <div class="picker-footer">
+                <button class="btn-picker-add" id="pickerAddToCartBtn"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+                <a href="contact.html" class="btn-enquire" id="pickerEnquireBtn">
+                    <i class="fas fa-comment-dots"></i> Enquire
+                </a>
+            </div>
+        </div>
+    </div>
+
     <div class="cart-modal-overlay" id="cartModal">
         <div class="cart-modal">
             <button class="close-modal" id="closeModalBtn">&times;</button>
             <h2>Add to Cart</h2>
             <div class="product-name-modal" id="modalProductName">Product Name</div>
+            
+            <div class="form-group">
+                <label>Quality</label>
+                <div class="quality-selector" id="qualitySelector">
+                    <span class="quality-option active" data-quality="standard">Standard</span>
+                    <span class="quality-option" data-quality="premium">Premium</span>
+                    <span class="quality-option" data-quality="executive">Executive</span>
+                </div>
+            </div>
+
             <div class="form-group">
                 <label for="quantityInput">Quantity</label>
                 <input type="number" id="quantityInput" value="1" min="1" step="1">
@@ -804,45 +1165,102 @@
     </div>
 
     <div class="toast-message" id="toastMessage">
-        <i class="fas fa-check-circle" style="color:#2a7a4b;"></i>
+        <i class="fas fa-check-circle" style="color:var(--brand-green);"></i>
         <span id="toastText">Item added</span>
     </div>
 
-    <footer>
-        <div class="container">
-            <div class="footer-grid">
-                <div>
-                    <h4>Karis Printers</h4>
-                    <p style="color: #aaa; font-size: 0.95rem;">Quality printing services in Kenya. Fast, affordable, and reliable.</p>
-                </div>
-                <div>
-                    <h4>Quick Links</h4>
-                    <a href="catalog.html">Catalog</a>
-                    <a href="cart.html">Order Now</a>
-                    <a href="about.html">About Us</a>
-                    <a href="contact.html">Contact</a>
-                </div>
-                <div>
-                    <h4>Contact</h4>
-                    <a href="tel:+254703551225">📞 +254 703551225</a>
-                    <a href="mailto:KarisPrinters@gmail.com">✉️ KarisPrinters@gmail.com</a>
-                    <a href="#">📍 Nairobi, Kenya</a>
-                </div>
-                <div>
-                    <h4>M-Pesa Paybill</h4>
-                    <p style="color: #fff; font-weight: 600; font-size: 1.2rem;">Paybill: 123456</p>
-                    <p style="color: #aaa; font-size: 0.9rem;">Account: Order ID</p>
-                </div>
+    <!-- ===== FOOTER ===== -->
+<footer>
+    <div class="container">
+        <div class="footer-grid">
+            <div>
+                <h4>Rise Axis Solutions</h4>
+                <p style="color: #aaa; font-size: 0.95rem;">Quality services countrywide. Fast, affordable, and reliable.</p>
             </div>
-            <div class="copyright">&copy; 2026 Karis Printers. All rights reserved.</div>
+            <div>
+                <h4>Quick Links</h4>
+                <a href="catalog.html">Catalog</a>
+                <a href="cart.html">Order Now</a>
+                <a href="about.html">About Us</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <div>
+                <h4>Contact</h4>
+                <a href="tel:+254-700-123-456">📞 +254-700-123-456</a>
+                <a href="mailto:contact@riseaxis.co.ke">✉️ contact@riseaxis.co.ke</a>
+                <a href="#"><p>📍 188 Hood Avenue, 3rd Floor
+
+                    72</p> Riverside Drive, Office 5</a>
+            </div>
+            <!-- <div>
+                <h4>M-Pesa Paybill</h4>
+                <p style="color: #fff; font-weight: 600; font-size: 1.2rem;">Paybill: 123456</p>
+                <p style="color: #aaa; font-size: 0.9rem;">Account: Order ID</p>
+            </div> -->
         </div>
-    </footer>
+        <div class="copyright">
+            &copy; 2026 Rise Axis Solutions. All rights reserved.
+        </div>
+    </div>
+</footer>
 
     <script type="module">
         // =============================================
         // IMPORTS
         // =============================================
         import { getCurrentUser, logoutUser, onAuthChange } from '../js/auth.js';
+
+        // =============================================
+        // SERVICES DROPDOWN TOGGLE
+        // =============================================
+        let navDropdownOpen = false;
+
+        function toggleNavDropdown() {
+            navDropdownOpen = !navDropdownOpen;
+            updateNavUI();
+        }
+
+        function closeNavDropdown() {
+            navDropdownOpen = false;
+            updateNavUI();
+        }
+
+        function updateNavUI() {
+            const menu = document.getElementById('navDropdownMenu');
+            const arrow = document.getElementById('navDropdownArrow');
+            if (!menu || !arrow) return;
+            if (navDropdownOpen) {
+                menu.classList.add('open');
+                arrow.classList.add('open');
+            } else {
+                menu.classList.remove('open');
+                arrow.classList.remove('open');
+            }
+        }
+
+        const navLabel = document.getElementById('navDropdownLabel');
+        if (navLabel) {
+            navLabel.addEventListener('click', function(e) {
+                e.stopPropagation();
+                toggleNavDropdown();
+            });
+        }
+
+        document.querySelectorAll('.dropdown-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const category = this.dataset.category;
+                closeNavDropdown();
+                window.location.href = `service.html?category=${encodeURIComponent(category)}`;
+            });
+        });
+
+        document.addEventListener('click', function(e) {
+            const navDropdown = document.getElementById('navDropdown');
+            if (navDropdown && !navDropdown.contains(e.target)) {
+                closeNavDropdown();
+            }
+        });
 
         // =============================================
         // AUTH NAVIGATION - SHOW/HIDE LINKS
@@ -854,22 +1272,17 @@
             const logoutLink = document.getElementById('logoutLink');
             
             if (user) {
-                // User is logged in - hide Login/Register, show My Account/Logout
                 authLinks.style.display = 'none';
                 userLinks.style.display = 'inline';
                 if (accountLink) {
                     accountLink.textContent = user.displayName || 'My Account';
                 }
             } else {
-                // User is logged out - show Login/Register, hide My Account/Logout
                 authLinks.style.display = 'inline';
                 userLinks.style.display = 'none';
             }
         }
 
-        // =============================================
-        // LOGOUT FUNCTION
-        // =============================================
         async function handleLogout(e) {
             if (e) e.preventDefault();
             if (confirm('Are you sure you want to logout?')) {
@@ -967,8 +1380,19 @@
             document.querySelectorAll('.cart-badge').forEach(el => el.textContent = total);
         }
 
+        // =============================================
+        // QUALITY PRICE HELPERS
+        // =============================================
+        function getPriceForQuality(basePrice, quality) {
+            const multipliers = { standard: 1, premium: 1.25, executive: 1.5 };
+            return Math.round(basePrice * (multipliers[quality] || 1));
+        }
+
         let currentCategory = null;
         let currentProduct = null;
+        let selectedQuality = 'standard';
+        let currentPricePerUnit = 0;
+        let currentQuantity = 1;
 
         // =============================================
         // RENDER FUNCTIONS
@@ -1016,10 +1440,14 @@
             }
             noResults.classList.remove('show');
 
-            grid.innerHTML = filtered.map(p => `
+            grid.innerHTML = filtered.map(p => {
+                const price = getPriceForQuality(p.startingPrice, selectedQuality);
+                return `
                     <div class="product-card">
-                        <div class="product-image">
+                        <div class="product-image" data-product-id="${p.id}">
                             ${p.image ? `<img src="${p.image}" alt="${p.name}" onerror="this.style.display='none'; this.parentElement.innerHTML='<span class=\\'no-image\\'>📄</span>'">` : `<span class="no-image">📄</span>`}
+                            <span class="quality-badge">${selectedQuality.charAt(0).toUpperCase() + selectedQuality.slice(1)}</span>
+                            <span class="tap-indicator"><i class="fas fa-hand-pointer"></i> Tap the image to shop</span>
                         </div>
                         <div class="card-tags">
                             <span class="tag">${p.category}</span>
@@ -1027,20 +1455,33 @@
                         </div>
                         <div class="card-body">
                             <h3>${p.name}</h3>
-                            <div class="price">KSh ${p.startingPrice.toLocaleString()} <small>starting</small></div>
-                            <div class="card-actions">
-                                <div class="btn-group">
-                                    <button class="btn btn-primary" onclick="window.openCartModal('${p.id}')">
-                                        <i class="fas fa-cart-plus"></i> Add to cart
-                                    </button>
-                                    <a href="contact.html" class="btn btn-enquire" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 12px 14px; border-radius: 60px; font-weight: 600; font-size: 0.9rem; border: 2px solid #b8d5b0; background: #eaf3e8; color: #1b5e3a; cursor: pointer; transition: 0.2s ease; flex: 1 1 0;">
-                                        <i class="fas fa-comment-dots"></i> Enquire
-                                    </a>
-                                </div>
-                            </div>
+                            <div class="price" id="price-${p.id}" data-base-price="${p.startingPrice}">KSh ${price.toLocaleString()} <small>${selectedQuality}</small></div>
                         </div>
                     </div>
-                `).join('');
+                `;
+            }).join('');
+
+            // Attach click event to product images to open quality picker
+            document.querySelectorAll('.product-card .product-image').forEach(imgContainer => {
+                imgContainer.addEventListener('click', function(e) {
+                    const productId = this.dataset.productId;
+                    const product = products.find(p => p.id === productId);
+                    if (product) openQualityPicker(product);
+                });
+            });
+        }
+
+        function updateProductPrices() {
+            document.querySelectorAll('.product-card .price').forEach(priceEl => {
+                const basePrice = parseInt(priceEl.dataset.basePrice);
+                if (basePrice) {
+                    const price = getPriceForQuality(basePrice, selectedQuality);
+                    priceEl.innerHTML = `KSh ${price.toLocaleString()} <small>${selectedQuality}</small>`;
+                }
+            });
+            document.querySelectorAll('.product-card .product-image .quality-badge').forEach(b => {
+                b.textContent = selectedQuality.charAt(0).toUpperCase() + selectedQuality.slice(1);
+            });
         }
 
         function goToCategories() {
@@ -1051,16 +1492,107 @@
         }
 
         // =============================================
+        // QUALITY PICKER MODAL
+        // =============================================
+        let pickerProduct = null;
+        let pickerSelectedQuality = 'standard';
+
+        function openQualityPicker(product) {
+            pickerProduct = product;
+            pickerSelectedQuality = selectedQuality;
+
+            document.getElementById('pickerProductName').textContent = product.name;
+
+            const grid = document.getElementById('qualityGrid');
+            const qualities = [
+                { key: 'standard', label: 'Standard', img: product.image || '' },
+                { key: 'premium', label: 'Premium', img: product.image || '' },
+                { key: 'executive', label: 'Executive', img: product.image || '' }
+            ];
+
+            grid.innerHTML = qualities.map(q => {
+                const price = getPriceForQuality(product.startingPrice, q.key);
+                const active = q.key === pickerSelectedQuality ? 'active' : '';
+                return `
+                    <div class="quality-item ${active}" data-quality="${q.key}">
+                        <div class="quality-img">
+                            ${q.img ? `<img src="${q.img}" alt="${q.label}" onerror="this.style.display='none'; this.parentElement.innerHTML='<span class=\\'no-img\\'>📄</span>'">` : `<span class="no-img">📄</span>`}
+                        </div>
+                        <div class="q-name">${q.label}</div>
+                        <div class="q-price">KSh ${price.toLocaleString()}</div>
+                    </div>
+                `;
+            }).join('');
+
+            grid.querySelectorAll('.quality-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    grid.querySelectorAll('.quality-item').forEach(el => el.classList.remove('active'));
+                    this.classList.add('active');
+                    pickerSelectedQuality = this.dataset.quality;
+                    // Update prices in the picker
+                    grid.querySelectorAll('.quality-item').forEach(el => {
+                        const qKey = el.dataset.quality;
+                        const qPrice = getPriceForQuality(product.startingPrice, qKey);
+                        el.querySelector('.q-price').textContent = `KSh ${qPrice.toLocaleString()}`;
+                    });
+                });
+            });
+
+            document.getElementById('qualityPickerOverlay').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeQualityPicker() {
+            document.getElementById('qualityPickerOverlay').classList.remove('show');
+            document.body.style.overflow = '';
+        }
+
+        function pickerAddToCart() {
+            const product = pickerProduct;
+            if (!product) {
+                showToast('No product selected. Please try again.', 'error');
+                return;
+            }
+            
+            // Set the selected quality from the picker
+            selectedQuality = pickerSelectedQuality;
+            currentPricePerUnit = getPriceForQuality(product.startingPrice, selectedQuality);
+            currentQuantity = 1;
+            
+            // Update all product cards with the new quality and price
+            updateProductPrices();
+            
+            // Update the quality selector in the cart modal
+            document.querySelectorAll('#qualitySelector .quality-option').forEach(el => {
+                el.classList.toggle('active', el.dataset.quality === selectedQuality);
+            });
+            
+            // Close the quality picker
+            closeQualityPicker();
+            
+            // Open the cart modal with the selected product and quality
+            openCartModal(product.id);
+        }
+
+        // =============================================
         // CART MODAL FUNCTIONS
         // =============================================
         function openCartModal(productId) {
             const product = products.find(p => p.id === productId);
             if (!product) return;
             currentProduct = product;
+            
+            // Calculate the price for the selected quality
+            currentPricePerUnit = getPriceForQuality(product.startingPrice, selectedQuality);
+            currentQuantity = parseInt(document.getElementById('quantityInput').value) || 1;
+
+            document.querySelectorAll('#qualitySelector .quality-option').forEach(el => {
+                el.classList.toggle('active', el.dataset.quality === selectedQuality);
+            });
 
             document.getElementById('modalProductName').textContent = product.name;
-            document.getElementById('modalPricePerUnit').textContent = `KSh ${product.startingPrice.toLocaleString()}`;
-            document.getElementById('quantityInput').value = 1;
+            document.getElementById('modalPricePerUnit').textContent = `KSh ${currentPricePerUnit.toLocaleString()}`;
+            document.getElementById('quantityInput').value = currentQuantity;
             document.getElementById('designFile').value = '';
             document.getElementById('fileNameDisplay').classList.remove('show');
             updateModalPrice();
@@ -1078,9 +1610,11 @@
         function updateModalPrice() {
             if (!currentProduct) return;
             const qty = parseInt(document.getElementById('quantityInput').value) || 0;
-            const total = currentProduct.startingPrice * qty;
+            currentQuantity = qty;
+            const total = currentPricePerUnit * qty;
             document.getElementById('modalQuantityDisplay').textContent = qty;
             document.getElementById('modalTotalPrice').textContent = `KSh ${total.toLocaleString()}`;
+            document.getElementById('modalPricePerUnit').textContent = `KSh ${currentPricePerUnit.toLocaleString()}`;
         }
 
         function confirmAddToCart() {
@@ -1095,10 +1629,14 @@
             const hasDesign = fileInput.files && fileInput.files.length > 0;
             const fileName = hasDesign ? fileInput.files[0].name : null;
 
+            // Calculate the total price for this item (price per unit × quantity)
+            const totalPrice = currentPricePerUnit * qty;
+
             const cart = getCart();
-            const existing = cart.find(item => item.productId === currentProduct.id);
+            const existing = cart.find(item => item.productId === currentProduct.id && item.quality === selectedQuality);
             if (existing) {
                 existing.quantity += qty;
+                existing.totalPrice = existing.pricePerUnit * existing.quantity; // Update total
                 if (hasDesign) {
                     existing.hasDesign = true;
                     existing.designFile = fileName;
@@ -1107,19 +1645,33 @@
                 cart.push({
                     productId: currentProduct.id,
                     quantity: qty,
+                    quality: selectedQuality,
+                    pricePerUnit: currentPricePerUnit,
+                    totalPrice: totalPrice, // Store the total price for this item
                     designFile: fileName,
                     hasDesign: hasDesign
                 });
             }
             saveCart(cart);
-            showToast(`${qty} × ${currentProduct.name} added to cart!`);
+            
+            showToast(`${qty} × ${currentProduct.name} (${selectedQuality}) - Total: KSh ${totalPrice.toLocaleString()} added to cart!`);
             closeCartModal();
+            pickerProduct = null;
         }
 
-        function showToast(message) {
+        function showToast(message, type = 'success') {
             const toast = document.getElementById('toastMessage');
             document.getElementById('toastText').textContent = message;
             toast.classList.add('show');
+            if (type === 'error') {
+                toast.style.background = '#f8d7da';
+                toast.style.color = '#721c24';
+                toast.style.borderColor = '#f5c6cb';
+            } else {
+                toast.style.background = '#e5f4e6';
+                toast.style.color = 'var(--brand-green)';
+                toast.style.borderColor = '#b8d9b8';
+            }
             clearTimeout(window.toastTimeout);
             window.toastTimeout = setTimeout(() => toast.classList.remove('show'), 3000);
         }
@@ -1139,13 +1691,10 @@
             // ===== CHECK AUTH STATE =====
             const user = getCurrentUser();
             updateAuthUI(user);
-
-            // Listen for auth changes
             onAuthChange((user) => {
                 updateAuthUI(user);
             });
 
-            // ===== LOGOUT FUNCTIONALITY =====
             const logoutLink = document.getElementById('logoutLink');
             if (logoutLink) {
                 logoutLink.addEventListener('click', handleLogout);
@@ -1194,12 +1743,46 @@
             });
             document.getElementById('confirmAddToCartBtn').addEventListener('click', confirmAddToCart);
             document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') closeCartModal();
+                if (e.key === 'Escape') {
+                    closeCartModal();
+                    closeQualityPicker();
+                }
+            });
+
+            // quality selector in cart modal
+            document.querySelectorAll('#qualitySelector .quality-option').forEach(opt => {
+                opt.addEventListener('click', function() {
+                    document.querySelectorAll('#qualitySelector .quality-option').forEach(el => el.classList.remove('active'));
+                    this.classList.add('active');
+                    selectedQuality = this.dataset.quality;
+                    if (currentProduct) {
+                        currentPricePerUnit = getPriceForQuality(currentProduct.startingPrice, selectedQuality);
+                        document.getElementById('modalPricePerUnit').textContent = `KSh ${currentPricePerUnit.toLocaleString()}`;
+                        updateModalPrice();
+                    }
+                    // Update all product cards
+                    updateProductPrices();
+                });
+            });
+
+            // Quality picker events
+            document.getElementById('closePickerBtn').addEventListener('click', closeQualityPicker);
+            document.getElementById('pickerAddToCartBtn').addEventListener('click', pickerAddToCart);
+            document.getElementById('qualityPickerOverlay').addEventListener('click', function(e) {
+                if (e.target === this) closeQualityPicker();
             });
 
             renderCategories();
             goToCategories();
             updateBadge();
+            
+            // Close dropdown on mobile menu close
+            document.addEventListener('click', function(e) {
+                const navDropdown = document.getElementById('navDropdown');
+                if (navDropdown && !navDropdown.contains(e.target)) {
+                    closeNavDropdown();
+                }
+            });
         });
     </script>
 </body>

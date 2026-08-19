@@ -3,10 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-         <link rel="icon" type="image/x-icon" href="../images/teardrop.jpg">
-    <title>Admin Dashboard - Karis Printers</title>
+    <link rel="icon" type="image/x-icon" href="../images/teardrop.jpg">
+    <title>Admin Dashboard - Rise Axis Solutions</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
+        /* === BRAND COLORS === */
+        :root {
+            --brand-blue: #19589d;
+            --brand-red: #dc1c2c;
+            --brand-green: #10aa51;
+            --brand-brown: #8f5c38;
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -32,11 +40,11 @@
         .logo {
             font-size: 1.8rem;
             font-weight: 700;
-            color: #0056b3;
+            color: var(--brand-blue);
         }
-        .logo span { color: #ff6b00; }
+        .logo span { color: var(--brand-red); }
         .admin-badge {
-            background: #dc3545;
+            background: var(--brand-red);
             color: #fff;
             padding: 4px 14px;
             border-radius: 20px;
@@ -56,16 +64,16 @@
             text-decoration: none;
             color: #333;
         }
-        nav a:hover { color: #0056b3; }
-        nav a.active { color: #0056b3; font-weight: 600; }
+        nav a:hover { color: var(--brand-blue); }
+        nav a.active { color: var(--brand-blue); font-weight: 600; }
         .logout-btn {
-            background: #dc3545;
+            background: var(--brand-red);
             color: #fff !important;
             padding: 8px 20px;
             border-radius: 25px;
             font-weight: 600;
         }
-        .logout-btn:hover { background: #c82333; color: #fff !important; }
+        .logout-btn:hover { background: #b31624; color: #fff !important; }
 
         .page-header {
             padding: 30px 0 20px;
@@ -78,6 +86,9 @@
             font-size: 2rem;
             font-weight: 700;
             color: #1a1a1a;
+        }
+        .page-header h1 i {
+            color: var(--brand-blue);
         }
         .page-header .stats {
             display: flex;
@@ -95,7 +106,7 @@
         .page-header .stat-card .number {
             font-size: 1.8rem;
             font-weight: 700;
-            color: #0056b3;
+            color: var(--brand-blue);
         }
         .page-header .stat-card .label {
             font-size: 0.75rem;
@@ -125,7 +136,7 @@
         }
         .filters select:focus, .filters input:focus {
             outline: none;
-            border-color: #0056b3;
+            border-color: var(--brand-blue);
         }
         .filters .search-box {
             display: flex;
@@ -134,7 +145,7 @@
         }
         .filters .search-box input { min-width: 200px; }
         .filters .refresh-btn {
-            background: #0056b3;
+            background: var(--brand-blue);
             color: #fff;
             border: none;
             padding: 8px 16px;
@@ -144,7 +155,7 @@
             transition: 0.2s;
             margin-left: auto;
         }
-        .filters .refresh-btn:hover { background: #003d80; }
+        .filters .refresh-btn:hover { background: #0e3f70; }
 
         .filters label {
             font-size: 0.9rem;
@@ -200,7 +211,7 @@
         .status-processing { background: #cce5ff; color: #004085; }
         .status-printed { background: #d4edda; color: #155724; }
         .status-shipped { background: #d1ecf1; color: #0c5460; }
-        .status-delivered { background: #28a745; color: #fff; }
+        .status-delivered { background: var(--brand-green); color: #fff; }
         .status-cancelled { background: #f8d7da; color: #721c24; }
 
         .status-select {
@@ -213,13 +224,13 @@
             background: #fff;
             transition: 0.2s;
         }
-        .status-select:focus { outline: none; border-color: #0056b3; }
+        .status-select:focus { outline: none; border-color: var(--brand-blue); }
         .status-select.status-pending { border-color: #ffc107; color: #856404; }
         .status-select.status-processing { border-color: #17a2b8; color: #004085; }
-        .status-select.status-printed { border-color: #28a745; color: #155724; }
-        .status-select.status-shipped { border-color: #0056b3; color: #0c5460; }
-        .status-select.status-delivered { border-color: #28a745; color: #28a745; }
-        .status-select.status-cancelled { border-color: #dc3545; color: #721c24; }
+        .status-select.status-printed { border-color: var(--brand-green); color: #155724; }
+        .status-select.status-shipped { border-color: var(--brand-blue); color: #0c5460; }
+        .status-select.status-delivered { border-color: var(--brand-green); color: var(--brand-green); }
+        .status-select.status-cancelled { border-color: var(--brand-red); color: #721c24; }
 
         .loading-spinner {
             text-align: center;
@@ -268,6 +279,102 @@
             to { transform: translateY(0); opacity: 1; }
         }
 
+        /* modal style for order details */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(2px);
+            z-index: 3000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.25s ease;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-box {
+            background: #fff;
+            max-width: 650px;
+            width: 90%;
+            border-radius: 20px;
+            padding: 30px 30px 25px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            transform: scale(0.95);
+            transition: 0.25s ease;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+        .modal-overlay.active .modal-box {
+            transform: scale(1);
+        }
+        .modal-box h2 {
+            font-size: 1.6rem;
+            margin-bottom: 6px;
+            color: #0a1e33;
+            border-bottom: 2px solid #eef2f6;
+            padding-bottom: 12px;
+        }
+        .modal-box .order-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #6a8aa8;
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+        .modal-box .detail-row {
+            display: flex;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f3f8;
+        }
+        .modal-box .detail-row .label {
+            font-weight: 600;
+            min-width: 130px;
+            color: #1a2e44;
+        }
+        .modal-box .detail-row .value {
+            color: #1a1a1a;
+            word-break: break-word;
+        }
+        .modal-box .file-link {
+            color: var(--brand-blue);
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        .modal-box .close-modal {
+            margin-top: 20px;
+            background: #eef2f6;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            float: right;
+        }
+        .modal-box .close-modal:hover { background: #dce2ea; }
+        .modal-box .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0;
+            font-size: 0.9rem;
+        }
+        .modal-box .items-table th {
+            background: #f8f9fa;
+            padding: 8px 10px;
+            text-align: left;
+            font-weight: 600;
+        }
+        .modal-box .items-table td {
+            padding: 8px 10px;
+            border-bottom: 1px solid #eef2f6;
+        }
+
         @media (max-width: 768px) {
             .page-header { flex-direction: column; align-items: flex-start; gap: 15px; }
             .page-header .stats { width: 100%; justify-content: space-between; }
@@ -286,13 +393,33 @@
             table th, table td { padding: 8px 10px; font-size: 0.7rem; }
             .status-badge { min-width: 60px; font-size: 0.6rem; padding: 2px 10px; }
         }
+        /* small action button */
+        .action-group {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .btn-details {
+            background: #e9ecef;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+            padding: 4px 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #1a2e44;
+            cursor: pointer;
+            transition: 0.2s;
+            white-space: nowrap;
+        }
+        .btn-details:hover { background: #dee2e6; }
     </style>
 </head>
 <body>
 
 <header>
     <div class="container">
-        <div class="logo">Karis<span>Printers</span> <span class="admin-badge">Admin</span></div>
+        <div class="logo">Rise Axis<span> Solutions</span> <span class="admin-badge">Admin</span></div>
         <nav>
             <a href="admin-dashboard.html" class="active">Dashboard</a>
             <a href="#" class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
@@ -302,7 +429,7 @@
 
 <div class="container">
     <div class="page-header">
-        <h1><i class="fas fa-tachometer-alt" style="color: #0056b3;"></i> Orders Dashboard</h1>
+        <h1><i class="fas fa-tachometer-alt"></i> Orders Dashboard</h1>
         <div class="stats">
             <div class="stat-card"><div class="number" id="totalOrders">0</div><div class="label">Total Orders</div></div>
             <div class="stat-card"><div class="number" id="pendingOrders">0</div><div class="label">Pending</div></div>
@@ -345,6 +472,31 @@
                 Loading orders...
             </div>
         </div>
+    </div>
+</div>
+
+<!-- Modal for order details -->
+<div class="modal-overlay" id="orderDetailModal">
+    <div class="modal-box">
+        <h2>📄 Order Details</h2>
+        <div class="order-meta">
+            <span id="modalOrderId">#ORD-123</span>
+            <span id="modalOrderDate">Date</span>
+        </div>
+        <div id="modalDetailContent">
+            <div class="detail-row"><span class="label">Customer</span><span class="value" id="modalCustomerName">—</span></div>
+            <div class="detail-row"><span class="label">Email</span><span class="value" id="modalCustomerEmail">—</span></div>
+            <div class="detail-row"><span class="label">Phone</span><span class="value" id="modalCustomerPhone">—</span></div>
+            <div class="detail-row"><span class="label">Delivery Location</span><span class="value" id="modalDeliveryAddress">—</span></div>
+            <div class="detail-row"><span class="label">Status</span><span class="value" id="modalStatus">—</span></div>
+            <div style="margin-top: 12px; font-weight: 600;">Items</div>
+            <table class="items-table" id="modalItemsTable">
+                <thead><tr><th>Product</th><th>Qty</th><th>Quality</th></tr></thead>
+                <tbody id="modalItemsBody"></tbody>
+            </table>
+            <div class="detail-row" style="border-bottom: none;"><span class="label">File attached</span><span class="value" id="modalFileLink">None</span></div>
+        </div>
+        <button class="close-modal" id="closeModalBtn">Close</button>
     </div>
 </div>
 
@@ -392,6 +544,19 @@
     const sortFilter = document.getElementById('sortFilter');
     const refreshBtn = document.getElementById('refreshBtn');
     const logoutBtn = document.getElementById('logoutBtn');
+
+    // modal elements
+    const modalOverlay = document.getElementById('orderDetailModal');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const modalOrderId = document.getElementById('modalOrderId');
+    const modalOrderDate = document.getElementById('modalOrderDate');
+    const modalCustomerName = document.getElementById('modalCustomerName');
+    const modalCustomerEmail = document.getElementById('modalCustomerEmail');
+    const modalCustomerPhone = document.getElementById('modalCustomerPhone');
+    const modalDeliveryAddress = document.getElementById('modalDeliveryAddress');
+    const modalStatus = document.getElementById('modalStatus');
+    const modalItemsBody = document.getElementById('modalItemsBody');
+    const modalFileLink = document.getElementById('modalFileLink');
 
     let allOrders = [];
     let filteredOrders = [];
@@ -442,7 +607,7 @@
                     <div class="icon">⚠️</div>
                     <h3>Error loading orders</h3>
                     <p>${error.message || 'Please try again later.'}</p>
-                    <button onclick="window.loadOrders()" style="margin-top: 16px; padding: 10px 24px; background: #0056b3; color: #fff; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                    <button onclick="window.loadOrders()" style="margin-top: 16px; padding: 10px 24px; background: var(--brand-blue); color: #fff; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
                         <i class="fas fa-sync"></i> Retry
                     </button>
                 </div>
@@ -545,14 +710,19 @@
                         <span class="status-badge ${statusInfo.class}">${statusInfo.label}</span>
                     </td>
                     <td>
-                        <select class="status-select ${statusInfo.class}" 
-                                data-order-id="${order.id}" 
-                                onchange="window.updateOrderStatus('${order.id}', this.value)"
-                                aria-label="Update order status for ${order.orderId}">
-                            ${statusOptions.map(opt => `
-                                <option value="${opt}" ${opt === status ? 'selected' : ''}>${opt}</option>
-                            `).join('')}
-                        </select>
+                        <div class="action-group">
+                            <select class="status-select ${statusInfo.class}" 
+                                    data-order-id="${order.id}" 
+                                    onchange="window.updateOrderStatus('${order.id}', this.value)"
+                                    aria-label="Update order status for ${order.orderId}">
+                                ${statusOptions.map(opt => `
+                                    <option value="${opt}" ${opt === status ? 'selected' : ''}>${opt}</option>
+                                `).join('')}
+                            </select>
+                            <button class="btn-details" data-order-id="${order.id}" onclick="window.openOrderDetail('${order.id}')">
+                                <i class="fas fa-eye"></i> Details
+                            </button>
+                        </div>
                     </td>
                 </tr>
             `;
@@ -569,6 +739,61 @@
 
         ordersContainer.innerHTML = html;
     }
+
+    // =============================================
+    // OPEN ORDER DETAIL MODAL
+    // =============================================
+    window.openOrderDetail = function(orderId) {
+        const order = allOrders.find(o => o.id === orderId);
+        if (!order) {
+            showToast('Order not found', 'error');
+            return;
+        }
+
+        // fill modal
+        modalOrderId.textContent = order.orderId || 'N/A';
+        const date = order.createdAt ? new Date(order.createdAt) : new Date();
+        modalOrderDate.textContent = date.toLocaleDateString('en-KE', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+        modalCustomerName.textContent = order.customerName || '—';
+        modalCustomerEmail.textContent = order.customerEmail || '—';
+        modalCustomerPhone.textContent = order.customerPhone || '—';
+        modalDeliveryAddress.textContent = order.deliveryAddress || '—';
+        const st = order.status || 'Pending';
+        modalStatus.textContent = st + ' ' + (statusConfig[st] ? '✓' : '');
+
+        // items
+        const items = order.items || [];
+        let itemsHtml = '';
+        if (items.length === 0) {
+            itemsHtml = '<tr><td colspan="3" style="color:#6a8aa8;">No items listed</td></tr>';
+        } else {
+            items.forEach(item => {
+                const productName = item.productName || item.name || '—';
+                const qty = item.quantity || item.qty || 1;
+                const quality = item.quality || item.paperQuality || '—';
+                itemsHtml += `<tr><td>${productName}</td><td>${qty}</td><td>${quality}</td></tr>`;
+            });
+        }
+        modalItemsBody.innerHTML = itemsHtml;
+
+        // file
+        const fileUrl = order.fileUrl || order.attachedFile || null;
+        if (fileUrl) {
+            modalFileLink.innerHTML = `<a href="${fileUrl}" target="_blank" class="file-link"><i class="fas fa-file"></i> View file</a>`;
+        } else {
+            modalFileLink.textContent = 'None';
+        }
+
+        modalOverlay.classList.add('active');
+    };
+
+    // close modal
+    closeModalBtn.addEventListener('click', () => {
+        modalOverlay.classList.remove('active');
+    });
+    modalOverlay.addEventListener('click', (e) => {
+        if (e.target === modalOverlay) modalOverlay.classList.remove('active');
+    });
 
     window.updateOrderStatus = async function(orderId, newStatus) {
         try {
@@ -625,7 +850,6 @@
     document.addEventListener('DOMContentLoaded', function() {
         console.log('🚀 Admin Dashboard loaded - waiting for auth...');
         
-        // Show loading state
         ordersContainer.innerHTML = `
             <div class="loading-spinner">
                 <i class="fas fa-spinner fa-spin"></i>
@@ -633,14 +857,12 @@
             </div>
         `;
 
-        // Use onAuthStateChanged to wait for Firebase auth to initialize
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
             console.log('👤 Auth state changed:', user ? user.email : 'No user');
             
-            if (authInitialized) return; // Prevent duplicate processing
-            
+            if (authInitialized) return;
             authInitialized = true;
-            unsubscribe(); // Remove listener after first check
+            unsubscribe();
 
             if (!user) {
                 console.log('❌ No user, redirecting to login');
@@ -661,7 +883,6 @@
             }
         });
 
-        // Fallback: If auth doesn't initialize within 3 seconds, check current user
         setTimeout(async () => {
             if (!authInitialized) {
                 console.log('⏰ Auth timeout - checking current user...');

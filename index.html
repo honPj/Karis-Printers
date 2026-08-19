@@ -3,30 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Karis Printers - Quality Printing, Clear Prices</title>
+    <title>Rise Axis Solutions - Quality Services, Clear Prices</title>
     <meta name="description" content="Professional printing services in Kenya. Business cards, banners, apparel, packaging, and more. Clear prices, fast turnaround, free delivery.">
-    <meta name="keywords" content="printing services Kenya, business cards, banners, apparel printing, packaging, labels, Nairobi printing, Karis Printers">
+    <meta name="keywords" content="printing services Kenya, business cards, banners, apparel printing, packaging, labels, Nairobi printing, Rise Axis Solutions">
     <meta name="robots" content="index, follow">
-    <meta name="author" content="Karis Printers">
+    <meta name="author" content="riseaxis.co.ke">
     <meta name="language" content="English">
     <meta name="revisit-after" content="7 days">
-    <meta property="og:title" content="Karis Printers - Quality Printing Services in Kenya">
-    <meta property="og:description" content="Professional printing services with clear prices. Business cards, banners, apparel, packaging, and more.">
+    <meta property="og:title" content="Rise Axis Solutions - Quality Services in Kenya">
+    <meta property="og:description" content="Professional services with clear pricing. Business cards, banners, apparel, packaging, and more.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://karisprinters.co.ke">
-    <meta property="og:image" content="https://karisprinters.co.ke/images/og-image.jpg">
-    <meta property="og:site_name" content="Karis Printers">
+    <meta property="og:url" content="https://riseaxis.co.ke">
+    <meta property="og:image" content="https://riseaxis.co.ke/images/og-image.jpg">
+    <meta property="og:site_name" content="Rise Axis Solutions">
     <meta property="og:locale" content="en_KE">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Karis Printers - Quality Printing in Kenya">
-    <meta name="twitter:description" content="Professional printing services with clear prices. Fast turnaround, free delivery.">
-    <meta name="twitter:image" content="https://karisprinters.co.ke/images/og-image.jpg">
-    <link rel="canonical" href="https://karisprinters.co.ke">
+    <meta name="twitter:title" content="Rise Axis Solutions - Quality Services in Kenya">
+    <meta name="twitter:description" content="Professional services with clear pricing. Business cards, banners, apparel, packaging, and more.">
+    <meta name="twitter:image" content="https://riseaxis.co.ke/images/og-image.jpg">
+    <link rel="canonical" href="https://riseaxis.co.ke">
     <link rel="icon" type="image/x-icon" href="./images/teardrop.jpg">
     <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
+        /* === BRAND COLORS === */
+        :root {
+            --brand-blue: #19589d;
+            --brand-red: #dc1c2c;
+            --brand-green: #10aa51;
+            --brand-brown: #8f5c38;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -48,7 +56,7 @@
             padding: 0 20px;
         }
         .btn-primary {
-            background: #0056b3;
+            background: var(--brand-blue);
             color: #fff;
             padding: 12px 30px;
             border: none;
@@ -60,13 +68,13 @@
             display: inline-block;
         }
         .btn-primary:hover {
-            background: #003d80;
+            background: #0e3f70;
         }
         .btn-outline {
             background: transparent;
-            color: #0056b3;
+            color: var(--brand-blue);
             padding: 10px 25px;
-            border: 2px solid #0056b3;
+            border: 2px solid var(--brand-blue);
             border-radius: 30px;
             font-size: 0.95rem;
             font-weight: 600;
@@ -75,7 +83,7 @@
             display: inline-block;
         }
         .btn-outline:hover {
-            background: #0056b3;
+            background: var(--brand-blue);
             color: #fff;
         }
         header {
@@ -96,10 +104,10 @@
         .logo {
             font-size: 1.8rem;
             font-weight: 700;
-            color: #0056b3;
+            color: var(--brand-blue);
         }
         .logo span {
-            color: #ff6b00;
+            color: var(--brand-red);
         }
 
         /* ===== HAMBURGER MENU STYLES ===== */
@@ -117,7 +125,7 @@
             display: block;
             width: 28px;
             height: 3px;
-            background: #0056b3;
+            background: var(--brand-blue);
             border-radius: 3px;
             transition: all 0.3s ease;
         }
@@ -131,7 +139,7 @@
             transform: rotate(-45deg) translate(5px, -6px);
         }
 
-        /* Navigation - Original Style */
+        /* Navigation - with Services Dropdown */
         nav {
             display: flex;
             gap: 25px;
@@ -143,21 +151,90 @@
             transition: color 0.3s ease;
         }
         nav a:hover {
-            color: #0056b3;
+            color: var(--brand-blue);
         }
+        
+        /* ----- SERVICES DROPDOWN IN NAV ----- */
+        .nav-dropdown {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .nav-dropdown .nav-dropdown-label {
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #1a1a1a;
+            transition: color 0.3s ease;
+        }
+        .nav-dropdown .nav-dropdown-label:hover {
+            color: var(--brand-blue);
+        }
+        .nav-dropdown .nav-dropdown-label .arrow-icon {
+            font-size: 0.65rem;
+            transition: transform 0.25s ease;
+        }
+        .nav-dropdown .nav-dropdown-label .arrow-icon.open {
+            transform: rotate(180deg);
+        }
+
+        .nav-dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #fff;
+            min-width: 260px;
+            border-radius: 16px;
+            box-shadow: 0 12px 36px rgba(0,0,0,0.12);
+            border: 1px solid #eef2f6;
+            padding: 8px 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(8px);
+            transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+            z-index: 200;
+        }
+        .nav-dropdown-menu.open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0px);
+        }
+        .nav-dropdown-menu .dropdown-item {
+            display: block;
+            padding: 10px 20px;
+            font-weight: 500;
+            color: #1d2b3a;
+            font-size: 0.92rem;
+            transition: background 0.15s;
+            cursor: pointer;
+            border-left: 3px solid transparent;
+        }
+        .nav-dropdown-menu .dropdown-item:hover {
+            background: #f0f6fe;
+            border-left-color: var(--brand-blue);
+            color: var(--brand-blue);
+        }
+        .nav-dropdown-menu .dropdown-item.active {
+            background: #e8f0fe;
+            border-left-color: var(--brand-blue);
+            color: var(--brand-blue);
+            font-weight: 600;
+        }
+
         .nav-cta {
-            background: #ff6b00;
+            background: var(--brand-red);
             color: #fff;
             padding: 8px 20px;
             border-radius: 25px;
             font-weight: 600;
         }
         .nav-cta:hover {
-            background: #e05500;
+            background: #b31624;
             color: #fff !important;
         }
         .cart-badge {
-            background: #ff6b00;
+            background: var(--brand-red);
             color: #fff;
             font-size: 0.7rem;
             font-weight: 700;
@@ -172,7 +249,7 @@
         /* ===== MOBILE CART BUTTON - VISIBLE ONLY ON MOBILE ===== */
         .mobile-cart-btn {
             display: none;
-            background: #ff6b00;
+            background: var(--brand-red);
             color: #fff;
             padding: 6px 14px;
             border-radius: 25px;
@@ -184,7 +261,7 @@
             margin-left: 5px;
         }
         .mobile-cart-btn:hover {
-            background: #e05500;
+            background: #b31624;
             color: #fff !important;
         }
         .mobile-cart-btn .cart-badge {
@@ -249,7 +326,7 @@
             text-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
         .hero h1 .highlight {
-            color: #ffb347;
+            color: var(--brand-green);
         }
         .hero p {
             font-size: 1.4rem;
@@ -259,11 +336,11 @@
             text-shadow: 0 2px 12px rgba(0,0,0,0.3);
         }
         .hero-buttons .btn-primary {
-            background: #ff6b00;
-            box-shadow: 0 4px 16px rgba(255,107,0,0.4);
+            background: var(--brand-red);
+            box-shadow: 0 4px 16px rgba(220,28,44,0.4);
         }
         .hero-buttons .btn-primary:hover {
-            background: #e05500;
+            background: #b31624;
         }
         .hero-buttons .btn-outline {
             color: #fff;
@@ -273,7 +350,7 @@
         }
         .hero-buttons .btn-outline:hover {
             background: #fff;
-            color: #0056b3;
+            color: var(--brand-blue);
         }
         .stats {
             background: #fff;
@@ -294,7 +371,7 @@
         .stats-grid .stat-number {
             font-size: 2rem;
             font-weight: 700;
-            color: #0056b3;
+            color: var(--brand-blue);
         }
         .stats-grid .stat-label {
             color: #666;
@@ -357,7 +434,7 @@
         }
         .product-card .tag {
             background: #eef3fc;
-            color: #1e4c7a;
+            color: var(--brand-blue);
             font-size: 0.6rem;
             font-weight: 600;
             text-transform: uppercase;
@@ -379,7 +456,7 @@
         .product-card .price {
             font-size: 1.5rem;
             font-weight: 700;
-            color: #0f3b5e;
+            color: var(--brand-blue);
             margin: 6px 0 14px 0;
         }
         .product-card .price small {
@@ -416,22 +493,22 @@
             color: #1d2b3a;
         }
         .product-card .btn-primary {
-            background: #0d2f4f;
+            background: var(--brand-blue);
             color: white;
-            box-shadow: 0 4px 12px rgba(13, 47, 79, 0.15);
+            box-shadow: 0 4px 12px rgba(25, 88, 157, 0.25);
         }
         .product-card .btn-primary:hover {
-            background: #1a3f64;
+            background: #0e3f70;
             transform: scale(1.01);
         }
         .product-card .btn-enquire {
             background: #eaf3e8;
-            color: #1b5e3a;
-            border: 2px solid #b8d5b0;
+            color: var(--brand-green);
+            border: 2px solid var(--brand-green);
         }
         .product-card .btn-enquire:hover {
             background: #d9ebd6;
-            border-color: #2a7a4b;
+            border-color: #0b8a44;
         }
         .cart-modal-overlay {
             display: none;
@@ -509,7 +586,7 @@
         }
         .cart-modal .form-group input[type="number"]:focus {
             outline: none;
-            border-color: #0056b3;
+            border-color: var(--brand-blue);
             background: #fff;
         }
         .cart-modal .form-group input[type="file"] {
@@ -522,12 +599,12 @@
             background: #fafcff;
         }
         .cart-modal .form-group input[type="file"]:hover {
-            border-color: #0056b3;
+            border-color: var(--brand-blue);
             background: #f5f9ff;
         }
         .cart-modal .form-group .file-name {
             font-size: 0.85rem;
-            color: #2a7a4b;
+            color: var(--brand-green);
             margin-top: 6px;
             display: none;
         }
@@ -557,7 +634,7 @@
         .cart-modal .btn-add-to-cart {
             width: 100%;
             padding: 14px;
-            background: #0d2f4f;
+            background: var(--brand-blue);
             color: #fff;
             border: none;
             border-radius: 60px;
@@ -565,10 +642,10 @@
             font-weight: 700;
             cursor: pointer;
             transition: 0.2s;
-            box-shadow: 0 4px 16px rgba(13, 47, 79, 0.25);
+            box-shadow: 0 4px 16px rgba(25, 88, 157, 0.3);
         }
         .cart-modal .btn-add-to-cart:hover {
-            background: #1a3f64;
+            background: #0e3f70;
             transform: scale(1.01);
         }
         .toast-message {
@@ -578,7 +655,7 @@
             padding: 16px 24px;
             background: #e5f4e6;
             border-radius: 60px;
-            color: #1f5e3a;
+            color: var(--brand-green);
             font-weight: 500;
             font-size: 0.95rem;
             display: none;
@@ -613,7 +690,7 @@
         }
         .testimonial-slide .client-name {
             font-weight: 600;
-            color: #0056b3;
+            color: var(--brand-blue);
         }
         .testimonial-slide .client-location {
             color: #888;
@@ -635,7 +712,7 @@
             transition: background 0.3s;
         }
         .testimonial-dots .dot.active {
-            background: #0056b3;
+            background: var(--brand-blue);
         }
         footer {
             background: #1a1a1a;
@@ -677,38 +754,127 @@
                 margin-left: 10px;
             }
 
-            /* Show mobile cart button */
             .mobile-cart-btn {
                 display: inline-flex;
             }
 
-            /* Hide nav links on mobile */
+            /* ---- SLIDE-IN NAVIGATION ---- */
             nav {
-                display: none;
+                position: fixed;
+                top: 0;
+                left: -320px;
+                width: 300px;
+                height: 100vh;
+                background: #ffffff;
+                box-shadow: 4px 0 20px rgba(0,0,0,0.12);
                 flex-direction: column;
-                width: 100%;
-                padding: 20px 0;
-                gap: 15px;
-                background: #fff;
-                border-top: 1px solid #eee;
-                position: absolute;
-                top: 70px;
-                left: 0;
-                box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-                align-items: center;
-                order: 3;
-            }
-
-            nav.open {
+                padding: 70px 24px 30px;
+                gap: 0;
+                align-items: stretch;
+                transition: left 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+                z-index: 150;
+                overflow-y: auto;
+                border-right: 1px solid #eef2f6;
                 display: flex;
             }
 
-            /* Hide the cart inside the hamburger menu on mobile */
+            nav.open {
+                left: 0;
+            }
+
+            /* overlay backdrop */
+            .nav-overlay {
+                display: none;
+                position: fixed;
+                inset: 0;
+                background: rgba(0,0,0,0.35);
+                z-index: 140;
+                transition: opacity 0.25s ease;
+                opacity: 0;
+            }
+            .nav-overlay.show {
+                display: block;
+                opacity: 1;
+            }
+
+            /* mobile nav links - vertical single column */
+            nav a {
+                font-size: 1.1rem;
+                padding: 12px 0;
+                border-bottom: 1px solid #f0f2f5;
+                width: 100%;
+                display: block;
+            }
             nav .nav-cta {
                 display: none !important;
             }
 
-            /* Keep header layout */
+            /* mobile dropdown inside slide menu */
+            .nav-dropdown {
+                width: 100%;
+                text-align: left;
+                display: block;
+            }
+            .nav-dropdown .nav-dropdown-label {
+                justify-content: flex-start;
+                font-size: 1.1rem;
+                padding: 12px 0;
+                border-bottom: 1px solid #f0f2f5;
+                width: 100%;
+                display: flex;
+                align-items: center;
+            }
+
+            /* Arrow icon points right on mobile by default */
+            .nav-dropdown .nav-dropdown-label .arrow-icon {
+                margin-left: auto;
+                transform: rotate(0deg) !important;
+                font-size: 0.8rem;
+                transition: transform 0.3s ease;
+            }
+
+            /* When dropdown is open, rotate arrow to point down */
+            .nav-dropdown .nav-dropdown-label .arrow-icon.open {
+                transform: rotate(90deg) !important;
+            }
+
+            .nav-dropdown-menu {
+                position: static;
+                box-shadow: none;
+                border: none;
+                border-radius: 0;
+                padding: 0;
+                transform: none;
+                background: transparent;
+                min-width: auto;
+                width: 100%;
+                max-height: 0;
+                overflow: hidden;
+                opacity: 0;
+                visibility: hidden;
+                transition: max-height 0.35s ease, opacity 0.3s ease, visibility 0.3s ease, padding 0.3s ease;
+                padding: 0 0 0 12px;
+                margin: 0;
+            }
+            .nav-dropdown-menu.open {
+                max-height: 500px;
+                opacity: 1;
+                visibility: visible;
+                padding: 0 0 0 12px;
+            }
+            .nav-dropdown-menu .dropdown-item {
+                padding: 10px 12px;
+                text-align: left;
+                border-left: none;
+                border-bottom: 1px solid #f0f2f5;
+                font-size: 0.95rem;
+                display: block;
+                width: 100%;
+            }
+            .nav-dropdown-menu .dropdown-item:hover {
+                background: #f5f8fc;
+            }
+
             header .container {
                 display: flex;
                 justify-content: flex-start;
@@ -782,9 +948,12 @@
     </style>
 </head>
 <body>
+<!-- overlay backdrop for slide menu -->
+<div class="nav-overlay" id="navOverlay"></div>
+
 <header>
     <div class="container">
-        <div class="logo">Karis<span>Printers</span></div>
+        <div class="logo">Rise Axis<span> Solutions</span></div>
 
         <!-- Hamburger Button (mobile only) -->
         <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
@@ -798,9 +967,26 @@
             <i class="fas fa-shopping-cart"></i> Cart <span class="cart-badge" id="mobileCartBadge">0</span>
         </a>
 
-        <!-- ===== UPDATED NAVIGATION ===== -->
+        <!-- ===== NAVIGATION WITH SERVICES DROPDOWN (slide-in) ===== -->
         <nav id="mainNav">
             <a href="index.html">Home</a>
+            
+            <!-- SERVICES DROPDOWN -->
+            <div class="nav-dropdown" id="navDropdown">
+                <span class="nav-dropdown-label" id="navDropdownLabel">
+                    Services
+                    <i class="fas fa-chevron-right arrow-icon" id="navDropdownArrow"></i>
+                </span>
+                <div class="nav-dropdown-menu" id="navDropdownMenu">
+                    <div class="dropdown-item" data-category="Commercial & Marketing Materials">Commercial & Marketing Materials</div>
+                    <div class="dropdown-item" data-category="Large Format & Signage">Large Format & Signage</div>
+                    <div class="dropdown-item" data-category="Branded Merchandise & Apparel">Branded Merchandise & Apparel</div>
+                    <div class="dropdown-item" data-category="Packaging & Labels">Packaging & Labels</div>
+                    <div class="dropdown-item" data-category="Graphic design">Graphic Design</div>
+                    <div class="dropdown-item" data-category="Website development">Website Development</div>
+                </div>
+            </div>
+
             <a href="pages/catalog.html">Catalog</a>
             <a href="pages/about.html">About</a>
             <a href="pages/contact.html">Contact</a>
@@ -821,7 +1007,7 @@
                 <i class="fas fa-shopping-cart"></i> Cart <span class="cart-badge" id="navCartBadge">0</span>
             </a>
         </nav>
-        <!-- ===== END UPDATED NAVIGATION ===== -->
+        <!-- ===== END NAVIGATION ===== -->
         
     </div>
 </header>
@@ -835,11 +1021,11 @@
     </div>
     <div class="hero-overlay"></div>
     <div class="container">
-        <h1>Quality Printing, <span class="highlight">Clear Prices</span></h1>
+        <h1>Quality Services, <span class="highlight">Clear Prices</span></h1>
         <p>From business cards to banners, apparel to packaging orders. No quotes, no hidden fees.</p>
         <div class="hero-buttons">
             <a href="pages/catalog.html" class="btn-primary">Browse Products</a>
-            <a href="pages/cart.html" class="btn-outline">Place your Order</a>
+            <a href="pages/cart.html" class="btn-outline">Shop with us</a>
         </div>
     </div>
 </section>
@@ -919,43 +1105,47 @@
 </div>
 
 <div class="toast-message" id="toastMessage">
-    <i class="fas fa-check-circle" style="color:#2a7a4b;"></i>
+    <i class="fas fa-check-circle" style="color:#10aa51;"></i>
     <span id="toastText">Item added</span>
 </div>
 
+<!-- ===== FOOTER ===== -->
 <footer>
     <div class="container">
         <div class="footer-grid">
             <div>
-                <h4>Karis Printers</h4>
-                <p style="color: #aaa; font-size: 0.95rem;">Quality printing services in Kenya. Fast, affordable, and reliable.</p>
+                <h4>Rise Axis Solutions</h4>
+                <p style="color: #aaa; font-size: 0.95rem;">Quality services countrywide. Fast, affordable, and reliable.</p>
             </div>
             <div>
                 <h4>Quick Links</h4>
-                <a href="/pages/catalog.html">Catalog</a>
-                <a href="/pages/cart.html">Order Now</a>
-                <a href="/pages/about.html">About Us</a>
-                <a href="/pages/contact.html">Contact</a>
+                <a href="pages/catalog.html">Catalog</a>
+                <a href="pages/cart.html">Order Now</a>
+                <a href="pages/about.html">About Us</a>
+                <a href="pages/contact.html">Contact</a>
             </div>
             <div>
                 <h4>Contact</h4>
-                <a href="tel:+254703551225">📞 +254 703551225</a>
-                <a href="mailto:KarisPrinters@gmail.com">✉️ KarisPrinters@gmail.com</a>
-                <a href="#">📍 Nairobi, Kenya</a>
+                <a href="tel:+254-700-123-456">📞 +254-700-123-456</a>
+                <a href="mailto:contact@riseaxis.co.ke">✉️ contact@riseaxis.co.ke</a>
+                <a href="#"><p>📍 188 Hood Avenue, 3rd Floor
+
+                    72</p> Riverside Drive, Office 5</a>
             </div>
-            <div>
+            <!-- <div>
                 <h4>M-Pesa Paybill</h4>
                 <p style="color: #fff; font-weight: 600; font-size: 1.2rem;">Paybill: 123456</p>
                 <p style="color: #aaa; font-size: 0.9rem;">Account: Order ID</p>
-            </div>
+            </div> -->
         </div>
         <div class="copyright">
-            &copy; 2026 Karis Printers. All rights reserved.
+            &copy; 2026 Rise Axis Solutions. All rights reserved.
         </div>
     </div>
 </footer>
 
-<!-- ===== UPDATED SCRIPT WITH AUTH NAVIGATION ===== -->
+
+<!-- ===== SCRIPT WITH DROPDOWN FUNCTIONALITY ===== -->
 <script type="module">
     // =============================================
     // EMAILJS INIT
@@ -974,29 +1164,24 @@
         const logoutLink = document.getElementById('logoutLink');
         
         if (user) {
-            // User is logged in
             authLinks.style.display = 'none';
             userLinks.style.display = 'inline';
             if (accountLink) {
                 accountLink.textContent = user.displayName || 'My Account';
             }
         } else {
-            // User is logged out
             authLinks.style.display = 'inline';
             userLinks.style.display = 'none';
         }
     }
 
-    // Check auth state on page load
     const user = getCurrentUser();
     updateAuthUI(user);
     
-    // Listen for auth changes
     onAuthChange((user) => {
         updateAuthUI(user);
     });
     
-    // Logout functionality
     const logoutLink = document.getElementById('logoutLink');
     if (logoutLink) {
         logoutLink.addEventListener('click', async function(e) {
@@ -1005,6 +1190,76 @@
                 const result = await logoutUser();
                 if (result.success) {
                     window.location.href = 'pages/login.html';
+                }
+            }
+        });
+    }
+
+    // =============================================
+    // MOBILE ACCORDION TOGGLE FOR SERVICES
+    // =============================================
+    // Only use accordion behavior on mobile
+    function isMobile() {
+        return window.innerWidth <= 768;
+    }
+
+    // Setup mobile accordion
+    function setupMobileAccordion() {
+        const dropdownLabel = document.getElementById('navDropdownLabel');
+        const dropdownMenu = document.getElementById('navDropdownMenu');
+        const dropdownArrow = document.getElementById('navDropdownArrow');
+        const dropdown = document.getElementById('navDropdown');
+
+        if (!dropdownLabel || !dropdownMenu || !dropdownArrow || !dropdown) return;
+
+        // Remove any existing click listeners on the label
+        const newLabel = dropdownLabel.cloneNode(true);
+        dropdownLabel.parentNode.replaceChild(newLabel, dropdownLabel);
+
+        // Re-fetch the new label
+        const freshLabel = document.getElementById('navDropdownLabel');
+        const freshArrow = document.getElementById('navDropdownArrow');
+        const freshMenu = document.getElementById('navDropdownMenu');
+
+        // Click handler for the arrow/label - toggle accordion
+        freshLabel.addEventListener('click', function(e) {
+            e.stopPropagation();
+            
+            if (!isMobile()) {
+                // On desktop, use the dropdown behavior
+                const isOpen = freshMenu.classList.contains('open');
+                if (isOpen) {
+                    freshMenu.classList.remove('open');
+                    freshArrow.classList.remove('open');
+                } else {
+                    freshMenu.classList.add('open');
+                    freshArrow.classList.add('open');
+                }
+                return;
+            }
+
+            // Mobile accordion toggle
+            const isOpen = freshMenu.classList.contains('open');
+            if (isOpen) {
+                // Close
+                freshMenu.classList.remove('open');
+                freshArrow.classList.remove('open');
+            } else {
+                // Open
+                freshMenu.classList.add('open');
+                freshArrow.classList.add('open');
+            }
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!dropdown.contains(e.target)) {
+                if (isMobile()) {
+                    freshMenu.classList.remove('open');
+                    freshArrow.classList.remove('open');
+                } else {
+                    freshMenu.classList.remove('open');
+                    freshArrow.classList.remove('open');
                 }
             }
         });
@@ -1081,7 +1336,7 @@
                                 <button class="btn btn-primary" onclick="openCartModal('${product.id}')">
                                     <i class="fas fa-cart-plus"></i> Add to cart
                                 </button>
-                                <a href="pages/contact.html" class="btn btn-enquire" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 12px 14px; border-radius: 60px; font-weight: 600; font-size: 0.9rem; border: 2px solid #b8d5b0; background: #eaf3e8; color: #1b5e3a; cursor: pointer; transition: 0.2s ease; flex: 1 1 0;">
+                                <a href="pages/contact.html" class="btn btn-enquire" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 12px 14px; border-radius: 60px; font-weight: 600; font-size: 0.9rem; border: 2px solid #10aa51; background: #eaf3e8; color: #10aa51; cursor: pointer; transition: 0.2s ease; flex: 1 1 0;">
                                     <i class="fas fa-comment-dots"></i> Enquire
                                 </a>
                             </div>
@@ -1163,10 +1418,10 @@
     // TESTIMONIALS
     // =============================================
     const testimonials = [
-        { quote: "I did my Business receipt books and business cards with Karis Printers. Nice work. I recommend.", name: "Waweru James", location: "Nairobi, Kenya" },
-        { quote: "I like working with Karis Printers on branding and printing services. Quality prints, affordable prices and timely delivery.", name: "muturi", location: "Nyandarua, Kenya" },
+        { quote: "I did my Business receipt books and business cards with Rise Axis Solutions. Nice work. I recommend.", name: "Waweru James", location: "Nairobi, Kenya" },
+        { quote: "I like working with Rise Axis Solutions on branding and printing services. Quality prints, affordable prices and timely delivery.", name: "muturi", location: "Nyandarua, Kenya" },
         { quote: "Good quality & professional team. Very responsive & deliver before agreed deadlines.", name: "Grace Aluoch", location: "Nairobi, Kenya" },
-        { quote: "I am based in Thika, I find it easy using Karis Printers for our printing works, which include books, brochures, flyers, magazines and labels.", name: "Mohamed Abdul", location: "Thika, Kenya" },
+        { quote: "I am based in Thika, I find it easy using Rise Axis Solutions for our printing works, which include books, brochures, flyers, magazines and labels.", name: "Mohamed Abdul", location: "Thika, Kenya" },
         { quote: "Best Printing company in Kenya. I love your services and quick response.", name: "Terri njeri", location: "Muranga, kenya" }
     ];
 
@@ -1212,33 +1467,62 @@
         resetAutoPlay();
         updateBadge();
 
-        // ===== HAMBURGER MENU TOGGLE =====
+        // Setup mobile accordion
+        setupMobileAccordion();
+
+        // ===== SLIDE-IN MENU CONTROLS =====
         const hamburger = document.getElementById('hamburgerBtn');
         const navLinks = document.getElementById('mainNav');
+        const overlay = document.getElementById('navOverlay');
+
+        function openMobileMenu() {
+            hamburger.classList.add('active');
+            navLinks.classList.add('open');
+            overlay.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeMobileMenu() {
+            hamburger.classList.remove('active');
+            navLinks.classList.remove('open');
+            overlay.classList.remove('show');
+            document.body.style.overflow = '';
+            
+            // Close any open accordion when menu closes
+            const menu = document.getElementById('navDropdownMenu');
+            const arrow = document.getElementById('navDropdownArrow');
+            if (menu && arrow) {
+                menu.classList.remove('open');
+                arrow.classList.remove('open');
+            }
+        }
 
         if (hamburger && navLinks) {
             hamburger.addEventListener('click', function(e) {
                 e.stopPropagation();
-                this.classList.toggle('active');
-                navLinks.classList.toggle('open');
-            });
-
-            // Close menu when a link is clicked
-            navLinks.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', function() {
-                    hamburger.classList.remove('active');
-                    navLinks.classList.remove('open');
-                });
-            });
-
-            // Close menu when clicking outside
-            document.addEventListener('click', function(e) {
-                if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
-                    hamburger.classList.remove('active');
-                    navLinks.classList.remove('open');
+                if (navLinks.classList.contains('open')) {
+                    closeMobileMenu();
+                } else {
+                    openMobileMenu();
                 }
             });
+
+            // Close menu when clicking overlay
+            overlay.addEventListener('click', closeMobileMenu);
+
+            // Close menu on link click (internal navigation)
+            navLinks.querySelectorAll('a, .dropdown-item').forEach(link => {
+                link.addEventListener('click', function() {
+                    setTimeout(closeMobileMenu, 150);
+                });
+            });
         }
+
+        // Handle window resize - close mobile menu if resizing to desktop
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768 && navLinks.classList.contains('open')) {
+                closeMobileMenu();
+            }
+        });
 
         // Modal controls
         document.getElementById('closeModalBtn').addEventListener('click', closeCartModal);

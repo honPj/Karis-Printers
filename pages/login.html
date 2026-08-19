@@ -3,10 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-         <link rel="icon" type="image/x-icon" href="../images/teardrop.jpg">
-    <title>Login - Karis Printers</title>
+    <link rel="icon" type="image/x-icon" href="../images/teardrop.jpg">
+    <title>Login - Rise Axis Solutions</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
+        /* === BRAND COLORS === */
+        :root {
+            --brand-blue: #19589d;
+            --brand-red: #dc1c2c;
+            --brand-green: #10aa51;
+            --brand-brown: #8f5c38;
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -30,7 +38,7 @@
             display: block;
             width: 28px;
             height: 3px;
-            background: #0056b3;
+            background: var(--brand-blue);
             border-radius: 3px;
             transition: all 0.3s ease;
         }
@@ -62,9 +70,9 @@
         .logo {
             font-size: 1.8rem;
             font-weight: 700;
-            color: #0056b3;
+            color: var(--brand-blue);
         }
-        .logo span { color: #ff6b00; }
+        .logo span { color: var(--brand-red); }
         
         nav {
             display: flex;
@@ -78,18 +86,87 @@
             text-decoration: none;
             color: inherit;
         }
-        nav a:hover { color: #0056b3; }
-        nav a.active { color: #0056b3; font-weight: 600; }
+        nav a:hover { color: var(--brand-blue); }
+        nav a.active { color: var(--brand-blue); font-weight: 600; }
+
+        /* ----- SERVICES DROPDOWN IN NAV ----- */
+        .nav-dropdown {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .nav-dropdown .nav-dropdown-label {
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #1a1a1a;
+            transition: color 0.3s ease;
+        }
+        .nav-dropdown .nav-dropdown-label:hover {
+            color: var(--brand-blue);
+        }
+        .nav-dropdown .nav-dropdown-label .arrow-icon {
+            font-size: 0.65rem;
+            transition: transform 0.25s ease;
+        }
+        .nav-dropdown .nav-dropdown-label .arrow-icon.open {
+            transform: rotate(180deg);
+        }
+
+        .nav-dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #fff;
+            min-width: 260px;
+            border-radius: 16px;
+            box-shadow: 0 12px 36px rgba(0,0,0,0.12);
+            border: 1px solid #eef2f6;
+            padding: 8px 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(8px);
+            transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+            z-index: 200;
+        }
+        .nav-dropdown-menu.open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0px);
+        }
+        .nav-dropdown-menu .dropdown-item {
+            display: block;
+            padding: 10px 20px;
+            font-weight: 500;
+            color: #1d2b3a;
+            font-size: 0.92rem;
+            transition: background 0.15s;
+            cursor: pointer;
+            border-left: 3px solid transparent;
+        }
+        .nav-dropdown-menu .dropdown-item:hover {
+            background: #f0f6fe;
+            border-left-color: var(--brand-blue);
+            color: var(--brand-blue);
+        }
+        .nav-dropdown-menu .dropdown-item.active {
+            background: #e8f0fe;
+            border-left-color: var(--brand-blue);
+            color: var(--brand-blue);
+            font-weight: 600;
+        }
+
         .nav-cta {
-            background: #ff6b00;
+            background: var(--brand-red);
             color: #fff;
             padding: 8px 20px;
             border-radius: 25px;
             font-weight: 600;
         }
-        .nav-cta:hover { background: #e05500; color: #fff !important; }
+        .nav-cta:hover { background: #b31624; color: #fff !important; }
         .cart-badge {
-            background: #ff6b00;
+            background: var(--brand-red);
             color: #fff;
             font-size: 0.7rem;
             font-weight: 700;
@@ -103,7 +180,7 @@
 
         .mobile-cart-btn {
             display: none;
-            background: #ff6b00;
+            background: var(--brand-red);
             color: #fff;
             padding: 6px 14px;
             border-radius: 25px;
@@ -115,7 +192,7 @@
             margin-left: 5px;
         }
         .mobile-cart-btn:hover {
-            background: #e05500;
+            background: #b31624;
             color: #fff !important;
         }
         .mobile-cart-btn .cart-badge {
@@ -186,12 +263,12 @@
         }
         .form-group input:focus {
             outline: none;
-            border-color: #0056b3;
+            border-color: var(--brand-blue);
         }
         .btn-primary {
             width: 100%;
             padding: 14px;
-            background: #0056b3;
+            background: var(--brand-blue);
             color: #fff;
             border: none;
             border-radius: 30px;
@@ -200,7 +277,7 @@
             cursor: pointer;
             transition: background 0.3s ease;
         }
-        .btn-primary:hover { background: #003d80; }
+        .btn-primary:hover { background: #0e3f70; }
         .btn-primary:disabled { background: #888; cursor: not-allowed; }
         
         .form-footer {
@@ -210,7 +287,7 @@
             color: #6a8aa8;
         }
         .form-footer a {
-            color: #0056b3;
+            color: var(--brand-blue);
             font-weight: 600;
             text-decoration: none;
         }
@@ -226,9 +303,6 @@
         }
         .error-message.show { display: block; }
 
-        /* =============================================
-           LOGOUT CONFIRMATION MODAL
-           ============================================= */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -271,7 +345,7 @@
         }
         .modal-box .modal-icon i {
             font-size: 2.8rem;
-            color: #dc3545;
+            color: var(--brand-red);
         }
         .modal-box h3 {
             font-size: 1.5rem;
@@ -308,11 +382,11 @@
             background: #e4e7ec;
         }
         .modal-box .btn-modal.btn-logout {
-            background: #dc3545;
+            background: var(--brand-red);
             color: #fff;
         }
         .modal-box .btn-modal.btn-logout:hover {
-            background: #c82333;
+            background: #b31624;
         }
         .modal-box .btn-modal.btn-logout:disabled {
             background: #888;
@@ -387,6 +461,35 @@
             nav .nav-cta {
                 display: none !important;
             }
+            .nav-dropdown {
+                width: 100%;
+                text-align: center;
+            }
+            .nav-dropdown .nav-dropdown-label {
+                justify-content: center;
+            }
+            .nav-dropdown-menu {
+                position: static;
+                box-shadow: none;
+                border: none;
+                border-top: 1px solid #eee;
+                border-radius: 0;
+                padding: 0;
+                transform: none;
+                background: #f8f9fa;
+            }
+            .nav-dropdown-menu.open {
+                transform: none;
+            }
+            .nav-dropdown-menu .dropdown-item {
+                padding: 10px 20px;
+                text-align: center;
+                border-left: none;
+                border-bottom: 1px solid #eee;
+            }
+            .nav-dropdown-menu .dropdown-item:hover {
+                background: #e8f0fe;
+            }
             header .container {
                 display: flex;
                 justify-content: flex-start;
@@ -427,7 +530,7 @@
 
 <header>
     <div class="container">
-        <div class="logo">Karis<span>Printers</span></div>
+        <div class="logo">Rise Axis<span>Solutions</span></div>
 
         <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
             <span></span>
@@ -441,6 +544,23 @@
 
         <nav id="navLinks">
             <a href="../index.html">Home</a>
+            
+            <!-- SERVICES DROPDOWN -->
+            <div class="nav-dropdown" id="navDropdown">
+                <span class="nav-dropdown-label" id="navDropdownLabel">
+                    Services
+                    <i class="fas fa-chevron-down arrow-icon" id="navDropdownArrow"></i>
+                </span>
+                <div class="nav-dropdown-menu" id="navDropdownMenu">
+                    <div class="dropdown-item" data-category="Commercial & Marketing Materials">Commercial & Marketing Materials</div>
+                    <div class="dropdown-item" data-category="Large Format & Signage">Large Format & Signage</div>
+                    <div class="dropdown-item" data-category="Branded Merchandise & Apparel">Branded Merchandise & Apparel</div>
+                    <div class="dropdown-item" data-category="Packaging & Labels">Packaging & Labels</div>
+                    <div class="dropdown-item" data-category="Graphic design">Graphic Design</div>
+                    <div class="dropdown-item" data-category="Website development">Website Development</div>
+                </div>
+            </div>
+            
             <a href="catalog.html">Catalog</a>
             <a href="about.html">About</a>
             <a href="contact.html">Contact</a>
@@ -452,7 +572,7 @@
             
             <span id="userLinks" style="display: none;">
                 <a href="account.html" id="accountLink">My Account</a>
-                <a href="#" id="logoutLink" style="color: #dc3545;">Logout</a>
+                <a href="#" id="logoutLink" style="color: var(--brand-red);">Logout</a>
             </span>
             
             <a href="cart.html" class="nav-cta">
@@ -462,9 +582,7 @@
     </div>
 </header>
 
-<!-- =============================================
-     LOGOUT CONFIRMATION MODAL
-     ============================================= -->
+<!-- ===== LOGOUT CONFIRMATION MODAL ===== -->
 <div class="modal-overlay" id="logoutModal">
     <div class="modal-box">
         <div class="modal-icon">
@@ -486,7 +604,7 @@
 <section class="page-header">
     <div class="container">
         <h1>Welcome Back</h1>
-        <p>Login to your Karis Printers account</p>
+        <p>Login to your Rise Axis Solutions account</p>
     </div>
 </section>
 
@@ -518,12 +636,13 @@
     </div>
 </section>
 
+<!-- ===== FOOTER ===== -->
 <footer>
     <div class="container">
         <div class="footer-grid">
             <div>
-                <h4>Karis Printers</h4>
-                <p style="color: #aaa; font-size: 0.95rem;">Quality printing services in Kenya. Fast, affordable, and reliable.</p>
+                <h4>Rise Axis Solutions</h4>
+                <p style="color: #aaa; font-size: 0.95rem;">Quality services countrywide. Fast, affordable, and reliable.</p>
             </div>
             <div>
                 <h4>Quick Links</h4>
@@ -534,26 +653,84 @@
             </div>
             <div>
                 <h4>Contact</h4>
-                <a href="tel:+254703551225">📞 +254 703551225</a>
-                <a href="mailto:KarisPrinters@gmail.com">✉️ KarisPrinters@gmail.com</a>
-                <a href="#">📍 Nairobi, Kenya</a>
+                <a href="tel:+254-700-123-456">📞 +254-700-123-456</a>
+                <a href="mailto:contact@riseaxis.co.ke">✉️ contact@riseaxis.co.ke</a>
+                <a href="#"><p>📍 188 Hood Avenue, 3rd Floor
+
+                    72</p> Riverside Drive, Office 5</a>
             </div>
-            <div>
+            <!-- <div>
                 <h4>M-Pesa Paybill</h4>
                 <p style="color: #fff; font-weight: 600; font-size: 1.2rem;">Paybill: 123456</p>
                 <p style="color: #aaa; font-size: 0.9rem;">Account: Order ID</p>
-            </div>
+            </div> -->
         </div>
-        <div class="copyright">&copy; 2026 Karis Printers. All rights reserved.</div>
+        <div class="copyright">
+            &copy; 2026 Rise Axis Solutions. All rights reserved.
+        </div>
     </div>
 </footer>
-
 <script type="module">
     import { loginUser, getCurrentUser, logoutUser, onAuthChange } from '../js/auth.js';
     import { db } from '../js/firebase-config.js';
     import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js";
 
-    let isLoggingIn = false; // Flag to prevent redirect loop
+    // =============================================
+    // SERVICES DROPDOWN TOGGLE
+    // =============================================
+    let navDropdownOpen = false;
+
+    function toggleNavDropdown() {
+        navDropdownOpen = !navDropdownOpen;
+        updateNavUI();
+    }
+
+    function closeNavDropdown() {
+        navDropdownOpen = false;
+        updateNavUI();
+    }
+
+    function updateNavUI() {
+        const menu = document.getElementById('navDropdownMenu');
+        const arrow = document.getElementById('navDropdownArrow');
+        if (!menu || !arrow) return;
+        if (navDropdownOpen) {
+            menu.classList.add('open');
+            arrow.classList.add('open');
+        } else {
+            menu.classList.remove('open');
+            arrow.classList.remove('open');
+        }
+    }
+
+    const navLabel = document.getElementById('navDropdownLabel');
+    if (navLabel) {
+        navLabel.addEventListener('click', function(e) {
+            e.stopPropagation();
+            toggleNavDropdown();
+        });
+    }
+
+    document.querySelectorAll('.dropdown-item').forEach(item => {
+        item.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const category = this.dataset.category;
+            closeNavDropdown();
+            window.location.href = `service.html?category=${encodeURIComponent(category)}`;
+        });
+    });
+
+    document.addEventListener('click', function(e) {
+        const navDropdown = document.getElementById('navDropdown');
+        if (navDropdown && !navDropdown.contains(e.target)) {
+            closeNavDropdown();
+        }
+    });
+
+    // =============================================
+    // AUTH LOGIC
+    // =============================================
+    let isLoggingIn = false;
 
     async function isAdmin(user) {
         if (!user) return false;
@@ -561,10 +738,8 @@
             const adminDoc = doc(db, 'admins', user.uid);
             const docSnap = await getDoc(adminDoc);
             if (docSnap.exists() && docSnap.data().role === 'admin') {
-                console.log('✅ Admin found in Firestore:', user.email);
                 return true;
             }
-            console.log('❌ Not an admin:', user.email);
             return false;
         } catch (error) {
             console.error('Error checking admin status:', error);
@@ -578,20 +753,14 @@
     const loginBtn = document.getElementById('loginBtn');
     const errorMessage = document.getElementById('errorMessage');
 
-    // Modal elements
     const logoutModal = document.getElementById('logoutModal');
     const modalCancelBtn = document.getElementById('modalCancelBtn');
     const modalConfirmBtn = document.getElementById('modalConfirmBtn');
 
-    // Handle auth changes - only redirect if not actively logging in
     onAuthChange(async (user) => {
-        // Don't redirect if we're in the middle of a login attempt
         if (!isLoggingIn && user) {
-            console.log('Auth change detected for logged-in user:', user.email);
             const admin = await isAdmin(user);
             const currentPath = window.location.pathname;
-            
-            // Check if we're already on the correct page
             if (admin && !currentPath.includes('admin-dashboard.html')) {
                 window.location.replace('admin/admin-dashboard.html');
             } else if (!admin && !currentPath.includes('account.html')) {
@@ -602,40 +771,26 @@
 
     form.addEventListener('submit', async function(e) {
         e.preventDefault();
-        
         const email = emailInput.value.trim();
         const password = passwordInput.value.trim();
-        
         if (!email || !password) {
             showError('Please fill in all fields.');
             return;
         }
-        
-        // Set flag to prevent auth listener from redirecting
         isLoggingIn = true;
-        
         loginBtn.textContent = '⏳ Logging in...';
         loginBtn.disabled = true;
         hideError();
-        
         const result = await loginUser(email, password);
-        
         if (result.success) {
-            console.log('Login successful, checking admin status...');
             const admin = await isAdmin(result.user);
-            
-            // Reset flag after successful login
             isLoggingIn = false;
-            
             if (admin) {
-                console.log('Admin user, redirecting to admin dashboard');
                 window.location.replace('admin/admin-dashboard.html');
             } else {
-                console.log('Regular user, redirecting to account page');
                 window.location.replace('account.html');
             }
         } else {
-            // Reset flag on error
             isLoggingIn = false;
             showError(getFriendlyErrorMessage(result.error));
             loginBtn.textContent = 'Login';
@@ -643,9 +798,6 @@
         }
     });
 
-    // =============================================
-    // LOGOUT WITH CONFIRMATION MODAL (NO confirm() DIALOG)
-    // =============================================
     function showLogoutModal() {
         logoutModal.classList.add('active');
     }
@@ -654,47 +806,36 @@
         logoutModal.classList.remove('active');
     }
 
-    // Cancel button - just close modal
     modalCancelBtn.addEventListener('click', function() {
         hideLogoutModal();
     });
 
-    // Confirm button - perform logout
     modalConfirmBtn.addEventListener('click', async function() {
-        // Disable button to prevent double click
         modalConfirmBtn.disabled = true;
         modalConfirmBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging out...';
-        
         try {
             const result = await logoutUser();
             hideLogoutModal();
-            
             if (result.success) {
                 window.location.replace('login.html');
             } else {
-                console.error('Logout failed:', result.error);
-                // Re-enable button
                 modalConfirmBtn.disabled = false;
                 modalConfirmBtn.innerHTML = '<i class="fas fa-check"></i> Yes, Logout';
-                // Show error toast or alert
                 alert('Failed to logout. Please try again.');
             }
         } catch (error) {
-            console.error('Logout error:', error);
             modalConfirmBtn.disabled = false;
             modalConfirmBtn.innerHTML = '<i class="fas fa-check"></i> Yes, Logout';
             alert('An error occurred during logout. Please try again.');
         }
     });
 
-    // Close modal when clicking overlay
     logoutModal.addEventListener('click', function(e) {
         if (e.target === this) {
             hideLogoutModal();
         }
     });
 
-    // Close modal with Escape key
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape' && logoutModal.classList.contains('active')) {
             hideLogoutModal();
@@ -727,7 +868,6 @@
         const userLinks = document.getElementById('userLinks');
         const accountLink = document.getElementById('accountLink');
         const logoutLink = document.getElementById('logoutLink');
-        
         if (user) {
             authLinks.style.display = 'none';
             userLinks.style.display = 'inline';
@@ -752,7 +892,6 @@
     if (logoutLink) {
         logoutLink.addEventListener('click', async function(e) {
             e.preventDefault();
-            // Show the custom modal instead of browser confirm()
             showLogoutModal();
         });
     }

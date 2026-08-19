@@ -3,28 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact - Karis Printers</title>
-    <meta name="description" content="Contact Karis Printers for professional printing services in Kenya. Get in touch for business cards, banners, apparel, packaging, and more.">
-    <meta name="keywords" content="contact printing Kenya, printing services Nairobi, Karis Printers contact, printing company Kenya">
+    <title>Contact - Rise Axis Solutions</title>
+    <meta name="description" content="Contact Rise Axis Solutions for professional printing services in Kenya. Get in touch for business cards, banners, apparel, packaging, and more.">
+    <meta name="keywords" content="contact printing Kenya, printing services Nairobi, Rise Axis Solutions contact, printing company Kenya">
     <meta name="robots" content="index, follow">
-    <meta name="author" content="Karis Printers">
-    <meta property="og:title" content="Contact - Karis Printers">
-    <meta property="og:description" content="Contact Karis Printers for professional printing services in Kenya. We respond within 24 hours.">
+    <meta name="author" content="Rise Axis Solutions">
+    <meta property="og:title" content="Contact - Rise Axis Solutions">
+    <meta property="og:description" content="Contact Rise Axis Solutions for professional printing services in Kenya. We respond within 24 hours.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://karisprinters.co.ke/pages/contact.html">
-    <meta property="og:image" content="https://karisprinters.co.ke/images/og-image.jpg">
-    <meta property="og:site_name" content="Karis Printers">
+    <meta property="og:url" content="https://riseaxis.co.ke/pages/contact.html">
+    <meta property="og:image" content="https://riseaxis.co.ke/images/og-image.jpg">
+    <meta property="og:site_name" content="Rise Axis Solutions">
     <meta property="og:locale" content="en_KE">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Contact - Karis Printers">
-    <meta name="twitter:description" content="Contact Karis Printers for professional printing services in Kenya.">
-    <meta name="twitter:image" content="https://karisprinters.co.ke/images/og-image.jpg">
-    <link rel="canonical" href="https://karisprinters.co.ke/pages/contact.html">
-         <link rel="icon" type="image/x-icon" href="../images/teardrop.jpg">
+    <meta name="twitter:title" content="Contact - Rise Axis Solutions">
+    <meta name="twitter:description" content="Contact Rise Axis Solutions for professional printing services in Kenya.">
+    <meta name="twitter:image" content="https://riseaxis.co.ke/images/og-image.jpg">
+    <link rel="canonical" href="https://riseaxis.co.ke/pages/contact.html">
+    <link rel="icon" type="image/x-icon" href="../images/teardrop.jpg">
     <link rel="apple-touch-icon" href="../images/apple-touch-icon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
+        /* === BRAND COLORS === */
+        :root {
+            --brand-blue: #19589d;
+            --brand-red: #dc1c2c;
+            --brand-green: #10aa51;
+            --brand-brown: #8f5c38;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -46,7 +54,7 @@
             padding: 0 20px;
         }
         .btn-primary {
-            background: #0056b3;
+            background: var(--brand-blue);
             color: #fff;
             padding: 12px 30px;
             border: none;
@@ -59,7 +67,7 @@
             width: 100%;
         }
         .btn-primary:hover {
-            background: #003d80;
+            background: #0e3f70;
         }
         .btn-primary:disabled {
             background: #888;
@@ -83,13 +91,12 @@
         .logo {
             font-size: 1.8rem;
             font-weight: 700;
-            color: #0056b3;
+            color: var(--brand-blue);
         }
         .logo span {
-            color: #ff6b00;
+            color: var(--brand-red);
         }
 
-        /* ===== HAMBURGER MENU STYLES ===== */
         .hamburger {
             display: none;
             flex-direction: column;
@@ -104,7 +111,7 @@
             display: block;
             width: 28px;
             height: 3px;
-            background: #0056b3;
+            background: var(--brand-blue);
             border-radius: 3px;
             transition: all 0.3s ease;
         }
@@ -118,7 +125,6 @@
             transform: rotate(-45deg) translate(5px, -6px);
         }
 
-        /* Navigation - Original Style */
         nav {
             display: flex;
             gap: 25px;
@@ -130,14 +136,83 @@
             transition: color 0.3s ease;
         }
         nav a:hover {
-            color: #0056b3;
+            color: var(--brand-blue);
         }
         nav a.active {
-            color: #0056b3;
+            color: var(--brand-blue);
             font-weight: 600;
         }
+
+        /* ----- SERVICES DROPDOWN IN NAV ----- */
+        .nav-dropdown {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .nav-dropdown .nav-dropdown-label {
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #1a1a1a;
+            transition: color 0.3s ease;
+        }
+        .nav-dropdown .nav-dropdown-label:hover {
+            color: var(--brand-blue);
+        }
+        .nav-dropdown .nav-dropdown-label .arrow-icon {
+            font-size: 0.65rem;
+            transition: transform 0.25s ease;
+        }
+        .nav-dropdown .nav-dropdown-label .arrow-icon.open {
+            transform: rotate(180deg);
+        }
+
+        .nav-dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #fff;
+            min-width: 260px;
+            border-radius: 16px;
+            box-shadow: 0 12px 36px rgba(0,0,0,0.12);
+            border: 1px solid #eef2f6;
+            padding: 8px 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(8px);
+            transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+            z-index: 200;
+        }
+        .nav-dropdown-menu.open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0px);
+        }
+        .nav-dropdown-menu .dropdown-item {
+            display: block;
+            padding: 10px 20px;
+            font-weight: 500;
+            color: #1d2b3a;
+            font-size: 0.92rem;
+            transition: background 0.15s;
+            cursor: pointer;
+            border-left: 3px solid transparent;
+        }
+        .nav-dropdown-menu .dropdown-item:hover {
+            background: #f0f6fe;
+            border-left-color: var(--brand-blue);
+            color: var(--brand-blue);
+        }
+        .nav-dropdown-menu .dropdown-item.active {
+            background: #e8f0fe;
+            border-left-color: var(--brand-blue);
+            color: var(--brand-blue);
+            font-weight: 600;
+        }
+
         .nav-cta {
-            background: #ff6b00;
+            background: var(--brand-red);
             color: #fff;
             padding: 8px 20px;
             border-radius: 25px;
@@ -151,11 +226,11 @@
             font-size: 0.95rem;
         }
         .nav-cta:hover {
-            background: #e05500;
+            background: #b31624;
             color: #fff !important;
         }
         .cart-badge {
-            background: #ff6b00;
+            background: var(--brand-red);
             color: #fff;
             font-size: 0.7rem;
             font-weight: 700;
@@ -167,10 +242,9 @@
             margin-left: 4px;
         }
 
-        /* ===== MOBILE CART BUTTON - VISIBLE ONLY ON MOBILE ===== */
         .mobile-cart-btn {
             display: none;
-            background: #ff6b00;
+            background: var(--brand-red);
             color: #fff;
             padding: 6px 14px;
             border-radius: 25px;
@@ -182,7 +256,7 @@
             margin-left: 5px;
         }
         .mobile-cart-btn:hover {
-            background: #e05500;
+            background: #b31624;
             color: #fff !important;
         }
         .mobile-cart-btn .cart-badge {
@@ -193,22 +267,21 @@
             margin-left: 0;
         }
 
-        /* ===== AUTH LINKS ===== */
         .auth-link {
             font-weight: 500;
             transition: color 0.3s ease;
         }
         .auth-link:hover {
-            color: #0056b3;
+            color: var(--brand-blue);
         }
         #authLinks { display: inline; }
         #userLinks { display: none; }
         .user-name-link {
             font-weight: 600;
-            color: #0056b3;
+            color: var(--brand-blue);
         }
         .user-name-link:hover {
-            color: #003d80;
+            color: #0e3f70;
         }
 
         .page-header {
@@ -234,7 +307,7 @@
             gap: 40px;
         }
         .contact-info h2 {
-            color: #0056b3;
+            color: var(--brand-blue);
             margin-bottom: 15px;
         }
         .contact-info p {
@@ -262,7 +335,6 @@
             font-size: 0.9rem;
         }
 
-        /* ===== WHATSAPP BUTTON ===== */
         .whatsapp-btn {
             display: inline-flex;
             align-items: center;
@@ -332,7 +404,7 @@
         .contact-form select:focus,
         .contact-form textarea:focus {
             outline: none;
-            border-color: #0056b3;
+            border-color: var(--brand-blue);
         }
         .contact-form textarea {
             min-height: 120px;
@@ -446,7 +518,7 @@
         }
         .cart-modal .form-group input[type="number"]:focus {
             outline: none;
-            border-color: #0056b3;
+            border-color: var(--brand-blue);
             background: #fff;
         }
         .cart-modal .form-group input[type="file"] {
@@ -459,12 +531,12 @@
             background: #fafcff;
         }
         .cart-modal .form-group input[type="file"]:hover {
-            border-color: #0056b3;
+            border-color: var(--brand-blue);
             background: #f5f9ff;
         }
         .cart-modal .form-group .file-name {
             font-size: 0.85rem;
-            color: #2a7a4b;
+            color: var(--brand-green);
             margin-top: 6px;
             display: none;
         }
@@ -501,7 +573,7 @@
         .cart-modal .btn-add-to-cart {
             width: 100%;
             padding: 14px;
-            background: #0d2f4f;
+            background: var(--brand-blue);
             color: #fff;
             border: none;
             border-radius: 60px;
@@ -509,10 +581,10 @@
             font-weight: 700;
             cursor: pointer;
             transition: 0.2s;
-            box-shadow: 0 4px 16px rgba(13, 47, 79, 0.25);
+            box-shadow: 0 4px 16px rgba(25, 88, 157, 0.3);
         }
         .cart-modal .btn-add-to-cart:hover {
-            background: #1a3f64;
+            background: #0e3f70;
             transform: scale(1.01);
         }
         .toast-message {
@@ -522,7 +594,7 @@
             padding: 16px 24px;
             background: #e5f4e6;
             border-radius: 60px;
-            color: #1f5e3a;
+            color: var(--brand-green);
             font-weight: 500;
             font-size: 0.95rem;
             display: none;
@@ -579,20 +651,15 @@
             color: #777;
         }
 
-        /* ===== RESPONSIVE - MOBILE VIEW ===== */
         @media (max-width: 768px) {
             .hamburger {
                 display: flex;
                 order: 1;
                 margin-left: 10px;
             }
-
-            /* Show mobile cart button */
             .mobile-cart-btn {
                 display: inline-flex;
             }
-
-            /* Hide nav links on mobile */
             nav {
                 display: none;
                 flex-direction: column;
@@ -608,17 +675,41 @@
                 align-items: center;
                 order: 3;
             }
-
             nav.open {
                 display: flex;
             }
-
-            /* Hide the cart inside the hamburger menu on mobile */
             nav .nav-cta {
                 display: none !important;
             }
-
-            /* Keep header layout */
+            .nav-dropdown {
+                width: 100%;
+                text-align: center;
+            }
+            .nav-dropdown .nav-dropdown-label {
+                justify-content: center;
+            }
+            .nav-dropdown-menu {
+                position: static;
+                box-shadow: none;
+                border: none;
+                border-top: 1px solid #eee;
+                border-radius: 0;
+                padding: 0;
+                transform: none;
+                background: #f8f9fa;
+            }
+            .nav-dropdown-menu.open {
+                transform: none;
+            }
+            .nav-dropdown-menu .dropdown-item {
+                padding: 10px 20px;
+                text-align: center;
+                border-left: none;
+                border-bottom: 1px solid #eee;
+            }
+            .nav-dropdown-menu .dropdown-item:hover {
+                background: #e8f0fe;
+            }
             header .container {
                 display: flex;
                 justify-content: flex-start;
@@ -627,13 +718,11 @@
                 position: relative;
                 gap: 0;
             }
-
             .logo {
                 font-size: 1.4rem;
                 order: 0;
                 margin-right: auto;
             }
-
             .contact-grid {
                 grid-template-columns: 1fr;
             }
@@ -691,36 +780,49 @@
 <body>
     <header>
         <div class="container">
-            <div class="logo">Karis<span>Printers</span></div>
+            <div class="logo">Rise Axis<span> Solutions</span></div>
 
-            <!-- Hamburger Button (mobile only) -->
             <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
                 <span></span>
                 <span></span>
                 <span></span>
             </button>
 
-            <!-- Mobile Cart Button (visible only on mobile, directly after hamburger) -->
             <a href="cart.html" class="mobile-cart-btn" id="mobileCartBtn">
                 <i class="fas fa-shopping-cart"></i> Cart <span class="cart-badge" id="mobileCartBadge">0</span>
             </a>
 
             <nav id="navLinks">
                 <a href="../index.html">Home</a>
+                
+                <!-- SERVICES DROPDOWN -->
+                <div class="nav-dropdown" id="navDropdown">
+                    <span class="nav-dropdown-label" id="navDropdownLabel">
+                        Services
+                        <i class="fas fa-chevron-down arrow-icon" id="navDropdownArrow"></i>
+                    </span>
+                    <div class="nav-dropdown-menu" id="navDropdownMenu">
+                        <div class="dropdown-item" data-category="Commercial & Marketing Materials">Commercial & Marketing Materials</div>
+                        <div class="dropdown-item" data-category="Large Format & Signage">Large Format & Signage</div>
+                        <div class="dropdown-item" data-category="Branded Merchandise & Apparel">Branded Merchandise & Apparel</div>
+                        <div class="dropdown-item" data-category="Packaging & Labels">Packaging & Labels</div>
+                        <div class="dropdown-item" data-category="Graphic design">Graphic Design</div>
+                        <div class="dropdown-item" data-category="Website development">Website Development</div>
+                    </div>
+                </div>
+                
                 <a href="catalog.html">Catalog</a>
                 <a href="about.html">About</a>
                 <a href="contact.html" class="active">Contact</a>
                 
-                <!-- Auth Links (Dynamic) -->
                 <span id="authLinks">
                     <a href="login.html" class="auth-link">Login</a>
                     <a href="register.html" class="auth-link">Register</a>
                 </span>
                 
-                <!-- User Links (Hidden by default, shown when logged in) -->
                 <span id="userLinks" style="display: none;">
                     <a href="account.html" id="accountLink" class="user-name-link">My Account</a>
-                    <a href="#" id="logoutLink" style="color: #dc3545; cursor: pointer; font-weight: 500;">Logout</a>
+                    <a href="#" id="logoutLink" style="color: var(--brand-red); cursor: pointer; font-weight: 500;">Logout</a>
                 </span>
                 
                 <a href="cart.html" class="nav-cta">
@@ -747,48 +849,49 @@
                         <div class="icon">📞</div>
                         <div class="text">
                             Phone
-                            <small>+254703551225</small>
+                            <small>+254700123456</small>
                         </div>
                     </div>
                     <div class="info-item">
                         <div class="icon">✉️</div>
                         <div class="text">
                             Email
-                            <small>KarisPrinters@gmail.com</small>
+                            <small>Contact@riseaxis.co.ke</small>
                         </div>
                     </div>
                     <div class="info-item">
                         <div class="icon">📍</div>
                         <div class="text">
                             Location
-                            <small>Nairobi, Kenya</small>
+                            <small><p> 188 Hood Avenue, 3rd Floor
+
+                    72</p> Riverside Drive, Office 5</a></small>
                         </div>
                     </div>
-                    <div class="info-item">
+                    <!-- <div class="info-item">
                         <div class="icon">🕐</div>
                         <div class="text">
                             Business Hours
                             <small>Mon-Fri: 8:00 AM - 6:00 PM</small>
                         </div>
-                    </div>
+                    </div> -->
 
-                    <!-- ===== WHATSAPP BUTTON ===== -->
-                    <a href="https://wa.me/254703551225?text=Hello%20Karis%20Printers%2C%20I%20need%20help%20with%20a%20printing%20order." 
+                    <a href="https://wa.me/254700123456?text=Hello%20Rise%20Axis%20Solutions%2C%20I%20need%20help%20with%20a%20printing%20order." 
                        target="_blank" 
                        rel="noopener noreferrer" 
                        class="whatsapp-btn">
                         <i class="fab fa-whatsapp"></i>
                         <span class="whatsapp-text">
                             Chat with us on WhatsApp
-                            <span class="small">Quick replies within minutes</span>
+                            <span class="small">Quick replies</span>
                         </span>
                     </a>
 
-                    <div style="margin-top: 30px;">
-                        <h3 style="color: #0056b3;">M-Pesa Paybill</h3>
+                    <!-- <div style="margin-top: 30px;">
+                        <h3 style="color: var(--brand-blue);">M-Pesa Paybill</h3>
                         <p style="font-size: 1.5rem; font-weight: 700; color: #1a1a1a;">Paybill: 123456</p>
                         <p style="color: #888;">Account: Your Order ID</p>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="contact-form">
                     <h3>Send Us a Message</h3>
@@ -856,39 +959,43 @@
     </div>
 
     <div class="toast-message" id="toastMessage">
-        <i class="fas fa-check-circle" style="color:#2a7a4b;"></i>
+        <i class="fas fa-check-circle" style="color:var(--brand-green);"></i>
         <span id="toastText">Item added</span>
     </div>
-
-    <footer>
-        <div class="container">
-            <div class="footer-grid">
-                <div>
-                    <h4>Karis Printers</h4>
-                    <p style="color: #aaa; font-size: 0.95rem;">Quality printing services in Kenya. Fast, affordable, and reliable.</p>
-                </div>
-                <div>
-                    <h4>Quick Links</h4>
-                    <a href="catalog.html">Catalog</a>
-                    <a href="cart.html">Order Now</a>
-                    <a href="about.html">About Us</a>
-                    <a href="contact.html">Contact</a>
-                </div>
-                <div>
-                    <h4>Contact</h4>
-                    <a href="tel:+254703551225">📞 +254 703551225</a>
-                    <a href="mailto:KarisPrinters@gmail.com">✉️ KarisPrinters@gmail.com</a>
-                    <a href="#">📍 Nairobi, Kenya</a>
-                </div>
-                <div>
-                    <h4>M-Pesa Paybill</h4>
-                    <p style="color: #fff; font-weight: 600; font-size: 1.2rem;">Paybill: 123456</p>
-                    <p style="color: #aaa; font-size: 0.9rem;">Account: Order ID</p>
-                </div>
+<!-- ===== FOOTER ===== -->
+<footer>
+    <div class="container">
+        <div class="footer-grid">
+            <div>
+                <h4>Rise Axis Solutions</h4>
+                <p style="color: #aaa; font-size: 0.95rem;">Quality services countrywide. Fast, affordable, and reliable.</p>
             </div>
-            <div class="copyright">&copy; 2026 Karis Printers. All rights reserved.</div>
+            <div>
+                <h4>Quick Links</h4>
+                <a href="catalog.html">Catalog</a>
+                <a href="cart.html">Order Now</a>
+                <a href="about.html">About Us</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <div>
+                <h4>Contact</h4>
+                <a href="tel:+254-700-123-456">📞 +254-700-123-456</a>
+                <a href="mailto:contact@riseaxis.co.ke">✉️ contact@riseaxis.co.ke</a>
+                <a href="#"><p>📍 188 Hood Avenue, 3rd Floor
+
+                    72</p> Riverside Drive, Office 5</a>
+            </div>
+            <!-- <div>
+                <h4>M-Pesa Paybill</h4>
+                <p style="color: #fff; font-weight: 600; font-size: 1.2rem;">Paybill: 123456</p>
+                <p style="color: #aaa; font-size: 0.9rem;">Account: Order ID</p>
+            </div> -->
         </div>
-    </footer>
+        <div class="copyright">
+            &copy; 2026 Rise Axis Solutions. All rights reserved.
+        </div>
+    </div>
+</footer>
 
     <script type="module">
         // =============================================
@@ -897,7 +1004,59 @@
         import { getCurrentUser, logoutUser, onAuthChange } from '../js/auth.js';
 
         // =============================================
-        // AUTH NAVIGATION - SHOW/HIDE LINKS
+        // SERVICES DROPDOWN TOGGLE
+        // =============================================
+        let navDropdownOpen = false;
+
+        function toggleNavDropdown() {
+            navDropdownOpen = !navDropdownOpen;
+            updateNavUI();
+        }
+
+        function closeNavDropdown() {
+            navDropdownOpen = false;
+            updateNavUI();
+        }
+
+        function updateNavUI() {
+            const menu = document.getElementById('navDropdownMenu');
+            const arrow = document.getElementById('navDropdownArrow');
+            if (!menu || !arrow) return;
+            if (navDropdownOpen) {
+                menu.classList.add('open');
+                arrow.classList.add('open');
+            } else {
+                menu.classList.remove('open');
+                arrow.classList.remove('open');
+            }
+        }
+
+        const navLabel = document.getElementById('navDropdownLabel');
+        if (navLabel) {
+            navLabel.addEventListener('click', function(e) {
+                e.stopPropagation();
+                toggleNavDropdown();
+            });
+        }
+
+        document.querySelectorAll('.dropdown-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const category = this.dataset.category;
+                closeNavDropdown();
+                window.location.href = `service.html?category=${encodeURIComponent(category)}`;
+            });
+        });
+
+        document.addEventListener('click', function(e) {
+            const navDropdown = document.getElementById('navDropdown');
+            if (navDropdown && !navDropdown.contains(e.target)) {
+                closeNavDropdown();
+            }
+        });
+
+        // =============================================
+        // AUTH NAVIGATION
         // =============================================
         function updateAuthUI(user) {
             const authLinks = document.getElementById('authLinks');
@@ -906,22 +1065,17 @@
             const logoutLink = document.getElementById('logoutLink');
             
             if (user) {
-                // User is logged in - hide Login/Register, show My Account/Logout
                 authLinks.style.display = 'none';
                 userLinks.style.display = 'inline';
                 if (accountLink) {
                     accountLink.textContent = user.displayName || 'My Account';
                 }
             } else {
-                // User is logged out - show Login/Register, hide My Account/Logout
                 authLinks.style.display = 'inline';
                 userLinks.style.display = 'none';
             }
         }
 
-        // =============================================
-        // LOGOUT FUNCTION
-        // =============================================
         async function handleLogout(e) {
             if (e) e.preventDefault();
             if (confirm('Are you sure you want to logout?')) {
@@ -952,7 +1106,7 @@
         ];
 
         // =============================================
-        // CART HELPERS (localStorage)
+        // CART HELPERS
         // =============================================
         function getCart() {
             try { return JSON.parse(localStorage.getItem('karis_cart')) || []; } catch { return []; }
@@ -1129,22 +1283,18 @@
         // DOM CONTENT LOADED
         // =============================================
         document.addEventListener('DOMContentLoaded', function() {
-            // ===== CHECK AUTH STATE =====
             const user = getCurrentUser();
             updateAuthUI(user);
 
-            // Listen for auth changes
             onAuthChange((user) => {
                 updateAuthUI(user);
             });
 
-            // ===== LOGOUT FUNCTIONALITY =====
             const logoutLink = document.getElementById('logoutLink');
             if (logoutLink) {
                 logoutLink.addEventListener('click', handleLogout);
             }
 
-            // ===== HAMBURGER MENU TOGGLE =====
             const hamburger = document.getElementById('hamburgerBtn');
             const navLinks = document.getElementById('navLinks');
 
@@ -1170,7 +1320,6 @@
                 });
             }
 
-            // ===== CART MODAL =====
             document.getElementById('closeModalBtn').addEventListener('click', closeCartModal);
             document.getElementById('cartModal').addEventListener('click', function(e) {
                 if (e.target === this) closeCartModal();

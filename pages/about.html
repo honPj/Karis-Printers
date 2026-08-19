@@ -3,13 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-         <link rel="icon" type="image/x-icon" href="../images/teardrop.jpg">
-    <title>About - Karis Printers</title>
+    <link rel="icon" type="image/x-icon" href="../images/teardrop.jpg">
+    <title>About - Rise Axis Solutions</title>
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
     <style>
+        /* ===== BRAND COLORS ===== */
+        :root {
+            --brand-blue: #19589d;
+            --brand-red: #dc1c2c;
+            --brand-green: #10aa51;
+            --brand-brown: #8f5c38;
+        }
+
         /* ===== RESET & BASE ===== */
         * {
             margin: 0;
@@ -34,7 +42,7 @@
         
         /* ===== BUTTONS ===== */
         .btn-primary {
-            background: #0056b3;
+            background: var(--brand-blue);
             color: #fff;
             padding: 12px 30px;
             border: none;
@@ -46,7 +54,7 @@
             display: inline-block;
         }
         .btn-primary:hover {
-            background: #003d80;
+            background: #0e3f70;
         }
         
         /* ===== HEADER ===== */
@@ -68,10 +76,10 @@
         .logo {
             font-size: 1.8rem;
             font-weight: 700;
-            color: #0056b3;
+            color: var(--brand-blue);
         }
         .logo span {
-            color: #ff6b00;
+            color: var(--brand-red);
         }
 
         /* ===== HAMBURGER MENU STYLES ===== */
@@ -89,7 +97,7 @@
             display: block;
             width: 28px;
             height: 3px;
-            background: #0056b3;
+            background: var(--brand-blue);
             border-radius: 3px;
             transition: all 0.3s ease;
         }
@@ -115,25 +123,94 @@
             transition: color 0.3s ease;
         }
         nav a:hover {
-            color: #0056b3;
+            color: var(--brand-blue);
         }
         nav a.active {
-            color: #0056b3;
+            color: var(--brand-blue);
             font-weight: 600;
         }
+
+        /* ----- SERVICES DROPDOWN IN NAV ----- */
+        .nav-dropdown {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .nav-dropdown .nav-dropdown-label {
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #1a1a1a;
+            transition: color 0.3s ease;
+        }
+        .nav-dropdown .nav-dropdown-label:hover {
+            color: var(--brand-blue);
+        }
+        .nav-dropdown .nav-dropdown-label .arrow-icon {
+            font-size: 0.65rem;
+            transition: transform 0.25s ease;
+        }
+        .nav-dropdown .nav-dropdown-label .arrow-icon.open {
+            transform: rotate(180deg);
+        }
+
+        .nav-dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #fff;
+            min-width: 260px;
+            border-radius: 16px;
+            box-shadow: 0 12px 36px rgba(0,0,0,0.12);
+            border: 1px solid #eef2f6;
+            padding: 8px 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(8px);
+            transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+            z-index: 200;
+        }
+        .nav-dropdown-menu.open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0px);
+        }
+        .nav-dropdown-menu .dropdown-item {
+            display: block;
+            padding: 10px 20px;
+            font-weight: 500;
+            color: #1d2b3a;
+            font-size: 0.92rem;
+            transition: background 0.15s;
+            cursor: pointer;
+            border-left: 3px solid transparent;
+        }
+        .nav-dropdown-menu .dropdown-item:hover {
+            background: #f0f6fe;
+            border-left-color: var(--brand-blue);
+            color: var(--brand-blue);
+        }
+        .nav-dropdown-menu .dropdown-item.active {
+            background: #e8f0fe;
+            border-left-color: var(--brand-blue);
+            color: var(--brand-blue);
+            font-weight: 600;
+        }
+
         .nav-cta {
-            background: #ff6b00;
+            background: var(--brand-red);
             color: #fff;
             padding: 8px 20px;
             border-radius: 25px;
             font-weight: 600;
         }
         .nav-cta:hover {
-            background: #e05500;
+            background: #b31624;
             color: #fff !important;
         }
         .cart-badge {
-            background: #ff6b00;
+            background: var(--brand-red);
             color: #fff;
             font-size: 0.7rem;
             font-weight: 700;
@@ -148,7 +225,7 @@
         /* ===== MOBILE CART BUTTON - VISIBLE ONLY ON MOBILE ===== */
         .mobile-cart-btn {
             display: none;
-            background: #ff6b00;
+            background: var(--brand-red);
             color: #fff;
             padding: 6px 14px;
             border-radius: 25px;
@@ -160,7 +237,7 @@
             margin-left: 5px;
         }
         .mobile-cart-btn:hover {
-            background: #e05500;
+            background: #b31624;
             color: #fff !important;
         }
         .mobile-cart-btn .cart-badge {
@@ -177,16 +254,16 @@
             transition: color 0.3s ease;
         }
         .auth-link:hover {
-            color: #0056b3;
+            color: var(--brand-blue);
         }
         #authLinks { display: inline; }
         #userLinks { display: none; }
         .user-name-link {
             font-weight: 600;
-            color: #0056b3;
+            color: var(--brand-blue);
         }
         .user-name-link:hover {
-            color: #003d80;
+            color: #0e3f70;
         }
         
         /* ===== PAGE HEADER ===== */
@@ -216,7 +293,7 @@
             align-items: start;
         }
         .about-text h2 {
-            color: #0056b3;
+            color: var(--brand-blue);
             margin-bottom: 15px;
         }
         .about-text p {
@@ -304,61 +381,6 @@
             font-size: 1.1rem;
         }
         
-        /* ===== SERVICES GRID ===== */
-        .services-showcase {
-            background: #fff;
-            padding: 50px 0;
-            margin-top: 30px;
-        }
-        .services-showcase h2 {
-            text-align: center;
-            font-size: 2rem;
-            margin-bottom: 15px;
-            color: #1a1a1a;
-        }
-        .services-showcase .subtitle {
-            text-align: center;
-            color: #666;
-            margin-bottom: 40px;
-            font-size: 1.05rem;
-        }
-        
-        .service-category {
-            margin-bottom: 40px;
-        }
-        .service-category h3 {
-            color: #0056b3;
-            font-size: 1.3rem;
-            margin-bottom: 15px;
-            padding-bottom: 8px;
-            border-bottom: 3px solid #e8f0fe;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .service-category h3 .icon {
-            font-size: 1.5rem;
-        }
-        
-        .service-items {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 15px;
-        }
-        .service-item {
-            background: #f8f9fa;
-            padding: 12px 16px;
-            border-radius: 8px;
-            font-size: 0.95rem;
-            color: #333;
-            border-left: 3px solid #0056b3;
-            transition: all 0.3s ease;
-        }
-        .service-item:hover {
-            background: #e8f0fe;
-            transform: translateX(4px);
-        }
-        
         /* ===== WHY US ===== */
         .why-us {
             background: #f8f9fa;
@@ -393,7 +415,7 @@
         }
         .why-item h4 {
             font-size: 1.1rem;
-            color: #0056b3;
+            color: var(--brand-blue);
             margin-bottom: 8px;
         }
         .why-item p {
@@ -478,7 +500,7 @@
         }
         .cart-modal .form-group input[type="number"]:focus {
             outline: none;
-            border-color: #0056b3;
+            border-color: var(--brand-blue);
             background: #fff;
         }
         .cart-modal .form-group input[type="file"] {
@@ -491,12 +513,12 @@
             background: #fafcff;
         }
         .cart-modal .form-group input[type="file"]:hover {
-            border-color: #0056b3;
+            border-color: var(--brand-blue);
             background: #f5f9ff;
         }
         .cart-modal .form-group .file-name {
             font-size: 0.85rem;
-            color: #2a7a4b;
+            color: var(--brand-green);
             margin-top: 6px;
             display: none;
         }
@@ -526,7 +548,7 @@
         .cart-modal .btn-add-to-cart {
             width: 100%;
             padding: 14px;
-            background: #0d2f4f;
+            background: var(--brand-blue);
             color: #fff;
             border: none;
             border-radius: 60px;
@@ -534,10 +556,10 @@
             font-weight: 700;
             cursor: pointer;
             transition: 0.2s;
-            box-shadow: 0 4px 16px rgba(13, 47, 79, 0.25);
+            box-shadow: 0 4px 16px rgba(25, 88, 157, 0.3);
         }
         .cart-modal .btn-add-to-cart:hover {
-            background: #1a3f64;
+            background: #0e3f70;
             transform: scale(1.01);
         }
 
@@ -549,7 +571,7 @@
             padding: 16px 24px;
             background: #e5f4e6;
             border-radius: 60px;
-            color: #1f5e3a;
+            color: var(--brand-green);
             font-weight: 500;
             font-size: 0.95rem;
             display: none;
@@ -636,6 +658,36 @@
                 display: none !important;
             }
 
+            .nav-dropdown {
+                width: 100%;
+                text-align: center;
+            }
+            .nav-dropdown .nav-dropdown-label {
+                justify-content: center;
+            }
+            .nav-dropdown-menu {
+                position: static;
+                box-shadow: none;
+                border: none;
+                border-top: 1px solid #eee;
+                border-radius: 0;
+                padding: 0;
+                transform: none;
+                background: #f8f9fa;
+            }
+            .nav-dropdown-menu.open {
+                transform: none;
+            }
+            .nav-dropdown-menu .dropdown-item {
+                padding: 10px 20px;
+                text-align: center;
+                border-left: none;
+                border-bottom: 1px solid #eee;
+            }
+            .nav-dropdown-menu .dropdown-item:hover {
+                background: #e8f0fe;
+            }
+
             header .container {
                 display: flex;
                 justify-content: flex-start;
@@ -654,9 +706,6 @@
             .about-grid {
                 grid-template-columns: 1fr;
             }
-            .service-items {
-                grid-template-columns: 1fr 1fr;
-            }
             .page-header h1 {
                 font-size: 1.8rem;
             }
@@ -669,9 +718,6 @@
         }
 
         @media (max-width: 480px) {
-            .service-items {
-                grid-template-columns: 1fr;
-            }
             .cart-modal { padding: 24px 16px 20px; }
             .about-image {
                 min-height: 250px;
@@ -714,7 +760,7 @@
 <!-- ===== HEADER ===== -->
 <header>
     <div class="container">
-        <div class="logo">Karis<span>Printers</span></div>
+        <div class="logo">Rise Axis<span> Solutions</span></div>
 
         <!-- Hamburger Button (mobile only) -->
         <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
@@ -730,6 +776,23 @@
 
         <nav id="navLinks">
             <a href="../index.html">Home</a>
+            
+            <!-- SERVICES DROPDOWN -->
+            <div class="nav-dropdown" id="navDropdown">
+                <span class="nav-dropdown-label" id="navDropdownLabel">
+                    Services
+                    <i class="fas fa-chevron-down arrow-icon" id="navDropdownArrow"></i>
+                </span>
+                <div class="nav-dropdown-menu" id="navDropdownMenu">
+                    <div class="dropdown-item" data-category="Commercial & Marketing Materials">Commercial & Marketing Materials</div>
+                    <div class="dropdown-item" data-category="Large Format & Signage">Large Format & Signage</div>
+                    <div class="dropdown-item" data-category="Branded Merchandise & Apparel">Branded Merchandise & Apparel</div>
+                    <div class="dropdown-item" data-category="Packaging & Labels">Packaging & Labels</div>
+                    <div class="dropdown-item" data-category="Graphic design">Graphic Design</div>
+                    <div class="dropdown-item" data-category="Website development">Website Development</div>
+                </div>
+            </div>
+            
             <a href="catalog.html">Catalog</a>
             <a href="about.html" class="active">About</a>
             <a href="contact.html">Contact</a>
@@ -743,7 +806,7 @@
             <!-- User Links (Hidden by default, shown when logged in) -->
             <span id="userLinks" style="display: none;">
                 <a href="account.html" id="accountLink" class="user-name-link">My Account</a>
-                <a href="#" id="logoutLink" style="color: #dc3545; cursor: pointer; font-weight: 500;">Logout</a>
+                <a href="#" id="logoutLink" style="color: var(--brand-red); cursor: pointer; font-weight: 500;">Logout</a>
             </span>
             
             <a href="cart.html" class="nav-cta">
@@ -756,8 +819,8 @@
 <!-- ===== PAGE HEADER ===== -->
 <section class="page-header">
     <div class="container">
-        <h1>About Karis Printers</h1>
-        <p>Your trusted partner for professional printing services in Kenya and beyond.</p>
+        <h1>About Rise Axis Solutions</h1>
+        <p>Empowering Brands to Thrive with Purpose and Innovation</p>
     </div>
 </section>
 
@@ -767,7 +830,7 @@
         <div class="about-grid">
             <div class="about-text">
                 <h2>Who We Are</h2>
-                <p>Karis Printers is a leading printing services company based in Nairobi, Kenya. We specialize in delivering high-quality printing solutions for businesses, organizations, and individuals.</p>
+                <p>At Rise Axis Solutions, we are committed to delivering exceptional branding services that drive growth and inspire confidence. Our vision is to become Kenya's leading partner in crafting unique brand identities that resonate across corporate, SME, and public sectors.</p>
                 <p>With years of experience in the industry, we pride ourselves on providing <strong>professional, reliable, and affordable</strong> printing services. From business stationery to large-format signage, custom apparel to packaging solutions we handle it all.</p>
                 <p>Our mission is to make professional printing accessible to everyone through <strong>transparent pricing, fast turnaround, and exceptional customer service</strong>.</p>
                 
@@ -790,91 +853,9 @@
                 </div>
                 <div class="about-image-overlay"></div>
                 <div class="about-image-content">
-                    <h3>Karis Printers</h3>
-                    <p>Quality printing services in Kenya</p>
+                    <h3>Rise Axis Solutions</h3>
+                    <p>Quality services countrywide</p>
                 </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ===== SERVICES SHOWCASE ===== -->
-<section class="services-showcase">
-    <div class="container">
-        <h2>Our Comprehensive Services</h2>
-        <p class="subtitle">Explore our full range of professional printing solutions</p>
-        
-        <div class="service-category">
-            <h3><span class="icon"></span> Commercial & Marketing Materials</h3>
-            <div class="service-items">
-                <div class="service-item">Business Cards</div>
-                <div class="service-item">Letterheads</div>
-                <div class="service-item">Branded Envelopes</div>
-                <div class="service-item">Presentation Folders</div>
-                <div class="service-item">Carbonless Invoice Books (NCR)</div>
-                <div class="service-item">Flyers (A5)</div>
-                <div class="service-item">Brochures (Tri-fold)</div>
-                <div class="service-item">Brochures (Bi-fold)</div>
-                <div class="service-item">Postcards</div>
-                <div class="service-item">Door Hangers</div>
-                <div class="service-item">Rack Cards</div>
-                <div class="service-item">Menu Cards</div>
-                <div class="service-item">Catalogs</div>
-                <div class="service-item">Magazines</div>
-                <div class="service-item">Booklets</div>
-                <div class="service-item">Company Manuals</div>
-                <div class="service-item">Annual Reports</div>
-                <div class="service-item">Perfect-Bound Books</div>
-            </div>
-        </div>
-        
-        <div class="service-category">
-            <h3></span> Large Format & Signage</h3>
-            <div class="service-items">
-                <div class="service-item">Vinyl Banners</div>
-                <div class="service-item">Pull-up / Roll-up Banners</div>
-                <div class="service-item">Teardrop Flags</div>
-                <div class="service-item">Backdrop Banners</div>
-                <div class="service-item">Foam-board Prints</div>
-                <div class="service-item">Correx Directional Signs</div>
-                <div class="service-item">Acrylic Wall Plaques</div>
-                <div class="service-item">Aluminum Composite Signage</div>
-                <div class="service-item">Architectural Blueprints</div>
-                <div class="service-item">High-gloss Advertising Posters</div>
-                <div class="service-item">Canvas Photo Prints</div>
-                <div class="service-item">Wall Murals & Decals</div>
-            </div>
-        </div>
-        
-        <div class="service-category">
-            <h3></span> Branded Merchandise & Apparel</h3>
-            <div class="service-items">
-                <div class="service-item">Custom T-shirts</div>
-                <div class="service-item">Custom Hoodies</div>
-                <div class="service-item">Custom Jerseys</div>
-                <div class="service-item">Custom Caps</div>
-                <div class="service-item">Custom Totes</div>
-                <div class="service-item">Workwear Uniforms</div>
-                <div class="service-item">Custom Mugs</div>
-                <div class="service-item">Custom Water Bottles</div>
-                <div class="service-item">Custom Keychains</div>
-                <div class="service-item">Custom Lanyards</div>
-                <div class="service-item">Custom Mousepads</div>
-                <div class="service-item">Branded Pens</div>
-            </div>
-        </div>
-        
-        <div class="service-category">
-            <h3></span> Packaging & Labels</h3>
-            <div class="service-items">
-                <div class="service-item">Custom Product Boxes</div>
-                <div class="service-item">Mailer Sleeves</div>
-                <div class="service-item">Paper Shopping Bags</div>
-                <div class="service-item">Custom Tissue Paper</div>
-                <div class="service-item">Die-cut Vinyl Stickers</div>
-                <div class="service-item">Roll Labels (Bottles/Jars)</div>
-                <div class="service-item">Product Seal Stickers</div>
-                <div class="service-item">Window Graphics</div>
             </div>
         </div>
     </div>
@@ -883,7 +864,7 @@
 <!-- ===== WHY US ===== -->
 <section class="why-us">
     <div class="container">
-        <h2>Why Choose Karis Printers?</h2>
+        <h2>Why Choose Rise Axis Solutions?</h2>
         <div class="why-grid">
             <div class="why-item">
                 <div class="icon">💰</div>
@@ -955,7 +936,7 @@
 
 <!-- ===== TOAST ===== -->
 <div class="toast-message" id="toastMessage">
-    <i class="fas fa-check-circle" style="color:#2a7a4b;"></i>
+    <i class="fas fa-check-circle" style="color:var(--brand-green);"></i>
     <span id="toastText">Item added</span>
 </div>
 
@@ -964,8 +945,8 @@
     <div class="container">
         <div class="footer-grid">
             <div>
-                <h4>Karis Printers</h4>
-                <p style="color: #aaa; font-size: 0.95rem;">Quality printing services in Kenya. Fast, affordable, and reliable.</p>
+                <h4>Rise Axis Solutions</h4>
+                <p style="color: #aaa; font-size: 0.95rem;">Quality services countrywide. Fast, affordable, and reliable.</p>
             </div>
             <div>
                 <h4>Quick Links</h4>
@@ -976,18 +957,20 @@
             </div>
             <div>
                 <h4>Contact</h4>
-                <a href="tel:+254703551225">📞 +254 703551225</a>
-                <a href="mailto:KarisPrinters@gmail.com">✉️ KarisPrinters@gmail.com</a>
-                <a href="#">📍 Nairobi, Kenya</a>
+                <a href="tel:+254-700-123-456">📞 +254-700-123-456</a>
+                <a href="mailto:contact@riseaxis.co.ke">✉️ contact@riseaxis.co.ke</a>
+                <a href="#"><p>📍 188 Hood Avenue, 3rd Floor
+
+                    72</p> Riverside Drive, Office 5</a>
             </div>
-            <div>
+            <!-- <div>
                 <h4>M-Pesa Paybill</h4>
                 <p style="color: #fff; font-weight: 600; font-size: 1.2rem;">Paybill: 123456</p>
                 <p style="color: #aaa; font-size: 0.9rem;">Account: Order ID</p>
-            </div>
+            </div> -->
         </div>
         <div class="copyright">
-            &copy; 2026 Karis Printers. All rights reserved.
+            &copy; 2026 Rise Axis Solutions. All rights reserved.
         </div>
     </div>
 </footer>
@@ -997,6 +980,58 @@
     // IMPORTS
     // =============================================
     import { getCurrentUser, logoutUser, onAuthChange } from '../js/auth.js';
+
+    // =============================================
+    // SERVICES DROPDOWN TOGGLE
+    // =============================================
+    let navDropdownOpen = false;
+
+    function toggleNavDropdown() {
+        navDropdownOpen = !navDropdownOpen;
+        updateNavUI();
+    }
+
+    function closeNavDropdown() {
+        navDropdownOpen = false;
+        updateNavUI();
+    }
+
+    function updateNavUI() {
+        const menu = document.getElementById('navDropdownMenu');
+        const arrow = document.getElementById('navDropdownArrow');
+        if (!menu || !arrow) return;
+        if (navDropdownOpen) {
+            menu.classList.add('open');
+            arrow.classList.add('open');
+        } else {
+            menu.classList.remove('open');
+            arrow.classList.remove('open');
+        }
+    }
+
+    const navLabel = document.getElementById('navDropdownLabel');
+    if (navLabel) {
+        navLabel.addEventListener('click', function(e) {
+            e.stopPropagation();
+            toggleNavDropdown();
+        });
+    }
+
+    document.querySelectorAll('.dropdown-item').forEach(item => {
+        item.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const category = this.dataset.category;
+            closeNavDropdown();
+            window.location.href = `service.html?category=${encodeURIComponent(category)}`;
+        });
+    });
+
+    document.addEventListener('click', function(e) {
+        const navDropdown = document.getElementById('navDropdown');
+        if (navDropdown && !navDropdown.contains(e.target)) {
+            closeNavDropdown();
+        }
+    });
 
     // =============================================
     // SLIDESHOW FOR ABOUT IMAGE (3 images)
@@ -1024,14 +1059,12 @@
         const logoutLink = document.getElementById('logoutLink');
         
         if (user) {
-            // User is logged in - hide Login/Register, show My Account/Logout
             authLinks.style.display = 'none';
             userLinks.style.display = 'inline';
             if (accountLink) {
                 accountLink.textContent = user.displayName || 'My Account';
             }
         } else {
-            // User is logged out - show Login/Register, hide My Account/Logout
             authLinks.style.display = 'inline';
             userLinks.style.display = 'none';
         }
@@ -1221,6 +1254,14 @@
         });
 
         updateBadge();
+        
+        // Close dropdown on mobile menu close
+        document.addEventListener('click', function(e) {
+            const navDropdown = document.getElementById('navDropdown');
+            if (navDropdown && !navDropdown.contains(e.target)) {
+                closeNavDropdown();
+            }
+        });
     });
 </script>
 

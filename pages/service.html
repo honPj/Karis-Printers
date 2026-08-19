@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Our Services · Rise Axis Solutions</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    /* === BRAND COLORS === */
+    :root {
+      --brand-blue: #19589d;
+      --brand-red: #dc1c2c;
+      --brand-green: #10aa51;
+      --brand-brown: #8f5c38;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f8f9fa;
+      color: #1a1a1a;
+      line-height: 1.6;
+    }
+    a { text-decoration: none; color: inherit; }
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .btn-primary {
+      background: var(--brand-blue);
+      color: #fff;
+      padding: 12px 30px;
+      border: none;
+      border-radius: 30px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      display: inline-block;
+    }
+    .btn-primary:hover { background: #0e3f70; }
+
+    /* header */
+    header {
+      background: #fff;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+      padding: 15px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    header .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      position: relative;
+    }
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--brand-blue);
+    }
+    .logo span { color: var(--brand-red); }
+
+    /* ===== HAMBURGER MENU STYLES ===== */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 5px;
+      padding: 5px;
+      background: none;
+      border: none;
+      z-index: 200;
+      order: 1;
+      margin-left: 10px;
+    }
+    .hamburger span {
+      display: block;
+      width: 28px;
+      height: 3px;
+      background: var(--brand-blue);
+      border-radius: 3px;
+      transition: all 0.3s ease;
+    }
+    .hamburger.active span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 6px);
+    }
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -6px);
+    }
+
+    nav {
+      display: flex;
+      gap: 25px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    nav a {
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+    nav a:hover { color: var(--brand-blue); }
+
+    /* ----- SERVICES DROPDOWN IN NAV ----- */
+    .nav-dropdown {
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+    }
+    .nav-dropdown .nav-dropdown-label {
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--brand-blue);
+      font-weight: 600;
+    }
+    .nav-dropdown .nav-dropdown-label .arrow-icon {
+      font-size: 0.7rem;
+      transition: transform 0.25s ease;
+    }
+    .nav-dropdown .nav-dropdown-label .arrow-icon.open {
+      transform: rotate(180deg);
+    }
+
+    .nav-dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: #fff;
+      min-width: 260px;
+      border-radius: 16px;
+      box-shadow: 0 12px 36px rgba(0,0,0,0.12);
+      border: 1px solid #eef2f6;
+      padding: 8px 0;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(8px);
+      transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+      z-index: 200;
+    }
+    .nav-dropdown-menu.open {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0px);
+    }
+    .nav-dropdown-menu .dropdown-item {
+      display: block;
+      padding: 10px 20px;
+      font-weight: 500;
+      color: #1d2b3a;
+      font-size: 0.92rem;
+      transition: background 0.15s;
+      cursor: pointer;
+      border-left: 3px solid transparent;
+    }
+    .nav-dropdown-menu .dropdown-item:hover {
+      background: #f0f6fe;
+      border-left-color: var(--brand-blue);
+      color: var(--brand-blue);
+    }
+    .nav-dropdown-menu .dropdown-item.active {
+      background: #e8f0fe;
+      border-left-color: var(--brand-blue);
+      color: var(--brand-blue);
+      font-weight: 600;
+    }
+
+    .nav-cta {
+      background: var(--brand-red);
+      color: #fff;
+      padding: 8px 20px;
+      border-radius: 25px;
+      font-weight: 600;
+    }
+    .nav-cta:hover {
+      background: #b31624;
+      color: #fff !important;
+    }
+    .cart-badge {
+      background: var(--brand-red);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 20px;
+      min-width: 20px;
+      text-align: center;
+      line-height: 1.4;
+      margin-left: 4px;
+    }
+
+    /* ===== MOBILE CART BUTTON - VISIBLE ONLY ON MOBILE ===== */
+    .mobile-cart-btn {
+      display: none;
+      background: var(--brand-red);
+      color: #fff;
+      padding: 6px 14px;
+      border-radius: 25px;
+      font-weight: 600;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+      order: 2;
+      margin-left: 5px;
+    }
+    .mobile-cart-btn:hover {
+      background: #b31624;
+      color: #fff !important;
+    }
+    .mobile-cart-btn .cart-badge {
+      background: rgba(255, 255, 255, 0.25);
+      font-size: 0.65rem;
+      padding: 1px 7px;
+      min-width: 18px;
+      margin-left: 0;
+    }
+
+    /* main content - full width */
+    .services-content {
+      padding: 40px 0 60px;
+    }
+    .category-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #0a1e33;
+      margin-bottom: 4px;
+    }
+    .category-desc {
+      color: #4a6a8a;
+      margin-bottom: 32px;
+      font-size: 1.05rem;
+    }
+
+    /* ----- GRID LAYOUT: 5 columns, card style ----- */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+    }
+
+    .product-card {
+      background: #f8f9fb;
+      border-radius: 8px;
+      padding: 14px 16px;
+      border-left: 4px solid var(--brand-blue);
+      transition: background 0.2s ease, box-shadow 0.2s ease;
+      cursor: pointer;
+      min-height: 56px;
+      display: flex;
+      align-items: center;
+    }
+    .product-card:hover {
+      background: #f1f4f9;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .product-card .card-text {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #1a2634;
+      letter-spacing: -0.01em;
+      line-height: 1.4;
+    }
+    /* selected card - soft light blue */
+    .product-card.selected {
+      background: #e8f0fe;
+      border-left-color: var(--brand-blue);
+    }
+
+    /* empty placeholder cells (invisible) */
+    .grid-empty {
+      /* nothing, just takes space */
+    }
+
+    /* ----- LIGHTBOX MODAL ----- */
+    .lightbox-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      padding: 40px;
+      cursor: pointer;
+    }
+    .lightbox-overlay.show {
+      display: flex;
+    }
+    .lightbox-overlay .lightbox-content {
+      max-width: 800px;
+      max-height: 90vh;
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+      cursor: default;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    .lightbox-overlay .lightbox-content img {
+      width: 100%;
+      height: auto;
+      max-height: 80vh;
+      display: block;
+      object-fit: contain;
+    }
+    .lightbox-overlay .lightbox-content .lightbox-caption {
+      padding: 14px 24px;
+      font-weight: 600;
+      color: #0a1e33;
+      background: #fff;
+      border-top: 1px solid #eef2f6;
+      font-size: 1rem;
+    }
+    .lightbox-overlay .lightbox-close {
+      position: absolute;
+      top: 12px;
+      right: 18px;
+      font-size: 1.8rem;
+      color: #fff;
+      background: rgba(0,0,0,0.4);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.2s;
+      border: none;
+      font-weight: 300;
+    }
+    .lightbox-overlay .lightbox-close:hover {
+      background: rgba(0,0,0,0.7);
+    }
+
+    /* footer */
+    footer {
+      background: #1a1a1a;
+      color: #ccc;
+      padding: 40px 0 20px;
+    }
+    footer .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+    footer h4 { color: #fff; margin-bottom: 12px; }
+    footer a {
+      display: block;
+      color: #aaa;
+      margin-bottom: 6px;
+      transition: color 0.3s;
+    }
+    footer a:hover { color: #fff; }
+    footer .copyright {
+      text-align: center;
+      border-top: 1px solid #333;
+      padding-top: 20px;
+      font-size: 0.9rem;
+      color: #777;
+    }
+
+    @media (max-width: 850px) {
+      .hamburger {
+        display: flex;
+      }
+
+      .mobile-cart-btn {
+        display: inline-flex;
+      }
+
+      nav {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        padding: 20px 0;
+        gap: 15px;
+        background: #fff;
+        border-top: 1px solid #eee;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        align-items: center;
+        order: 3;
+      }
+
+      nav.open {
+        display: flex;
+      }
+
+      nav .nav-cta {
+        display: none !important;
+      }
+
+      .nav-dropdown {
+        width: 100%;
+        text-align: center;
+      }
+      .nav-dropdown .nav-dropdown-label {
+        justify-content: center;
+      }
+      .nav-dropdown-menu {
+        position: static;
+        box-shadow: none;
+        border: none;
+        border-top: 1px solid #eee;
+        border-radius: 0;
+        padding: 0;
+        transform: none;
+        background: #f8f9fa;
+      }
+      .nav-dropdown-menu.open {
+        transform: none;
+      }
+      .nav-dropdown-menu .dropdown-item {
+        padding: 10px 20px;
+        text-align: center;
+        border-left: none;
+        border-bottom: 1px solid #eee;
+      }
+      .nav-dropdown-menu .dropdown-item:hover {
+        background: #e8f0fe;
+      }
+
+      header .container {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        flex-wrap: wrap;
+        position: relative;
+        gap: 0;
+      }
+
+      .logo {
+        font-size: 1.4rem;
+        order: 0;
+        margin-right: auto;
+      }
+
+      .product-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+      }
+    }
+
+    @media (max-width: 550px) {
+      .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+      .product-card { padding: 10px 12px; min-height: 48px; }
+      .product-card .card-text { font-size: 0.8rem; }
+    }
+
+    @media (max-width: 480px) {
+      nav { gap: 10px; font-size: 0.9rem; }
+      .category-title { font-size: 1.5rem; }
+      .lightbox-overlay { padding: 20px; }
+      .logo {
+        font-size: 1.2rem;
+      }
+      .hamburger span {
+        width: 24px;
+        height: 2.5px;
+      }
+      .hamburger {
+        gap: 4px;
+        margin-left: 5px;
+      }
+      .mobile-cart-btn {
+        padding: 5px 10px;
+        font-size: 0.75rem;
+      }
+      .mobile-cart-btn .cart-badge {
+        font-size: 0.55rem;
+        padding: 1px 5px;
+        min-width: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="logo">Rise Axis<span> Solutions</span></div>
+
+    <!-- Hamburger Button (mobile only) -->
+    <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <!-- Mobile Cart Button (visible only on mobile) -->
+    <a href="cart.html" class="mobile-cart-btn" id="mobileCartBtn">
+      <i class="fas fa-shopping-cart"></i> Cart <span class="cart-badge" id="mobileCartBadge">0</span>
+    </a>
+
+    <nav id="navLinks">
+      <a href="/index.html">Home</a>
+
+      <!-- SERVICES DROPDOWN IN NAV -->
+      <div class="nav-dropdown" id="navDropdown">
+        <span class="nav-dropdown-label" id="navDropdownLabel">
+          Services
+          <i class="fas fa-chevron-down arrow-icon" id="navDropdownArrow"></i>
+        </span>
+        <div class="nav-dropdown-menu" id="navDropdownMenu">
+          <div id="navDropdownList"></div>
+        </div>
+      </div>
+
+      <a href="catalog.html">Catalog</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <span id="authLinks">
+        <a href="login.html" class="auth-link">Login</a>
+        <a href="register.html" class="auth-link">Register</a>
+      </span>
+      
+      <span id="userLinks" style="display: none;">
+        <a href="account.html" id="accountLink" class="user-name-link">My Account</a>
+        <a href="#" id="logoutLink" style="color: var(--brand-red); cursor: pointer; font-weight: 500;">Logout</a>
+      </span>
+      <a href="cart.html" class="nav-cta">
+        <i class="fas fa-shopping-cart"></i> Cart <span class="cart-badge" id="navCartBadge">0</span>
+      </a>
+    </nav>
+  </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<div class="container services-content">
+  <div id="categoryHeader">
+    <h2 class="category-title" id="activeCategoryTitle">Commercial & Marketing Materials</h2>
+    <p class="category-desc" id="activeCategoryDesc">Business cards, flyers, brochures, posters & catalogues.</p>
+  </div>
+  <div class="product-grid" id="productGrid"></div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox-overlay" id="lightboxOverlay">
+  <div class="lightbox-content">
+    <button class="lightbox-close" id="lightboxClose">&times;</button>
+    <img id="lightboxImage" src="" alt="Product image" />
+    <div class="lightbox-caption" id="lightboxCaption">Product Name</div>
+  </div>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+    <div class="container">
+        <div class="footer-grid">
+            <div>
+                <h4>Rise Axis Solutions</h4>
+                <p style="color: #aaa; font-size: 0.95rem;">Quality services countrywide. Fast, affordable, and reliable.</p>
+            </div>
+            <div>
+                <h4>Quick Links</h4>
+                <a href="catalog.html">Catalog</a>
+                <a href="cart.html">Order Now</a>
+                <a href="about.html">About Us</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <div>
+                <h4>Contact</h4>
+                <a href="tel:+254-700-123-456">📞 +254-700-123-456</a>
+                <a href="mailto:contact@riseaxis.co.ke">✉️ contact@riseaxis.co.ke</a>
+                <a href="#"><p>📍 188 Hood Avenue, 3rd Floor
+
+                    72</p> Riverside Drive, Office 5</a>
+            </div>
+            <!-- <div>
+                <h4>M-Pesa Paybill</h4>
+                <p style="color: #fff; font-weight: 600; font-size: 1.2rem;">Paybill: 123456</p>
+                <p style="color: #aaa; font-size: 0.9rem;">Account: Order ID</p>
+            </div> -->
+        </div>
+        <div class="copyright">
+            &copy; 2026 Rise Axis Solutions. All rights reserved.
+        </div>
+    </div>
+</footer>
+
+<script>
+  (function() {
+    // ---------- PRODUCT DATA with images ----------
+    // Each product has a name and an image URL.
+    // Replace placeholder URLs with your own images.
+    const productMap = {
+      'Commercial & Marketing Materials': {
+        desc: 'Commercial and marketing materials encompass printed and digital collateral like business cards, flyers, brochures, posters, and catalogs, designed to promote products, services, or brand identity. These tangible or virtual assets serve as essential tools for advertising, informing customers, and driving sales across various channels.',
+        products: [
+          // Row 1
+          { name: 'Business Cards', image: 'https://placehold.co/600x400/0a1e33/fff?text=Business+Cards' },
+          { name: 'Letterheads', image: 'https://placehold.co/600x400/0a1e33/fff?text=Letterheads' },
+          { name: 'Branded Envelopes', image: 'https://placehold.co/600x400/0a1e33/fff?text=Branded+Envelopes' },
+          { name: 'Presentation Folders', image: 'https://placehold.co/600x400/0a1e33/fff?text=Presentation+Folders' },
+          { name: 'Carbonless Invoice Books (NCR)', image: 'https://placehold.co/600x400/0a1e33/fff?text=NCR+Invoice+Books' },
+          // Row 2
+          { name: 'Flyers (A5)', image: 'https://placehold.co/600x400/0a1e33/fff?text=Flyers+A5' },
+          { name: 'Brochures (Tri-fold)', image: 'https://placehold.co/600x400/0a1e33/fff?text=Brochures+Tri-fold' },
+          { name: 'Brochures (Bi-fold)', image: 'https://placehold.co/600x400/0a1e33/fff?text=Brochures+Bi-fold' },
+          { name: 'Postcards', image: 'https://placehold.co/600x400/0a1e33/fff?text=Postcards' },
+          { name: 'Door Hangers', image: 'https://placehold.co/600x400/0a1e33/fff?text=Door+Hangers' },
+          // Row 3
+          { name: 'Rack Cards', image: 'https://placehold.co/600x400/0a1e33/fff?text=Rack+Cards' },
+          { name: 'Menu Cards', image: 'https://placehold.co/600x400/0a1e33/fff?text=Menu+Cards' },
+          { name: 'Catalogs', image: 'https://placehold.co/600x400/0a1e33/fff?text=Catalogs' },
+          { name: 'Magazines', image: 'https://placehold.co/600x400/0a1e33/fff?text=Magazines' },
+          { name: 'Booklets', image: 'https://placehold.co/600x400/0a1e33/fff?text=Booklets' },
+          // Row 4
+          { name: 'Company Manuals', image: 'https://placehold.co/600x400/0a1e33/fff?text=Company+Manuals' },
+          { name: 'Annual Reports', image: 'https://placehold.co/600x400/0a1e33/fff?text=Annual+Reports' },
+          { name: 'Perfect-Bound Books', image: 'https://placehold.co/600x400/0a1e33/fff?text=Perfect-Bound+Books' }
+        ]
+      },
+      'Large Format & Signage': {
+        desc: 'Large-format printing transforms oversized graphics into high-impact marketing tools, from portable banners and roll-ups to durable outdoor signage. It also includes specialized applications like eye-catching window graphics and full-coverage vehicle wraps for mobile advertising.',
+        products: [
+          { name: 'Banners (vinyl)', image: 'https://placehold.co/600x400/0a1e33/fff?text=Banners+Vinyl' },
+          { name: 'Roll-up Banners', image: 'https://placehold.co/600x400/0a1e33/fff?text=Roll-up+Banners' },
+          { name: 'Outdoor Signage', image: 'https://placehold.co/600x400/0a1e33/fff?text=Outdoor+Signage' },
+          { name: 'Window Graphics', image: 'https://placehold.co/600x400/0a1e33/fff?text=Window+Graphics' },
+          { name: 'Vehicle Graphics', image: 'https://placehold.co/600x400/0a1e33/fff?text=Vehicle+Graphics' }
+        ]
+      },
+      'Branded Merchandise & Apparel': {
+        desc: 'Branded merchandise and apparel covers customizable items like T-shirts, hoodies, caps, and tote bags, along with stationery, used to promote a brands identity. These products serve as practical marketing tools, enhancing visibility and fostering customer loyalty through everyday use.',
+        products: [
+          { name: 'Custom T-shirts', image: 'https://placehold.co/600x400/0a1e33/fff?text=T-shirts' },
+          { name: 'Custom Hoodies', image: 'https://placehold.co/600x400/0a1e33/fff?text=Hoodies' },
+          { name: 'Branded Caps', image: 'https://placehold.co/600x400/0a1e33/fff?text=Branded+Caps' },
+          { name: 'Tote Bags', image: 'https://placehold.co/600x400/0a1e33/fff?text=Tote+Bags' },
+          { name: 'Pens & Stationery', image: 'https://placehold.co/600x400/0a1e33/fff?text=Pens+Stationery' }
+        ]
+      },
+      'Packaging & Labels': {
+        desc: 'Custom packaging that turns your product into an experience from branded boxes and kraft bags to custom stickers and shrink sleeves. Everything you need to protect, present, and promote your goods with distinctive, shelf-ready design.',
+        products: [
+          { name: 'Custom Labels (rolls)', image: 'https://placehold.co/600x400/0a1e33/fff?text=Custom+Labels' },
+          { name: 'Product Boxes', image: 'https://placehold.co/600x400/0a1e33/fff?text=Product+Boxes' },
+          { name: 'Kraft Paper Bags', image: 'https://placehold.co/600x400/0a1e33/fff?text=Kraft+Paper+Bags' },
+          { name: 'Stickers (die-cut)', image: 'https://placehold.co/600x400/0a1e33/fff?text=Stickers' },
+          { name: 'Shrink Sleeves', image: 'https://placehold.co/600x400/0a1e33/fff?text=Shrink+Sleeves' }
+        ]
+      },
+      'Graphic design': {
+        desc: 'Visually communicating ideas through typography, imagery, and color to build brand identity and engage audiences. This category covers both print and digital collateral, from business cards and packaging to social media posts and ad banners.',
+        products: [
+          { name: 'Logo Design', image: 'https://placehold.co/600x400/0a1e33/fff?text=Logo+Design' },
+          { name: 'Flyer / Poster Design', image: 'https://placehold.co/600x400/0a1e33/fff?text=Flyer+Poster+Design' },
+          { name: 'Brochure / Catalogue Design', image: 'https://placehold.co/600x400/0a1e33/fff?text=Brochure+Design' },
+          { name: 'Packaging Design', image: 'https://placehold.co/600x400/0a1e33/fff?text=Packaging+Design' },
+          { name: 'Social Media Graphics', image: 'https://placehold.co/600x400/0a1e33/fff?text=Social+Media+Graphics' }
+        ]
+      },
+      'Website development': {
+        desc: 'Building custom, responsive websites that establish a strong online presence for businesses, from informational homepages to full-scale e‑commerce stores. This also includes ongoing maintenance, speed optimization, and security updates to ensure reliable, high-performance functionality over time.',
+        products: [
+          { name: 'Business Website', image: 'https://placehold.co/600x400/0a1e33/fff?text=Business+Website' },
+          { name: 'E-commerce Store', image: 'https://placehold.co/600x400/0a1e33/fff?text=E-commerce+Store' },
+          
+          { name: 'Website Maintenance', image: 'https://placehold.co/600x400/0a1e33/fff?text=Website+Maintenance' },
+          
+        ]
+      }
+    };
+
+    const categoryKeys = [
+      'Commercial & Marketing Materials',
+      'Large Format & Signage',
+      'Branded Merchandise & Apparel',
+      'Packaging & Labels',
+      'Graphic design',
+      'Website development'
+    ];
+
+    let activeCategory = categoryKeys[0];
+    let navDropdownOpen = false;
+
+    // cart helpers
+    function getCart() {
+      try { return JSON.parse(localStorage.getItem('karis_cart')) || []; } catch { return []; }
+    }
+    function saveCart(cart) {
+      localStorage.setItem('karis_cart', JSON.stringify(cart));
+      updateBadge();
+    }
+    function updateBadge() {
+      const cart = getCart();
+      const total = cart.reduce((sum, i) => sum + i.quantity, 0);
+      document.querySelectorAll('.cart-badge').forEach(el => el.textContent = total);
+    }
+    function showToast(message) {
+      let toast = document.getElementById('toastMessage');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'toastMessage';
+        toast.style.cssText = `
+          position: fixed; bottom: 30px; right: 30px;
+          background: #e5f4e6; padding: 16px 24px;
+          border-radius: 60px; color: var(--brand-green);
+          font-weight: 500; border: 1px solid #b8d9b8;
+          box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+          z-index: 2000; display: none; align-items: center; gap: 12px;
+        `;
+        toast.innerHTML = `<i class="fas fa-check-circle" style="color:var(--brand-green);"></i> <span id="toastText"></span>`;
+        document.body.appendChild(toast);
+      }
+      document.getElementById('toastText').textContent = message;
+      toast.style.display = 'flex';
+      clearTimeout(window.toastTimeout);
+      window.toastTimeout = setTimeout(() => { toast.style.display = 'none'; }, 3000);
+    }
+
+    function addToCart(productName) {
+      const cart = getCart();
+      const existing = cart.find(item => item.productId === productName);
+      if (existing) {
+        existing.quantity += 1;
+      } else {
+        cart.push({
+          productId: productName,
+          quantity: 1,
+          designFile: null,
+          hasDesign: false,
+          price: 0
+        });
+      }
+      saveCart(cart);
+      showToast(`✓ ${productName} added to cart`);
+    }
+
+    // ----- LIGHTBOX -----
+    function openLightbox(imageUrl, productName) {
+      const overlay = document.getElementById('lightboxOverlay');
+      const img = document.getElementById('lightboxImage');
+      const caption = document.getElementById('lightboxCaption');
+      if (!overlay || !img || !caption) return;
+      img.src = imageUrl;
+      img.alt = productName;
+      caption.textContent = productName;
+      overlay.classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      const overlay = document.getElementById('lightboxOverlay');
+      if (!overlay) return;
+      overlay.classList.remove('show');
+      document.body.style.overflow = '';
+    }
+
+    // ----- RENDER NAV DROPDOWN -----
+    function renderNavDropdown() {
+      const container = document.getElementById('navDropdownList');
+      if (!container) return;
+      let html = '';
+      categoryKeys.forEach(cat => {
+        const activeClass = (cat === activeCategory) ? 'active' : '';
+        html += `<div class="dropdown-item ${activeClass}" data-category="${cat}">${cat}</div>`;
+      });
+      container.innerHTML = html;
+
+      container.querySelectorAll('.dropdown-item').forEach(el => {
+        el.addEventListener('click', function(e) {
+          e.stopPropagation();
+          const cat = this.dataset.category;
+          if (cat && productMap[cat]) {
+            activeCategory = cat;
+            renderNavDropdown();
+            renderProducts(cat);
+            closeNavDropdown();
+          }
+        });
+      });
+    }
+
+    // ----- NAV DROPDOWN TOGGLE -----
+    function toggleNavDropdown() {
+      navDropdownOpen = !navDropdownOpen;
+      updateNavUI();
+    }
+    function closeNavDropdown() {
+      navDropdownOpen = false;
+      updateNavUI();
+    }
+    function updateNavUI() {
+      const menu = document.getElementById('navDropdownMenu');
+      const arrow = document.getElementById('navDropdownArrow');
+      if (!menu || !arrow) return;
+      if (navDropdownOpen) {
+        menu.classList.add('open');
+        arrow.classList.add('open');
+      } else {
+        menu.classList.remove('open');
+        arrow.classList.remove('open');
+      }
+    }
+
+    // ----- RENDER PRODUCTS as 5-column grid -----
+    function renderProducts(category) {
+      const data = productMap[category];
+      if (!data) return;
+      document.getElementById('activeCategoryTitle').textContent = category;
+      document.getElementById('activeCategoryDesc').textContent = data.desc || '';
+
+      const grid = document.getElementById('productGrid');
+      if (!grid) return;
+      const products = data.products || [];
+      if (products.length === 0) {
+        grid.innerHTML = `<div class="empty-message" style="grid-column:1/-1;">No products available in this category.</div>`;
+        return;
+      }
+
+      let html = '';
+      products.forEach((p, index) => {
+        // Check if this is "Brochures (Tri-fold)" to apply selected class
+        const isSelected = (p.name === 'Brochures (Tri-fold)');
+        const selectedClass = isSelected ? 'selected' : '';
+        html += `
+          <div class="product-card ${selectedClass}" data-image="${p.image}" data-name="${p.name}">
+            <span class="card-text">${p.name}</span>
+          </div>
+        `;
+      });
+
+      // Row 4 has only 3 items, add 2 empty placeholders to complete the row
+      // We know the last category is the one with 18 items (Commercial & Marketing Materials)
+      // For other categories we don't add empties, they just wrap naturally
+      if (category === 'Commercial & Marketing Materials') {
+        // Add 2 empty cells to complete row 4 (since 18 items = 3 full rows + 3 in row 4)
+        // But we want exactly 5 columns, so we add 2 empty placeholders
+        html += `<div class="grid-empty"></div>`;
+        html += `<div class="grid-empty"></div>`;
+      }
+
+      grid.innerHTML = html;
+
+      // Click handler for each product card -> opens lightbox with image
+      grid.querySelectorAll('.product-card').forEach(card => {
+        card.addEventListener('click', function(e) {
+          const image = this.dataset.image;
+          const name = this.dataset.name;
+          if (image) {
+            openLightbox(image, name);
+          }
+        });
+      });
+    }
+
+    // =============================================
+    // HAMBURGER MENU TOGGLE
+    // =============================================
+    function initHamburger() {
+      const hamburger = document.getElementById('hamburgerBtn');
+      const navLinks = document.getElementById('navLinks');
+
+      if (hamburger && navLinks) {
+        hamburger.addEventListener('click', function(e) {
+          e.stopPropagation();
+          this.classList.toggle('active');
+          navLinks.classList.toggle('open');
+        });
+
+        navLinks.querySelectorAll('a').forEach(link => {
+          link.addEventListener('click', function() {
+            hamburger.classList.remove('active');
+            navLinks.classList.remove('open');
+          });
+        });
+
+        // Close dropdown items click inside nav
+        navLinks.querySelectorAll('.dropdown-item').forEach(item => {
+          item.addEventListener('click', function() {
+            hamburger.classList.remove('active');
+            navLinks.classList.remove('open');
+          });
+        });
+
+        document.addEventListener('click', function(e) {
+          if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
+            hamburger.classList.remove('active');
+            navLinks.classList.remove('open');
+          }
+        });
+      }
+    }
+
+    // ----- INIT -----
+    document.addEventListener('DOMContentLoaded', function() {
+      renderNavDropdown();
+      renderProducts(activeCategory);
+      updateBadge();
+      initHamburger();
+
+      // Nav dropdown toggle
+      const navLabel = document.getElementById('navDropdownLabel');
+      if (navLabel) {
+        navLabel.addEventListener('click', function(e) {
+          e.stopPropagation();
+          toggleNavDropdown();
+        });
+      }
+
+      // Close nav dropdown when clicking outside
+      document.addEventListener('click', function(e) {
+        const navDropdown = document.getElementById('navDropdown');
+        if (navDropdown && !navDropdown.contains(e.target)) {
+          closeNavDropdown();
+        }
+      });
+
+      // Lightbox close handlers
+      const overlay = document.getElementById('lightboxOverlay');
+      const closeBtn = document.getElementById('lightboxClose');
+      if (overlay) {
+        overlay.addEventListener('click', function(e) {
+          if (e.target === this) closeLightbox();
+        });
+      }
+      if (closeBtn) {
+        closeBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          closeLightbox();
+        });
+      }
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeLightbox();
+      });
+
+      closeNavDropdown();
+    });
+
+  })();
+</script>
+</body>
+</html>
