@@ -1,899 +1,934 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - Rise Axis Solutions</title>
-     <link rel="icon" type="image/x-icon" href="../images/teardrop.jpg">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <style>
-        /* === BRAND COLORS === */
-        :root {
-            --brand-blue: #19589d;
-            --brand-red: #dc1c2c;
-            --brand-green: #10aa51;
-            --brand-brown: #8f5c38;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rise Axis · Register</title>
+  <link rel="icon" type="image/x-icon" href="../images/teardrop.jpg" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    /* === BRAND COLORS === */
+    :root {
+      --brand-blue: #19589d;
+      --brand-red: #dc1c2c;
+      --brand-green: #10aa51;
+      --brand-brown: #8f5c38;
+      --slide-width: 300px;
+      --bg-light: #f8f9fa;
+      --card-shadow: 0 12px 36px rgba(0, 0, 0, 0.08);
+    }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f8f9fa;
-            color: #1a1a1a;
-            min-height: 100vh;
-        }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+      background: var(--bg-light);
+      color: #1a1a1a;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
-        /* ===== HAMBURGER MENU STYLES ===== */
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-            gap: 5px;
-            padding: 5px;
-            background: none;
-            border: none;
-            z-index: 200;
-        }
-        .hamburger span {
-            display: block;
-            width: 28px;
-            height: 3px;
-            background: var(--brand-blue);
-            border-radius: 3px;
-            transition: all 0.3s ease;
-        }
-        .hamburger.active span:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 6px);
-        }
-        .hamburger.active span:nth-child(2) {
-            opacity: 0;
-        }
-        .hamburger.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(5px, -6px);
-        }
+    /* ===== HEADER ===== */
+    header {
+      background: #fff;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+      padding: 15px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid #eef2f6;
+    }
+    header .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      position: relative;
+    }
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--brand-blue);
+      order: 0;
+      margin-right: auto;
+    }
+    .logo span { color: var(--brand-red); }
 
-        header {
-            background: #fff;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-            padding: 15px 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        header .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            position: relative;
-        }
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--brand-blue);
-        }
-        .logo span { color: var(--brand-red); }
+    /* ===== HAMBURGER (mobile) ===== */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 5px;
+      padding: 5px;
+      background: none;
+      border: none;
+      z-index: 300;
+      order: 1;
+      margin-left: 10px;
+    }
+    .hamburger span {
+      display: block;
+      width: 28px;
+      height: 3px;
+      background: var(--brand-blue);
+      border-radius: 3px;
+      transition: all 0.3s ease;
+    }
+    .hamburger.active span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 6px);
+    }
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -6px);
+    }
 
-        nav {
-            display: flex;
-            gap: 25px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        nav a {
-            font-weight: 500;
-            transition: color 0.3s ease;
-            text-decoration: none;
-            color: inherit;
-        }
-        nav a:hover { color: var(--brand-blue); }
-        nav a.active { color: var(--brand-blue); font-weight: 600; }
+    /* ===== MOBILE CART BUTTON ===== */
+    .mobile-cart-btn {
+      display: none;
+      background: var(--brand-red);
+      color: #fff;
+      padding: 6px 14px;
+      border-radius: 25px;
+      font-weight: 600;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+      order: 2;
+      margin-left: 5px;
+    }
+    .mobile-cart-btn:hover {
+      background: #b31624;
+      color: #fff !important;
+    }
+    .mobile-cart-btn .cart-badge {
+      background: rgba(255, 255, 255, 0.25);
+      font-size: 0.65rem;
+      padding: 1px 7px;
+      min-width: 18px;
+      border-radius: 20px;
+      margin-left: 0;
+    }
 
-        /* ----- SERVICES DROPDOWN IN NAV ----- */
-        .nav-dropdown {
-            position: relative;
-            display: inline-block;
-            cursor: pointer;
-        }
-        .nav-dropdown .nav-dropdown-label {
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            color: #1a1a1a;
-            transition: color 0.3s ease;
-        }
-        .nav-dropdown .nav-dropdown-label:hover {
-            color: var(--brand-blue);
-        }
-        .nav-dropdown .nav-dropdown-label .arrow-icon {
-            font-size: 0.65rem;
-            transition: transform 0.25s ease;
-        }
-        .nav-dropdown .nav-dropdown-label .arrow-icon.open {
-            transform: rotate(180deg);
-        }
+    /* ===== SLIDE MENU (mobile) ===== */
+    .slide-menu {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: var(--slide-width);
+      max-width: 80vw;
+      height: 100vh;
+      background: #ffffff;
+      box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
+      z-index: 500;
+      transform: translateX(-110%);
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+      padding: 24px 20px 30px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .slide-menu.open {
+      transform: translateX(0);
+    }
 
-        .nav-dropdown-menu {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background: #fff;
-            min-width: 260px;
-            border-radius: 16px;
-            box-shadow: 0 12px 36px rgba(0,0,0,0.12);
-            border: 1px solid #eef2f6;
-            padding: 8px 0;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(8px);
-            transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
-            z-index: 200;
-        }
-        .nav-dropdown-menu.open {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0px);
-        }
-        .nav-dropdown-menu .dropdown-item {
-            display: block;
-            padding: 10px 20px;
-            font-weight: 500;
-            color: #1d2b3a;
-            font-size: 0.92rem;
-            transition: background 0.15s;
-            cursor: pointer;
-            border-left: 3px solid transparent;
-        }
-        .nav-dropdown-menu .dropdown-item:hover {
-            background: #f0f6fe;
-            border-left-color: var(--brand-blue);
-            color: var(--brand-blue);
-        }
-        .nav-dropdown-menu .dropdown-item.active {
-            background: #e8f0fe;
-            border-left-color: var(--brand-blue);
-            color: var(--brand-blue);
-            font-weight: 600;
-        }
+    .menu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.35);
+      z-index: 499;
+      display: none;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+    .menu-overlay.show {
+      display: block;
+      opacity: 1;
+    }
 
-        .nav-cta {
-            background: var(--brand-red);
-            color: #fff;
-            padding: 8px 20px;
-            border-radius: 25px;
-            font-weight: 600;
-        }
-        .nav-cta:hover { background: #b31624; color: #fff !important; }
-        .cart-badge {
-            background: var(--brand-red);
-            color: #fff;
-            font-size: 0.7rem;
-            font-weight: 700;
-            padding: 2px 8px;
-            border-radius: 20px;
-            min-width: 20px;
-            text-align: center;
-            line-height: 1.4;
-            margin-left: 4px;
-        }
+    .slide-menu .close-slide {
+      align-self: flex-end;
+      background: none;
+      border: none;
+      font-size: 2rem;
+      color: #555;
+      cursor: pointer;
+      padding: 0 4px 12px 0;
+      transition: 0.2s;
+    }
+    .slide-menu .close-slide:hover {
+      color: #111;
+      transform: rotate(90deg);
+    }
 
-        /* ===== MOBILE CART BUTTON ===== */
-        .mobile-cart-btn {
-            display: none;
-            background: var(--brand-red);
-            color: #fff;
-            padding: 6px 14px;
-            border-radius: 25px;
-            font-weight: 600;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.85rem;
-            order: 2;
-            margin-left: 5px;
-        }
-        .mobile-cart-btn:hover {
-            background: #b31624;
-            color: #fff !important;
-        }
-        .mobile-cart-btn .cart-badge {
-            background: rgba(255, 255, 255, 0.25);
-            font-size: 0.65rem;
-            padding: 1px 7px;
-            min-width: 18px;
-            margin-left: 0;
-        }
+    .slide-menu .slide-logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--brand-blue);
+      margin-bottom: 12px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 16px;
+    }
+    .slide-menu .slide-logo span {
+      color: var(--brand-red);
+    }
 
-        /* ===== AUTH LINKS ===== */
-        #authLinks { display: inline; }
-        #userLinks { display: none; }
+    .slide-menu a,
+    .slide-menu .slide-dropdown-label {
+      display: block;
+      padding: 12px 6px;
+      font-weight: 500;
+      font-size: 1.05rem;
+      color: #1a1a1a;
+      border-radius: 8px;
+      transition: background 0.15s;
+      cursor: pointer;
+    }
+    .slide-menu a:hover,
+    .slide-menu .slide-dropdown-label:hover {
+      background: #f0f6fe;
+      color: var(--brand-blue);
+    }
+    .slide-menu a.active {
+      color: var(--brand-blue);
+      font-weight: 600;
+      background: #ecf3fa;
+    }
 
-        .page-header {
-            background: linear-gradient(135deg, #e8f0fe 0%, #d4e4f7 100%);
-            padding: 40px 0 30px;
-            text-align: center;
-        }
-        .page-header h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #1a1a1a;
-        }
-        .page-header p {
-            color: #555;
-            font-size: 1.1rem;
-        }
-        
-        .register-section {
-            padding: 50px 0 80px;
-        }
-        .register-card {
-            max-width: 420px;
-            margin: 0 auto;
-            background: #fff;
-            padding: 40px 32px;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-            border: 1px solid #eef2f6;
-        }
-        .register-card h2 {
-            font-size: 1.6rem;
-            margin-bottom: 8px;
-            color: #0a1e33;
-        }
-        .register-card .subtitle {
-            color: #6a8aa8;
-            margin-bottom: 24px;
-            font-size: 0.95rem;
-        }
-        .form-group {
-            margin-bottom: 18px;
-        }
-        .form-group label {
-            display: block;
-            font-weight: 600;
-            font-size: 0.9rem;
-            color: #1a2e44;
-            margin-bottom: 5px;
-        }
-        .form-group input {
-            width: 100%;
-            padding: 12px 14px;
-            border: 2px solid #e0e6ed;
-            border-radius: 10px;
-            font-size: 1rem;
-            transition: 0.2s;
-        }
-        .form-group input:focus {
-            outline: none;
-            border-color: var(--brand-blue);
-        }
-        .btn-primary {
-            width: 100%;
-            padding: 14px;
-            background: var(--brand-blue);
-            color: #fff;
-            border: none;
-            border-radius: 30px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-        .btn-primary:hover { background: #0e3f70; }
-        .btn-primary:disabled { background: #888; cursor: not-allowed; }
-        
-        .form-footer {
-            text-align: center;
-            margin-top: 18px;
-            font-size: 0.9rem;
-            color: #6a8aa8;
-        }
-        .form-footer a {
-            color: var(--brand-blue);
-            font-weight: 600;
-            text-decoration: none;
-        }
-        .form-footer a:hover { text-decoration: underline; }
-        .error-message {
-            background: #f8d7da;
-            color: #721c24;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 16px;
-            display: none;
-            font-size: 0.9rem;
-        }
-        .error-message.show { display: block; }
-        .success-message {
-            background: #d4edda;
-            color: #155724;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 16px;
-            display: none;
-            font-size: 0.9rem;
-        }
-        .success-message.show { display: block; }
-        
-        .password-requirements {
-            font-size: 0.8rem;
-            color: #6a8aa8;
-            margin-top: 4px;
-            padding: 8px 12px;
-            background: #f8f9fa;
-            border-radius: 6px;
-        }
-        .password-requirements li {
-            list-style: none;
-            padding: 2px 0;
-        }
-        .password-requirements .valid { color: var(--brand-green); }
-        .password-requirements .invalid { color: var(--brand-red); }
-        
-        footer {
-            background: #1a1a1a;
-            color: #ccc;
-            padding: 40px 0 20px;
-            margin-top: 30px;
-        }
-        footer .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 30px;
-            margin-bottom: 30px;
-        }
-        footer h4 { color: #fff; margin-bottom: 12px; }
-        footer a {
-            display: block;
-            color: #aaa;
-            margin-bottom: 6px;
-            transition: color 0.3s;
-            text-decoration: none;
-        }
-        footer a:hover { color: #fff; }
-        footer .copyright {
-            text-align: center;
-            border-top: 1px solid #333;
-            padding-top: 20px;
-            font-size: 0.9rem;
-            color: #777;
-        }
+    .slide-dropdown {
+      margin-bottom: 4px;
+    }
+    .slide-dropdown-label {
+      display: flex !important;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .slide-dropdown-label .arrow-icon {
+      font-size: 0.7rem;
+      transition: transform 0.25s ease;
+    }
+    .slide-dropdown-label .arrow-icon.open {
+      transform: rotate(180deg);
+    }
+    .slide-dropdown-menu {
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.3s ease, padding 0.2s ease;
+      padding-left: 16px;
+      background: #f8fafc;
+      border-radius: 8px;
+      margin: 4px 0 2px;
+    }
+    .slide-dropdown-menu.open {
+      max-height: 400px;
+      padding: 6px 0;
+    }
+    .slide-dropdown-menu .dropdown-item {
+      display: block;
+      padding: 10px 12px;
+      font-weight: 500;
+      color: #2a3b4e;
+      border-left: 3px solid transparent;
+      transition: 0.15s;
+      cursor: pointer;
+    }
+    .slide-dropdown-menu .dropdown-item:hover {
+      background: #e8f0fe;
+      border-left-color: var(--brand-blue);
+      color: var(--brand-blue);
+    }
 
-        /* ===== RESPONSIVE - MOBILE VIEW ===== */
-        @media (max-width: 768px) {
-            .hamburger {
-                display: flex;
-                order: 1;
-                margin-left: 10px;
-            }
-            .mobile-cart-btn {
-                display: inline-flex;
-            }
-            nav {
-                display: none;
-                flex-direction: column;
-                width: 100%;
-                padding: 20px 0;
-                gap: 15px;
-                background: #fff;
-                border-top: 1px solid #eee;
-                position: absolute;
-                top: 70px;
-                left: 0;
-                box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-                align-items: center;
-                order: 3;
-            }
-            nav.open {
-                display: flex;
-            }
-            nav .nav-cta {
-                display: none !important;
-            }
-            /* Mobile dropdown - make it full width */
-            .nav-dropdown {
-                width: 100%;
-                text-align: center;
-            }
-            .nav-dropdown .nav-dropdown-label {
-                justify-content: center;
-            }
-            .nav-dropdown-menu {
-                position: static;
-                box-shadow: none;
-                border: none;
-                border-top: 1px solid #eee;
-                border-radius: 0;
-                padding: 0;
-                transform: none;
-                background: #f8f9fa;
-            }
-            .nav-dropdown-menu.open {
-                transform: none;
-            }
-            .nav-dropdown-menu .dropdown-item {
-                padding: 10px 20px;
-                text-align: center;
-                border-left: none;
-                border-bottom: 1px solid #eee;
-            }
-            .nav-dropdown-menu .dropdown-item:hover {
-                background: #e8f0fe;
-            }
-            header .container {
-                display: flex;
-                justify-content: flex-start;
-                align-items: center;
-                flex-wrap: wrap;
-                position: relative;
-                gap: 0;
-            }
-            .logo {
-                font-size: 1.4rem;
-                order: 0;
-                margin-right: auto;
-            }
-            .register-card { padding: 28px 20px; }
-        }
+    .slide-menu .slide-auth {
+      margin-top: 12px;
+      border-top: 1px solid #eef2f6;
+      padding-top: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .slide-menu .slide-auth a {
+      font-weight: 500;
+      padding: 10px 6px;
+    }
 
-        @media (max-width: 480px) {
-            .logo { font-size: 1.2rem; }
-            .hamburger span { width: 24px; height: 2.5px; }
-            .hamburger { gap: 4px; margin-left: 5px; }
-            .mobile-cart-btn { padding: 5px 10px; font-size: 0.75rem; }
-            .mobile-cart-btn .cart-badge { font-size: 0.55rem; padding: 1px 5px; min-width: 14px; }
-        }
-    </style>
+    .slide-menu .slide-cta {
+      background: var(--brand-red);
+      color: #fff !important;
+      text-align: center;
+      border-radius: 40px;
+      padding: 12px 16px !important;
+      font-weight: 600;
+      margin-top: 8px;
+    }
+    .slide-menu .slide-cta:hover {
+      background: #b31624 !important;
+      color: #fff !important;
+    }
+
+    /* ===== DESKTOP NAV ===== */
+    .desktop-nav {
+      display: flex;
+      gap: 25px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .desktop-nav a {
+      text-decoration: none;
+      font-weight: 500;
+      color: #1f2a3a;
+      transition: color 0.2s;
+      font-size: 0.98rem;
+    }
+    .desktop-nav a:hover {
+      color: var(--brand-blue);
+    }
+    .desktop-nav a.active {
+      color: var(--brand-blue);
+      font-weight: 600;
+    }
+
+    .desktop-nav .nav-dropdown {
+      position: relative;
+      cursor: pointer;
+    }
+    .desktop-nav .nav-dropdown-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 500;
+      color: #1f2a3a;
+    }
+    .desktop-nav .nav-dropdown-label:hover {
+      color: var(--brand-blue);
+    }
+    .desktop-nav .nav-dropdown-label .arrow-icon {
+      font-size: 0.6rem;
+      transition: transform 0.25s;
+    }
+    .desktop-nav .nav-dropdown-label .arrow-icon.open {
+      transform: rotate(180deg);
+    }
+    .desktop-nav .nav-dropdown-menu {
+      position: absolute;
+      top: 140%;
+      left: 0;
+      background: #fff;
+      min-width: 250px;
+      border-radius: 16px;
+      box-shadow: var(--card-shadow);
+      border: 1px solid #eef2f6;
+      padding: 8px 0;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(8px);
+      transition: opacity 0.2s, transform 0.2s, visibility 0.2s;
+      z-index: 200;
+    }
+    .desktop-nav .nav-dropdown-menu.open {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    .desktop-nav .nav-dropdown-menu .dropdown-item {
+      display: block;
+      padding: 10px 20px;
+      font-weight: 500;
+      color: #1d2b3a;
+      font-size: 0.92rem;
+      border-left: 3px solid transparent;
+      transition: background 0.15s;
+      cursor: pointer;
+    }
+    .desktop-nav .nav-dropdown-menu .dropdown-item:hover {
+      background: #f0f6fe;
+      border-left-color: var(--brand-blue);
+      color: var(--brand-blue);
+    }
+
+    .desktop-nav .nav-cta {
+      background: var(--brand-red);
+      color: #fff !important;
+      padding: 8px 22px;
+      border-radius: 30px;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+    .desktop-nav .nav-cta:hover {
+      background: #b31624 !important;
+      color: #fff !important;
+    }
+
+    .cart-badge {
+      background: var(--brand-red);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 20px;
+      min-width: 20px;
+      text-align: center;
+      line-height: 1.4;
+      margin-left: 4px;
+    }
+    .desktop-nav .nav-cta .cart-badge {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    #authLinks { display: inline; }
+    #userLinks { display: none; }
+
+    /* ===== PAGE HEADER ===== */
+    .page-header {
+      background: linear-gradient(135deg, #e8f0fe, #d4e4f7);
+      padding: 40px 0 30px;
+      text-align: center;
+    }
+    .page-header h1 { font-size: 2.5rem; font-weight: 700; }
+    .page-header p { color: #3d4f66; font-size: 1.1rem; }
+
+    /* ===== REGISTER SECTION ===== */
+    .register-section { padding: 50px 0 80px; flex: 1; }
+    .register-card {
+      max-width: 420px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 40px 32px;
+      border-radius: 20px;
+      box-shadow: var(--card-shadow);
+      border: 1px solid #eef2f6;
+    }
+    .register-card h2 { font-size: 1.6rem; margin-bottom: 4px; color: #0a1e33; }
+    .subtitle { color: #6a8aa8; margin-bottom: 24px; font-size: 0.95rem; }
+    .form-group { margin-bottom: 18px; }
+    .form-group label { display: block; font-weight: 600; font-size: 0.9rem; color: #1a2e44; margin-bottom: 5px; }
+    .form-group input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 2px solid #e0e6ed;
+      border-radius: 12px;
+      font-size: 1rem;
+      transition: 0.2s;
+      background: #fafcff;
+    }
+    .form-group input:focus { outline: none; border-color: var(--brand-blue); background: #fff; }
+    .btn-primary {
+      width: 100%;
+      padding: 14px;
+      background: var(--brand-blue);
+      color: #fff;
+      border: none;
+      border-radius: 30px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.25s;
+      margin-top: 6px;
+    }
+    .btn-primary:hover { background: #0e3f70; }
+    .btn-primary:disabled { background: #8a9bb0; cursor: not-allowed; }
+    .form-footer { text-align: center; margin-top: 20px; font-size: 0.9rem; color: #6a8aa8; }
+    .form-footer a { color: var(--brand-blue); font-weight: 600; text-decoration: none; }
+    .form-footer a:hover { text-decoration: underline; }
+    .error-message {
+      background: #f8d7da;
+      color: #721c24;
+      padding: 12px;
+      border-radius: 10px;
+      margin-bottom: 16px;
+      display: none;
+      font-size: 0.9rem;
+    }
+    .error-message.show { display: block; }
+    .success-message {
+      background: #d4edda;
+      color: #155724;
+      padding: 12px;
+      border-radius: 10px;
+      margin-bottom: 16px;
+      display: none;
+      font-size: 0.9rem;
+    }
+    .success-message.show { display: block; }
+    .password-requirements {
+      font-size: 0.8rem;
+      color: #4a5f78;
+      margin-top: 6px;
+      padding: 8px 12px;
+      background: #f4f7fc;
+      border-radius: 8px;
+    }
+    .password-requirements li { list-style: none; padding: 2px 0; }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: #1a1a1a;
+      color: #ccc;
+      padding: 40px 0 20px;
+      margin-top: 30px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+    footer h4 { color: #fff; margin-bottom: 12px; }
+    footer a { display: block; color: #aaa; margin-bottom: 6px; text-decoration: none; transition: color 0.2s; }
+    footer a:hover { color: #fff; }
+    .copyright { text-align: center; border-top: 1px solid #333; padding-top: 20px; font-size: 0.9rem; color: #777; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 820px) {
+      .hamburger { display: flex; }
+      .mobile-cart-btn { display: inline-flex; }
+      .desktop-nav { display: none !important; }
+      header .container { gap: 4px; }
+      .logo { font-size: 1.4rem; }
+      .slide-menu { padding: 20px 16px 24px; }
+    }
+    @media (max-width: 480px) {
+      .logo { font-size: 1.2rem; }
+      .hamburger span { width: 24px; height: 2.5px; }
+      .hamburger { gap: 4px; margin-left: 5px; }
+      .mobile-cart-btn { font-size: 0.75rem; padding: 4px 10px; }
+      .mobile-cart-btn .cart-badge { font-size: 0.55rem; padding: 1px 5px; min-width: 14px; }
+      .register-card { padding: 28px 20px; }
+    }
+  </style>
 </head>
 <body>
 
-<!-- HEADER -->
+<!-- ===== HEADER ===== -->
 <header>
-    <div class="container">
-        <div class="logo">Rise Axis<span> Solutions</span></div>
+  <div class="container">
+    <div class="logo">Rise Axis<span> Solutions</span></div>
 
-        <!-- Hamburger Button (mobile only) -->
-        <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
+    <!-- Hamburger -->
+    <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
 
-        <!-- Mobile Cart Button (visible only on mobile) -->
-        <a href="cart.html" class="mobile-cart-btn" id="mobileCartBtn">
-            <i class="fas fa-shopping-cart"></i> Cart <span class="cart-badge" id="mobileCartBadge">0</span>
-        </a>
+    <!-- Mobile cart -->
+    <a href="cart.html" class="mobile-cart-btn" id="mobileCartBtn">
+      <i class="fas fa-shopping-cart"></i> Cart <span class="cart-badge" id="mobileCartBadge">0</span>
+    </a>
 
-        <!-- Navigation with Services Dropdown -->
-        <nav id="navLinks">
-            <a href="../index.html">Home</a>
-            
-            <!-- SERVICES DROPDOWN -->
-            <div class="nav-dropdown" id="navDropdown">
-                <span class="nav-dropdown-label" id="navDropdownLabel">
-                    Services
-                    <i class="fas fa-chevron-down arrow-icon" id="navDropdownArrow"></i>
-                </span>
-                <div class="nav-dropdown-menu" id="navDropdownMenu">
-                    <div class="dropdown-item" data-category="Commercial & Marketing Materials">Commercial & Marketing Materials</div>
-                    <div class="dropdown-item" data-category="Large Format & Signage">Large Format & Signage</div>
-                    <div class="dropdown-item" data-category="Branded Merchandise & Apparel">Branded Merchandise & Apparel</div>
-                    <div class="dropdown-item" data-category="Packaging & Labels">Packaging & Labels</div>
-                    <div class="dropdown-item" data-category="Graphic design">Graphic Design</div>
-                    <div class="dropdown-item" data-category="Website development">Website Development</div>
-                </div>
-            </div>
-            
-            <a href="catalog.html">Catalog</a>
-            <a href="about.html">About</a>
-            <a href="contact.html">Contact</a>
-            
-            <!-- Auth Links (Dynamic) -->
-            <span id="authLinks">
-                <a href="login.html">Login</a>
-                <a href="register.html">Register</a>
-            </span>
-            
-            <!-- User Links (Hidden by default) -->
-            <span id="userLinks" style="display: none;">
-                <a href="account.html" id="accountLink">My Account</a>
-                <a href="#" id="logoutLink" style="color: var(--brand-red);">Logout</a>
-            </span>
-            
-            <a href="cart.html" class="nav-cta">
-                <i class="fas fa-shopping-cart"></i> Cart <span class="cart-badge" id="navCartBadge">0</span>
-            </a>
-        </nav>
-    </div>
+    <!-- Desktop navigation -->
+    <nav class="desktop-nav" id="desktopNav">
+      <a href="../index.html">Home</a>
+      <div class="nav-dropdown" id="navDropdown">
+        <span class="nav-dropdown-label" id="navDropdownLabel">
+          Services <i class="fas fa-chevron-down arrow-icon" id="navDropdownArrow"></i>
+        </span>
+        <div class="nav-dropdown-menu" id="navDropdownMenu">
+          <div class="dropdown-item" data-category="Commercial & Marketing Materials">Commercial &amp; Marketing</div>
+          <div class="dropdown-item" data-category="Large Format & Signage">Large Format &amp; Signage</div>
+          <div class="dropdown-item" data-category="Branded Merchandise & Apparel">Branded Merchandise</div>
+          <div class="dropdown-item" data-category="Packaging & Labels">Packaging &amp; Labels</div>
+          <div class="dropdown-item" data-category="Graphic design">Graphic Design</div>
+          <div class="dropdown-item" data-category="Website development">Web Development</div>
+        </div>
+      </div>
+      <a href="catalog.html">Catalog</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <span id="authLinks">
+        <a href="login.html">Login</a>
+        <a href="register.html" class="active">Register</a>
+      </span>
+      <span id="userLinks" style="display:none;">
+        <a href="account.html" id="accountLink">My Account</a>
+        <a href="#" id="logoutLink" style="color:var(--brand-red);">Logout</a>
+      </span>
+      <a href="cart.html" class="nav-cta">
+        <i class="fas fa-shopping-cart"></i> Cart <span class="cart-badge" id="navCartBadge">0</span>
+      </a>
+    </nav>
+  </div>
 </header>
 
-<!-- PAGE HEADER -->
+<!-- ===== SLIDE MENU (mobile) ===== -->
+<div class="menu-overlay" id="menuOverlay"></div>
+<div class="slide-menu" id="slideMenu">
+  <button class="close-slide" id="closeSlideBtn">&times;</button>
+  <div class="slide-logo">Rise Axis<span> Solutions</span></div>
+
+  <a href="../index.html">Home</a>
+
+  <!-- slide dropdown: Services -->
+  <div class="slide-dropdown">
+    <div class="slide-dropdown-label" id="slideDropdownLabel">
+      Services
+      <i class="fas fa-chevron-down arrow-icon" id="slideDropdownArrow"></i>
+    </div>
+    <div class="slide-dropdown-menu" id="slideDropdownMenu">
+      <div class="dropdown-item" data-category="Commercial & Marketing Materials">Commercial &amp; Marketing</div>
+      <div class="dropdown-item" data-category="Large Format & Signage">Large Format &amp; Signage</div>
+      <div class="dropdown-item" data-category="Branded Merchandise & Apparel">Branded Merchandise</div>
+      <div class="dropdown-item" data-category="Packaging & Labels">Packaging &amp; Labels</div>
+      <div class="dropdown-item" data-category="Graphic design">Graphic Design</div>
+      <div class="dropdown-item" data-category="Website development">Web Development</div>
+    </div>
+  </div>
+
+  <a href="catalog.html">Catalog</a>
+  <a href="about.html">About</a>
+  <a href="contact.html">Contact</a>
+
+  <div class="slide-auth">
+    <span id="slideAuthLinks">
+      <a href="login.html">Login</a>
+      <a href="register.html" class="active">Register</a>
+    </span>
+    <span id="slideUserLinks" style="display: none;">
+      <a href="account.html" id="slideAccountLink">My Account</a>
+      <a href="#" id="slideLogoutLink" style="color: var(--brand-red);">Logout</a>
+    </span>
+  </div>
+
+  <a href="cart.html" class="slide-cta">
+    <i class="fas fa-shopping-cart"></i> Cart <span class="cart-badge" id="slideCartBadge">0</span>
+  </a>
+</div>
+
+<!-- ===== PAGE HEADER ===== -->
 <section class="page-header">
-    <div class="container">
-        <h1>Create Account</h1>
-        <p>Join Rise Axis Solutions for a better branding experience</p>
-    </div>
+  <div class="container">
+    <h1>Create Account</h1>
+    <p>Join Rise Axis Solutions for a better branding experience</p>
+  </div>
 </section>
 
-<!-- REGISTER FORM -->
+<!-- ===== REGISTER SECTION ===== -->
 <section class="register-section">
-    <div class="container">
-        <div class="register-card">
-            <h2>Register</h2>
-            <p class="subtitle">Create your free account</p>
-            
-            <div class="error-message" id="errorMessage"></div>
-            <div class="success-message" id="successMessage"></div>
-            
-            <form id="registerForm">
-                <div class="form-group">
-                    <label for="fullName">Full Name *</label>
-                    <input type="text" id="fullName" placeholder="John Mwangi" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email Address *</label>
-                    <input type="email" id="email" placeholder="john@example.com" required>
-                </div>
-                <div class="form-group">
-                    <label for="phone">Phone Number</label>
-                    <input type="tel" id="phone" placeholder="0712 345 678">
-                </div>
-                <div class="form-group">
-                    <label for="address">Delivery Address</label>
-                    <input type="text" id="address" placeholder="Nairobi, Westlands">
-                </div>
-                <div class="form-group">
-                    <label for="password">Password *</label>
-                    <input type="password" id="password" placeholder="Min 8 characters" required>
-                    <div class="password-requirements">
-                        <li id="lengthReq">🔴 At least 8 characters</li>
-                        <li id="upperReq">🔴 At least one uppercase letter</li>
-                        <li id="lowerReq">🔴 At least one lowercase letter</li>
-                        <li id="numberReq">🔴 At least one number</li>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="confirmPassword">Confirm Password *</label>
-                    <input type="password" id="confirmPassword" placeholder="Re-enter your password" required>
-                </div>
-                <button type="submit" class="btn-primary" id="registerBtn">Create Account</button>
-            </form>
-            
-            <div class="form-footer">
-                Already have an account? <a href="login.html">Login</a>
-            </div>
+  <div class="container">
+    <div class="register-card">
+      <h2>Register</h2>
+      <p class="subtitle">Create your free account</p>
+      <div class="error-message" id="errorMessage"></div>
+      <div class="success-message" id="successMessage"></div>
+      <form id="registerForm">
+        <div class="form-group">
+          <label for="fullName">Full Name *</label>
+          <input type="text" id="fullName" placeholder="John Mwangi" required />
         </div>
+        <div class="form-group">
+          <label for="email">Email Address *</label>
+          <input type="email" id="email" placeholder="john@example.com" required />
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" placeholder="0712 345 678" />
+        </div>
+        <div class="form-group">
+          <label for="address">Delivery Address</label>
+          <input type="text" id="address" placeholder="Nairobi, Westlands" />
+        </div>
+        <div class="form-group">
+          <label for="password">Password *</label>
+          <input type="password" id="password" placeholder="Min 8 characters" required />
+          <div class="password-requirements">
+            <li id="lengthReq">🔴 At least 8 characters</li>
+            <li id="upperReq">🔴 At least one uppercase letter</li>
+            <li id="lowerReq">🔴 At least one lowercase letter</li>
+            <li id="numberReq">🔴 At least one number</li>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password *</label>
+          <input type="password" id="confirmPassword" placeholder="Re-enter your password" required />
+        </div>
+        <button type="submit" class="btn-primary" id="registerBtn">Create Account</button>
+      </form>
+      <div class="form-footer">
+        Already have an account? <a href="login.html">Login</a>
+      </div>
     </div>
+  </div>
 </section>
 
-<!-- FOOTER -->
 <!-- ===== FOOTER ===== -->
 <footer>
-    <div class="container">
-        <div class="footer-grid">
-            <div>
-                <h4>Rise Axis Solutions</h4>
-                <p style="color: #aaa; font-size: 0.95rem;">Quality services countrywide. Fast, affordable, and reliable.</p>
-            </div>
-            <div>
-                <h4>Quick Links</h4>
-                <a href="catalog.html">Catalog</a>
-                <a href="cart.html">Order Now</a>
-                <a href="about.html">About Us</a>
-                <a href="contact.html">Contact</a>
-            </div>
-            <div>
-                <h4>Contact</h4>
-                <a href="tel:+254-700-123-456">📞 +254-700-123-456</a>
-                <a href="mailto:contact@riseaxis.co.ke">✉️ contact@riseaxis.co.ke</a>
-                <a href="#"><p>📍 188 Hood Avenue, 3rd Floor
-
-                    72</p> Riverside Drive, Office 5</a>
-            </div>
-            <!-- <div>
-                <h4>M-Pesa Paybill</h4>
-                <p style="color: #fff; font-weight: 600; font-size: 1.2rem;">Paybill: 123456</p>
-                <p style="color: #aaa; font-size: 0.9rem;">Account: Order ID</p>
-            </div> -->
-        </div>
-        <div class="copyright">
-            &copy; 2026 Rise Axis Solutions. All rights reserved.
-        </div>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <h4>Rise Axis Solutions</h4>
+        <p style="color:#aaa;font-size:0.95rem;">Clarity, Direction, Results.</p>
+      </div>
+      <div>
+        <h4>Quick Links</h4>
+        <a href="catalog.html">Catalog</a>
+        <a href="cart.html">Order Now</a>
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <a href="tel:+254-700-123-456">📞 +254-700-123-456</a>
+        <a href="mailto:contact@riseaxis.co.ke">✉️ contact@riseaxis.co.ke</a>
+        <a href="#"><p>📍 188 Hood Avenue, 3rd Floor</p><p>72 Riverside Drive, Office 5</p></a>
+      </div>
     </div>
+    <div class="copyright">&copy; 2026 Rise Axis Solutions. All rights reserved.</div>
+  </div>
 </footer>
 
 <script type="module">
-    // =============================================
-    // IMPORTS
-    // =============================================
-    import { registerUser, getCurrentUser, logoutUser, onAuthChange } from '../js/auth.js';
+  // =============================================
+  // IMPORTS
+  // =============================================
+  import { registerUser, getCurrentUser, logoutUser, onAuthChange } from '../js/auth.js';
 
-    // =============================================
-    // DOM ELEMENTS
-    // =============================================
-    const form = document.getElementById('registerForm');
-    const nameInput = document.getElementById('fullName');
-    const emailInput = document.getElementById('email');
-    const phoneInput = document.getElementById('phone');
-    const addressInput = document.getElementById('address');
-    const passwordInput = document.getElementById('password');
-    const confirmInput = document.getElementById('confirmPassword');
-    const registerBtn = document.getElementById('registerBtn');
-    const errorMessage = document.getElementById('errorMessage');
-    const successMessage = document.getElementById('successMessage');
+  // =============================================
+  // SLIDE MENU LOGIC
+  // =============================================
+  const hamburger = document.getElementById('hamburgerBtn');
+  const slideMenu = document.getElementById('slideMenu');
+  const overlay = document.getElementById('menuOverlay');
+  const closeSlideBtn = document.getElementById('closeSlideBtn');
 
-    // =============================================
-    // SERVICES DROPDOWN TOGGLE
-    // =============================================
-    let navDropdownOpen = false;
+  function openSlide() {
+    slideMenu.classList.add('open');
+    overlay.classList.add('show');
+    document.body.style.overflow = 'hidden';
+    hamburger.classList.add('active');
+  }
+  function closeSlide() {
+    slideMenu.classList.remove('open');
+    overlay.classList.remove('show');
+    document.body.style.overflow = '';
+    hamburger.classList.remove('active');
+    document.getElementById('slideDropdownMenu').classList.remove('open');
+    document.getElementById('slideDropdownArrow').classList.remove('open');
+  }
 
-    function toggleNavDropdown() {
-        navDropdownOpen = !navDropdownOpen;
-        updateNavUI();
-    }
+  hamburger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (slideMenu.classList.contains('open')) closeSlide();
+    else openSlide();
+  });
 
-    function closeNavDropdown() {
-        navDropdownOpen = false;
-        updateNavUI();
-    }
+  closeSlideBtn.addEventListener('click', closeSlide);
+  overlay.addEventListener('click', closeSlide);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && slideMenu.classList.contains('open')) closeSlide();
+  });
 
-    function updateNavUI() {
-        const menu = document.getElementById('navDropdownMenu');
-        const arrow = document.getElementById('navDropdownArrow');
-        if (!menu || !arrow) return;
-        if (navDropdownOpen) {
-            menu.classList.add('open');
-            arrow.classList.add('open');
-        } else {
-            menu.classList.remove('open');
-            arrow.classList.remove('open');
-        }
-    }
+  // slide dropdown toggle
+  const slideDropdownLabel = document.getElementById('slideDropdownLabel');
+  const slideDropdownMenu = document.getElementById('slideDropdownMenu');
+  const slideDropdownArrow = document.getElementById('slideDropdownArrow');
+  let slideDropdownOpen = false;
 
-    // Dropdown label click
-    const navLabel = document.getElementById('navDropdownLabel');
-    if (navLabel) {
-        navLabel.addEventListener('click', function(e) {
-            e.stopPropagation();
-            toggleNavDropdown();
-        });
-    }
+  slideDropdownLabel.addEventListener('click', (e) => {
+    e.stopPropagation();
+    slideDropdownOpen = !slideDropdownOpen;
+    slideDropdownMenu.classList.toggle('open', slideDropdownOpen);
+    slideDropdownArrow.classList.toggle('open', slideDropdownOpen);
+  });
 
-    // Dropdown item click - navigate to services.html with category param
-    document.querySelectorAll('.dropdown-item').forEach(item => {
-        item.addEventListener('click', function(e) {
-            e.stopPropagation();
-            const category = this.dataset.category;
-            closeNavDropdown();
-            window.location.href = `pages/services.html?category=${encodeURIComponent(category)}`;
-        });
+  // close slide menu when a link/item is clicked
+  document.querySelectorAll('.slide-menu a, .slide-menu .dropdown-item').forEach(el => {
+    el.addEventListener('click', () => {
+      if (el.classList.contains('dropdown-item')) {
+        setTimeout(closeSlide, 100);
+      } else {
+        closeSlide();
+      }
     });
+  });
 
-    // Close dropdown when clicking outside
-    document.addEventListener('click', function(e) {
-        const navDropdown = document.getElementById('navDropdown');
-        if (navDropdown && !navDropdown.contains(e.target)) {
-            closeNavDropdown();
-        }
+  // =============================================
+  // DESKTOP DROPDOWN
+  // =============================================
+  let desktopDropdownOpen = false;
+  const ddLabel = document.getElementById('navDropdownLabel');
+  const ddMenu = document.getElementById('navDropdownMenu');
+  const ddArrow = document.getElementById('navDropdownArrow');
+
+  ddLabel.addEventListener('click', (e) => {
+    e.stopPropagation();
+    desktopDropdownOpen = !desktopDropdownOpen;
+    ddMenu.classList.toggle('open', desktopDropdownOpen);
+    ddArrow.classList.toggle('open', desktopDropdownOpen);
+  });
+
+  document.querySelectorAll('#navDropdownMenu .dropdown-item').forEach(item => {
+    item.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const cat = this.dataset.category;
+      desktopDropdownOpen = false;
+      ddMenu.classList.remove('open');
+      ddArrow.classList.remove('open');
+      window.location.href = `service.html?category=${encodeURIComponent(cat)}`;
     });
+  });
 
-    // =============================================
-    // CHECK IF ALREADY LOGGED IN
-    // =============================================
-    const currentUser = getCurrentUser();
-    if (currentUser) {
-        window.location.href = 'account.html';
+  document.addEventListener('click', function(e) {
+    const container = document.getElementById('navDropdown');
+    if (container && !container.contains(e.target)) {
+      desktopDropdownOpen = false;
+      ddMenu.classList.remove('open');
+      ddArrow.classList.remove('open');
+    }
+  });
+
+  // =============================================
+  // AUTH UI
+  // =============================================
+  function updateAuthUI(user) {
+    const authLinks = document.getElementById('authLinks');
+    const userLinks = document.getElementById('userLinks');
+    const accountLink = document.getElementById('accountLink');
+    const slideAuth = document.getElementById('slideAuthLinks');
+    const slideUser = document.getElementById('slideUserLinks');
+    const slideAccount = document.getElementById('slideAccountLink');
+
+    if (user) {
+      authLinks.style.display = 'none';
+      userLinks.style.display = 'inline';
+      if (accountLink) accountLink.textContent = user.displayName || 'My Account';
+      slideAuth.style.display = 'none';
+      slideUser.style.display = 'block';
+      if (slideAccount) slideAccount.textContent = user.displayName || 'My Account';
+    } else {
+      authLinks.style.display = 'inline';
+      userLinks.style.display = 'none';
+      slideAuth.style.display = 'block';
+      slideUser.style.display = 'none';
+    }
+  }
+
+  function updateCartBadge() {
+    try {
+      const cart = JSON.parse(localStorage.getItem('karis_cart')) || [];
+      const total = cart.reduce((s, i) => s + (i.quantity || 0), 0);
+      document.querySelectorAll('.cart-badge').forEach(el => el.textContent = total);
+    } catch { /* ignore */ }
+  }
+
+  // Logout handlers
+  document.getElementById('logoutLink')?.addEventListener('click', async (e) => {
+    e.preventDefault();
+    if (confirm('Logout?')) {
+      const res = await logoutUser();
+      if (res.success) window.location.href = 'login.html';
+    }
+  });
+  document.getElementById('slideLogoutLink')?.addEventListener('click', async (e) => {
+    e.preventDefault();
+    if (confirm('Logout?')) {
+      const res = await logoutUser();
+      if (res.success) window.location.href = 'login.html';
+    }
+  });
+
+  // =============================================
+  // REGISTER LOGIC
+  // =============================================
+  const form = document.getElementById('registerForm');
+  const nameInput = document.getElementById('fullName');
+  const emailInput = document.getElementById('email');
+  const phoneInput = document.getElementById('phone');
+  const addressInput = document.getElementById('address');
+  const passwordInput = document.getElementById('password');
+  const confirmInput = document.getElementById('confirmPassword');
+  const registerBtn = document.getElementById('registerBtn');
+  const errorMessage = document.getElementById('errorMessage');
+  const successMessage = document.getElementById('successMessage');
+
+  const currentUser = getCurrentUser();
+  if (currentUser) window.location.href = 'account.html';
+
+  function validatePassword(pw) {
+    return {
+      length: pw.length >= 8,
+      upper: /[A-Z]/.test(pw),
+      lower: /[a-z]/.test(pw),
+      number: /[0-9]/.test(pw)
+    };
+  }
+
+  function updatePasswordReqs(pw) {
+    const c = validatePassword(pw);
+    document.getElementById('lengthReq').textContent = (c.length ? '✅' : '🔴') + ' At least 8 characters';
+    document.getElementById('upperReq').textContent = (c.upper ? '✅' : '🔴') + ' At least one uppercase letter';
+    document.getElementById('lowerReq').textContent = (c.lower ? '✅' : '🔴') + ' At least one lowercase letter';
+    document.getElementById('numberReq').textContent = (c.number ? '✅' : '🔴') + ' At least one number';
+    return c.length && c.upper && c.lower && c.number;
+  }
+
+  passwordInput.addEventListener('input', function() { updatePasswordReqs(this.value); });
+
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim();
+    const phone = phoneInput.value.trim();
+    const address = addressInput.value.trim();
+    const password = passwordInput.value;
+    const confirm = confirmInput.value;
+
+    if (!name || !email || !password || !confirm) {
+      errorMessage.textContent = 'Please fill in all required fields (*).';
+      errorMessage.classList.add('show');
+      successMessage.classList.remove('show');
+      return;
+    }
+    if (password !== confirm) {
+      errorMessage.textContent = 'Passwords do not match.';
+      errorMessage.classList.add('show');
+      successMessage.classList.remove('show');
+      return;
+    }
+    if (!updatePasswordReqs(password)) {
+      errorMessage.textContent = 'Please meet all password requirements.';
+      errorMessage.classList.add('show');
+      successMessage.classList.remove('show');
+      return;
     }
 
-    // =============================================
-    // PASSWORD VALIDATION
-    // =============================================
-    function validatePassword(password) {
-        const checks = {
-            length: password.length >= 8,
-            upper: /[A-Z]/.test(password),
-            lower: /[a-z]/.test(password),
-            number: /[0-9]/.test(password)
-        };
-        return checks;
+    registerBtn.textContent = '⏳ Creating...';
+    registerBtn.disabled = true;
+    errorMessage.classList.remove('show');
+    successMessage.classList.remove('show');
+
+    const result = await registerUser(email, password, name, phone, address);
+    if (result.success) {
+      successMessage.textContent = '✅ Account created! Redirecting...';
+      successMessage.classList.add('show');
+      registerBtn.textContent = '✅ Done!';
+      setTimeout(() => { window.location.href = 'login.html'; }, 1800);
+    } else {
+      const errMap = {
+        'auth/email-already-in-use': 'This email is already registered.',
+        'auth/invalid-email': 'Please enter a valid email.',
+        'auth/weak-password': 'Password too weak.',
+        'auth/network-request-failed': 'Network error. Check connection.'
+      };
+      errorMessage.textContent = errMap[result.error] || 'Registration failed. Please try again.';
+      errorMessage.classList.add('show');
+      registerBtn.textContent = 'Create Account';
+      registerBtn.disabled = false;
     }
+  });
 
-    function updatePasswordRequirements(password) {
-        const checks = validatePassword(password);
-        document.getElementById('lengthReq').textContent = 
-            (checks.length ? '✅' : '🔴') + ' At least 8 characters';
-        document.getElementById('upperReq').textContent = 
-            (checks.upper ? '✅' : '🔴') + ' At least one uppercase letter';
-        document.getElementById('lowerReq').textContent = 
-            (checks.lower ? '✅' : '🔴') + ' At least one lowercase letter';
-        document.getElementById('numberReq').textContent = 
-            (checks.number ? '✅' : '🔴') + ' At least one number';
-        
-        return checks.length && checks.upper && checks.lower && checks.number;
-    }
-
-    passwordInput.addEventListener('input', function() {
-        updatePasswordRequirements(this.value);
-    });
-
-    // =============================================
-    // FORM SUBMISSION
-    // =============================================
-    form.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        
-        const name = nameInput.value.trim();
-        const email = emailInput.value.trim();
-        const phone = phoneInput.value.trim();
-        const address = addressInput.value.trim();
-        const password = passwordInput.value;
-        const confirmPassword = confirmInput.value;
-        
-        // Validate
-        if (!name || !email || !password || !confirmPassword) {
-            showError('Please fill in all required fields (*).');
-            return;
-        }
-        
-        if (password !== confirmPassword) {
-            showError('Passwords do not match.');
-            return;
-        }
-        
-        const isValid = updatePasswordRequirements(password);
-        if (!isValid) {
-            showError('Please meet all password requirements.');
-            return;
-        }
-        
-        // Show loading state
-        registerBtn.textContent = '⏳ Creating account...';
-        registerBtn.disabled = true;
-        hideMessages();
-        
-        // Pass phone and address to register function
-        const result = await registerUser(email, password, name, phone, address);
-        
-        if (result.success) {
-            showSuccess('✅ Account created successfully! Redirecting...');
-            registerBtn.textContent = '✅ Account Created!';
-            
-            // Redirect after 2 seconds
-            setTimeout(() => {
-                window.location.href = 'login.html';
-            }, 2000);
-        } else {
-            showError(getFriendlyErrorMessage(result.error));
-            registerBtn.textContent = 'Create Account';
-            registerBtn.disabled = false;
-        }
-    });
-
-    // =============================================
-    // HELPER FUNCTIONS
-    // =============================================
-    function showError(message) {
-        errorMessage.textContent = message;
-        errorMessage.classList.add('show');
-        successMessage.classList.remove('show');
-    }
-
-    function showSuccess(message) {
-        successMessage.textContent = message;
-        successMessage.classList.add('show');
-        errorMessage.classList.remove('show');
-    }
-
-    function hideMessages() {
-        errorMessage.classList.remove('show');
-        successMessage.classList.remove('show');
-    }
-
-    function getFriendlyErrorMessage(error) {
-        const errors = {
-            'auth/email-already-in-use': 'This email is already registered. Please login.',
-            'auth/invalid-email': 'Please enter a valid email address.',
-            'auth/weak-password': 'Password is too weak. Please use a stronger password.',
-            'auth/network-request-failed': 'Network error. Please check your internet connection.'
-        };
-        return errors[error] || 'Registration failed. Please try again.';
-    }
-
-    // =============================================
-    // AUTH NAVIGATION - SHOW/HIDE LINKS
-    // =============================================
-    function updateAuthUI(user) {
-        const authLinks = document.getElementById('authLinks');
-        const userLinks = document.getElementById('userLinks');
-        const accountLink = document.getElementById('accountLink');
-        const logoutLink = document.getElementById('logoutLink');
-        
-        if (user) {
-            authLinks.style.display = 'none';
-            userLinks.style.display = 'inline';
-            if (accountLink) {
-                accountLink.textContent = user.displayName || 'My Account';
-            }
-        } else {
-            authLinks.style.display = 'inline';
-            userLinks.style.display = 'none';
-        }
-    }
-
-    // Update cart badge
-    function updateCartBadge() {
-        try {
-            const cart = JSON.parse(localStorage.getItem('karis_cart')) || [];
-            const total = cart.reduce((sum, i) => sum + i.quantity, 0);
-            document.querySelectorAll('.cart-badge').forEach(el => el.textContent = total);
-        } catch { /* ignore */ }
-    }
-
-    // =============================================
-    // DOM CONTENT LOADED
-    // =============================================
-    document.addEventListener('DOMContentLoaded', function() {
-        // Check auth state
-        const user = getCurrentUser();
-        updateAuthUI(user);
-        
-        // Listen for auth changes
-        onAuthChange((user) => {
-            updateAuthUI(user);
-        });
-        
-        // Logout functionality
-        const logoutLink = document.getElementById('logoutLink');
-        if (logoutLink) {
-            logoutLink.addEventListener('click', async function(e) {
-                e.preventDefault();
-                if (confirm('Are you sure you want to logout?')) {
-                    const result = await logoutUser();
-                    if (result.success) {
-                        window.location.href = 'login.html';
-                    }
-                }
-            });
-        }
-
-        // ===== HAMBURGER MENU TOGGLE =====
-        const hamburger = document.getElementById('hamburgerBtn');
-        const navLinks = document.getElementById('navLinks');
-
-        if (hamburger && navLinks) {
-            hamburger.addEventListener('click', function(e) {
-                e.stopPropagation();
-                this.classList.toggle('active');
-                navLinks.classList.toggle('open');
-            });
-
-            navLinks.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', function() {
-                    hamburger.classList.remove('active');
-                    navLinks.classList.remove('open');
-                });
-            });
-
-            document.addEventListener('click', function(e) {
-                if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
-                    hamburger.classList.remove('active');
-                    navLinks.classList.remove('open');
-                }
-            });
-        }
-
-        updateCartBadge();
-        
-        // Close dropdown on mobile menu close
-        document.addEventListener('click', function(e) {
-            const navDropdown = document.getElementById('navDropdown');
-            if (navDropdown && !navDropdown.contains(e.target)) {
-                closeNavDropdown();
-            }
-        });
-    });
+  // =============================================
+  // ON LOAD
+  // =============================================
+  document.addEventListener('DOMContentLoaded', function() {
+    const user = getCurrentUser();
+    updateAuthUI(user);
+    onAuthChange((u) => updateAuthUI(u));
+    updateCartBadge();
+  });
 </script>
-
 </body>
 </html>

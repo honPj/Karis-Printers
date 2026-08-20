@@ -3,24 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Our Services · Rise Axis Solutions</title>
+  <title>Rise Axis Solutions · Services</title>
+  <link rel="icon" type="image/x-icon" href="../images/teardrop.jpg">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
   <style>
-    /* === BRAND COLORS === */
+    /* ---- brand colors ---- */
     :root {
       --brand-blue: #19589d;
       --brand-red: #dc1c2c;
       --brand-green: #10aa51;
       --brand-brown: #8f5c38;
+      --slide-width: 300px;
+      --nav-bg: #ffffff;
+      --shadow-light: 0 8px 30px rgba(0,0,0,0.08);
     }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
       background: #f8f9fa;
       color: #1a1a1a;
       line-height: 1.6;
@@ -45,30 +44,33 @@
     }
     .btn-primary:hover { background: #0e3f70; }
 
-    /* header */
+    /* ---- header ---- */
     header {
-      background: #fff;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+      background: var(--nav-bg);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
       padding: 15px 0;
       position: sticky;
       top: 0;
       z-index: 100;
+      border-bottom: 1px solid #eef2f6;
     }
     header .container {
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      position: relative;
     }
     .logo {
       font-size: 1.8rem;
       font-weight: 700;
       color: var(--brand-blue);
+      letter-spacing: -0.5px;
+      order: 0;
+      margin-right: auto;
     }
     .logo span { color: var(--brand-red); }
 
-    /* ===== HAMBURGER MENU STYLES ===== */
+    /* ===== HAMBURGER (mobile) ===== */
     .hamburger {
       display: none;
       flex-direction: column;
@@ -77,7 +79,7 @@
       padding: 5px;
       background: none;
       border: none;
-      z-index: 200;
+      z-index: 300;
       order: 1;
       margin-left: 10px;
     }
@@ -99,108 +101,7 @@
       transform: rotate(-45deg) translate(5px, -6px);
     }
 
-    nav {
-      display: flex;
-      gap: 25px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-    nav a {
-      font-weight: 500;
-      transition: color 0.3s ease;
-    }
-    nav a:hover { color: var(--brand-blue); }
-
-    /* ----- SERVICES DROPDOWN IN NAV ----- */
-    .nav-dropdown {
-      position: relative;
-      display: inline-block;
-      cursor: pointer;
-    }
-    .nav-dropdown .nav-dropdown-label {
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      color: var(--brand-blue);
-      font-weight: 600;
-    }
-    .nav-dropdown .nav-dropdown-label .arrow-icon {
-      font-size: 0.7rem;
-      transition: transform 0.25s ease;
-    }
-    .nav-dropdown .nav-dropdown-label .arrow-icon.open {
-      transform: rotate(180deg);
-    }
-
-    .nav-dropdown-menu {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      background: #fff;
-      min-width: 260px;
-      border-radius: 16px;
-      box-shadow: 0 12px 36px rgba(0,0,0,0.12);
-      border: 1px solid #eef2f6;
-      padding: 8px 0;
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(8px);
-      transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
-      z-index: 200;
-    }
-    .nav-dropdown-menu.open {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0px);
-    }
-    .nav-dropdown-menu .dropdown-item {
-      display: block;
-      padding: 10px 20px;
-      font-weight: 500;
-      color: #1d2b3a;
-      font-size: 0.92rem;
-      transition: background 0.15s;
-      cursor: pointer;
-      border-left: 3px solid transparent;
-    }
-    .nav-dropdown-menu .dropdown-item:hover {
-      background: #f0f6fe;
-      border-left-color: var(--brand-blue);
-      color: var(--brand-blue);
-    }
-    .nav-dropdown-menu .dropdown-item.active {
-      background: #e8f0fe;
-      border-left-color: var(--brand-blue);
-      color: var(--brand-blue);
-      font-weight: 600;
-    }
-
-    .nav-cta {
-      background: var(--brand-red);
-      color: #fff;
-      padding: 8px 20px;
-      border-radius: 25px;
-      font-weight: 600;
-    }
-    .nav-cta:hover {
-      background: #b31624;
-      color: #fff !important;
-    }
-    .cart-badge {
-      background: var(--brand-red);
-      color: #fff;
-      font-size: 0.7rem;
-      font-weight: 700;
-      padding: 2px 8px;
-      border-radius: 20px;
-      min-width: 20px;
-      text-align: center;
-      line-height: 1.4;
-      margin-left: 4px;
-    }
-
-    /* ===== MOBILE CART BUTTON - VISIBLE ONLY ON MOBILE ===== */
+    /* ===== MOBILE CART BUTTON ===== */
     .mobile-cart-btn {
       display: none;
       background: var(--brand-red);
@@ -223,13 +124,291 @@
       font-size: 0.65rem;
       padding: 1px 7px;
       min-width: 18px;
+      border-radius: 20px;
       margin-left: 0;
     }
 
-    /* main content - full width */
-    .services-content {
-      padding: 40px 0 60px;
+    /* ===== SLIDE MENU (mobile) ===== */
+    .slide-menu {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: var(--slide-width);
+      max-width: 80vw;
+      height: 100vh;
+      background: #ffffff;
+      box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
+      z-index: 500;
+      transform: translateX(-110%);
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+      padding: 24px 20px 30px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
     }
+    .slide-menu.open {
+      transform: translateX(0);
+    }
+
+    .menu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.35);
+      z-index: 499;
+      display: none;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+    .menu-overlay.show {
+      display: block;
+      opacity: 1;
+    }
+
+    .slide-menu .close-slide {
+      align-self: flex-end;
+      background: none;
+      border: none;
+      font-size: 2rem;
+      color: #555;
+      cursor: pointer;
+      padding: 0 4px 12px 0;
+      transition: 0.2s;
+    }
+    .slide-menu .close-slide:hover {
+      color: #111;
+      transform: rotate(90deg);
+    }
+
+    .slide-menu .slide-logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--brand-blue);
+      margin-bottom: 12px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 16px;
+    }
+    .slide-menu .slide-logo span {
+      color: var(--brand-red);
+    }
+
+    .slide-menu a,
+    .slide-menu .slide-dropdown-label {
+      display: block;
+      padding: 12px 6px;
+      font-weight: 500;
+      font-size: 1.05rem;
+      color: #1a1a1a;
+      border-radius: 8px;
+      transition: background 0.15s;
+      cursor: pointer;
+    }
+    .slide-menu a:hover,
+    .slide-menu .slide-dropdown-label:hover {
+      background: #f0f6fe;
+      color: var(--brand-blue);
+    }
+    .slide-menu a.active {
+      color: var(--brand-blue);
+      font-weight: 600;
+      background: #ecf3fa;
+    }
+
+    .slide-dropdown {
+      margin-bottom: 4px;
+    }
+    .slide-dropdown-label {
+      display: flex !important;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .slide-dropdown-label .arrow-icon {
+      font-size: 0.7rem;
+      transition: transform 0.25s ease;
+    }
+    .slide-dropdown-label .arrow-icon.open {
+      transform: rotate(180deg);
+    }
+    .slide-dropdown-menu {
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.3s ease, padding 0.2s ease;
+      padding-left: 16px;
+      background: #f8fafc;
+      border-radius: 8px;
+      margin: 4px 0 2px;
+    }
+    .slide-dropdown-menu.open {
+      max-height: 400px;
+      padding: 6px 0;
+    }
+    .slide-dropdown-menu .dropdown-item {
+      display: block;
+      padding: 10px 12px;
+      font-weight: 500;
+      color: #2a3b4e;
+      border-left: 3px solid transparent;
+      transition: 0.15s;
+      cursor: pointer;
+    }
+    .slide-dropdown-menu .dropdown-item:hover {
+      background: #e8f0fe;
+      border-left-color: var(--brand-blue);
+      color: var(--brand-blue);
+    }
+    .slide-dropdown-menu .dropdown-item.active {
+      background: #e0eaf8;
+      border-left-color: var(--brand-blue);
+      color: var(--brand-blue);
+      font-weight: 600;
+    }
+
+    .slide-menu .slide-auth {
+      margin-top: 12px;
+      border-top: 1px solid #eef2f6;
+      padding-top: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .slide-menu .slide-auth a {
+      font-weight: 500;
+      padding: 10px 6px;
+    }
+
+    .slide-menu .slide-cta {
+      background: var(--brand-red);
+      color: #fff !important;
+      text-align: center;
+      border-radius: 40px;
+      padding: 12px 16px !important;
+      font-weight: 600;
+      margin-top: 8px;
+    }
+    .slide-menu .slide-cta:hover {
+      background: #b31624 !important;
+      color: #fff !important;
+    }
+
+    /* ===== DESKTOP NAV ===== */
+    .desktop-nav {
+      display: flex;
+      gap: 25px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .desktop-nav a {
+      font-weight: 500;
+      color: #1d2b3a;
+      transition: color 0.2s;
+      padding: 6px 0;
+      border-bottom: 2px solid transparent;
+    }
+    .desktop-nav a:hover { color: var(--brand-blue); border-bottom-color: var(--brand-blue); }
+    .desktop-nav a.active { color: var(--brand-blue); border-bottom-color: var(--brand-blue); }
+
+    .desktop-nav .nav-dropdown {
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+    }
+    .desktop-nav .nav-dropdown-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 500;
+      color: #1d2b3a;
+      padding: 6px 0;
+      border-bottom: 2px solid transparent;
+      transition: 0.2s;
+    }
+    .desktop-nav .nav-dropdown-label:hover {
+      color: var(--brand-blue);
+      border-bottom-color: var(--brand-blue);
+    }
+    .desktop-nav .nav-dropdown-label .arrow-icon {
+      font-size: 0.6rem;
+      transition: transform 0.25s;
+    }
+    .desktop-nav .nav-dropdown-label .arrow-icon.open {
+      transform: rotate(180deg);
+    }
+    .desktop-nav .nav-dropdown-menu {
+      position: absolute;
+      top: 140%;
+      left: 0;
+      background: #fff;
+      min-width: 250px;
+      border-radius: 16px;
+      box-shadow: var(--shadow-light);
+      border: 1px solid #eef2f6;
+      padding: 8px 0;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(8px);
+      transition: opacity 0.2s, transform 0.2s, visibility 0.2s;
+      z-index: 300;
+    }
+    .desktop-nav .nav-dropdown-menu.open {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    .desktop-nav .nav-dropdown-menu .dropdown-item {
+      display: block;
+      padding: 10px 20px;
+      font-weight: 500;
+      color: #1d2b3a;
+      font-size: 0.92rem;
+      border-left: 3px solid transparent;
+      transition: background 0.15s;
+      cursor: pointer;
+    }
+    .desktop-nav .nav-dropdown-menu .dropdown-item:hover {
+      background: #f0f6fe;
+      border-left-color: var(--brand-blue);
+      color: var(--brand-blue);
+    }
+    .desktop-nav .nav-dropdown-menu .dropdown-item.active {
+      background: #e8f0fe;
+      border-left-color: var(--brand-blue);
+      color: var(--brand-blue);
+      font-weight: 600;
+    }
+
+    .desktop-nav .nav-cta {
+      background: var(--brand-red);
+      color: #fff !important;
+      padding: 8px 22px;
+      border-radius: 40px;
+      font-weight: 600;
+      border-bottom: none !important;
+    }
+    .desktop-nav .nav-cta:hover { background: #b31624 !important; color: #fff !important; border-bottom: none !important; }
+
+    .cart-badge {
+      background: var(--brand-red);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 2px 9px;
+      border-radius: 30px;
+      margin-left: 4px;
+      display: inline-block;
+      line-height: 1.4;
+    }
+    .desktop-nav .nav-cta .cart-badge {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    #authLinks { display: inline; }
+    #userLinks { display: none; }
+
+    /* ---- main content ---- */
+    .services-content { padding: 40px 0 60px; }
     .category-title {
       font-size: 2rem;
       font-weight: 700;
@@ -242,13 +421,12 @@
       font-size: 1.05rem;
     }
 
-    /* ----- GRID LAYOUT: 5 columns, card style ----- */
+    /* product grid */
     .product-grid {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
       gap: 16px;
     }
-
     .product-card {
       background: #f8f9fb;
       border-radius: 8px;
@@ -265,42 +443,28 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.04);
     }
     .product-card .card-text {
-      font-family: 'Segoe UI', system-ui, sans-serif;
-      font-size: 0.9rem;
       font-weight: 500;
       color: #1a2634;
+      font-size: 0.9rem;
       letter-spacing: -0.01em;
       line-height: 1.4;
     }
-    /* selected card - soft light blue */
-    .product-card.selected {
-      background: #e8f0fe;
-      border-left-color: var(--brand-blue);
-    }
+    .product-card.selected { background: #e8f0fe; border-left-color: var(--brand-blue); }
+    .grid-empty { /* placeholder */ }
 
-    /* empty placeholder cells (invisible) */
-    .grid-empty {
-      /* nothing, just takes space */
-    }
-
-    /* ----- LIGHTBOX MODAL ----- */
+    /* lightbox */
     .lightbox-overlay {
       display: none;
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.85);
-      z-index: 1000;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 2000;
       justify-content: center;
       align-items: center;
       padding: 40px;
       cursor: pointer;
     }
-    .lightbox-overlay.show {
-      display: flex;
-    }
+    .lightbox-overlay.show { display: flex; }
     .lightbox-overlay .lightbox-content {
       max-width: 800px;
       max-height: 90vh;
@@ -344,9 +508,7 @@
       border: none;
       font-weight: 300;
     }
-    .lightbox-overlay .lightbox-close:hover {
-      background: rgba(0,0,0,0.7);
-    }
+    .lightbox-overlay .lightbox-close:hover { background: rgba(0,0,0,0.7); }
 
     /* footer */
     footer {
@@ -361,12 +523,7 @@
       margin-bottom: 30px;
     }
     footer h4 { color: #fff; margin-bottom: 12px; }
-    footer a {
-      display: block;
-      color: #aaa;
-      margin-bottom: 6px;
-      transition: color 0.3s;
-    }
+    footer a { display: block; color: #aaa; margin-bottom: 6px; transition: color 0.3s; }
     footer a:hover { color: #fff; }
     footer .copyright {
       text-align: center;
@@ -376,90 +533,18 @@
       color: #777;
     }
 
-    @media (max-width: 850px) {
-      .hamburger {
-        display: flex;
-      }
-
-      .mobile-cart-btn {
-        display: inline-flex;
-      }
-
-      nav {
-        display: none;
-        flex-direction: column;
-        width: 100%;
-        padding: 20px 0;
-        gap: 15px;
-        background: #fff;
-        border-top: 1px solid #eee;
-        position: absolute;
-        top: 70px;
-        left: 0;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        align-items: center;
-        order: 3;
-      }
-
-      nav.open {
-        display: flex;
-      }
-
-      nav .nav-cta {
-        display: none !important;
-      }
-
-      .nav-dropdown {
-        width: 100%;
-        text-align: center;
-      }
-      .nav-dropdown .nav-dropdown-label {
-        justify-content: center;
-      }
-      .nav-dropdown-menu {
-        position: static;
-        box-shadow: none;
-        border: none;
-        border-top: 1px solid #eee;
-        border-radius: 0;
-        padding: 0;
-        transform: none;
-        background: #f8f9fa;
-      }
-      .nav-dropdown-menu.open {
-        transform: none;
-      }
-      .nav-dropdown-menu .dropdown-item {
-        padding: 10px 20px;
-        text-align: center;
-        border-left: none;
-        border-bottom: 1px solid #eee;
-      }
-      .nav-dropdown-menu .dropdown-item:hover {
-        background: #e8f0fe;
-      }
-
-      header .container {
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        flex-wrap: wrap;
-        position: relative;
-        gap: 0;
-      }
-
-      .logo {
-        font-size: 1.4rem;
-        order: 0;
-        margin-right: auto;
-      }
-
+    /* ---- responsive ---- */
+    @media (max-width: 768px) {
+      .hamburger { display: flex; }
+      .mobile-cart-btn { display: inline-flex; }
+      .desktop-nav { display: none !important; }
+      .logo { font-size: 1.4rem; }
       .product-grid {
         grid-template-columns: repeat(3, 1fr);
         gap: 12px;
       }
+      .slide-menu { padding: 20px 16px 24px; }
     }
-
     @media (max-width: 550px) {
       .product-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -468,77 +553,55 @@
       .product-card { padding: 10px 12px; min-height: 48px; }
       .product-card .card-text { font-size: 0.8rem; }
     }
-
     @media (max-width: 480px) {
-      nav { gap: 10px; font-size: 0.9rem; }
       .category-title { font-size: 1.5rem; }
+      .logo { font-size: 1.2rem; }
+      .hamburger span { width: 24px; height: 2.5px; }
+      .hamburger { gap: 4px; margin-left: 5px; }
+      .mobile-cart-btn { padding: 5px 10px; font-size: 0.75rem; }
+      .mobile-cart-btn .cart-badge { font-size: 0.55rem; padding: 1px 5px; min-width: 14px; }
       .lightbox-overlay { padding: 20px; }
-      .logo {
-        font-size: 1.2rem;
-      }
-      .hamburger span {
-        width: 24px;
-        height: 2.5px;
-      }
-      .hamburger {
-        gap: 4px;
-        margin-left: 5px;
-      }
-      .mobile-cart-btn {
-        padding: 5px 10px;
-        font-size: 0.75rem;
-      }
-      .mobile-cart-btn .cart-badge {
-        font-size: 0.55rem;
-        padding: 1px 5px;
-        min-width: 14px;
-      }
     }
   </style>
 </head>
 <body>
 
+<!-- ===== HEADER ===== -->
 <header>
   <div class="container">
     <div class="logo">Rise Axis<span> Solutions</span></div>
 
-    <!-- Hamburger Button (mobile only) -->
+    <!-- Hamburger -->
     <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
-      <span></span>
-      <span></span>
-      <span></span>
+      <span></span><span></span><span></span>
     </button>
 
-    <!-- Mobile Cart Button (visible only on mobile) -->
+    <!-- Mobile cart -->
     <a href="cart.html" class="mobile-cart-btn" id="mobileCartBtn">
       <i class="fas fa-shopping-cart"></i> Cart <span class="cart-badge" id="mobileCartBadge">0</span>
     </a>
 
-    <nav id="navLinks">
+    <!-- Desktop navigation -->
+    <nav class="desktop-nav" id="desktopNav">
       <a href="/index.html">Home</a>
-
-      <!-- SERVICES DROPDOWN IN NAV -->
-      <div class="nav-dropdown" id="navDropdown">
-        <span class="nav-dropdown-label" id="navDropdownLabel">
-          Services
-          <i class="fas fa-chevron-down arrow-icon" id="navDropdownArrow"></i>
+      <div class="nav-dropdown" id="navDropdownDesktop">
+        <span class="nav-dropdown-label" id="navDropdownLabelDesktop">
+          Services <i class="fas fa-chevron-down arrow-icon" id="dropdownArrowDesktop"></i>
         </span>
-        <div class="nav-dropdown-menu" id="navDropdownMenu">
-          <div id="navDropdownList"></div>
+        <div class="nav-dropdown-menu" id="navDropdownMenuDesktop">
+          <div id="navDropdownListDesktop"></div>
         </div>
       </div>
-
       <a href="catalog.html">Catalog</a>
       <a href="about.html">About</a>
       <a href="contact.html">Contact</a>
       <span id="authLinks">
-        <a href="login.html" class="auth-link">Login</a>
-        <a href="register.html" class="auth-link">Register</a>
+        <a href="login.html">Login</a>
+        <a href="register.html">Register</a>
       </span>
-      
-      <span id="userLinks" style="display: none;">
-        <a href="account.html" id="accountLink" class="user-name-link">My Account</a>
-        <a href="#" id="logoutLink" style="color: var(--brand-red); cursor: pointer; font-weight: 500;">Logout</a>
+      <span id="userLinks" style="display:none;">
+        <a href="account.html" id="accountLink">My Account</a>
+        <a href="#" id="logoutLink" style="color:var(--brand-red);">Logout</a>
       </span>
       <a href="cart.html" class="nav-cta">
         <i class="fas fa-shopping-cart"></i> Cart <span class="cart-badge" id="navCartBadge">0</span>
@@ -547,7 +610,46 @@
   </div>
 </header>
 
-<!-- MAIN CONTENT -->
+<!-- ===== SLIDE MENU (mobile) ===== -->
+<div class="menu-overlay" id="menuOverlay"></div>
+<div class="slide-menu" id="slideMenu">
+  <button class="close-slide" id="closeSlideBtn">&times;</button>
+  <div class="slide-logo">Rise Axis<span> Solutions</span></div>
+
+  <a href="../index.html">Home</a>
+
+  <!-- slide dropdown: Services -->
+  <div class="slide-dropdown">
+    <div class="slide-dropdown-label" id="slideDropdownLabel">
+      Services
+      <i class="fas fa-chevron-down arrow-icon" id="slideDropdownArrow"></i>
+    </div>
+    <div class="slide-dropdown-menu" id="slideDropdownMenu">
+      <div id="slideDropdownList"></div>
+    </div>
+  </div>
+
+  <a href="catalog.html">Catalog</a>
+  <a href="about.html">About</a>
+  <a href="contact.html">Contact</a>
+
+  <div class="slide-auth">
+    <span id="slideAuthLinks">
+      <a href="login.html">Login</a>
+      <a href="register.html">Register</a>
+    </span>
+    <span id="slideUserLinks" style="display: none;">
+      <a href="account.html" id="slideAccountLink">My Account</a>
+      <a href="#" id="slideLogoutLink" style="color: var(--brand-red);">Logout</a>
+    </span>
+  </div>
+
+  <a href="cart.html" class="slide-cta">
+    <i class="fas fa-shopping-cart"></i> Cart <span class="cart-badge" id="slideCartBadge">0</span>
+  </a>
+</div>
+
+<!-- ===== MAIN CONTENT ===== -->
 <div class="container services-content">
   <div id="categoryHeader">
     <h2 class="category-title" id="activeCategoryTitle">Commercial & Marketing Materials</h2>
@@ -556,7 +658,7 @@
   <div class="product-grid" id="productGrid"></div>
 </div>
 
-<!-- LIGHTBOX -->
+<!-- ===== LIGHTBOX ===== -->
 <div class="lightbox-overlay" id="lightboxOverlay">
   <div class="lightbox-content">
     <button class="lightbox-close" id="lightboxClose">&times;</button>
@@ -567,67 +669,52 @@
 
 <!-- ===== FOOTER ===== -->
 <footer>
-    <div class="container">
-        <div class="footer-grid">
-            <div>
-                <h4>Rise Axis Solutions</h4>
-                <p style="color: #aaa; font-size: 0.95rem;">Quality services countrywide. Fast, affordable, and reliable.</p>
-            </div>
-            <div>
-                <h4>Quick Links</h4>
-                <a href="catalog.html">Catalog</a>
-                <a href="cart.html">Order Now</a>
-                <a href="about.html">About Us</a>
-                <a href="contact.html">Contact</a>
-            </div>
-            <div>
-                <h4>Contact</h4>
-                <a href="tel:+254-700-123-456">📞 +254-700-123-456</a>
-                <a href="mailto:contact@riseaxis.co.ke">✉️ contact@riseaxis.co.ke</a>
-                <a href="#"><p>📍 188 Hood Avenue, 3rd Floor
-
-                    72</p> Riverside Drive, Office 5</a>
-            </div>
-            <!-- <div>
-                <h4>M-Pesa Paybill</h4>
-                <p style="color: #fff; font-weight: 600; font-size: 1.2rem;">Paybill: 123456</p>
-                <p style="color: #aaa; font-size: 0.9rem;">Account: Order ID</p>
-            </div> -->
-        </div>
-        <div class="copyright">
-            &copy; 2026 Rise Axis Solutions. All rights reserved.
-        </div>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <h4>Rise Axis Solutions</h4>
+        <p style="color: #aaa; font-size: 0.95rem;">Clarity, Direction, Results.</p>
+      </div>
+      <div>
+        <h4>Quick Links</h4>
+        <a href="catalog.html">Catalog</a>
+        <a href="cart.html">Order Now</a>
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <a href="tel:+254-700-123-456">📞 +254-700-123-456</a>
+        <a href="mailto:contact@riseaxis.co.ke">✉️ contact@riseaxis.co.ke</a>
+        <a href="#"><p>📍 188 Hood Avenue, 3rd Floor</p><p>72 Riverside Drive, Office 5</p></a>
+      </div>
     </div>
+    <div class="copyright">&copy; 2026 Rise Axis Solutions. All rights reserved.</div>
+  </div>
 </footer>
 
 <script>
   (function() {
-    // ---------- PRODUCT DATA with images ----------
-    // Each product has a name and an image URL.
-    // Replace placeholder URLs with your own images.
+    // ---------- PRODUCT DATA ----------
     const productMap = {
       'Commercial & Marketing Materials': {
         desc: 'Commercial and marketing materials encompass printed and digital collateral like business cards, flyers, brochures, posters, and catalogs, designed to promote products, services, or brand identity. These tangible or virtual assets serve as essential tools for advertising, informing customers, and driving sales across various channels.',
         products: [
-          // Row 1
           { name: 'Business Cards', image: 'https://placehold.co/600x400/0a1e33/fff?text=Business+Cards' },
           { name: 'Letterheads', image: 'https://placehold.co/600x400/0a1e33/fff?text=Letterheads' },
           { name: 'Branded Envelopes', image: 'https://placehold.co/600x400/0a1e33/fff?text=Branded+Envelopes' },
           { name: 'Presentation Folders', image: 'https://placehold.co/600x400/0a1e33/fff?text=Presentation+Folders' },
           { name: 'Carbonless Invoice Books (NCR)', image: 'https://placehold.co/600x400/0a1e33/fff?text=NCR+Invoice+Books' },
-          // Row 2
           { name: 'Flyers (A5)', image: 'https://placehold.co/600x400/0a1e33/fff?text=Flyers+A5' },
           { name: 'Brochures (Tri-fold)', image: 'https://placehold.co/600x400/0a1e33/fff?text=Brochures+Tri-fold' },
           { name: 'Brochures (Bi-fold)', image: 'https://placehold.co/600x400/0a1e33/fff?text=Brochures+Bi-fold' },
           { name: 'Postcards', image: 'https://placehold.co/600x400/0a1e33/fff?text=Postcards' },
           { name: 'Door Hangers', image: 'https://placehold.co/600x400/0a1e33/fff?text=Door+Hangers' },
-          // Row 3
           { name: 'Rack Cards', image: 'https://placehold.co/600x400/0a1e33/fff?text=Rack+Cards' },
           { name: 'Menu Cards', image: 'https://placehold.co/600x400/0a1e33/fff?text=Menu+Cards' },
           { name: 'Catalogs', image: 'https://placehold.co/600x400/0a1e33/fff?text=Catalogs' },
           { name: 'Magazines', image: 'https://placehold.co/600x400/0a1e33/fff?text=Magazines' },
           { name: 'Booklets', image: 'https://placehold.co/600x400/0a1e33/fff?text=Booklets' },
-          // Row 4
           { name: 'Company Manuals', image: 'https://placehold.co/600x400/0a1e33/fff?text=Company+Manuals' },
           { name: 'Annual Reports', image: 'https://placehold.co/600x400/0a1e33/fff?text=Annual+Reports' },
           { name: 'Perfect-Bound Books', image: 'https://placehold.co/600x400/0a1e33/fff?text=Perfect-Bound+Books' }
@@ -678,9 +765,7 @@
         products: [
           { name: 'Business Website', image: 'https://placehold.co/600x400/0a1e33/fff?text=Business+Website' },
           { name: 'E-commerce Store', image: 'https://placehold.co/600x400/0a1e33/fff?text=E-commerce+Store' },
-          
-          { name: 'Website Maintenance', image: 'https://placehold.co/600x400/0a1e33/fff?text=Website+Maintenance' },
-          
+          { name: 'Website Maintenance', image: 'https://placehold.co/600x400/0a1e33/fff?text=Website+Maintenance' }
         ]
       }
     };
@@ -694,63 +779,123 @@
       'Website development'
     ];
 
-    let activeCategory = categoryKeys[0];
-    let navDropdownOpen = false;
+    // Helper: Get URL parameter
+    function getUrlParameter(name) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(name);
+    }
 
-    // cart helpers
+    // Get category from URL or default
+    let activeCategory = categoryKeys[0]; // default
+    
+    // Check if there's a category parameter in the URL
+    const categoryParam = getUrlParameter('category');
+    if (categoryParam) {
+      // URL decode and check if it's a valid category
+      const decodedCategory = decodeURIComponent(categoryParam);
+      if (categoryKeys.includes(decodedCategory)) {
+        activeCategory = decodedCategory;
+      }
+    }
+
+    // =============================================
+    // SLIDE MENU LOGIC
+    // =============================================
+    const hamburger = document.getElementById('hamburgerBtn');
+    const slideMenu = document.getElementById('slideMenu');
+    const overlay = document.getElementById('menuOverlay');
+    const closeSlideBtn = document.getElementById('closeSlideBtn');
+
+    function openSlide() {
+      slideMenu.classList.add('open');
+      overlay.classList.add('show');
+      document.body.style.overflow = 'hidden';
+      hamburger.classList.add('active');
+    }
+    function closeSlide() {
+      slideMenu.classList.remove('open');
+      overlay.classList.remove('show');
+      document.body.style.overflow = '';
+      hamburger.classList.remove('active');
+      document.getElementById('slideDropdownMenu').classList.remove('open');
+      document.getElementById('slideDropdownArrow').classList.remove('open');
+    }
+
+    hamburger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (slideMenu.classList.contains('open')) closeSlide();
+      else openSlide();
+    });
+
+    closeSlideBtn.addEventListener('click', closeSlide);
+    overlay.addEventListener('click', closeSlide);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && slideMenu.classList.contains('open')) closeSlide();
+    });
+
+    // slide dropdown toggle
+    const slideDropdownLabel = document.getElementById('slideDropdownLabel');
+    const slideDropdownMenu = document.getElementById('slideDropdownMenu');
+    const slideDropdownArrow = document.getElementById('slideDropdownArrow');
+    let slideDropdownOpen = false;
+
+    slideDropdownLabel.addEventListener('click', (e) => {
+      e.stopPropagation();
+      slideDropdownOpen = !slideDropdownOpen;
+      slideDropdownMenu.classList.toggle('open', slideDropdownOpen);
+      slideDropdownArrow.classList.toggle('open', slideDropdownOpen);
+    });
+
+    // close slide menu when a link/item is clicked
+    document.querySelectorAll('.slide-menu a, .slide-menu .dropdown-item').forEach(el => {
+      el.addEventListener('click', () => {
+        if (el.classList.contains('dropdown-item')) {
+          setTimeout(closeSlide, 100);
+        } else {
+          closeSlide();
+        }
+      });
+    });
+
+    // =============================================
+    // DESKTOP DROPDOWN
+    // =============================================
+    let desktopDropdownOpen = false;
+    const ddLabel = document.getElementById('navDropdownLabelDesktop');
+    const ddMenu = document.getElementById('navDropdownMenuDesktop');
+    const ddArrow = document.getElementById('dropdownArrowDesktop');
+
+    ddLabel.addEventListener('click', (e) => {
+      e.stopPropagation();
+      desktopDropdownOpen = !desktopDropdownOpen;
+      ddMenu.classList.toggle('open', desktopDropdownOpen);
+      ddArrow.classList.toggle('open', desktopDropdownOpen);
+    });
+
+    document.addEventListener('click', function(e) {
+      const container = document.getElementById('navDropdownDesktop');
+      if (container && !container.contains(e.target)) {
+        desktopDropdownOpen = false;
+        ddMenu.classList.remove('open');
+        ddArrow.classList.remove('open');
+      }
+    });
+
+    // =============================================
+    // CART HELPERS
+    // =============================================
     function getCart() {
       try { return JSON.parse(localStorage.getItem('karis_cart')) || []; } catch { return []; }
-    }
-    function saveCart(cart) {
-      localStorage.setItem('karis_cart', JSON.stringify(cart));
-      updateBadge();
     }
     function updateBadge() {
       const cart = getCart();
       const total = cart.reduce((sum, i) => sum + i.quantity, 0);
       document.querySelectorAll('.cart-badge').forEach(el => el.textContent = total);
     }
-    function showToast(message) {
-      let toast = document.getElementById('toastMessage');
-      if (!toast) {
-        toast = document.createElement('div');
-        toast.id = 'toastMessage';
-        toast.style.cssText = `
-          position: fixed; bottom: 30px; right: 30px;
-          background: #e5f4e6; padding: 16px 24px;
-          border-radius: 60px; color: var(--brand-green);
-          font-weight: 500; border: 1px solid #b8d9b8;
-          box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-          z-index: 2000; display: none; align-items: center; gap: 12px;
-        `;
-        toast.innerHTML = `<i class="fas fa-check-circle" style="color:var(--brand-green);"></i> <span id="toastText"></span>`;
-        document.body.appendChild(toast);
-      }
-      document.getElementById('toastText').textContent = message;
-      toast.style.display = 'flex';
-      clearTimeout(window.toastTimeout);
-      window.toastTimeout = setTimeout(() => { toast.style.display = 'none'; }, 3000);
-    }
 
-    function addToCart(productName) {
-      const cart = getCart();
-      const existing = cart.find(item => item.productId === productName);
-      if (existing) {
-        existing.quantity += 1;
-      } else {
-        cart.push({
-          productId: productName,
-          quantity: 1,
-          designFile: null,
-          hasDesign: false,
-          price: 0
-        });
-      }
-      saveCart(cart);
-      showToast(`✓ ${productName} added to cart`);
-    }
-
-    // ----- LIGHTBOX -----
+    // =============================================
+    // LIGHTBOX
+    // =============================================
     function openLightbox(imageUrl, productName) {
       const overlay = document.getElementById('lightboxOverlay');
       const img = document.getElementById('lightboxImage');
@@ -762,7 +907,6 @@
       overlay.classList.add('show');
       document.body.style.overflow = 'hidden';
     }
-
     function closeLightbox() {
       const overlay = document.getElementById('lightboxOverlay');
       if (!overlay) return;
@@ -770,54 +914,53 @@
       document.body.style.overflow = '';
     }
 
-    // ----- RENDER NAV DROPDOWN -----
-    function renderNavDropdown() {
-      const container = document.getElementById('navDropdownList');
-      if (!container) return;
-      let html = '';
-      categoryKeys.forEach(cat => {
-        const activeClass = (cat === activeCategory) ? 'active' : '';
-        html += `<div class="dropdown-item ${activeClass}" data-category="${cat}">${cat}</div>`;
-      });
-      container.innerHTML = html;
-
-      container.querySelectorAll('.dropdown-item').forEach(el => {
-        el.addEventListener('click', function(e) {
-          e.stopPropagation();
-          const cat = this.dataset.category;
-          if (cat && productMap[cat]) {
-            activeCategory = cat;
-            renderNavDropdown();
-            renderProducts(cat);
-            closeNavDropdown();
-          }
+    // =============================================
+    // RENDER DROPDOWN (both desktop & mobile)
+    // =============================================
+    function renderDropdowns() {
+      const containers = [
+        document.getElementById('navDropdownListDesktop'),
+        document.getElementById('slideDropdownList')
+      ];
+      containers.forEach(container => {
+        if (!container) return;
+        let html = '';
+        categoryKeys.forEach(cat => {
+          const activeClass = (cat === activeCategory) ? 'active' : '';
+          // Create clickable links that navigate with category parameter
+          html += `<div class="dropdown-item ${activeClass}" data-category="${cat}">${cat}</div>`;
+        });
+        container.innerHTML = html;
+        container.querySelectorAll('.dropdown-item').forEach(el => {
+          el.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const cat = this.dataset.category;
+            if (cat && productMap[cat]) {
+              // Update URL with category parameter
+              const url = new URL(window.location.href);
+              url.searchParams.set('category', cat);
+              window.history.pushState({}, '', url);
+              
+              activeCategory = cat;
+              renderDropdowns();
+              renderProducts(cat);
+              // close mobile menu after selection
+              if (window.innerWidth <= 768) {
+                closeSlide();
+              }
+              // close desktop dropdown
+              desktopDropdownOpen = false;
+              ddMenu.classList.remove('open');
+              ddArrow.classList.remove('open');
+            }
+          });
         });
       });
     }
 
-    // ----- NAV DROPDOWN TOGGLE -----
-    function toggleNavDropdown() {
-      navDropdownOpen = !navDropdownOpen;
-      updateNavUI();
-    }
-    function closeNavDropdown() {
-      navDropdownOpen = false;
-      updateNavUI();
-    }
-    function updateNavUI() {
-      const menu = document.getElementById('navDropdownMenu');
-      const arrow = document.getElementById('navDropdownArrow');
-      if (!menu || !arrow) return;
-      if (navDropdownOpen) {
-        menu.classList.add('open');
-        arrow.classList.add('open');
-      } else {
-        menu.classList.remove('open');
-        arrow.classList.remove('open');
-      }
-    }
-
-    // ----- RENDER PRODUCTS as 5-column grid -----
+    // =============================================
+    // RENDER PRODUCTS
+    // =============================================
     function renderProducts(category) {
       const data = productMap[category];
       if (!data) return;
@@ -831,106 +974,63 @@
         grid.innerHTML = `<div class="empty-message" style="grid-column:1/-1;">No products available in this category.</div>`;
         return;
       }
-
       let html = '';
-      products.forEach((p, index) => {
-        // Check if this is "Brochures (Tri-fold)" to apply selected class
-        const isSelected = (p.name === 'Brochures (Tri-fold)');
-        const selectedClass = isSelected ? 'selected' : '';
+      products.forEach((p) => {
         html += `
-          <div class="product-card ${selectedClass}" data-image="${p.image}" data-name="${p.name}">
+          <div class="product-card" data-image="${p.image}" data-name="${p.name}">
             <span class="card-text">${p.name}</span>
           </div>
         `;
       });
-
-      // Row 4 has only 3 items, add 2 empty placeholders to complete the row
-      // We know the last category is the one with 18 items (Commercial & Marketing Materials)
-      // For other categories we don't add empties, they just wrap naturally
+      // Add empty placeholders for consistent grid (for first category only)
       if (category === 'Commercial & Marketing Materials') {
-        // Add 2 empty cells to complete row 4 (since 18 items = 3 full rows + 3 in row 4)
-        // But we want exactly 5 columns, so we add 2 empty placeholders
-        html += `<div class="grid-empty"></div>`;
-        html += `<div class="grid-empty"></div>`;
+        html += `<div class="grid-empty"></div><div class="grid-empty"></div>`;
       }
-
       grid.innerHTML = html;
-
-      // Click handler for each product card -> opens lightbox with image
       grid.querySelectorAll('.product-card').forEach(card => {
-        card.addEventListener('click', function(e) {
+        card.addEventListener('click', function() {
           const image = this.dataset.image;
           const name = this.dataset.name;
-          if (image) {
-            openLightbox(image, name);
-          }
+          if (image) openLightbox(image, name);
         });
       });
     }
 
     // =============================================
-    // HAMBURGER MENU TOGGLE
+    // AUTH UI
     // =============================================
-    function initHamburger() {
-      const hamburger = document.getElementById('hamburgerBtn');
-      const navLinks = document.getElementById('navLinks');
+    function updateAuthUI(user) {
+      const authLinks = document.getElementById('authLinks');
+      const userLinks = document.getElementById('userLinks');
+      const accountLink = document.getElementById('accountLink');
+      const slideAuth = document.getElementById('slideAuthLinks');
+      const slideUser = document.getElementById('slideUserLinks');
+      const slideAccount = document.getElementById('slideAccountLink');
 
-      if (hamburger && navLinks) {
-        hamburger.addEventListener('click', function(e) {
-          e.stopPropagation();
-          this.classList.toggle('active');
-          navLinks.classList.toggle('open');
-        });
-
-        navLinks.querySelectorAll('a').forEach(link => {
-          link.addEventListener('click', function() {
-            hamburger.classList.remove('active');
-            navLinks.classList.remove('open');
-          });
-        });
-
-        // Close dropdown items click inside nav
-        navLinks.querySelectorAll('.dropdown-item').forEach(item => {
-          item.addEventListener('click', function() {
-            hamburger.classList.remove('active');
-            navLinks.classList.remove('open');
-          });
-        });
-
-        document.addEventListener('click', function(e) {
-          if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
-            hamburger.classList.remove('active');
-            navLinks.classList.remove('open');
-          }
-        });
+      if (user) {
+        authLinks.style.display = 'none';
+        userLinks.style.display = 'inline';
+        if (accountLink) accountLink.textContent = user.displayName || 'My Account';
+        slideAuth.style.display = 'none';
+        slideUser.style.display = 'block';
+        if (slideAccount) slideAccount.textContent = user.displayName || 'My Account';
+      } else {
+        authLinks.style.display = 'inline';
+        userLinks.style.display = 'none';
+        slideAuth.style.display = 'block';
+        slideUser.style.display = 'none';
       }
     }
 
-    // ----- INIT -----
+    // =============================================
+    // INIT
+    // =============================================
     document.addEventListener('DOMContentLoaded', function() {
-      renderNavDropdown();
+      renderDropdowns();
       renderProducts(activeCategory);
       updateBadge();
-      initHamburger();
 
-      // Nav dropdown toggle
-      const navLabel = document.getElementById('navDropdownLabel');
-      if (navLabel) {
-        navLabel.addEventListener('click', function(e) {
-          e.stopPropagation();
-          toggleNavDropdown();
-        });
-      }
-
-      // Close nav dropdown when clicking outside
-      document.addEventListener('click', function(e) {
-        const navDropdown = document.getElementById('navDropdown');
-        if (navDropdown && !navDropdown.contains(e.target)) {
-          closeNavDropdown();
-        }
-      });
-
-      // Lightbox close handlers
+      // Lightbox close
       const overlay = document.getElementById('lightboxOverlay');
       const closeBtn = document.getElementById('lightboxClose');
       if (overlay) {
@@ -945,12 +1045,28 @@
         });
       }
       document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'Escape') {
+          closeLightbox();
+          if (slideMenu.classList.contains('open')) closeSlide();
+        }
       });
 
-      closeNavDropdown();
-    });
+      // Auth placeholder
+      const authLinks = document.getElementById('authLinks');
+      const userLinks = document.getElementById('userLinks');
+      if (authLinks) authLinks.style.display = 'inline';
+      if (userLinks) userLinks.style.display = 'none';
 
+      // Logout handlers
+      document.getElementById('logoutLink')?.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (confirm('Logout?')) window.location.href = 'login.html';
+      });
+      document.getElementById('slideLogoutLink')?.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (confirm('Logout?')) window.location.href = 'login.html';
+      });
+    });
   })();
 </script>
 </body>

@@ -1,1549 +1,1292 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rise Axis Solutions - Quality Services, Clear Prices</title>
-    <meta name="description" content="Professional printing services in Kenya. Business cards, banners, apparel, packaging, and more. Clear prices, fast turnaround, free delivery.">
-    <meta name="keywords" content="printing services Kenya, business cards, banners, apparel printing, packaging, labels, Nairobi printing, Rise Axis Solutions">
-    <meta name="robots" content="index, follow">
-    <meta name="author" content="riseaxis.co.ke">
-    <meta name="language" content="English">
-    <meta name="revisit-after" content="7 days">
-    <meta property="og:title" content="Rise Axis Solutions - Quality Services in Kenya">
-    <meta property="og:description" content="Professional services with clear pricing. Business cards, banners, apparel, packaging, and more.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://riseaxis.co.ke">
-    <meta property="og:image" content="https://riseaxis.co.ke/images/og-image.jpg">
-    <meta property="og:site_name" content="Rise Axis Solutions">
-    <meta property="og:locale" content="en_KE">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Rise Axis Solutions - Quality Services in Kenya">
-    <meta name="twitter:description" content="Professional services with clear pricing. Business cards, banners, apparel, packaging, and more.">
-    <meta name="twitter:image" content="https://riseaxis.co.ke/images/og-image.jpg">
-    <link rel="canonical" href="https://riseaxis.co.ke">
-    <link rel="icon" type="image/x-icon" href="./images/teardrop.jpg">
-    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <style>
-        /* === BRAND COLORS === */
-        :root {
-            --brand-blue: #19589d;
-            --brand-red: #dc1c2c;
-            --brand-green: #10aa51;
-            --brand-brown: #8f5c38;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rise Axis · Clarity, Direction, Results</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* ===== RESET & BASE ===== */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: #f8f9fa;
+      color: #1a1a1a;
+      line-height: 1.6;
+    }
+    a { text-decoration: none; color: inherit; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f8f9fa;
-            color: #1a1a1a;
-            line-height: 1.6;
-        }
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        .btn-primary {
-            background: var(--brand-blue);
-            color: #fff;
-            padding: 12px 30px;
-            border: none;
-            border-radius: 30px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.3s ease;
-            display: inline-block;
-        }
-        .btn-primary:hover {
-            background: #0e3f70;
-        }
-        .btn-outline {
-            background: transparent;
-            color: var(--brand-blue);
-            padding: 10px 25px;
-            border: 2px solid var(--brand-blue);
-            border-radius: 30px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: inline-block;
-        }
-        .btn-outline:hover {
-            background: var(--brand-blue);
-            color: #fff;
-        }
-        header {
-            background: #fff;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-            padding: 15px 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        header .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            position: relative;
-        }
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--brand-blue);
-        }
-        .logo span {
-            color: var(--brand-red);
-        }
+    /* ===== COLORS ===== */
+    :root {
+      --brand-blue: #19589d;
+      --brand-red: #dc1c2c;
+      --brand-green: #10aa51;
+      --brand-brown: #8f5c38;
+      --slide-width: 300px;
+    }
 
-        /* ===== HAMBURGER MENU STYLES ===== */
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-            gap: 5px;
-            padding: 5px;
-            background: none;
-            border: none;
-            z-index: 200;
-        }
-        .hamburger span {
-            display: block;
-            width: 28px;
-            height: 3px;
-            background: var(--brand-blue);
-            border-radius: 3px;
-            transition: all 0.3s ease;
-        }
-        .hamburger.active span:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 6px);
-        }
-        .hamburger.active span:nth-child(2) {
-            opacity: 0;
-        }
-        .hamburger.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(5px, -6px);
-        }
+    /* ===== BUTTONS ===== */
+    .btn-primary {
+      background: var(--brand-blue);
+      color: #fff;
+      padding: 12px 30px;
+      border: none;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+      display: inline-block;
+    }
+    .btn-primary:hover { background: #0e3f70; }
+    .btn-outline {
+      background: transparent;
+      color: var(--brand-blue);
+      padding: 10px 25px;
+      border: 2px solid var(--brand-blue);
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+      display: inline-block;
+    }
+    .btn-outline:hover { background: var(--brand-blue); color: #fff; }
 
-        /* Navigation - with Services Dropdown */
-        nav {
-            display: flex;
-            gap: 25px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        nav a {
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-        nav a:hover {
-            color: var(--brand-blue);
-        }
-        
-        /* ----- SERVICES DROPDOWN IN NAV ----- */
-        .nav-dropdown {
-            position: relative;
-            display: inline-block;
-            cursor: pointer;
-        }
-        .nav-dropdown .nav-dropdown-label {
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            color: #1a1a1a;
-            transition: color 0.3s ease;
-        }
-        .nav-dropdown .nav-dropdown-label:hover {
-            color: var(--brand-blue);
-        }
-        .nav-dropdown .nav-dropdown-label .arrow-icon {
-            font-size: 0.65rem;
-            transition: transform 0.25s ease;
-        }
-        .nav-dropdown .nav-dropdown-label .arrow-icon.open {
-            transform: rotate(180deg);
-        }
+    /* ===== HEADER ===== */
+    header {
+      background: #fff;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      padding: 12px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    header .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      position: relative;
+    }
+    .logo {
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: var(--brand-blue);
+      letter-spacing: -0.5px;
+      order: 0;
+      margin-right: auto;
+    }
+    .logo span { color: var(--brand-red); }
 
-        .nav-dropdown-menu {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background: #fff;
-            min-width: 260px;
-            border-radius: 16px;
-            box-shadow: 0 12px 36px rgba(0,0,0,0.12);
-            border: 1px solid #eef2f6;
-            padding: 8px 0;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(8px);
-            transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
-            z-index: 200;
-        }
-        .nav-dropdown-menu.open {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0px);
-        }
-        .nav-dropdown-menu .dropdown-item {
-            display: block;
-            padding: 10px 20px;
-            font-weight: 500;
-            color: #1d2b3a;
-            font-size: 0.92rem;
-            transition: background 0.15s;
-            cursor: pointer;
-            border-left: 3px solid transparent;
-        }
-        .nav-dropdown-menu .dropdown-item:hover {
-            background: #f0f6fe;
-            border-left-color: var(--brand-blue);
-            color: var(--brand-blue);
-        }
-        .nav-dropdown-menu .dropdown-item.active {
-            background: #e8f0fe;
-            border-left-color: var(--brand-blue);
-            color: var(--brand-blue);
-            font-weight: 600;
-        }
+    /* ===== HAMBURGER (mobile) ===== */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 5px;
+      padding: 5px;
+      background: none;
+      border: none;
+      z-index: 300;
+      order: 1;
+      margin-left: 10px;
+    }
+    .hamburger span {
+      display: block;
+      width: 28px;
+      height: 3px;
+      background: var(--brand-blue);
+      border-radius: 3px;
+      transition: all 0.3s ease;
+    }
+    .hamburger.active span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 6px);
+    }
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -6px);
+    }
 
-        .nav-cta {
-            background: var(--brand-red);
-            color: #fff;
-            padding: 8px 20px;
-            border-radius: 25px;
-            font-weight: 600;
-        }
-        .nav-cta:hover {
-            background: #b31624;
-            color: #fff !important;
-        }
-        .cart-badge {
-            background: var(--brand-red);
-            color: #fff;
-            font-size: 0.7rem;
-            font-weight: 700;
-            padding: 2px 8px;
-            border-radius: 20px;
-            min-width: 20px;
-            text-align: center;
-            line-height: 1.4;
-            margin-left: 4px;
-        }
+    /* ===== MOBILE CART BUTTON ===== */
+    .mobile-cart-btn {
+      display: none;
+      background: var(--brand-red);
+      color: #fff;
+      padding: 6px 14px;
+      border-radius: 25px;
+      font-weight: 600;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+      order: 2;
+      margin-left: 5px;
+    }
+    .mobile-cart-btn:hover {
+      background: #b31624;
+      color: #fff !important;
+    }
+    .mobile-cart-btn .cart-badge {
+      background: rgba(255, 255, 255, 0.25);
+      font-size: 0.65rem;
+      padding: 1px 7px;
+      min-width: 18px;
+      border-radius: 20px;
+      margin-left: 0;
+    }
 
-        /* ===== MOBILE CART BUTTON - VISIBLE ONLY ON MOBILE ===== */
-        .mobile-cart-btn {
-            display: none;
-            background: var(--brand-red);
-            color: #fff;
-            padding: 6px 14px;
-            border-radius: 25px;
-            font-weight: 600;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.85rem;
-            order: 2;
-            margin-left: 5px;
-        }
-        .mobile-cart-btn:hover {
-            background: #b31624;
-            color: #fff !important;
-        }
-        .mobile-cart-btn .cart-badge {
-            background: rgba(255, 255, 255, 0.25);
-            font-size: 0.65rem;
-            padding: 1px 7px;
-            min-width: 18px;
-            margin-left: 0;
-        }
+    /* ===== SLIDE MENU (mobile) ===== */
+    .slide-menu {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: var(--slide-width);
+      max-width: 80vw;
+      height: 100vh;
+      background: #ffffff;
+      box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
+      z-index: 500;
+      transform: translateX(-110%);
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+      padding: 24px 20px 30px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .slide-menu.open {
+      transform: translateX(0);
+    }
 
-        .hero {
-            position: relative;
-            min-height: 85vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            overflow: hidden;
-            padding: 60px 0 80px;
-        }
-        .hero-slides {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-        }
-        .hero-slide {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-position: center;
-            opacity: 0;
-            transition: opacity 1.2s ease-in-out;
-        }
-        .hero-slide.active {
-            opacity: 1;
-        }
-        .hero-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.45);
-            z-index: 1;
-        }
-        .hero .container {
-            position: relative;
-            z-index: 2;
-            color: #fff;
-        }
-        .hero h1 {
-            font-size: 3.2rem;
-            font-weight: 700;
-            margin-bottom: 15px;
-            color: #fff;
-            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
-        }
-        .hero h1 .highlight {
-            color: var(--brand-green);
-        }
-        .hero p {
-            font-size: 1.4rem;
-            color: #f0f4fc;
-            max-width: 700px;
-            margin: 0 auto 30px;
-            text-shadow: 0 2px 12px rgba(0,0,0,0.3);
-        }
-        .hero-buttons .btn-primary {
-            background: var(--brand-red);
-            box-shadow: 0 4px 16px rgba(220,28,44,0.4);
-        }
-        .hero-buttons .btn-primary:hover {
-            background: #b31624;
-        }
-        .hero-buttons .btn-outline {
-            color: #fff;
-            border-color: #fff;
-            background: rgba(0,0,0,0.2);
-            backdrop-filter: blur(4px);
-        }
-        .hero-buttons .btn-outline:hover {
-            background: #fff;
-            color: var(--brand-blue);
-        }
-        .stats {
-            background: #fff;
-            padding: 30px 0;
-            border-bottom: 1px solid #eee;
-        }
-        .stats-grid {
-            display: flex;
-            justify-content: space-around;
-            text-align: center;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-        .stats-grid .stat-item {
-            flex: 1;
-            min-width: 120px;
-        }
-        .stats-grid .stat-number {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--brand-blue);
-        }
-        .stats-grid .stat-label {
-            color: #666;
-            font-size: 0.95rem;
-        }
-        .section-title {
-            text-align: center;
-            font-size: 2.2rem;
-            font-weight: 700;
-            margin: 50px 0 10px;
-        }
-        .section-subtitle {
-            text-align: center;
-            color: #666;
-            margin-bottom: 40px;
-        }
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
-            gap: 30px;
-            margin: 30px 0 50px;
-        }
-        .product-card {
-            background: #fff;
-            border-radius: 28px;
-            overflow: hidden;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.05);
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
-            border: 1px solid #f0f2f5;
-        }
-        .product-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 12px 32px rgba(0,0,0,0.08);
-            border-color: #d0dde8;
-        }
-        .product-card .product-image {
-            width: 100%;
-            height: 200px;
-            background: #eef2f7;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-        .product-card .product-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-        .product-card .product-image .no-image {
-            font-size: 2.8rem;
-            color: #a0b8d0;
-        }
-        .product-card .card-tags {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            padding: 16px 20px 2px 20px;
-        }
-        .product-card .tag {
-            background: #eef3fc;
-            color: var(--brand-blue);
-            font-size: 0.6rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-            padding: 2px 12px;
-            border-radius: 20px;
-        }
-        .product-card .card-body {
-            padding: 4px 20px 22px 20px;
-        }
-        .product-card .card-body h3 {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: #0a1e33;
-            letter-spacing: -0.3px;
-            margin-top: 2px;
-            margin-bottom: 2px;
-        }
-        .product-card .price {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--brand-blue);
-            margin: 6px 0 14px 0;
-        }
-        .product-card .price small {
-            font-size: 0.85rem;
-            font-weight: 400;
-            color: #6a8aa8;
-            margin-left: 4px;
-        }
-        .product-card .card-actions {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 6px;
-        }
-        .product-card .btn-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        .product-card .btn {
-            flex: 1 1 0;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            padding: 12px 14px;
-            border-radius: 60px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            border: none;
-            cursor: pointer;
-            transition: 0.2s ease;
-            background: #f0f2f5;
-            color: #1d2b3a;
-        }
-        .product-card .btn-primary {
-            background: var(--brand-blue);
-            color: white;
-            box-shadow: 0 4px 12px rgba(25, 88, 157, 0.25);
-        }
-        .product-card .btn-primary:hover {
-            background: #0e3f70;
-            transform: scale(1.01);
-        }
-        .product-card .btn-enquire {
-            background: #eaf3e8;
-            color: var(--brand-green);
-            border: 2px solid var(--brand-green);
-        }
-        .product-card .btn-enquire:hover {
-            background: #d9ebd6;
-            border-color: #0b8a44;
-        }
-        .cart-modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-        .cart-modal-overlay.show { display: flex; }
-        .cart-modal {
-            background: #fff;
-            border-radius: 28px;
-            max-width: 520px;
-            width: 100%;
-            padding: 36px 32px 32px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-            position: relative;
-            animation: modalSlideIn 0.3s ease;
-        }
-        @keyframes modalSlideIn {
-            from { transform: translateY(30px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        .cart-modal .close-modal {
-            position: absolute;
-            top: 16px;
-            right: 20px;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: #999;
-            cursor: pointer;
-        }
-        .cart-modal .close-modal:hover {
-            color: #333;
-            transform: rotate(90deg);
-        }
-        .cart-modal h2 {
-            font-size: 1.6rem;
-            font-weight: 700;
-            color: #0a1e33;
-            margin-bottom: 6px;
-        }
-        .cart-modal .product-name-modal {
-            font-size: 1.1rem;
-            color: #4a6a8a;
-            margin-bottom: 24px;
-            border-bottom: 1px solid #eef2f6;
-            padding-bottom: 16px;
-        }
-        .cart-modal .form-group {
-            margin-bottom: 20px;
-        }
-        .cart-modal .form-group label {
-            display: block;
-            font-weight: 600;
-            font-size: 0.9rem;
-            color: #1a2e44;
-            margin-bottom: 6px;
-        }
-        .cart-modal .form-group input[type="number"] {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid #e0e6ed;
-            border-radius: 12px;
-            font-size: 1rem;
-            transition: 0.2s;
-            background: #fafcff;
-        }
-        .cart-modal .form-group input[type="number"]:focus {
-            outline: none;
-            border-color: var(--brand-blue);
-            background: #fff;
-        }
-        .cart-modal .form-group input[type="file"] {
-            width: 100%;
-            padding: 10px 12px;
-            border: 2px dashed #d0d8e0;
-            border-radius: 12px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            background: #fafcff;
-        }
-        .cart-modal .form-group input[type="file"]:hover {
-            border-color: var(--brand-blue);
-            background: #f5f9ff;
-        }
-        .cart-modal .form-group .file-name {
-            font-size: 0.85rem;
-            color: var(--brand-green);
-            margin-top: 6px;
-            display: none;
-        }
-        .cart-modal .form-group .file-name.show { display: block; }
-        .cart-modal .price-breakdown {
-            background: #f5f8fc;
-            border-radius: 14px;
-            padding: 16px 20px;
-            margin: 20px 0 24px;
-        }
-        .cart-modal .price-breakdown .row {
-            display: flex;
-            justify-content: space-between;
-            padding: 4px 0;
-            font-size: 0.95rem;
-        }
-        .cart-modal .price-breakdown .row.total {
-            border-top: 2px solid #dce4ee;
-            margin-top: 8px;
-            padding-top: 12px;
-            font-weight: 700;
-            font-size: 1.1rem;
-            color: #0a1e33;
-        }
-        .cart-modal .price-breakdown .row .label { color: #4a6a8a; }
-        .cart-modal .price-breakdown .row .value { color: #0a1e33; font-weight: 600; }
-        .cart-modal .btn-add-to-cart {
-            width: 100%;
-            padding: 14px;
-            background: var(--brand-blue);
-            color: #fff;
-            border: none;
-            border-radius: 60px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.2s;
-            box-shadow: 0 4px 16px rgba(25, 88, 157, 0.3);
-        }
-        .cart-modal .btn-add-to-cart:hover {
-            background: #0e3f70;
-            transform: scale(1.01);
-        }
-        .toast-message {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            padding: 16px 24px;
-            background: #e5f4e6;
-            border-radius: 60px;
-            color: var(--brand-green);
-            font-weight: 500;
-            font-size: 0.95rem;
-            display: none;
-            align-items: center;
-            gap: 12px;
-            border: 1px solid #b8d9b8;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            z-index: 2000;
-            animation: slideUp 0.3s ease;
-        }
-        .toast-message.show { display: flex; }
-        @keyframes slideUp {
-            from { transform: translateY(20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        .testimonials {
-            background: #fff;
-            padding: 50px 0;
-            margin-top: 30px;
-        }
-        .testimonial-slide {
-            text-align: center;
-            max-width: 700px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .testimonial-slide .quote {
-            font-size: 1.1rem;
-            font-style: italic;
-            color: #333;
-            margin-bottom: 15px;
-        }
-        .testimonial-slide .client-name {
-            font-weight: 600;
-            color: var(--brand-blue);
-        }
-        .testimonial-slide .client-location {
-            color: #888;
-            font-size: 0.9rem;
-        }
-        .testimonial-dots {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        .testimonial-dots .dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #ccc;
-            border: none;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        .testimonial-dots .dot.active {
-            background: var(--brand-blue);
-        }
-        footer {
-            background: #1a1a1a;
-            color: #ccc;
-            padding: 40px 0 20px;
-        }
-        footer .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 30px;
-            margin-bottom: 30px;
-        }
-        footer h4 {
-            color: #fff;
-            margin-bottom: 12px;
-        }
-        footer a {
-            display: block;
-            color: #aaa;
-            margin-bottom: 6px;
-            transition: color 0.3s;
-        }
-        footer a:hover {
-            color: #fff;
-        }
-        footer .copyright {
-            text-align: center;
-            border-top: 1px solid #333;
-            padding-top: 20px;
-            font-size: 0.9rem;
-            color: #777;
-        }
+    .menu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.35);
+      z-index: 499;
+      display: none;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+    .menu-overlay.show {
+      display: block;
+      opacity: 1;
+    }
 
-        /* ===== RESPONSIVE - MOBILE VIEW ===== */
-        @media (max-width: 768px) {
-            .hamburger {
-                display: flex;
-                order: 1;
-                margin-left: 10px;
-            }
+    .slide-menu .close-slide {
+      align-self: flex-end;
+      background: none;
+      border: none;
+      font-size: 2rem;
+      color: #555;
+      cursor: pointer;
+      padding: 0 4px 12px 0;
+      transition: 0.2s;
+    }
+    .slide-menu .close-slide:hover {
+      color: #111;
+      transform: rotate(90deg);
+    }
 
-            .mobile-cart-btn {
-                display: inline-flex;
-            }
+    .slide-menu .slide-logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--brand-blue);
+      margin-bottom: 12px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 16px;
+    }
+    .slide-menu .slide-logo span {
+      color: var(--brand-red);
+    }
 
-            /* ---- SLIDE-IN NAVIGATION ---- */
-            nav {
-                position: fixed;
-                top: 0;
-                left: -320px;
-                width: 300px;
-                height: 100vh;
-                background: #ffffff;
-                box-shadow: 4px 0 20px rgba(0,0,0,0.12);
-                flex-direction: column;
-                padding: 70px 24px 30px;
-                gap: 0;
-                align-items: stretch;
-                transition: left 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-                z-index: 150;
-                overflow-y: auto;
-                border-right: 1px solid #eef2f6;
-                display: flex;
-            }
+    .slide-menu a,
+    .slide-menu .slide-dropdown-label {
+      display: block;
+      padding: 12px 6px;
+      font-weight: 500;
+      font-size: 1.05rem;
+      color: #1a1a1a;
+      border-radius: 8px;
+      transition: background 0.15s;
+      cursor: pointer;
+    }
+    .slide-menu a:hover,
+    .slide-menu .slide-dropdown-label:hover {
+      background: #f0f6fe;
+      color: var(--brand-blue);
+    }
+    .slide-menu a.active {
+      color: var(--brand-blue);
+      font-weight: 600;
+      background: #ecf3fa;
+    }
 
-            nav.open {
-                left: 0;
-            }
+    .slide-dropdown {
+      margin-bottom: 4px;
+    }
+    .slide-dropdown-label {
+      display: flex !important;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .slide-dropdown-label .arrow-icon {
+      font-size: 0.7rem;
+      transition: transform 0.25s ease;
+    }
+    .slide-dropdown-label .arrow-icon.open {
+      transform: rotate(180deg);
+    }
+    .slide-dropdown-menu {
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.3s ease, padding 0.2s ease;
+      padding-left: 16px;
+      background: #f8fafc;
+      border-radius: 8px;
+      margin: 4px 0 2px;
+    }
+    .slide-dropdown-menu.open {
+      max-height: 400px;
+      padding: 6px 0;
+    }
+    .slide-dropdown-menu .dropdown-item {
+      display: block;
+      padding: 10px 12px;
+      font-weight: 500;
+      color: #2a3b4e;
+      border-left: 3px solid transparent;
+      transition: 0.15s;
+      cursor: pointer;
+    }
+    .slide-dropdown-menu .dropdown-item:hover {
+      background: #e8f0fe;
+      border-left-color: var(--brand-blue);
+      color: var(--brand-blue);
+    }
 
-            /* overlay backdrop */
-            .nav-overlay {
-                display: none;
-                position: fixed;
-                inset: 0;
-                background: rgba(0,0,0,0.35);
-                z-index: 140;
-                transition: opacity 0.25s ease;
-                opacity: 0;
-            }
-            .nav-overlay.show {
-                display: block;
-                opacity: 1;
-            }
+    .slide-menu .slide-auth {
+      margin-top: 12px;
+      border-top: 1px solid #eef2f6;
+      padding-top: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .slide-menu .slide-auth a {
+      font-weight: 500;
+      padding: 10px 6px;
+    }
 
-            /* mobile nav links - vertical single column */
-            nav a {
-                font-size: 1.1rem;
-                padding: 12px 0;
-                border-bottom: 1px solid #f0f2f5;
-                width: 100%;
-                display: block;
-            }
-            nav .nav-cta {
-                display: none !important;
-            }
+    .slide-menu .slide-cta {
+      background: var(--brand-red);
+      color: #fff !important;
+      text-align: center;
+      border-radius: 40px;
+      padding: 12px 16px !important;
+      font-weight: 600;
+      margin-top: 8px;
+    }
+    .slide-menu .slide-cta:hover {
+      background: #b31624 !important;
+      color: #fff !important;
+    }
 
-            /* mobile dropdown inside slide menu */
-            .nav-dropdown {
-                width: 100%;
-                text-align: left;
-                display: block;
-            }
-            .nav-dropdown .nav-dropdown-label {
-                justify-content: flex-start;
-                font-size: 1.1rem;
-                padding: 12px 0;
-                border-bottom: 1px solid #f0f2f5;
-                width: 100%;
-                display: flex;
-                align-items: center;
-            }
+    /* ===== DESKTOP NAV ===== */
+    .desktop-nav {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .desktop-nav a {
+      font-weight: 500;
+      transition: color 0.2s;
+      padding: 6px 0;
+      border-bottom: 2px solid transparent;
+    }
+    .desktop-nav a:hover { color: var(--brand-blue); border-bottom-color: var(--brand-blue); }
+    .desktop-nav a.active { color: var(--brand-blue); font-weight: 600; border-bottom-color: var(--brand-blue); }
 
-            /* Arrow icon points right on mobile by default */
-            .nav-dropdown .nav-dropdown-label .arrow-icon {
-                margin-left: auto;
-                transform: rotate(0deg) !important;
-                font-size: 0.8rem;
-                transition: transform 0.3s ease;
-            }
+    .desktop-nav .nav-cta {
+      background: var(--brand-red);
+      color: #fff !important;
+      padding: 8px 20px;
+      border-radius: 40px;
+      font-weight: 600;
+      border-bottom: none !important;
+    }
+    .desktop-nav .nav-cta:hover { background: #b31624 !important; color: #fff !important; border-bottom: none !important; }
 
-            /* When dropdown is open, rotate arrow to point down */
-            .nav-dropdown .nav-dropdown-label .arrow-icon.open {
-                transform: rotate(90deg) !important;
-            }
+    .desktop-nav .nav-dropdown {
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+    }
+    .desktop-nav .nav-dropdown-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 500;
+    }
+    .desktop-nav .nav-dropdown-label .arrow {
+      font-size: 0.6rem;
+      transition: 0.2s;
+    }
+    .desktop-nav .nav-dropdown-label .arrow.open {
+      transform: rotate(180deg);
+    }
+    .desktop-nav .nav-dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: #fff;
+      min-width: 240px;
+      border-radius: 16px;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.10);
+      border: 1px solid #eef2f6;
+      padding: 8px 0;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(6px);
+      transition: 0.2s;
+      z-index: 300;
+    }
+    .desktop-nav .nav-dropdown-menu.open {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    .desktop-nav .nav-dropdown-menu .dropdown-item {
+      display: block;
+      padding: 10px 20px;
+      font-weight: 500;
+      color: #1d2b3a;
+      transition: 0.15s;
+      border-left: 3px solid transparent;
+    }
+    .desktop-nav .nav-dropdown-menu .dropdown-item:hover {
+      background: #f0f6fe;
+      border-left-color: var(--brand-blue);
+      color: var(--brand-blue);
+    }
 
-            .nav-dropdown-menu {
-                position: static;
-                box-shadow: none;
-                border: none;
-                border-radius: 0;
-                padding: 0;
-                transform: none;
-                background: transparent;
-                min-width: auto;
-                width: 100%;
-                max-height: 0;
-                overflow: hidden;
-                opacity: 0;
-                visibility: hidden;
-                transition: max-height 0.35s ease, opacity 0.3s ease, visibility 0.3s ease, padding 0.3s ease;
-                padding: 0 0 0 12px;
-                margin: 0;
-            }
-            .nav-dropdown-menu.open {
-                max-height: 500px;
-                opacity: 1;
-                visibility: visible;
-                padding: 0 0 0 12px;
-            }
-            .nav-dropdown-menu .dropdown-item {
-                padding: 10px 12px;
-                text-align: left;
-                border-left: none;
-                border-bottom: 1px solid #f0f2f5;
-                font-size: 0.95rem;
-                display: block;
-                width: 100%;
-            }
-            .nav-dropdown-menu .dropdown-item:hover {
-                background: #f5f8fc;
-            }
+    .cart-badge {
+      background: var(--brand-red);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 20px;
+      min-width: 20px;
+      text-align: center;
+      line-height: 1.4;
+      margin-left: 4px;
+      display: inline-block;
+    }
 
-            header .container {
-                display: flex;
-                justify-content: flex-start;
-                align-items: center;
-                flex-wrap: wrap;
-                position: relative;
-                gap: 0;
-            }
+    #authLinks { display: inline; }
+    #userLinks { display: none; }
 
-            .logo {
-                font-size: 1.4rem;
-                order: 0;
-                margin-right: auto;
-            }
+    /* ===== HERO ===== */
+    .hero {
+      position: relative;
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+      padding: 60px 0 80px;
+    }
+    .hero-slides {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+    .hero-slide {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transition: opacity 1.2s ease;
+    }
+    .hero-slide.active { opacity: 1; }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: 1;
+    }
+    .hero .container { position: relative; z-index: 2; color: #fff; }
+    .hero h1 {
+      font-size: 3.2rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+    .hero h1 .highlight { color: var(--brand-green); }
+    .hero p {
+      font-size: 1.3rem;
+      color: #f0f4fc;
+      max-width: 700px;
+      margin: 0 auto 30px;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.3);
+    }
+    .hero-buttons .btn-primary { background: var(--brand-red); box-shadow: 0 4px 16px rgba(220,28,44,0.4); }
+    .hero-buttons .btn-primary:hover { background: #b31624; }
+    .hero-buttons .btn-outline {
+      color: #fff;
+      border-color: #fff;
+      background: rgba(0,0,0,0.2);
+      backdrop-filter: blur(4px);
+    }
+    .hero-buttons .btn-outline:hover { background: #fff; color: var(--brand-blue); }
 
-            .hero h1 {
-                font-size: 2rem;
-            }
-            .hero p {
-                font-size: 1rem;
-            }
-            .product-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 20px;
-            }
-            .product-card .product-image {
-                height: 160px;
-            }
-            .stats-grid .stat-number {
-                font-size: 1.5rem;
-            }
-        }
+    /* ===== PRODUCTS ===== */
+    .section-title {
+      text-align: center;
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin: 50px 0 10px;
+    }
+    .section-subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 40px;
+    }
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px,1fr));
+      gap: 30px;
+      margin: 30px 0 50px;
+    }
+    .product-card {
+      background: #fff;
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+      transition: 0.25s;
+      border: 1px solid #f0f2f5;
+    }
+    .product-card:hover { transform: translateY(-6px); box-shadow: 0 12px 32px rgba(0,0,0,0.08); }
+    .product-card .product-image {
+      width: 100%;
+      height: 200px;
+      background: #eef2f7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .product-card .product-image img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    .product-card .card-tags {
+      display: flex; gap: 8px; flex-wrap: wrap;
+      padding: 16px 20px 2px 20px;
+    }
+    .product-card .tag {
+      background: #eef3fc;
+      color: var(--brand-blue);
+      font-size: 0.6rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      padding: 2px 12px;
+      border-radius: 20px;
+    }
+    .product-card .card-body { padding: 4px 20px 22px; }
+    .product-card .card-body h3 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #0a1e33;
+    }
+    .product-card .price {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--brand-blue);
+      margin: 6px 0 14px;
+    }
+    .product-card .price small {
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: #6a8aa8;
+    }
+    .product-card .card-actions { margin-top: 6px; }
+    .product-card .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .product-card .btn {
+      flex: 1 1 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      border: none;
+      cursor: pointer;
+      transition: 0.2s;
+      background: #f0f2f5;
+      color: #1d2b3a;
+      text-decoration: none;
+    }
+    .product-card .btn-primary {
+      background: var(--brand-blue);
+      color: white;
+      box-shadow: 0 4px 12px rgba(25,88,157,0.25);
+    }
+    .product-card .btn-primary:hover { background: #0e3f70; }
+    .product-card .btn-enquire {
+      background: #eaf3e8;
+      color: var(--brand-green);
+      border: 2px solid var(--brand-green);
+    }
+    .product-card .btn-enquire:hover { background: #d9ebd6; }
 
-        @media (max-width: 480px) {
-            .product-grid {
-                grid-template-columns: 1fr;
-            }
-            .hero h1 {
-                font-size: 1.6rem;
-            }
-            .hero-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-            .product-card .product-image {
-                height: 180px;
-            }
-            .cart-modal { padding: 24px 16px 20px; }
+    /* ===== STATS ===== */
+    .stats {
+      background: #fff;
+      padding: 30px 0;
+      border-bottom: 1px solid #eee;
+    }
+    .stats-grid {
+      display: flex;
+      justify-content: space-around;
+      text-align: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .stats-grid .stat-item { flex: 1; min-width: 120px; }
+    .stats-grid .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--brand-blue);
+    }
+    .stats-grid .stat-label { color: #666; font-size: 0.95rem; }
 
-            .logo {
-                font-size: 1.2rem;
-            }
-            .hamburger span {
-                width: 24px;
-                height: 2.5px;
-            }
-            .hamburger {
-                gap: 4px;
-                margin-left: 5px;
-            }
-            .mobile-cart-btn {
-                padding: 5px 10px;
-                font-size: 0.75rem;
-            }
-            .mobile-cart-btn .cart-badge {
-                font-size: 0.55rem;
-                padding: 1px 5px;
-                min-width: 14px;
-            }
-        }
-    </style>
+    /* ===== TESTIMONIALS ===== */
+    .testimonials {
+      background: #fff;
+      padding: 50px 0;
+      margin-top: 30px;
+    }
+    .testimonial-slide {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .testimonial-slide .quote {
+      font-size: 1.1rem;
+      font-style: italic;
+      color: #333;
+      margin-bottom: 15px;
+    }
+    .testimonial-slide .client-name {
+      font-weight: 600;
+      color: var(--brand-blue);
+    }
+    .testimonial-dots {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .testimonial-dots .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #ccc;
+      border: none;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .testimonial-dots .dot.active { background: var(--brand-blue); }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: #1a1a1a;
+      color: #ccc;
+      padding: 40px 0 20px;
+    }
+    footer .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+    footer h4 { color: #fff; margin-bottom: 12px; }
+    footer a {
+      display: block;
+      color: #aaa;
+      margin-bottom: 6px;
+      transition: 0.3s;
+    }
+    footer a:hover { color: #fff; }
+    footer .copyright {
+      text-align: center;
+      border-top: 1px solid #333;
+      padding-top: 20px;
+      font-size: 0.9rem;
+      color: #777;
+    }
+
+    /* ===== MODAL ===== */
+    .cart-modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .cart-modal-overlay.show { display: flex; }
+    .cart-modal {
+      background: #fff;
+      border-radius: 28px;
+      max-width: 520px;
+      width: 100%;
+      padding: 36px 32px 32px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+      position: relative;
+      animation: modalSlideIn 0.3s ease;
+    }
+    @keyframes modalSlideIn {
+      from { transform: translateY(30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .cart-modal .close-modal {
+      position: absolute;
+      top: 16px;
+      right: 20px;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: #999;
+      cursor: pointer;
+    }
+    .cart-modal .close-modal:hover { color: #333; }
+    .cart-modal h2 { font-size: 1.6rem; font-weight: 700; color: #0a1e33; }
+    .cart-modal .product-name-modal {
+      font-size: 1.1rem;
+      color: #4a6a8a;
+      margin-bottom: 24px;
+      border-bottom: 1px solid #eef2f6;
+      padding-bottom: 16px;
+    }
+    .cart-modal .form-group { margin-bottom: 20px; }
+    .cart-modal .form-group label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #1a2e44;
+      margin-bottom: 6px;
+    }
+    .cart-modal .form-group input[type="number"],
+    .cart-modal .form-group input[type="file"] {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #e0e6ed;
+      border-radius: 12px;
+      font-size: 1rem;
+      background: #fafcff;
+      transition: 0.2s;
+    }
+    .cart-modal .form-group input:focus {
+      outline: none;
+      border-color: var(--brand-blue);
+    }
+    .cart-modal .form-group .file-name {
+      font-size: 0.85rem;
+      color: var(--brand-green);
+      margin-top: 6px;
+      display: none;
+    }
+    .cart-modal .form-group .file-name.show { display: block; }
+    .cart-modal .price-breakdown {
+      background: #f5f8fc;
+      border-radius: 14px;
+      padding: 16px 20px;
+      margin: 20px 0 24px;
+    }
+    .cart-modal .price-breakdown .row {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 0;
+      font-size: 0.95rem;
+    }
+    .cart-modal .price-breakdown .row.total {
+      border-top: 2px solid #dce4ee;
+      margin-top: 8px;
+      padding-top: 12px;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+    .cart-modal .btn-add-to-cart {
+      width: 100%;
+      padding: 14px;
+      background: var(--brand-blue);
+      color: #fff;
+      border: none;
+      border-radius: 60px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: 0 4px 16px rgba(25,88,157,0.3);
+    }
+    .cart-modal .btn-add-to-cart:hover { background: #0e3f70; }
+    .toast-message {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      padding: 16px 24px;
+      background: #e5f4e6;
+      border-radius: 60px;
+      color: var(--brand-green);
+      font-weight: 500;
+      font-size: 0.95rem;
+      display: none;
+      align-items: center;
+      gap: 12px;
+      border: 1px solid #b8d9b8;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      z-index: 2000;
+      animation: slideUp 0.3s ease;
+    }
+    .toast-message.show { display: flex; }
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 820px) {
+      .hamburger { display: flex; }
+      .mobile-cart-btn { display: inline-flex; }
+      .desktop-nav { display: none !important; }
+      .logo { font-size: 1.4rem; }
+      .slide-menu { padding: 20px 16px 24px; }
+      .hero h1 { font-size: 2rem; }
+      .hero p { font-size: 1rem; }
+      .product-grid { grid-template-columns: 1fr 1fr; gap: 18px; }
+      .product-card .product-image { height: 150px; }
+      .stats-grid .stat-number { font-size: 1.5rem; }
+    }
+    @media (max-width: 480px) {
+      .product-grid { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 1.6rem; }
+      .hero-buttons { flex-direction: column; align-items: center; }
+      .product-card .product-image { height: 180px; }
+      .cart-modal { padding: 24px 16px 20px; }
+      .logo { font-size: 1.2rem; }
+      .hamburger span { width: 24px; height: 2.5px; }
+      .hamburger { gap: 4px; margin-left: 5px; }
+      .mobile-cart-btn { font-size: 0.75rem; padding: 4px 10px; }
+      .mobile-cart-btn .cart-badge { font-size: 0.55rem; padding: 1px 5px; min-width: 14px; }
+    }
+  </style>
 </head>
 <body>
-<!-- overlay backdrop for slide menu -->
-<div class="nav-overlay" id="navOverlay"></div>
 
+<!-- ===== OVERLAY ===== -->
+<div class="menu-overlay" id="menuOverlay"></div>
+
+<!-- ===== HEADER ===== -->
 <header>
-    <div class="container">
-        <div class="logo">Rise Axis<span> Solutions</span></div>
+  <div class="container">
+    <a href="index.html" class="logo">Rise Axis<span> Solutions</span></a>
 
-        <!-- Hamburger Button (mobile only) -->
-        <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
+    <!-- Hamburger -->
+    <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
 
-        <!-- Mobile Cart Button (visible only on mobile, directly after hamburger) -->
-        <a href="pages/cart.html" class="mobile-cart-btn" id="mobileCartBtn">
-            <i class="fas fa-shopping-cart"></i> Cart <span class="cart-badge" id="mobileCartBadge">0</span>
-        </a>
+    <!-- Mobile cart -->
+    <a href="pages/cart.html" class="mobile-cart-btn" id="mobileCartBtn">
+      <i class="fas fa-shopping-cart"></i> Cart <span class="cart-badge" id="mobileCartBadge">0</span>
+    </a>
 
-        <!-- ===== NAVIGATION WITH SERVICES DROPDOWN (slide-in) ===== -->
-        <nav id="mainNav">
-            <a href="index.html">Home</a>
-            
-            <!-- SERVICES DROPDOWN -->
-            <div class="nav-dropdown" id="navDropdown">
-                <span class="nav-dropdown-label" id="navDropdownLabel">
-                    Services
-                    <i class="fas fa-chevron-right arrow-icon" id="navDropdownArrow"></i>
-                </span>
-                <div class="nav-dropdown-menu" id="navDropdownMenu">
-                    <div class="dropdown-item" data-category="Commercial & Marketing Materials">Commercial & Marketing Materials</div>
-                    <div class="dropdown-item" data-category="Large Format & Signage">Large Format & Signage</div>
-                    <div class="dropdown-item" data-category="Branded Merchandise & Apparel">Branded Merchandise & Apparel</div>
-                    <div class="dropdown-item" data-category="Packaging & Labels">Packaging & Labels</div>
-                    <div class="dropdown-item" data-category="Graphic design">Graphic Design</div>
-                    <div class="dropdown-item" data-category="Website development">Website Development</div>
-                </div>
-            </div>
-
-            <a href="pages/catalog.html">Catalog</a>
-            <a href="pages/about.html">About</a>
-            <a href="pages/contact.html">Contact</a>
-            
-            <!-- Auth Links (Dynamic - shown when logged out) -->
-            <span id="authLinks">
-                <a href="pages/login.html" id="loginLink">Login</a>
-                <a href="pages/register.html" id="registerLink">Register</a>
-            </span>
-            
-            <!-- User Links (Dynamic - hidden by default, shown when logged in) -->
-            <span id="userLinks" style="display: none;">
-                <a href="pages/account.html" id="accountLink">My Account</a>
-                <a href="#" id="logoutLink" style="color: #dc3545;">Logout</a>
-            </span>
-            
-            <a href="pages/cart.html" class="nav-cta">
-                <i class="fas fa-shopping-cart"></i> Cart <span class="cart-badge" id="navCartBadge">0</span>
-            </a>
-        </nav>
-        <!-- ===== END NAVIGATION ===== -->
-        
-    </div>
+    <!-- Desktop navigation -->
+    <nav class="desktop-nav" id="desktopNav">
+      <a href="index.html" class="active">Home</a>
+      <div class="nav-dropdown" id="navDropdown">
+        <span class="nav-dropdown-label" id="navDropdownLabel">
+          Services
+          <i class="fas fa-chevron-down arrow" id="dropdownArrow"></i>
+        </span>
+        <div class="nav-dropdown-menu" id="navDropdownMenu">
+          <a href="pages/service.html?category=Commercial%20%26%20Marketing%20Materials" class="dropdown-item">Commercial & Marketing</a>
+          <a href="pages/service.html?category=Large%20Format%20%26%20Signage" class="dropdown-item">Large Format & Signage</a>
+          <a href="pages/service.html?category=Branded%20Merchandise%20%26%20Apparel" class="dropdown-item">Branded Merchandise</a>
+          <a href="pages/service.html?category=Packaging%20%26%20Labels" class="dropdown-item">Packaging & Labels</a>
+          <a href="pages/service.html?category=Graphic%20design" class="dropdown-item">Graphic Design</a>
+          <a href="pages/service.html?category=Website%20development" class="dropdown-item">Website Development</a>
+        </div>
+      </div>
+      <a href="pages/catalog.html">Catalog</a>
+      <a href="pages/about.html">About</a>
+      <a href="pages/contact.html">Contact</a>
+      <span id="authLinks">
+        <a href="pages/login.html">Login</a>
+        <a href="pages/register.html">Register</a>
+      </span>
+      <span id="userLinks" style="display:none;">
+        <a href="pages/account.html">My Account</a>
+        <a href="#" id="logoutLink" style="color:#dc3545;">Logout</a>
+      </span>
+      <a href="pages/cart.html" class="nav-cta">
+        <i class="fas fa-shopping-cart"></i> Cart <span class="cart-badge" id="navCartBadge">0</span>
+      </a>
+    </nav>
+  </div>
 </header>
 
+<!-- ===== SLIDE MENU (mobile) ===== -->
+<div class="slide-menu" id="slideMenu">
+  <button class="close-slide" id="closeSlideBtn">&times;</button>
+  <div class="slide-logo">Rise Axis<span> Solutions</span></div>
+
+  <a href="index.html" class="active">Home</a>
+
+  <!-- slide dropdown: Services -->
+  <div class="slide-dropdown">
+    <div class="slide-dropdown-label" id="slideDropdownLabel">
+      Services
+      <i class="fas fa-chevron-down arrow-icon" id="slideDropdownArrow"></i>
+    </div>
+    <div class="slide-dropdown-menu" id="slideDropdownMenu">
+      <a href="pages/service.html?category=Commercial%20%26%20Marketing%20Materials" class="dropdown-item">Commercial & Marketing</a>
+      <a href="pages/service.html?category=Large%20Format%20%26%20Signage" class="dropdown-item">Large Format & Signage</a>
+      <a href="pages/service.html?category=Branded%20Merchandise%20%26%20Apparel" class="dropdown-item">Branded Merchandise</a>
+      <a href="pages/service.html?category=Packaging%20%26%20Labels" class="dropdown-item">Packaging & Labels</a>
+      <a href="pages/service.html?category=Graphic%20design" class="dropdown-item">Graphic Design</a>
+      <a href="pages/service.html?category=Website%20development" class="dropdown-item">Website Development</a>
+    </div>
+  </div>
+
+  <a href="pages/catalog.html">Catalog</a>
+  <a href="pages/about.html">About</a>
+  <a href="pages/contact.html">Contact</a>
+
+  <div class="slide-auth">
+    <span id="slideAuthLinks">
+      <a href="pages/login.html">Login</a>
+      <a href="pages/register.html">Register</a>
+    </span>
+    <span id="slideUserLinks" style="display: none;">
+      <a href="pages/account.html">My Account</a>
+      <a href="#" id="slideLogoutLink" style="color: var(--brand-red);">Logout</a>
+    </span>
+  </div>
+
+  <a href="pages/cart.html" class="slide-cta">
+    <i class="fas fa-shopping-cart"></i> Cart <span class="cart-badge" id="slideCartBadge">0</span>
+  </a>
+</div>
+
+<!-- ===== HERO ===== -->
 <section class="hero">
-    <div class="hero-slides" id="heroSlides">
-        <div class="hero-slide active" style="background-image: url('images/carbonless.jpg');"></div>
-        <div class="hero-slide" style="background-image: url('images/t shirt.jpg');"></div>
-        <div class="hero-slide" style="background-image: url('images/brochures\ tri.jpg');"></div>
-        <div class="hero-slide" style="background-image: url('images/envelopes.jpg');"></div>
+  <div class="hero-slides" id="heroSlides">
+    <div class="hero-slide active" style="background-image: url('images/carbonless.jpg');"></div>
+    <div class="hero-slide" style="background-image: url('images/t shirt.jpg');"></div>
+    <div class="hero-slide" style="background-image: url('images/brochures tri.jpg');"></div>
+    <div class="hero-slide" style="background-image: url('images/envelopes.jpg');"></div>
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="container">
+    <h1>Clarity, Direction, <span class="highlight">Results</span></h1>
+    <p>From business cards to banners, apparel to packaging. No quotes, no hidden fees.</p>
+    <div class="hero-buttons">
+      <a href="pages/catalog.html" class="btn-primary">Browse Products</a>
+      <a href="pages/cart.html" class="btn-outline">Shop with us</a>
     </div>
-    <div class="hero-overlay"></div>
-    <div class="container">
-        <h1>Quality Services, <span class="highlight">Clear Prices</span></h1>
-        <p>From business cards to banners, apparel to packaging orders. No quotes, no hidden fees.</p>
-        <div class="hero-buttons">
-            <a href="pages/catalog.html" class="btn-primary">Browse Products</a>
-            <a href="pages/cart.html" class="btn-outline">Shop with us</a>
-        </div>
-    </div>
+  </div>
 </section>
 
+<!-- ===== PRODUCTS ===== -->
 <section class="container">
-    <h2 class="section-title">Our Products</h2>
-    <p class="section-subtitle">See a price. Click order. It's that simple.</p>
-    <div class="product-grid" id="productGrid"></div>
-    <div style="text-align: center; margin-bottom: 40px;">
-        <a href="pages/catalog.html" class="btn-primary">View Full Catalog →</a>
-    </div>
+  <h2 class="section-title">Our Products</h2>
+  <p class="section-subtitle">See a price. Click order. It's that simple.</p>
+  <div class="product-grid" id="productGrid"></div>
+  <div style="text-align:center; margin-bottom:40px;">
+    <a href="pages/catalog.html" class="btn-primary">View Full Catalog →</a>
+  </div>
 </section>
 
+<!-- ===== STATS ===== -->
 <section class="stats">
-    <div class="container">
-        <div class="stats-grid">
-            <div class="stat-item">
-                <div class="stat-number">500+</div>
-                <div class="stat-label">Happy Clients</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">98%</div>
-                <div class="stat-label">On-Time Delivery</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">4.9⭐</div>
-                <div class="stat-label">Average Rating</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">40+</div>
-                <div class="stat-label">Products Available</div>
-            </div>
-        </div>
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item"><div class="stat-number">500+</div><div class="stat-label">Happy Clients</div></div>
+      <div class="stat-item"><div class="stat-number">98%</div><div class="stat-label">On-Time Delivery</div></div>
+      <div class="stat-item"><div class="stat-number">4.9⭐</div><div class="stat-label">Average Rating</div></div>
+      <div class="stat-item"><div class="stat-number">40+</div><div class="stat-label">Products Available</div></div>
     </div>
+  </div>
 </section>
 
+<!-- ===== TESTIMONIALS ===== -->
 <section class="testimonials">
-    <div class="container">
-        <h2 class="section-title" style="margin-top: 0;">What Our Clients Say</h2>
-        <div id="testimonialContainer"></div>
-        <div class="testimonial-dots" id="testimonialDots"></div>
-    </div>
+  <div class="container">
+    <h2 class="section-title" style="margin-top:0;">What Our Clients Say</h2>
+    <div id="testimonialContainer"></div>
+    <div class="testimonial-dots" id="testimonialDots"></div>
+  </div>
 </section>
 
+<!-- ===== CART MODAL ===== -->
 <div class="cart-modal-overlay" id="cartModal">
-    <div class="cart-modal">
-        <button class="close-modal" id="closeModalBtn">&times;</button>
-        <h2>Add to Cart</h2>
-        <div class="product-name-modal" id="modalProductName">Product Name</div>
-        <div class="form-group">
-            <label for="quantityInput">Quantity</label>
-            <input type="number" id="quantityInput" value="1" min="1" step="1">
-        </div>
-        <div class="form-group">
-            <label>Do you have a design?</label>
-            <input type="file" id="designFile" accept=".pdf,.ai,.psd,.jpg,.jpeg,.png">
-            <div class="file-name" id="fileNameDisplay">📎 design-file.pdf</div>
-        </div>
-        <div class="price-breakdown">
-            <div class="row">
-                <span class="label">Price per unit</span>
-                <span class="value" id="modalPricePerUnit">KSh 0</span>
-            </div>
-            <div class="row">
-                <span class="label">Quantity</span>
-                <span class="value" id="modalQuantityDisplay">1</span>
-            </div>
-            <div class="row total">
-                <span class="label">Total</span>
-                <span class="value" id="modalTotalPrice">KSh 0</span>
-            </div>
-        </div>
-        <button class="btn-add-to-cart" id="confirmAddToCartBtn">
-            <i class="fas fa-cart-plus"></i> Add to Cart
-        </button>
+  <div class="cart-modal">
+    <button class="close-modal" id="closeModalBtn">&times;</button>
+    <h2>Add to Cart</h2>
+    <div class="product-name-modal" id="modalProductName">Product Name</div>
+    <div class="form-group">
+      <label for="quantityInput">Quantity</label>
+      <input type="number" id="quantityInput" value="1" min="1" step="1">
     </div>
+    <div class="form-group">
+      <label>Do you have a design?</label>
+      <input type="file" id="designFile" accept=".pdf,.ai,.psd,.jpg,.jpeg,.png">
+      <div class="file-name" id="fileNameDisplay">📎 design-file.pdf</div>
+    </div>
+    <div class="price-breakdown">
+      <div class="row"><span class="label">Price per unit</span><span class="value" id="modalPricePerUnit">KSh 0</span></div>
+      <div class="row"><span class="label">Quantity</span><span class="value" id="modalQuantityDisplay">1</span></div>
+      <div class="row total"><span class="label">Total</span><span class="value" id="modalTotalPrice">KSh 0</span></div>
+    </div>
+    <button class="btn-add-to-cart" id="confirmAddToCartBtn"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+  </div>
 </div>
 
 <div class="toast-message" id="toastMessage">
-    <i class="fas fa-check-circle" style="color:#10aa51;"></i>
-    <span id="toastText">Item added</span>
+  <i class="fas fa-check-circle" style="color:#10aa51;"></i>
+  <span id="toastText">Item added</span>
 </div>
 
 <!-- ===== FOOTER ===== -->
 <footer>
-    <div class="container">
-        <div class="footer-grid">
-            <div>
-                <h4>Rise Axis Solutions</h4>
-                <p style="color: #aaa; font-size: 0.95rem;">Quality services countrywide. Fast, affordable, and reliable.</p>
-            </div>
-            <div>
-                <h4>Quick Links</h4>
-                <a href="pages/catalog.html">Catalog</a>
-                <a href="pages/cart.html">Order Now</a>
-                <a href="pages/about.html">About Us</a>
-                <a href="pages/contact.html">Contact</a>
-            </div>
-            <div>
-                <h4>Contact</h4>
-                <a href="tel:+254-700-123-456">📞 +254-700-123-456</a>
-                <a href="mailto:contact@riseaxis.co.ke">✉️ contact@riseaxis.co.ke</a>
-                <a href="#"><p>📍 188 Hood Avenue, 3rd Floor
-
-                    72</p> Riverside Drive, Office 5</a>
-            </div>
-            <!-- <div>
-                <h4>M-Pesa Paybill</h4>
-                <p style="color: #fff; font-weight: 600; font-size: 1.2rem;">Paybill: 123456</p>
-                <p style="color: #aaa; font-size: 0.9rem;">Account: Order ID</p>
-            </div> -->
-        </div>
-        <div class="copyright">
-            &copy; 2026 Rise Axis Solutions. All rights reserved.
-        </div>
+  <div class="container">
+    <div class="footer-grid">
+      <div><h4>Rise Axis Solutions</h4><p style="color:#aaa;">Clarity, Direction, Results.</p></div>
+      <div>
+        <h4>Quick Links</h4>
+        <a href="pages/catalog.html">Catalog</a>
+        <a href="pages/cart.html">Order Now</a>
+        <a href="pages/about.html">About Us</a>
+        <a href="pages/contact.html">Contact</a>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <a href="tel:+254-700-123-456">📞 +254-700-123-456</a>
+        <a href="mailto:contact@riseaxis.co.ke">✉️ contact@riseaxis.co.ke</a>
+        <a href="#"><p>📍 188 Hood Avenue, 3rd Floor</p><p>72 Riverside Drive, Office 5</p></a>
+      </div>
     </div>
+    <div class="copyright">&copy; 2026 Rise Axis Solutions. All rights reserved.</div>
+  </div>
 </footer>
 
+<!-- ============================================ -->
+<!-- SCRIPT -->
+<script>
+  (function() {
+    // ====== SLIDE MENU LOGIC ======
+    const hamburger = document.getElementById('hamburgerBtn');
+    const slideMenu = document.getElementById('slideMenu');
+    const overlay = document.getElementById('menuOverlay');
+    const closeSlideBtn = document.getElementById('closeSlideBtn');
 
-<!-- ===== SCRIPT WITH DROPDOWN FUNCTIONALITY ===== -->
-<script type="module">
-    // =============================================
-    // EMAILJS INIT
-    // =============================================
-    emailjs.init('ExzmFqrSqTxWvr1LN');
-
-    // =============================================
-    // AUTH NAVIGATION - SHOW/HIDE LINKS
-    // =============================================
-    import { getCurrentUser, logoutUser, onAuthChange } from './js/auth.js';
-
-    function updateAuthUI(user) {
-        const authLinks = document.getElementById('authLinks');
-        const userLinks = document.getElementById('userLinks');
-        const accountLink = document.getElementById('accountLink');
-        const logoutLink = document.getElementById('logoutLink');
-        
-        if (user) {
-            authLinks.style.display = 'none';
-            userLinks.style.display = 'inline';
-            if (accountLink) {
-                accountLink.textContent = user.displayName || 'My Account';
-            }
-        } else {
-            authLinks.style.display = 'inline';
-            userLinks.style.display = 'none';
-        }
+    function openSlide() {
+      slideMenu.classList.add('open');
+      overlay.classList.add('show');
+      document.body.style.overflow = 'hidden';
+      hamburger.classList.add('active');
+    }
+    function closeSlide() {
+      slideMenu.classList.remove('open');
+      overlay.classList.remove('show');
+      document.body.style.overflow = '';
+      hamburger.classList.remove('active');
+      document.getElementById('slideDropdownMenu').classList.remove('open');
+      document.getElementById('slideDropdownArrow').classList.remove('open');
     }
 
-    const user = getCurrentUser();
-    updateAuthUI(user);
-    
-    onAuthChange((user) => {
-        updateAuthUI(user);
+    hamburger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (slideMenu.classList.contains('open')) closeSlide();
+      else openSlide();
     });
-    
+
+    closeSlideBtn.addEventListener('click', closeSlide);
+    overlay.addEventListener('click', closeSlide);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && slideMenu.classList.contains('open')) closeSlide();
+    });
+
+    // slide dropdown toggle
+    const slideDropdownLabel = document.getElementById('slideDropdownLabel');
+    const slideDropdownMenu = document.getElementById('slideDropdownMenu');
+    const slideDropdownArrow = document.getElementById('slideDropdownArrow');
+    let slideDropdownOpen = false;
+
+    slideDropdownLabel.addEventListener('click', (e) => {
+      e.stopPropagation();
+      slideDropdownOpen = !slideDropdownOpen;
+      slideDropdownMenu.classList.toggle('open', slideDropdownOpen);
+      slideDropdownArrow.classList.toggle('open', slideDropdownOpen);
+    });
+
+    // close slide menu when a link/item is clicked
+    document.querySelectorAll('.slide-menu a, .slide-menu .dropdown-item').forEach(el => {
+      el.addEventListener('click', () => {
+        if (el.classList.contains('dropdown-item')) {
+          setTimeout(closeSlide, 100);
+        } else {
+          closeSlide();
+        }
+      });
+    });
+
+    // ====== DESKTOP DROPDOWN ======
+    let desktopDropdownOpen = false;
+    const ddLabel = document.getElementById('navDropdownLabel');
+    const ddMenu = document.getElementById('navDropdownMenu');
+    const ddArrow = document.getElementById('dropdownArrow');
+
+    ddLabel.addEventListener('click', (e) => {
+      e.stopPropagation();
+      desktopDropdownOpen = !desktopDropdownOpen;
+      ddMenu.classList.toggle('open', desktopDropdownOpen);
+      ddArrow.classList.toggle('open', desktopDropdownOpen);
+    });
+
+    document.querySelectorAll('#navDropdownMenu .dropdown-item').forEach(item => {
+      item.addEventListener('click', function(e) {
+        e.stopPropagation();
+        desktopDropdownOpen = false;
+        ddMenu.classList.remove('open');
+        ddArrow.classList.remove('open');
+      });
+    });
+
+    document.addEventListener('click', function(e) {
+      const container = document.getElementById('navDropdown');
+      if (container && !container.contains(e.target)) {
+        desktopDropdownOpen = false;
+        ddMenu.classList.remove('open');
+        ddArrow.classList.remove('open');
+      }
+    });
+
+    // ====== EMAILJS INIT ======
+    if (typeof emailjs !== 'undefined') {
+      emailjs.init('ExzmFqrSqTxWvr1LN');
+    }
+
+    // ====== AUTH ======
+    function getCurrentUser() { return null; }
+    function logoutUser() { return { success: true }; }
+    function onAuthChange(cb) { cb(null); }
+    const authLinks = document.getElementById('authLinks');
+    const userLinks = document.getElementById('userLinks');
+    if (authLinks) authLinks.style.display = 'inline';
+    if (userLinks) userLinks.style.display = 'none';
     const logoutLink = document.getElementById('logoutLink');
     if (logoutLink) {
-        logoutLink.addEventListener('click', async function(e) {
-            e.preventDefault();
-            if (confirm('Are you sure you want to logout?')) {
-                const result = await logoutUser();
-                if (result.success) {
-                    window.location.href = 'pages/login.html';
-                }
-            }
-        });
-    }
-
-    // =============================================
-    // MOBILE ACCORDION TOGGLE FOR SERVICES
-    // =============================================
-    // Only use accordion behavior on mobile
-    function isMobile() {
-        return window.innerWidth <= 768;
-    }
-
-    // Setup mobile accordion
-    function setupMobileAccordion() {
-        const dropdownLabel = document.getElementById('navDropdownLabel');
-        const dropdownMenu = document.getElementById('navDropdownMenu');
-        const dropdownArrow = document.getElementById('navDropdownArrow');
-        const dropdown = document.getElementById('navDropdown');
-
-        if (!dropdownLabel || !dropdownMenu || !dropdownArrow || !dropdown) return;
-
-        // Remove any existing click listeners on the label
-        const newLabel = dropdownLabel.cloneNode(true);
-        dropdownLabel.parentNode.replaceChild(newLabel, dropdownLabel);
-
-        // Re-fetch the new label
-        const freshLabel = document.getElementById('navDropdownLabel');
-        const freshArrow = document.getElementById('navDropdownArrow');
-        const freshMenu = document.getElementById('navDropdownMenu');
-
-        // Click handler for the arrow/label - toggle accordion
-        freshLabel.addEventListener('click', function(e) {
-            e.stopPropagation();
-            
-            if (!isMobile()) {
-                // On desktop, use the dropdown behavior
-                const isOpen = freshMenu.classList.contains('open');
-                if (isOpen) {
-                    freshMenu.classList.remove('open');
-                    freshArrow.classList.remove('open');
-                } else {
-                    freshMenu.classList.add('open');
-                    freshArrow.classList.add('open');
-                }
-                return;
-            }
-
-            // Mobile accordion toggle
-            const isOpen = freshMenu.classList.contains('open');
-            if (isOpen) {
-                // Close
-                freshMenu.classList.remove('open');
-                freshArrow.classList.remove('open');
-            } else {
-                // Open
-                freshMenu.classList.add('open');
-                freshArrow.classList.add('open');
-            }
-        });
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', function(e) {
-            if (!dropdown.contains(e.target)) {
-                if (isMobile()) {
-                    freshMenu.classList.remove('open');
-                    freshArrow.classList.remove('open');
-                } else {
-                    freshMenu.classList.remove('open');
-                    freshArrow.classList.remove('open');
-                }
-            }
-        });
-    }
-
-    // =============================================
-    // HERO SLIDESHOW
-    // =============================================
-    (function heroSlideshow() {
-        const slides = document.querySelectorAll('.hero-slide');
-        let current = 0;
-        const total = slides.length;
-        function nextSlide() {
-            slides.forEach(s => s.classList.remove('active'));
-            current = (current + 1) % total;
-            slides[current].classList.add('active');
+      logoutLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (confirm('Logout?')) {
+          logoutUser();
+          window.location.href = 'pages/login.html';
         }
-        setInterval(nextSlide, 5000);
+      });
+    }
+    document.getElementById('slideLogoutLink')?.addEventListener('click', function(e) {
+      e.preventDefault();
+      if (confirm('Logout?')) {
+        logoutUser();
+        window.location.href = 'pages/login.html';
+      }
+    });
+
+    // ====== HERO SLIDESHOW ======
+    (function heroSlideshow() {
+      const slides = document.querySelectorAll('.hero-slide');
+      let current = 0;
+      if (!slides.length) return;
+      setInterval(() => {
+        slides.forEach(s => s.classList.remove('active'));
+        current = (current + 1) % slides.length;
+        slides[current].classList.add('active');
+      }, 5000);
     })();
 
-    // =============================================
-    // PRODUCT DATA
-    // =============================================
+    // ====== PRODUCT DATA ======
     const products = [
-        { id: 't-shirts', name: 'Custom T-shirts', category: 'apparel', subcategory: 'Custom Apparel', startingPrice: 1200, specs: '100% cotton • Screen print/DTF • Custom design', image: '/images/t shirt.jpg', description: 'Custom printed t-shirts for teams, events, and promotions.', pricing: { 10: 1200, 25: 2800, 50: 4800, 100: 8500 }, materials: ['Cotton', 'Premium', 'Polyester'] },
-        { id: 'hoodies', name: 'Custom Hoodies', category: 'apparel', subcategory: 'Custom Apparel', startingPrice: 2500, specs: '80% cotton • Screen print/DTF • Custom design', image: '/images/download.jpg', description: 'Custom printed hoodies for branding and merchandise.', pricing: { 10: 2500, 25: 5500, 50: 9500, 100: 16500 }, materials: ['Cotton', 'Premium', 'Polyester'] },
-        { id: 'branded-envelopes', name: 'Branded Envelopes', category: 'stationery', subcategory: 'Business Stationery', startingPrice: 1800, specs: 'DL/C4 sizes • Full color • 100 pieces', image: '/images/envelope.jpg', description: 'Custom printed envelopes with your logo and branding.', pricing: { 100: 1800, 250: 3000, 500: 4800, 1000: 7800 }, materials: ['Standard', 'Premium'] },
-        { id: 'menu-cards', name: 'Menu Cards', category: 'promotional', subcategory: 'Promotional Print', startingPrice: 2200, specs: 'A4 • 250gsm • Full color • 50 pieces', image: '/images/menucard.jpg', description: 'Custom menu cards for restaurants, cafes, and events.', pricing: { 50: 2200, 100: 3600, 250: 5800, 500: 9200 }, materials: ['Glossy', 'Matte', 'Premium', 'Laminated'] },
-        { id: 'invoice-books', name: 'Carbonless Invoice Books (NCR)', category: 'stationery', subcategory: 'Business Stationery', startingPrice: 1800, specs: '50 sets • 2-part carbonless • Numbered', image: '/images/carbonless.jpg', description: 'Professional NCR invoice/receipt books for your business.', pricing: { 50: 1800, 100: 3000, 250: 4800, 500: 7800 }, materials: ['Standard', 'Premium'] },
-        { id: 'brochures-trifold', name: 'Brochures (Tri-fold)', category: 'promotional', subcategory: 'Promotional Print', startingPrice: 3500, specs: 'A4 tri-fold • 150gsm • Full color • 100 pieces', image: '/images/brochures tri.jpg', description: 'Professional tri-fold brochures for your business.', pricing: { 100: 3500, 250: 6000, 500: 9500, 1000: 15000 }, materials: ['Glossy', 'Matte', 'Premium'] }
+      { id: 't-shirts', name: 'Custom T-shirts', category: 'apparel', subcategory: 'Custom Apparel', startingPrice: 1200, image: 'images/t shirt.jpg' },
+      { id: 'hoodies', name: 'Custom Hoodies', category: 'apparel', subcategory: 'Custom Apparel', startingPrice: 2500, image: 'images/download.jpg' },
+      { id: 'branded-envelopes', name: 'Branded Envelopes', category: 'stationery', subcategory: 'Business Stationery', startingPrice: 1800, image: 'images/envelope.jpg' },
+      { id: 'menu-cards', name: 'Menu Cards', category: 'promotional', subcategory: 'Promotional Print', startingPrice: 2200, image: 'images/menucard.jpg' },
+      { id: 'invoice-books', name: 'Carbonless Invoice Books', category: 'stationery', subcategory: 'Business Stationery', startingPrice: 1800, image: 'images/carbonless.jpg' },
+      { id: 'brochures-trifold', name: 'Brochures (Tri-fold)', category: 'promotional', subcategory: 'Promotional Print', startingPrice: 3500, image: 'images/brochures tri.jpg' }
     ];
 
-    // =============================================
-    // CART FUNCTIONS
-    // =============================================
+    // ====== CART ======
     function getCart() {
-        try { return JSON.parse(localStorage.getItem('karis_cart')) || []; } catch { return []; }
+      try { return JSON.parse(localStorage.getItem('karis_cart')) || []; } catch { return []; }
     }
     function saveCart(cart) {
-        localStorage.setItem('karis_cart', JSON.stringify(cart));
-        updateBadge();
+      localStorage.setItem('karis_cart', JSON.stringify(cart));
+      updateBadge();
     }
     function updateBadge() {
-        const cart = getCart();
-        const total = cart.reduce((sum, i) => sum + i.quantity, 0);
-        document.querySelectorAll('.cart-badge').forEach(el => el.textContent = total);
+      const cart = getCart();
+      const total = cart.reduce((sum, i) => sum + i.quantity, 0);
+      document.querySelectorAll('.cart-badge').forEach(el => el.textContent = total);
     }
-    function getFeaturedProducts() {
-        return products.slice(0, 6);
-    }
-    function renderProducts() {
-        const grid = document.getElementById('productGrid');
-        if (!grid) return;
-        const featured = getFeaturedProducts();
-        grid.innerHTML = featured.map(product => {
-            return `
-                <div class="product-card">
-                    <div class="product-image">
-                        ${product.image ? 
-                            `<img src="${product.image}" alt="${product.name}" 
-                                  onerror="this.style.display='none'; this.parentElement.innerHTML='<span class=\\'no-image\\'>📄</span>'">` : 
-                            `<span class="no-image">📄</span>`
-                        }
-                    </div>
-                    <div class="card-tags">
-                        <span class="tag">${product.category}</span>
-                        <span class="tag">${product.subcategory}</span>
-                    </div>
-                    <div class="card-body">
-                        <h3>${product.name}</h3>
-                        <div class="price">KSh ${product.startingPrice.toLocaleString()} <small>starting</small></div>
-                        <div class="card-actions">
-                            <div class="btn-group">
-                                <button class="btn btn-primary" onclick="openCartModal('${product.id}')">
-                                    <i class="fas fa-cart-plus"></i> Add to cart
-                                </button>
-                                <a href="pages/contact.html" class="btn btn-enquire" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 12px 14px; border-radius: 60px; font-weight: 600; font-size: 0.9rem; border: 2px solid #10aa51; background: #eaf3e8; color: #10aa51; cursor: pointer; transition: 0.2s ease; flex: 1 1 0;">
-                                    <i class="fas fa-comment-dots"></i> Enquire
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }).join('');
+    function showToast(msg) {
+      const toast = document.getElementById('toastMessage');
+      document.getElementById('toastText').textContent = msg;
+      toast.classList.add('show');
+      clearTimeout(window.toastTimeout);
+      window.toastTimeout = setTimeout(() => toast.classList.remove('show'), 2800);
     }
 
-    // =============================================
-    // CART MODAL FUNCTIONS
-    // =============================================
+    // ====== RENDER PRODUCTS ======
+    function renderProducts() {
+      const grid = document.getElementById('productGrid');
+      if (!grid) return;
+      grid.innerHTML = products.slice(0,6).map(p => `
+        <div class="product-card">
+          <div class="product-image">
+            ${p.image ? `<img src="${p.image}" alt="${p.name}" onerror="this.style.display='none'; this.parentElement.innerHTML='<span style=\\'font-size:2.8rem;color:#a0b8d0;\\'>📄</span>'">` : '<span style="font-size:2.8rem;color:#a0b8d0;">📄</span>'}
+          </div>
+          <div class="card-tags"><span class="tag">${p.category}</span><span class="tag">${p.subcategory}</span></div>
+          <div class="card-body">
+            <h3>${p.name}</h3>
+            <div class="price">KSh ${p.startingPrice.toLocaleString()} <small>starting</small></div>
+            <div class="card-actions">
+              <div class="btn-group">
+                <button class="btn btn-primary" onclick="openCartModal('${p.id}')"><i class="fas fa-cart-plus"></i> Add to cart</button>
+                <a href="pages/contact.html" class="btn btn-enquire"><i class="fas fa-comment-dots"></i> Enquire</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // ====== MODAL LOGIC ======
     let currentProduct = null;
     window.openCartModal = function(productId) {
-        const product = products.find(p => p.id === productId);
-        if (!product) return;
-        currentProduct = product;
-        document.getElementById('modalProductName').textContent = product.name;
-        document.getElementById('modalPricePerUnit').textContent = `KSh ${product.startingPrice.toLocaleString()}`;
-        document.getElementById('quantityInput').value = 1;
-        document.getElementById('designFile').value = '';
-        document.getElementById('fileNameDisplay').classList.remove('show');
-        updateModalPrice();
-        document.getElementById('cartModal').classList.add('show');
-        document.body.style.overflow = 'hidden';
-    }
+      const product = products.find(p => p.id === productId);
+      if (!product) return;
+      currentProduct = product;
+      document.getElementById('modalProductName').textContent = product.name;
+      document.getElementById('modalPricePerUnit').textContent = `KSh ${product.startingPrice.toLocaleString()}`;
+      document.getElementById('quantityInput').value = 1;
+      document.getElementById('designFile').value = '';
+      document.getElementById('fileNameDisplay').classList.remove('show');
+      updateModalPrice();
+      document.getElementById('cartModal').classList.add('show');
+      document.body.style.overflow = 'hidden';
+    };
     function closeCartModal() {
-        document.getElementById('cartModal').classList.remove('show');
-        document.body.style.overflow = '';
-        currentProduct = null;
+      document.getElementById('cartModal').classList.remove('show');
+      document.body.style.overflow = '';
+      currentProduct = null;
     }
     function updateModalPrice() {
-        if (!currentProduct) return;
-        const qty = parseInt(document.getElementById('quantityInput').value) || 0;
-        const total = currentProduct.startingPrice * qty;
-        document.getElementById('modalQuantityDisplay').textContent = qty;
-        document.getElementById('modalTotalPrice').textContent = `KSh ${total.toLocaleString()}`;
+      if (!currentProduct) return;
+      const qty = parseInt(document.getElementById('quantityInput').value) || 0;
+      document.getElementById('modalQuantityDisplay').textContent = qty;
+      document.getElementById('modalTotalPrice').textContent = `KSh ${(currentProduct.startingPrice * qty).toLocaleString()}`;
     }
     window.confirmAddToCart = function() {
-        if (!currentProduct) return;
-        const qty = parseInt(document.getElementById('quantityInput').value) || 0;
-        if (qty < 1) {
-            alert('Please enter a valid quantity (minimum 1).');
-            return;
-        }
-        const fileInput = document.getElementById('designFile');
-        const hasDesign = fileInput.files && fileInput.files.length > 0;
-        const fileName = hasDesign ? fileInput.files[0].name : null;
-        const cart = getCart();
-        const existing = cart.find(item => item.productId === currentProduct.id);
-        if (existing) {
-            existing.quantity += qty;
-            if (hasDesign) {
-                existing.hasDesign = true;
-                existing.designFile = fileName;
-            }
-        } else {
-            cart.push({
-                productId: currentProduct.id,
-                quantity: qty,
-                designFile: fileName,
-                hasDesign: hasDesign
-            });
-        }
-        saveCart(cart);
-        showToast(`${qty} × ${currentProduct.name} added to cart!`);
-        closeCartModal();
-    }
-    function showToast(message) {
-        const toast = document.getElementById('toastMessage');
-        document.getElementById('toastText').textContent = message;
-        toast.classList.add('show');
-        clearTimeout(window.toastTimeout);
-        window.toastTimeout = setTimeout(() => toast.classList.remove('show'), 3000);
-    }
+      if (!currentProduct) return;
+      const qty = parseInt(document.getElementById('quantityInput').value) || 0;
+      if (qty < 1) { alert('Minimum quantity is 1.'); return; }
+      const fileInput = document.getElementById('designFile');
+      const hasDesign = fileInput.files && fileInput.files.length > 0;
+      const fileName = hasDesign ? fileInput.files[0].name : null;
+      const cart = getCart();
+      const existing = cart.find(item => item.productId === currentProduct.id);
+      if (existing) {
+        existing.quantity += qty;
+        if (hasDesign) { existing.hasDesign = true; existing.designFile = fileName; }
+      } else {
+        cart.push({ productId: currentProduct.id, quantity: qty, designFile: fileName, hasDesign });
+      }
+      saveCart(cart);
+      showToast(`${qty} × ${currentProduct.name} added!`);
+      closeCartModal();
+    };
 
-    // =============================================
-    // TESTIMONIALS
-    // =============================================
+    // ====== TESTIMONIALS ======
     const testimonials = [
-        { quote: "I did my Business receipt books and business cards with Rise Axis Solutions. Nice work. I recommend.", name: "Waweru James", location: "Nairobi, Kenya" },
-        { quote: "I like working with Rise Axis Solutions on branding and printing services. Quality prints, affordable prices and timely delivery.", name: "muturi", location: "Nyandarua, Kenya" },
-        { quote: "Good quality & professional team. Very responsive & deliver before agreed deadlines.", name: "Grace Aluoch", location: "Nairobi, Kenya" },
-        { quote: "I am based in Thika, I find it easy using Rise Axis Solutions for our printing works, which include books, brochures, flyers, magazines and labels.", name: "Mohamed Abdul", location: "Thika, Kenya" },
-        { quote: "Best Printing company in Kenya. I love your services and quick response.", name: "Terri njeri", location: "Muranga, kenya" }
+      { quote: "I did my Business receipt books and business cards with Rise Axis Solutions. Nice work. I recommend.", name: "Waweru James", location: "Nairobi" },
+      { quote: "I like working with Rise Axis Solutions on branding and printing services. Quality prints, affordable prices and timely delivery.", name: "muturi", location: "Nyandarua" },
+      { quote: "Good quality & professional team. Very responsive & deliver before agreed deadlines.", name: "Grace Aluoch", location: "Nairobi" },
+      { quote: "I am based in Thika, I find it easy using Rise Axis Solutions for our printing works, which include books, brochures, flyers, magazines and labels.", name: "Mohamed Abdul", location: "Thika" },
+      { quote: "Best Printing company in Kenya. I love your services and quick response.", name: "Terri njeri", location: "Muranga" }
     ];
-
     let currentTestimonial = 0;
     let testimonialInterval;
     function renderTestimonials() {
-        const container = document.getElementById('testimonialContainer');
-        const dotsContainer = document.getElementById('testimonialDots');
-        if (!container || !dotsContainer) return;
-        const t = testimonials[currentTestimonial];
-        container.innerHTML = `
-            <div class="testimonial-slide">
-                <div class="quote">"${t.quote}"</div>
-                <div class="client-name">${t.name}</div>
-                <div class="client-location"> ${t.location}</div>
-            </div>
-        `;
-        dotsContainer.innerHTML = testimonials.map((_, index) => `
-            <button class="dot ${index === currentTestimonial ? 'active' : ''}" 
-                    onclick="goToTestimonial(${index})"></button>
-        `).join('');
+      const container = document.getElementById('testimonialContainer');
+      const dotsContainer = document.getElementById('testimonialDots');
+      if (!container || !dotsContainer) return;
+      const t = testimonials[currentTestimonial];
+      container.innerHTML = `<div class="testimonial-slide"><div class="quote">"${t.quote}"</div><div class="client-name">${t.name}</div><div class="client-location">${t.location}</div></div>`;
+      dotsContainer.innerHTML = testimonials.map((_, i) => `<button class="dot ${i===currentTestimonial?'active':''}" onclick="goToTestimonial(${i})"></button>`).join('');
     }
     window.goToTestimonial = function(index) {
-        currentTestimonial = index;
-        renderTestimonials();
-        resetAutoPlay();
-    }
-    function nextTestimonial() {
-        currentTestimonial = (currentTestimonial + 1) % testimonials.length;
-        renderTestimonials();
-    }
-    function resetAutoPlay() {
-        clearInterval(testimonialInterval);
-        testimonialInterval = setInterval(nextTestimonial, 5000);
-    }
+      currentTestimonial = index;
+      renderTestimonials();
+      clearInterval(testimonialInterval);
+      testimonialInterval = setInterval(() => { currentTestimonial = (currentTestimonial+1)%testimonials.length; renderTestimonials(); }, 5000);
+    };
+    testimonialInterval = setInterval(() => { currentTestimonial = (currentTestimonial+1)%testimonials.length; renderTestimonials(); }, 5000);
 
-    // =============================================
-    // DOM CONTENT LOADED
-    // =============================================
+    // ====== DOM READY ======
     document.addEventListener('DOMContentLoaded', function() {
-        renderProducts();
-        renderTestimonials();
-        resetAutoPlay();
-        updateBadge();
+      renderProducts();
+      renderTestimonials();
+      updateBadge();
 
-        // Setup mobile accordion
-        setupMobileAccordion();
-
-        // ===== SLIDE-IN MENU CONTROLS =====
-        const hamburger = document.getElementById('hamburgerBtn');
-        const navLinks = document.getElementById('mainNav');
-        const overlay = document.getElementById('navOverlay');
-
-        function openMobileMenu() {
-            hamburger.classList.add('active');
-            navLinks.classList.add('open');
-            overlay.classList.add('show');
-            document.body.style.overflow = 'hidden';
+      // Modal events
+      document.getElementById('closeModalBtn').addEventListener('click', closeCartModal);
+      document.getElementById('cartModal').addEventListener('click', function(e) {
+        if (e.target === this) closeCartModal();
+      });
+      document.getElementById('quantityInput').addEventListener('input', updateModalPrice);
+      document.getElementById('designFile').addEventListener('change', function() {
+        const display = document.getElementById('fileNameDisplay');
+        if (this.files && this.files.length > 0) {
+          display.textContent = `📎 ${this.files[0].name}`;
+          display.classList.add('show');
+        } else {
+          display.classList.remove('show');
         }
-        function closeMobileMenu() {
-            hamburger.classList.remove('active');
-            navLinks.classList.remove('open');
-            overlay.classList.remove('show');
-            document.body.style.overflow = '';
-            
-            // Close any open accordion when menu closes
-            const menu = document.getElementById('navDropdownMenu');
-            const arrow = document.getElementById('navDropdownArrow');
-            if (menu && arrow) {
-                menu.classList.remove('open');
-                arrow.classList.remove('open');
-            }
-        }
-
-        if (hamburger && navLinks) {
-            hamburger.addEventListener('click', function(e) {
-                e.stopPropagation();
-                if (navLinks.classList.contains('open')) {
-                    closeMobileMenu();
-                } else {
-                    openMobileMenu();
-                }
-            });
-
-            // Close menu when clicking overlay
-            overlay.addEventListener('click', closeMobileMenu);
-
-            // Close menu on link click (internal navigation)
-            navLinks.querySelectorAll('a, .dropdown-item').forEach(link => {
-                link.addEventListener('click', function() {
-                    setTimeout(closeMobileMenu, 150);
-                });
-            });
-        }
-
-        // Handle window resize - close mobile menu if resizing to desktop
-        window.addEventListener('resize', function() {
-            if (window.innerWidth > 768 && navLinks.classList.contains('open')) {
-                closeMobileMenu();
-            }
-        });
-
-        // Modal controls
-        document.getElementById('closeModalBtn').addEventListener('click', closeCartModal);
-        document.getElementById('cartModal').addEventListener('click', function(e) {
-            if (e.target === this) closeCartModal();
-        });
-        document.getElementById('quantityInput').addEventListener('input', updateModalPrice);
-        document.getElementById('designFile').addEventListener('change', function() {
-            const display = document.getElementById('fileNameDisplay');
-            if (this.files && this.files.length > 0) {
-                display.textContent = `📎 ${this.files[0].name}`;
-                display.classList.add('show');
-            } else {
-                display.classList.remove('show');
-            }
-        });
-        document.getElementById('confirmAddToCartBtn').addEventListener('click', window.confirmAddToCart);
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') closeCartModal();
-        });
+      });
+      document.getElementById('confirmAddToCartBtn').addEventListener('click', window.confirmAddToCart);
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeCartModal();
+      });
     });
+  })();
 </script>
 </body>
 </html>

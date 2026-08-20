@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="../images/teardrop.jpg">
-    <title>Login - Rise Axis Solutions</title>
+    <title>Rise Axis Solutions - Clarity, Direction, Results.</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         /* === BRAND COLORS === */
@@ -13,6 +13,7 @@
             --brand-red: #dc1c2c;
             --brand-green: #10aa51;
             --brand-brown: #8f5c38;
+            --slide-width: 300px;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -24,34 +25,7 @@
         }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-            gap: 5px;
-            padding: 5px;
-            background: none;
-            border: none;
-            z-index: 200;
-        }
-        .hamburger span {
-            display: block;
-            width: 28px;
-            height: 3px;
-            background: var(--brand-blue);
-            border-radius: 3px;
-            transition: all 0.3s ease;
-        }
-        .hamburger.active span:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 6px);
-        }
-        .hamburger.active span:nth-child(2) {
-            opacity: 0;
-        }
-        .hamburger.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(5px, -6px);
-        }
-        
+        /* ===== HEADER ===== */
         header {
             background: #fff;
             box-shadow: 0 2px 10px rgba(0,0,0,0.08);
@@ -71,113 +45,43 @@
             font-size: 1.8rem;
             font-weight: 700;
             color: var(--brand-blue);
+            order: 0;
+            margin-right: auto;
         }
         .logo span { color: var(--brand-red); }
-        
-        nav {
-            display: flex;
-            gap: 25px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        nav a {
-            font-weight: 500;
-            transition: color 0.3s ease;
-            text-decoration: none;
-            color: inherit;
-        }
-        nav a:hover { color: var(--brand-blue); }
-        nav a.active { color: var(--brand-blue); font-weight: 600; }
 
-        /* ----- SERVICES DROPDOWN IN NAV ----- */
-        .nav-dropdown {
-            position: relative;
-            display: inline-block;
+        /* ===== HAMBURGER (mobile) ===== */
+        .hamburger {
+            display: none;
+            flex-direction: column;
             cursor: pointer;
+            gap: 5px;
+            padding: 5px;
+            background: none;
+            border: none;
+            z-index: 300;
+            order: 1;
+            margin-left: 10px;
         }
-        .nav-dropdown .nav-dropdown-label {
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            color: #1a1a1a;
-            transition: color 0.3s ease;
-        }
-        .nav-dropdown .nav-dropdown-label:hover {
-            color: var(--brand-blue);
-        }
-        .nav-dropdown .nav-dropdown-label .arrow-icon {
-            font-size: 0.65rem;
-            transition: transform 0.25s ease;
-        }
-        .nav-dropdown .nav-dropdown-label .arrow-icon.open {
-            transform: rotate(180deg);
-        }
-
-        .nav-dropdown-menu {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background: #fff;
-            min-width: 260px;
-            border-radius: 16px;
-            box-shadow: 0 12px 36px rgba(0,0,0,0.12);
-            border: 1px solid #eef2f6;
-            padding: 8px 0;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(8px);
-            transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
-            z-index: 200;
-        }
-        .nav-dropdown-menu.open {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0px);
-        }
-        .nav-dropdown-menu .dropdown-item {
+        .hamburger span {
             display: block;
-            padding: 10px 20px;
-            font-weight: 500;
-            color: #1d2b3a;
-            font-size: 0.92rem;
-            transition: background 0.15s;
-            cursor: pointer;
-            border-left: 3px solid transparent;
+            width: 28px;
+            height: 3px;
+            background: var(--brand-blue);
+            border-radius: 3px;
+            transition: all 0.3s ease;
         }
-        .nav-dropdown-menu .dropdown-item:hover {
-            background: #f0f6fe;
-            border-left-color: var(--brand-blue);
-            color: var(--brand-blue);
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 6px);
         }
-        .nav-dropdown-menu .dropdown-item.active {
-            background: #e8f0fe;
-            border-left-color: var(--brand-blue);
-            color: var(--brand-blue);
-            font-weight: 600;
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -6px);
         }
 
-        .nav-cta {
-            background: var(--brand-red);
-            color: #fff;
-            padding: 8px 20px;
-            border-radius: 25px;
-            font-weight: 600;
-        }
-        .nav-cta:hover { background: #b31624; color: #fff !important; }
-        .cart-badge {
-            background: var(--brand-red);
-            color: #fff;
-            font-size: 0.7rem;
-            font-weight: 700;
-            padding: 2px 8px;
-            border-radius: 20px;
-            min-width: 20px;
-            text-align: center;
-            line-height: 1.4;
-            margin-left: 4px;
-        }
-
+        /* ===== MOBILE CART BUTTON ===== */
         .mobile-cart-btn {
             display: none;
             background: var(--brand-red);
@@ -200,12 +104,271 @@
             font-size: 0.65rem;
             padding: 1px 7px;
             min-width: 18px;
+            border-radius: 20px;
             margin-left: 0;
+        }
+
+        /* ===== SLIDE MENU (mobile) ===== */
+        .slide-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: var(--slide-width);
+            max-width: 80vw;
+            height: 100vh;
+            background: #ffffff;
+            box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
+            z-index: 500;
+            transform: translateX(-110%);
+            transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+            padding: 24px 20px 30px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .slide-menu.open {
+            transform: translateX(0);
+        }
+
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.35);
+            z-index: 499;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.25s ease;
+        }
+        .menu-overlay.show {
+            display: block;
+            opacity: 1;
+        }
+
+        .slide-menu .close-slide {
+            align-self: flex-end;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: #555;
+            cursor: pointer;
+            padding: 0 4px 12px 0;
+            transition: 0.2s;
+        }
+        .slide-menu .close-slide:hover {
+            color: #111;
+            transform: rotate(90deg);
+        }
+
+        .slide-menu .slide-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--brand-blue);
+            margin-bottom: 12px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 16px;
+        }
+        .slide-menu .slide-logo span {
+            color: var(--brand-red);
+        }
+
+        .slide-menu a,
+        .slide-menu .slide-dropdown-label {
+            display: block;
+            padding: 12px 6px;
+            font-weight: 500;
+            font-size: 1.05rem;
+            color: #1a1a1a;
+            border-radius: 8px;
+            transition: background 0.15s;
+            cursor: pointer;
+        }
+        .slide-menu a:hover,
+        .slide-menu .slide-dropdown-label:hover {
+            background: #f0f6fe;
+            color: var(--brand-blue);
+        }
+        .slide-menu a.active {
+            color: var(--brand-blue);
+            font-weight: 600;
+            background: #ecf3fa;
+        }
+
+        .slide-dropdown {
+            margin-bottom: 4px;
+        }
+        .slide-dropdown-label {
+            display: flex !important;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .slide-dropdown-label .arrow-icon {
+            font-size: 0.7rem;
+            transition: transform 0.25s ease;
+        }
+        .slide-dropdown-label .arrow-icon.open {
+            transform: rotate(180deg);
+        }
+        .slide-dropdown-menu {
+            overflow: hidden;
+            max-height: 0;
+            transition: max-height 0.3s ease, padding 0.2s ease;
+            padding-left: 16px;
+            background: #f8fafc;
+            border-radius: 8px;
+            margin: 4px 0 2px;
+        }
+        .slide-dropdown-menu.open {
+            max-height: 400px;
+            padding: 6px 0;
+        }
+        .slide-dropdown-menu .dropdown-item {
+            display: block;
+            padding: 10px 12px;
+            font-weight: 500;
+            color: #2a3b4e;
+            border-left: 3px solid transparent;
+            transition: 0.15s;
+            cursor: pointer;
+        }
+        .slide-dropdown-menu .dropdown-item:hover {
+            background: #e8f0fe;
+            border-left-color: var(--brand-blue);
+            color: var(--brand-blue);
+        }
+
+        .slide-menu .slide-auth {
+            margin-top: 12px;
+            border-top: 1px solid #eef2f6;
+            padding-top: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .slide-menu .slide-auth a {
+            font-weight: 500;
+            padding: 10px 6px;
+        }
+
+        .slide-menu .slide-cta {
+            background: var(--brand-red);
+            color: #fff !important;
+            text-align: center;
+            border-radius: 40px;
+            padding: 12px 16px !important;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+        .slide-menu .slide-cta:hover {
+            background: #b31624 !important;
+            color: #fff !important;
+        }
+
+        /* ===== DESKTOP NAV ===== */
+        .desktop-nav {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .desktop-nav a {
+            font-weight: 500;
+            transition: color 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+        .desktop-nav a:hover { color: var(--brand-blue); }
+        .desktop-nav a.active { color: var(--brand-blue); font-weight: 600; }
+
+        .desktop-nav .nav-dropdown {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .desktop-nav .nav-dropdown-label {
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #1a1a1a;
+            transition: color 0.3s ease;
+        }
+        .desktop-nav .nav-dropdown-label:hover {
+            color: var(--brand-blue);
+        }
+        .desktop-nav .nav-dropdown-label .arrow-icon {
+            font-size: 0.65rem;
+            transition: transform 0.25s ease;
+        }
+        .desktop-nav .nav-dropdown-label .arrow-icon.open {
+            transform: rotate(180deg);
+        }
+        .desktop-nav .nav-dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #fff;
+            min-width: 260px;
+            border-radius: 16px;
+            box-shadow: 0 12px 36px rgba(0,0,0,0.12);
+            border: 1px solid #eef2f6;
+            padding: 8px 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(8px);
+            transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+            z-index: 200;
+        }
+        .desktop-nav .nav-dropdown-menu.open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0px);
+        }
+        .desktop-nav .nav-dropdown-menu .dropdown-item {
+            display: block;
+            padding: 10px 20px;
+            font-weight: 500;
+            color: #1d2b3a;
+            font-size: 0.92rem;
+            transition: background 0.15s;
+            cursor: pointer;
+            border-left: 3px solid transparent;
+        }
+        .desktop-nav .nav-dropdown-menu .dropdown-item:hover {
+            background: #f0f6fe;
+            border-left-color: var(--brand-blue);
+            color: var(--brand-blue);
+        }
+
+        .desktop-nav .nav-cta {
+            background: var(--brand-red);
+            color: #fff;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+        }
+        .desktop-nav .nav-cta:hover { background: #b31624; color: #fff !important; }
+
+        .cart-badge {
+            background: var(--brand-red);
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 20px;
+            min-width: 20px;
+            text-align: center;
+            line-height: 1.4;
+            margin-left: 4px;
         }
 
         #authLinks { display: inline; }
         #userLinks { display: none; }
-        
+
+        /* ===== PAGE HEADER ===== */
         .page-header {
             background: linear-gradient(135deg, #e8f0fe 0%, #d4e4f7 100%);
             padding: 40px 0 30px;
@@ -220,7 +383,8 @@
             color: #555;
             font-size: 1.1rem;
         }
-        
+
+        /* ===== LOGIN SECTION ===== */
         .login-section {
             padding: 50px 0 80px;
         }
@@ -279,7 +443,7 @@
         }
         .btn-primary:hover { background: #0e3f70; }
         .btn-primary:disabled { background: #888; cursor: not-allowed; }
-        
+
         .form-footer {
             text-align: center;
             margin-top: 18px;
@@ -303,6 +467,7 @@
         }
         .error-message.show { display: block; }
 
+        /* ===== LOGOUT MODAL ===== */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -402,6 +567,7 @@
             to { transform: translateY(0) scale(1); opacity: 1; }
         }
 
+        /* ===== FOOTER ===== */
         footer {
             background: #1a1a1a;
             color: #ccc;
@@ -431,77 +597,19 @@
             color: #777;
         }
 
+        /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
             .hamburger {
                 display: flex;
-                order: 1;
-                margin-left: 10px;
             }
             .mobile-cart-btn {
                 display: inline-flex;
             }
-            nav {
-                display: none;
-                flex-direction: column;
-                width: 100%;
-                padding: 20px 0;
-                gap: 15px;
-                background: #fff;
-                border-top: 1px solid #eee;
-                position: absolute;
-                top: 70px;
-                left: 0;
-                box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-                align-items: center;
-                order: 3;
-            }
-            nav.open {
-                display: flex;
-            }
-            nav .nav-cta {
+            .desktop-nav {
                 display: none !important;
-            }
-            .nav-dropdown {
-                width: 100%;
-                text-align: center;
-            }
-            .nav-dropdown .nav-dropdown-label {
-                justify-content: center;
-            }
-            .nav-dropdown-menu {
-                position: static;
-                box-shadow: none;
-                border: none;
-                border-top: 1px solid #eee;
-                border-radius: 0;
-                padding: 0;
-                transform: none;
-                background: #f8f9fa;
-            }
-            .nav-dropdown-menu.open {
-                transform: none;
-            }
-            .nav-dropdown-menu .dropdown-item {
-                padding: 10px 20px;
-                text-align: center;
-                border-left: none;
-                border-bottom: 1px solid #eee;
-            }
-            .nav-dropdown-menu .dropdown-item:hover {
-                background: #e8f0fe;
-            }
-            header .container {
-                display: flex;
-                justify-content: flex-start;
-                align-items: center;
-                flex-wrap: wrap;
-                position: relative;
-                gap: 0;
             }
             .logo {
                 font-size: 1.4rem;
-                order: 0;
-                margin-right: auto;
             }
             .login-card { padding: 28px 20px; }
             .modal-box {
@@ -514,6 +622,9 @@
             .modal-box .btn-modal {
                 min-width: auto;
                 width: 100%;
+            }
+            .slide-menu {
+                padding: 20px 16px 24px;
             }
         }
 
@@ -528,24 +639,26 @@
 </head>
 <body>
 
+<!-- ===== HEADER ===== -->
 <header>
     <div class="container">
         <div class="logo">Rise Axis<span>Solutions</span></div>
 
+        <!-- Hamburger -->
         <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
             <span></span>
             <span></span>
             <span></span>
         </button>
 
+        <!-- Mobile cart -->
         <a href="cart.html" class="mobile-cart-btn" id="mobileCartBtn">
             <i class="fas fa-shopping-cart"></i> Cart <span class="cart-badge" id="mobileCartBadge">0</span>
         </a>
 
-        <nav id="navLinks">
+        <!-- Desktop navigation -->
+        <nav class="desktop-nav" id="desktopNav">
             <a href="../index.html">Home</a>
-            
-            <!-- SERVICES DROPDOWN -->
             <div class="nav-dropdown" id="navDropdown">
                 <span class="nav-dropdown-label" id="navDropdownLabel">
                     Services
@@ -560,27 +673,67 @@
                     <div class="dropdown-item" data-category="Website development">Website Development</div>
                 </div>
             </div>
-            
             <a href="catalog.html">Catalog</a>
             <a href="about.html">About</a>
             <a href="contact.html">Contact</a>
-            
             <span id="authLinks">
-                <a href="login.html">Login</a>
+                <a href="login.html" class="active">Login</a>
                 <a href="register.html">Register</a>
             </span>
-            
             <span id="userLinks" style="display: none;">
                 <a href="account.html" id="accountLink">My Account</a>
                 <a href="#" id="logoutLink" style="color: var(--brand-red);">Logout</a>
             </span>
-            
             <a href="cart.html" class="nav-cta">
                 <i class="fas fa-shopping-cart"></i> Cart <span class="cart-badge" id="navCartBadge">0</span>
             </a>
         </nav>
     </div>
 </header>
+
+<!-- ===== SLIDE MENU (mobile) ===== -->
+<div class="menu-overlay" id="menuOverlay"></div>
+<div class="slide-menu" id="slideMenu">
+    <button class="close-slide" id="closeSlideBtn">&times;</button>
+    <div class="slide-logo">Rise Axis<span> Solutions</span></div>
+
+    <a href="../index.html">Home</a>
+
+    <!-- slide dropdown: Services -->
+    <div class="slide-dropdown">
+        <div class="slide-dropdown-label" id="slideDropdownLabel">
+            Services
+            <i class="fas fa-chevron-down arrow-icon" id="slideDropdownArrow"></i>
+        </div>
+        <div class="slide-dropdown-menu" id="slideDropdownMenu">
+            <div class="dropdown-item" data-category="Commercial & Marketing Materials">Commercial & Marketing Materials</div>
+            <div class="dropdown-item" data-category="Large Format & Signage">Large Format & Signage</div>
+            <div class="dropdown-item" data-category="Branded Merchandise & Apparel">Branded Merchandise & Apparel</div>
+            <div class="dropdown-item" data-category="Packaging & Labels">Packaging & Labels</div>
+            <div class="dropdown-item" data-category="Graphic design">Graphic Design</div>
+            <div class="dropdown-item" data-category="Website development">Website Development</div>
+        </div>
+    </div>
+
+    <a href="catalog.html">Catalog</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+
+    <div class="slide-auth">
+        <span id="slideAuthLinks">
+            <a href="login.html" class="active">Login</a>
+            <a href="register.html">Register</a>
+        </span>
+        <span id="slideUserLinks" style="display: none;">
+            <a href="account.html" id="slideAccountLink">My Account</a>
+            <a href="#" id="slideLogoutLink" style="color: var(--brand-red);">Logout</a>
+        </span>
+    </div>
+
+    <a href="cart.html" class="slide-cta">
+        <i class="fas fa-shopping-cart"></i> Cart <span class="cart-badge" id="slideCartBadge">0</span>
+    </a>
+</div>
 
 <!-- ===== LOGOUT CONFIRMATION MODAL ===== -->
 <div class="modal-overlay" id="logoutModal">
@@ -601,6 +754,7 @@
     </div>
 </div>
 
+<!-- ===== PAGE HEADER ===== -->
 <section class="page-header">
     <div class="container">
         <h1>Welcome Back</h1>
@@ -608,6 +762,7 @@
     </div>
 </section>
 
+<!-- ===== LOGIN SECTION ===== -->
 <section class="login-section">
     <div class="container">
         <div class="login-card">
@@ -642,7 +797,7 @@
         <div class="footer-grid">
             <div>
                 <h4>Rise Axis Solutions</h4>
-                <p style="color: #aaa; font-size: 0.95rem;">Quality services countrywide. Fast, affordable, and reliable.</p>
+                <p style="color: #aaa; font-size: 0.95rem;">Clarity, Direction, Results.</p>
             </div>
             <div>
                 <h4>Quick Links</h4>
@@ -655,63 +810,95 @@
                 <h4>Contact</h4>
                 <a href="tel:+254-700-123-456">📞 +254-700-123-456</a>
                 <a href="mailto:contact@riseaxis.co.ke">✉️ contact@riseaxis.co.ke</a>
-                <a href="#"><p>📍 188 Hood Avenue, 3rd Floor
-
-                    72</p> Riverside Drive, Office 5</a>
+                <a href="#"><p>📍 188 Hood Avenue, 3rd Floor 72 Riverside Drive, Office 5</p></a>
             </div>
-            <!-- <div>
-                <h4>M-Pesa Paybill</h4>
-                <p style="color: #fff; font-weight: 600; font-size: 1.2rem;">Paybill: 123456</p>
-                <p style="color: #aaa; font-size: 0.9rem;">Account: Order ID</p>
-            </div> -->
         </div>
-        <div class="copyright">
-            &copy; 2026 Rise Axis Solutions. All rights reserved.
-        </div>
+        <div class="copyright">&copy; 2026 Rise Axis Solutions. All rights reserved.</div>
     </div>
 </footer>
+
 <script type="module">
     import { loginUser, getCurrentUser, logoutUser, onAuthChange } from '../js/auth.js';
     import { db } from '../js/firebase-config.js';
     import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js";
 
     // =============================================
-    // SERVICES DROPDOWN TOGGLE
+    // SLIDE MENU LOGIC
+    // =============================================
+    const hamburger = document.getElementById('hamburgerBtn');
+    const slideMenu = document.getElementById('slideMenu');
+    const overlay = document.getElementById('menuOverlay');
+    const closeSlideBtn = document.getElementById('closeSlideBtn');
+
+    function openSlide() {
+        slideMenu.classList.add('open');
+        overlay.classList.add('show');
+        document.body.style.overflow = 'hidden';
+        hamburger.classList.add('active');
+    }
+    function closeSlide() {
+        slideMenu.classList.remove('open');
+        overlay.classList.remove('show');
+        document.body.style.overflow = '';
+        hamburger.classList.remove('active');
+        document.getElementById('slideDropdownMenu').classList.remove('open');
+        document.getElementById('slideDropdownArrow').classList.remove('open');
+    }
+
+    hamburger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (slideMenu.classList.contains('open')) closeSlide();
+        else openSlide();
+    });
+
+    closeSlideBtn.addEventListener('click', closeSlide);
+    overlay.addEventListener('click', closeSlide);
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && slideMenu.classList.contains('open')) closeSlide();
+    });
+
+    // slide dropdown toggle
+    const slideDropdownLabel = document.getElementById('slideDropdownLabel');
+    const slideDropdownMenu = document.getElementById('slideDropdownMenu');
+    const slideDropdownArrow = document.getElementById('slideDropdownArrow');
+    let slideDropdownOpen = false;
+
+    slideDropdownLabel.addEventListener('click', (e) => {
+        e.stopPropagation();
+        slideDropdownOpen = !slideDropdownOpen;
+        slideDropdownMenu.classList.toggle('open', slideDropdownOpen);
+        slideDropdownArrow.classList.toggle('open', slideDropdownOpen);
+    });
+
+    // close slide menu when a link/item is clicked
+    document.querySelectorAll('.slide-menu a, .slide-menu .dropdown-item').forEach(el => {
+        el.addEventListener('click', () => {
+            if (el.classList.contains('dropdown-item')) {
+                setTimeout(closeSlide, 100);
+            } else {
+                closeSlide();
+            }
+        });
+    });
+
+    // =============================================
+    // DESKTOP DROPDOWN
     // =============================================
     let navDropdownOpen = false;
-
-    function toggleNavDropdown() {
-        navDropdownOpen = !navDropdownOpen;
-        updateNavUI();
-    }
-
-    function closeNavDropdown() {
-        navDropdownOpen = false;
-        updateNavUI();
-    }
-
+    function toggleNavDropdown() { navDropdownOpen = !navDropdownOpen; updateNavUI(); }
+    function closeNavDropdown() { navDropdownOpen = false; updateNavUI(); }
     function updateNavUI() {
         const menu = document.getElementById('navDropdownMenu');
         const arrow = document.getElementById('navDropdownArrow');
         if (!menu || !arrow) return;
-        if (navDropdownOpen) {
-            menu.classList.add('open');
-            arrow.classList.add('open');
-        } else {
-            menu.classList.remove('open');
-            arrow.classList.remove('open');
-        }
+        menu.classList.toggle('open', navDropdownOpen);
+        arrow.classList.toggle('open', navDropdownOpen);
     }
-
-    const navLabel = document.getElementById('navDropdownLabel');
-    if (navLabel) {
-        navLabel.addEventListener('click', function(e) {
-            e.stopPropagation();
-            toggleNavDropdown();
-        });
-    }
-
-    document.querySelectorAll('.dropdown-item').forEach(item => {
+    document.getElementById('navDropdownLabel')?.addEventListener('click', function(e) {
+        e.stopPropagation();
+        toggleNavDropdown();
+    });
+    document.querySelectorAll('#navDropdownMenu .dropdown-item').forEach(item => {
         item.addEventListener('click', function(e) {
             e.stopPropagation();
             const category = this.dataset.category;
@@ -719,12 +906,9 @@
             window.location.href = `service.html?category=${encodeURIComponent(category)}`;
         });
     });
-
     document.addEventListener('click', function(e) {
-        const navDropdown = document.getElementById('navDropdown');
-        if (navDropdown && !navDropdown.contains(e.target)) {
-            closeNavDropdown();
-        }
+        const dd = document.getElementById('navDropdown');
+        if (dd && !dd.contains(e.target)) closeNavDropdown();
     });
 
     // =============================================
@@ -867,16 +1051,22 @@
         const authLinks = document.getElementById('authLinks');
         const userLinks = document.getElementById('userLinks');
         const accountLink = document.getElementById('accountLink');
-        const logoutLink = document.getElementById('logoutLink');
+        const slideAuth = document.getElementById('slideAuthLinks');
+        const slideUser = document.getElementById('slideUserLinks');
+        const slideAccount = document.getElementById('slideAccountLink');
+
         if (user) {
             authLinks.style.display = 'none';
             userLinks.style.display = 'inline';
-            if (accountLink) {
-                accountLink.textContent = user.displayName || 'My Account';
-            }
+            if (accountLink) accountLink.textContent = user.displayName || 'My Account';
+            slideAuth.style.display = 'none';
+            slideUser.style.display = 'block';
+            if (slideAccount) slideAccount.textContent = user.displayName || 'My Account';
         } else {
             authLinks.style.display = 'inline';
             userLinks.style.display = 'none';
+            slideAuth.style.display = 'block';
+            slideUser.style.display = 'none';
         }
     }
 
@@ -888,6 +1078,7 @@
         } catch { /* ignore */ }
     }
 
+    // Logout link handlers
     const logoutLink = document.getElementById('logoutLink');
     if (logoutLink) {
         logoutLink.addEventListener('click', async function(e) {
@@ -895,36 +1086,14 @@
             showLogoutModal();
         });
     }
+    document.getElementById('slideLogoutLink')?.addEventListener('click', async function(e) {
+        e.preventDefault();
+        showLogoutModal();
+    });
 
     document.addEventListener('DOMContentLoaded', function() {
         const user = getCurrentUser();
         updateAuthUI(user);
-
-        const hamburger = document.getElementById('hamburgerBtn');
-        const navLinks = document.getElementById('navLinks');
-
-        if (hamburger && navLinks) {
-            hamburger.addEventListener('click', function(e) {
-                e.stopPropagation();
-                this.classList.toggle('active');
-                navLinks.classList.toggle('open');
-            });
-
-            navLinks.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', function() {
-                    hamburger.classList.remove('active');
-                    navLinks.classList.remove('open');
-                });
-            });
-
-            document.addEventListener('click', function(e) {
-                if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
-                    hamburger.classList.remove('active');
-                    navLinks.classList.remove('open');
-                }
-            });
-        }
-
         updateCartBadge();
     });
 </script>
