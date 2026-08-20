@@ -1392,10 +1392,10 @@
 
     // ====== PRODUCT DATA ======
     const products = [
-     
+      { id: 't-shirts', name: 'Custom T-shirts', category: 'APPAREL', subcategory: 'Custom Apparel', startingPrice: 1200, image: 'images/t shirt.jpg' },
       { id: 'hoodies', name: 'Custom Hoodies', category: 'APPAREL', subcategory: 'Custom Apparel', startingPrice: 2500, image: 'images/download.jpg' },
       { id: 'branded-envelopes', name: 'Branded Envelopes', category: 'STATIONERY', subcategory: 'Business Stationery', startingPrice: 1800, image: 'images/envelope.jpg' },
-     
+      { id: 'menu-cards', name: 'Menu Cards', category: 'PROMOTIONAL', subcategory: 'Promotional Print', startingPrice: 2200, image: 'images/menucard.jpg' },
       { id: 'invoice-books', name: 'Carbonless Invoice Books', category: 'STATIONERY', subcategory: 'Business Stationery', startingPrice: 1800, image: 'images/carbonless.jpg' },
       { id: 'brochures-trifold', name: 'Brochures (Tri-fold)', category: 'PROMOTIONAL', subcategory: 'Promotional Print', startingPrice: 3500, image: 'images/brochures tri.jpg' }
     ];
@@ -1430,11 +1430,20 @@
     // ====== RENDER PRODUCTS ======
     let selectedQuality = 'standard';
 
+    // Helper to detect mobile viewport (width <= 820px)
+    function isMobileView() {
+      return window.innerWidth <= 820;
+    }
+
     function renderProducts() {
       const grid = document.getElementById('productGrid');
       if (!grid) return;
+
+      // Determine how many products to show: 4 on mobile, 6 on desktop
+      const maxProducts = isMobileView() ? 4 : 6;
+      const productsToShow = products.slice(0, maxProducts);
       
-      grid.innerHTML = products.slice(0,6).map(p => {
+      grid.innerHTML = productsToShow.map(p => {
         const price = getPriceForQuality(p.startingPrice, selectedQuality);
         return `
           <div class="product-card">
@@ -1656,6 +1665,15 @@
       renderProducts();
       renderTestimonials();
       updateBadge();
+
+      // Re-render products on window resize (to handle orientation changes)
+      let resizeTimer;
+      window.addEventListener('resize', function() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+          renderProducts();
+        }, 250);
+      });
 
       // Modal events
       document.getElementById('closeModalBtn').addEventListener('click', closeCartModal);
