@@ -470,10 +470,14 @@
       border-radius: 28px;
       overflow: hidden;
       box-shadow: 0 4px 16px rgba(0,0,0,0.05);
-      transition: 0.25s;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
       border: 1px solid #f0f2f5;
     }
-    .product-card:hover { transform: translateY(-6px); box-shadow: 0 12px 32px rgba(0,0,0,0.08); }
+    .product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+      border-color: #d0dde8;
+    }
     .product-card .product-image {
       width: 100%;
       height: 200px;
@@ -482,12 +486,59 @@
       align-items: center;
       justify-content: center;
       overflow: hidden;
+      cursor: pointer;
+      position: relative;
     }
     .product-card .product-image img {
-      width: 100%; height: 100%; object-fit: cover;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .product-card .product-image .no-image {
+      font-size: 2.8rem;
+      color: #a0b8d0;
+    }
+    .product-card .product-image .quality-badge {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      background: #19589d;
+      color: #fff;
+      font-size: 0.65rem;
+      padding: 2px 12px;
+      border-radius: 30px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      backdrop-filter: blur(2px);
+    }
+    .product-card .product-image .tap-indicator {
+      position: absolute;
+      bottom: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #10aa51;
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 8px 20px;
+      border-radius: 30px;
+      letter-spacing: 0.3px;
+      backdrop-filter: blur(4px);
+      white-space: nowrap;
+      border: 1px solid rgba(158, 6, 6, 0.15);
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .product-card .product-image .tap-indicator i {
+      font-size: 0.7rem;
+      opacity: 0.8;
+      margin-right: 6px;
     }
     .product-card .card-tags {
-      display: flex; gap: 8px; flex-wrap: wrap;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
       padding: 16px 20px 2px 20px;
     }
     .product-card .tag {
@@ -496,27 +547,45 @@
       font-size: 0.6rem;
       font-weight: 600;
       text-transform: uppercase;
+      letter-spacing: 0.3px;
       padding: 2px 12px;
       border-radius: 20px;
     }
-    .product-card .card-body { padding: 4px 20px 22px; }
+    .product-card .card-body {
+      padding: 4px 20px 22px 20px;
+    }
     .product-card .card-body h3 {
       font-size: 1.4rem;
       font-weight: 700;
       color: #0a1e33;
+      letter-spacing: -0.3px;
+      margin-top: 2px;
+      margin-bottom: 2px;
     }
     .product-card .price {
       font-size: 1.5rem;
       font-weight: 700;
       color: var(--brand-blue);
-      margin: 6px 0 14px;
+      margin: 6px 0 14px 0;
     }
     .product-card .price small {
       font-size: 0.85rem;
       font-weight: 400;
       color: #6a8aa8;
+      margin-left: 4px;
     }
-    .product-card .card-actions { margin-top: 6px; }
+    .product-card .card-actions {
+      margin-top: 6px;
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height 0.4s ease, opacity 0.3s ease, margin 0.3s ease;
+    }
+    .product-card .card-actions.open {
+      max-height: 200px;
+      opacity: 1;
+      margin-top: 6px;
+    }
     .product-card .btn-group {
       display: flex;
       flex-wrap: wrap;
@@ -771,6 +840,161 @@
       to { transform: translateY(0); opacity: 1; }
     }
 
+    /* ===== QUALITY PICKER ===== */
+    .quality-picker-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 1500;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .quality-picker-overlay.show {
+      display: flex;
+    }
+    .quality-picker-card {
+      background: #fff;
+      border-radius: 32px;
+      max-width: 600px;
+      width: 100%;
+      padding: 30px 28px 28px;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+      animation: modalSlideIn 0.25s ease;
+      position: relative;
+    }
+    .quality-picker-card .close-picker {
+      position: absolute;
+      top: 14px;
+      right: 18px;
+      background: none;
+      border: none;
+      font-size: 1.8rem;
+      color: #aaa;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .quality-picker-card .close-picker:hover {
+      color: #222;
+      transform: rotate(90deg);
+    }
+    .quality-picker-card h2 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #0a1e33;
+      margin-bottom: 4px;
+    }
+    .quality-picker-card .subtitle {
+      color: #6a8aa8;
+      margin-bottom: 24px;
+      font-size: 0.95rem;
+    }
+    .quality-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin: 12px 0 20px;
+    }
+    .quality-grid .quality-item {
+      background: #f8fafc;
+      border-radius: 20px;
+      padding: 16px 8px 18px;
+      text-align: center;
+      border: 2px solid #eef2f6;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .quality-grid .quality-item:hover {
+      border-color: #b0c8dd;
+      transform: translateY(-3px);
+    }
+    .quality-grid .quality-item.active {
+      border-color: var(--brand-blue);
+      background: #eaf1fa;
+    }
+    .quality-grid .quality-item .quality-img {
+      width: 100%;
+      aspect-ratio: 1/1;
+      background: #eef2f7;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+    .quality-grid .quality-item .quality-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .quality-grid .quality-item .quality-img .no-img {
+      font-size: 2.2rem;
+      color: #a0b8d0;
+    }
+    .quality-grid .quality-item .q-name {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #0a1e33;
+    }
+    .quality-grid .quality-item .q-price {
+      font-size: 0.85rem;
+      color: var(--brand-green);
+      font-weight: 600;
+    }
+    .quality-picker-card .picker-footer {
+      display: flex;
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .quality-picker-card .picker-footer .btn-picker-add {
+      flex: 1;
+      padding: 14px 20px;
+      background: var(--brand-blue);
+      color: #fff;
+      border: none;
+      border-radius: 60px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      text-align: center;
+    }
+    .quality-picker-card .picker-footer .btn-picker-add:hover {
+      background: #0e3f70;
+    }
+    .quality-picker-card .picker-footer .btn-enquire {
+      flex: 1;
+      padding: 14px 20px;
+      background: #eaf3e8;
+      color: var(--brand-green);
+      border: 2px solid var(--brand-green);
+      border-radius: 60px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.2s;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      text-align: center;
+    }
+    .quality-picker-card .picker-footer .btn-enquire:hover {
+      background: #d9ebd6;
+      border-color: #0b8a44;
+      transform: translateY(-2px);
+    }
+
     /* ===== RESPONSIVE ===== */
     @media (max-width: 820px) {
       .hamburger { display: flex; }
@@ -782,7 +1006,9 @@
       .hero p { font-size: 1rem; }
       .product-grid { grid-template-columns: 1fr 1fr; gap: 18px; }
       .product-card .product-image { height: 150px; }
+      .product-card .product-image .tap-indicator { font-size: 0.65rem; padding: 5px 12px; bottom: 32px; white-space: normal; }
       .stats-grid .stat-number { font-size: 1.5rem; }
+      .quality-grid { grid-template-columns: 1fr 1fr; }
     }
     @media (max-width: 480px) {
       .product-grid { grid-template-columns: 1fr; }
@@ -795,6 +1021,21 @@
       .hamburger { gap: 4px; margin-left: 5px; }
       .mobile-cart-btn { font-size: 0.75rem; padding: 4px 10px; }
       .mobile-cart-btn .cart-badge { font-size: 0.55rem; padding: 1px 5px; min-width: 14px; }
+      .quality-grid { grid-template-columns: 1fr 1fr; }
+      .product-card .product-image .tap-indicator { 
+        font-size: 0.55rem; 
+        padding: 4px 10px; 
+        bottom: 28px; 
+        white-space: normal;
+        max-width: 90%;
+        border-radius: 20px;
+        background: rgba(16, 170, 81, 0.92);
+      }
+      .product-card .product-image .tap-indicator i {
+        font-size: 0.55rem;
+        margin-right: 4px;
+      }
+      .product-card .product-image { height: 160px; }
     }
   </style>
 </head>
@@ -945,6 +1186,22 @@
     <div class="testimonial-dots" id="testimonialDots"></div>
   </div>
 </section>
+
+<!-- ===== QUALITY PICKER ===== -->
+<div class="quality-picker-overlay" id="qualityPickerOverlay">
+  <div class="quality-picker-card">
+    <button class="close-picker" id="closePickerBtn">&times;</button>
+    <h2 id="pickerProductName">Product Name</h2>
+    <div class="subtitle">Choose your quality level</div>
+    <div class="quality-grid" id="qualityGrid"></div>
+    <div class="picker-footer">
+      <button class="btn-picker-add" id="pickerAddToCartBtn"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+      <a href="pages/contact.html" class="btn-enquire" id="pickerEnquireBtn">
+        <i class="fas fa-comment-dots"></i> Enquire
+      </a>
+    </div>
+  </div>
+</div>
 
 <!-- ===== CART MODAL ===== -->
 <div class="cart-modal-overlay" id="cartModal">
@@ -1135,12 +1392,12 @@
 
     // ====== PRODUCT DATA ======
     const products = [
-      { id: 't-shirts', name: 'Custom T-shirts', category: 'apparel', subcategory: 'Custom Apparel', startingPrice: 1200, image: 'images/t shirt.jpg' },
-      { id: 'hoodies', name: 'Custom Hoodies', category: 'apparel', subcategory: 'Custom Apparel', startingPrice: 2500, image: 'images/download.jpg' },
-      { id: 'branded-envelopes', name: 'Branded Envelopes', category: 'stationery', subcategory: 'Business Stationery', startingPrice: 1800, image: 'images/envelope.jpg' },
-      { id: 'menu-cards', name: 'Menu Cards', category: 'promotional', subcategory: 'Promotional Print', startingPrice: 2200, image: 'images/menucard.jpg' },
-      { id: 'invoice-books', name: 'Carbonless Invoice Books', category: 'stationery', subcategory: 'Business Stationery', startingPrice: 1800, image: 'images/carbonless.jpg' },
-      { id: 'brochures-trifold', name: 'Brochures (Tri-fold)', category: 'promotional', subcategory: 'Promotional Print', startingPrice: 3500, image: 'images/brochures tri.jpg' }
+     
+      { id: 'hoodies', name: 'Custom Hoodies', category: 'APPAREL', subcategory: 'Custom Apparel', startingPrice: 2500, image: 'images/download.jpg' },
+      { id: 'branded-envelopes', name: 'Branded Envelopes', category: 'STATIONERY', subcategory: 'Business Stationery', startingPrice: 1800, image: 'images/envelope.jpg' },
+     
+      { id: 'invoice-books', name: 'Carbonless Invoice Books', category: 'STATIONERY', subcategory: 'Business Stationery', startingPrice: 1800, image: 'images/carbonless.jpg' },
+      { id: 'brochures-trifold', name: 'Brochures (Tri-fold)', category: 'PROMOTIONAL', subcategory: 'Promotional Print', startingPrice: 3500, image: 'images/brochures tri.jpg' }
     ];
 
     // ====== CART ======
@@ -1164,38 +1421,151 @@
       window.toastTimeout = setTimeout(() => toast.classList.remove('show'), 2800);
     }
 
+    // ====== PRICE HELPER ======
+    function getPriceForQuality(basePrice, quality) {
+      const multipliers = { standard: 1, premium: 1.25, executive: 1.5 };
+      return Math.round(basePrice * (multipliers[quality] || 1));
+    }
+
     // ====== RENDER PRODUCTS ======
+    let selectedQuality = 'standard';
+
     function renderProducts() {
       const grid = document.getElementById('productGrid');
       if (!grid) return;
-      grid.innerHTML = products.slice(0,6).map(p => `
-        <div class="product-card">
-          <div class="product-image">
-            ${p.image ? `<img src="${p.image}" alt="${p.name}" onerror="this.style.display='none'; this.parentElement.innerHTML='<span style=\\'font-size:2.8rem;color:#a0b8d0;\\'>📄</span>'">` : '<span style="font-size:2.8rem;color:#a0b8d0;">📄</span>'}
-          </div>
-          <div class="card-tags"><span class="tag">${p.category}</span><span class="tag">${p.subcategory}</span></div>
-          <div class="card-body">
-            <h3>${p.name}</h3>
-            <div class="price">KSh ${p.startingPrice.toLocaleString()} <small>starting</small></div>
-            <div class="card-actions">
-              <div class="btn-group">
-                <button class="btn btn-primary" onclick="openCartModal('${p.id}')"><i class="fas fa-cart-plus"></i> Add to cart</button>
-                <a href="pages/contact.html" class="btn btn-enquire"><i class="fas fa-comment-dots"></i> Enquire</a>
+      
+      grid.innerHTML = products.slice(0,6).map(p => {
+        const price = getPriceForQuality(p.startingPrice, selectedQuality);
+        return `
+          <div class="product-card">
+            <div class="product-image" data-product-id="${p.id}">
+              ${p.image ? `<img src="${p.image}" alt="${p.name}" onerror="this.style.display='none'; this.parentElement.innerHTML='<span class=\\'no-image\\'>📄</span>'">` : `<span class="no-image">📄</span>`}
+              <span class="quality-badge">${selectedQuality.charAt(0).toUpperCase() + selectedQuality.slice(1)}</span>
+              <span class="tap-indicator"><i class="fas fa-hand-pointer"></i> Tap the image to shop</span>
+            </div>
+            <div class="card-tags">
+              <span class="tag">${p.category}</span>
+              <span class="tag">${p.subcategory}</span>
+            </div>
+            <div class="card-body">
+              <h3>${p.name}</h3>
+              <div class="price" id="price-${p.id}" data-base-price="${p.startingPrice}">KSh ${price.toLocaleString()} <small>${selectedQuality}</small></div>
+              <div class="card-actions" id="actions-${p.id}">
+                <div class="btn-group">
+                  <button class="btn btn-primary" onclick="openCartModal('${p.id}')"><i class="fas fa-cart-plus"></i> Add to cart</button>
+                  <a href="pages/contact.html" class="btn btn-enquire"><i class="fas fa-comment-dots"></i> Enquire</a>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      `).join('');
+        `;
+      }).join('');
+
+      // Add click handlers for product images to toggle actions
+      document.querySelectorAll('.product-card .product-image').forEach(imgContainer => {
+        imgContainer.addEventListener('click', function(e) {
+          const productId = this.dataset.productId;
+          const actionsContainer = document.getElementById(`actions-${productId}`);
+          if (actionsContainer) {
+            // Close all other action containers first
+            document.querySelectorAll('.card-actions').forEach(el => {
+              if (el.id !== `actions-${productId}`) {
+                el.classList.remove('open');
+              }
+            });
+            // Toggle this one
+            actionsContainer.classList.toggle('open');
+          }
+          // Also open quality picker if it's the first click
+          const product = products.find(p => p.id === productId);
+          if (product) openQualityPicker(product);
+        });
+      });
     }
 
-    // ====== MODAL LOGIC ======
+    // ====== QUALITY PICKER ======
+    let pickerProduct = null;
+    let pickerSelectedQuality = 'standard';
+
+    function openQualityPicker(product) {
+      pickerProduct = product;
+      pickerSelectedQuality = selectedQuality;
+      document.getElementById('pickerProductName').textContent = product.name;
+      const grid = document.getElementById('qualityGrid');
+      const qualities = [
+        { key: 'standard', label: 'Standard', img: product.image || '' },
+        { key: 'premium', label: 'Premium', img: product.image || '' },
+        { key: 'executive', label: 'Executive', img: product.image || '' }
+      ];
+      grid.innerHTML = qualities.map(q => {
+        const price = getPriceForQuality(product.startingPrice, q.key);
+        const active = q.key === pickerSelectedQuality ? 'active' : '';
+        return `
+          <div class="quality-item ${active}" data-quality="${q.key}">
+            <div class="quality-img">
+              ${q.img ? `<img src="${q.img}" alt="${q.label}" onerror="this.style.display='none'; this.parentElement.innerHTML='<span class=\\'no-img\\'>📄</span>'">` : `<span class="no-img">📄</span>`}
+            </div>
+            <div class="q-name">${q.label}</div>
+            <div class="q-price">KSh ${price.toLocaleString()}</div>
+          </div>
+        `;
+      }).join('');
+      grid.querySelectorAll('.quality-item').forEach(item => {
+        item.addEventListener('click', function() {
+          grid.querySelectorAll('.quality-item').forEach(el => el.classList.remove('active'));
+          this.classList.add('active');
+          pickerSelectedQuality = this.dataset.quality;
+          grid.querySelectorAll('.quality-item').forEach(el => {
+            const qKey = el.dataset.quality;
+            const qPrice = getPriceForQuality(product.startingPrice, qKey);
+            el.querySelector('.q-price').textContent = `KSh ${qPrice.toLocaleString()}`;
+          });
+        });
+      });
+      document.getElementById('qualityPickerOverlay').classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeQualityPicker() {
+      document.getElementById('qualityPickerOverlay').classList.remove('show');
+      document.body.style.overflow = '';
+    }
+
+    function pickerAddToCart() {
+      const product = pickerProduct;
+      if (!product) { showToast('No product selected. Please try again.'); return; }
+      const qualityToUse = pickerSelectedQuality || 'standard';
+      selectedQuality = qualityToUse;
+      const pricePerUnit = getPriceForQuality(product.startingPrice, selectedQuality);
+      
+      // Update all product prices
+      document.querySelectorAll('.product-card .price').forEach(priceEl => {
+        const basePrice = parseInt(priceEl.dataset.basePrice);
+        if (basePrice) {
+          const price = getPriceForQuality(basePrice, selectedQuality);
+          priceEl.innerHTML = `KSh ${price.toLocaleString()} <small>${selectedQuality}</small>`;
+        }
+      });
+      document.querySelectorAll('.product-card .product-image .quality-badge').forEach(b => {
+        b.textContent = selectedQuality.charAt(0).toUpperCase() + selectedQuality.slice(1);
+      });
+      
+      closeQualityPicker();
+      openCartModal(product.id);
+    }
+
+    // ====== CART MODAL ======
     let currentProduct = null;
+    let currentPricePerUnit = 0;
+
     window.openCartModal = function(productId) {
       const product = products.find(p => p.id === productId);
       if (!product) return;
       currentProduct = product;
+      currentPricePerUnit = getPriceForQuality(product.startingPrice, selectedQuality);
+      
       document.getElementById('modalProductName').textContent = product.name;
-      document.getElementById('modalPricePerUnit').textContent = `KSh ${product.startingPrice.toLocaleString()}`;
+      document.getElementById('modalPricePerUnit').textContent = `KSh ${currentPricePerUnit.toLocaleString()}`;
       document.getElementById('quantityInput').value = 1;
       document.getElementById('designFile').value = '';
       document.getElementById('fileNameDisplay').classList.remove('show');
@@ -1203,36 +1573,57 @@
       document.getElementById('cartModal').classList.add('show');
       document.body.style.overflow = 'hidden';
     };
+
     function closeCartModal() {
       document.getElementById('cartModal').classList.remove('show');
       document.body.style.overflow = '';
       currentProduct = null;
     }
+
     function updateModalPrice() {
       if (!currentProduct) return;
       const qty = parseInt(document.getElementById('quantityInput').value) || 0;
+      const total = currentPricePerUnit * qty;
       document.getElementById('modalQuantityDisplay').textContent = qty;
-      document.getElementById('modalTotalPrice').textContent = `KSh ${(currentProduct.startingPrice * qty).toLocaleString()}`;
+      document.getElementById('modalTotalPrice').textContent = `KSh ${total.toLocaleString()}`;
     }
-    window.confirmAddToCart = function() {
+
+    function confirmAddToCart() {
       if (!currentProduct) return;
       const qty = parseInt(document.getElementById('quantityInput').value) || 0;
-      if (qty < 1) { alert('Minimum quantity is 1.'); return; }
+      if (qty < 1) { alert('Please enter a valid quantity (minimum 1).'); return; }
       const fileInput = document.getElementById('designFile');
       const hasDesign = fileInput.files && fileInput.files.length > 0;
       const fileName = hasDesign ? fileInput.files[0].name : null;
+      const totalPrice = currentPricePerUnit * qty;
+      
       const cart = getCart();
-      const existing = cart.find(item => item.productId === currentProduct.id);
+      const existing = cart.find(item => item.productId === currentProduct.id && item.quality === selectedQuality);
       if (existing) {
         existing.quantity += qty;
+        existing.totalPrice = existing.pricePerUnit * existing.quantity;
         if (hasDesign) { existing.hasDesign = true; existing.designFile = fileName; }
       } else {
-        cart.push({ productId: currentProduct.id, quantity: qty, designFile: fileName, hasDesign });
+        cart.push({
+          productId: currentProduct.id,
+          quantity: qty,
+          quality: selectedQuality,
+          pricePerUnit: currentPricePerUnit,
+          totalPrice: totalPrice,
+          designFile: fileName,
+          hasDesign: hasDesign
+        });
       }
       saveCart(cart);
-      showToast(`${qty} × ${currentProduct.name} added!`);
+      showToast(`${qty} × ${currentProduct.name} (${selectedQuality}) - KSh ${totalPrice.toLocaleString()} added!`);
       closeCartModal();
-    };
+      pickerProduct = null;
+    }
+
+    // Expose functions globally
+    window.closeCartModal = closeCartModal;
+    window.confirmAddToCart = confirmAddToCart;
+    window.updateModalPrice = updateModalPrice;
 
     // ====== TESTIMONIALS ======
     const testimonials = [
@@ -1281,9 +1672,19 @@
           display.classList.remove('show');
         }
       });
-      document.getElementById('confirmAddToCartBtn').addEventListener('click', window.confirmAddToCart);
+      document.getElementById('confirmAddToCartBtn').addEventListener('click', confirmAddToCart);
       document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') closeCartModal();
+        if (e.key === 'Escape') {
+          closeCartModal();
+          closeQualityPicker();
+        }
+      });
+
+      // Quality picker events
+      document.getElementById('closePickerBtn').addEventListener('click', closeQualityPicker);
+      document.getElementById('pickerAddToCartBtn').addEventListener('click', pickerAddToCart);
+      document.getElementById('qualityPickerOverlay').addEventListener('click', function(e) {
+        if (e.target === this) closeQualityPicker();
       });
     });
   })();

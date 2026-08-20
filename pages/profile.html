@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="../images/teardrop.jpg">
-    <title>Rise Axis Solutions - Clarity, Direction, Results.</title>
+    <title>Rise Axis Solutions - Edit Profile</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         /* === BRAND COLORS === */
@@ -608,7 +608,7 @@
                     <div class="email" id="userEmail">Loading...</div>
                 </div>
                 <a href="account.html"><span class="icon">📋</span> My Profile</a>
-                <a href="profile.html" class="active"><span class="icon">✏️</span> Edit Profile</a>
+                <a href="#" class="active" id="editProfileLink"><span class="icon">✏️</span> Edit Profile</a>
                 <a href="orders.html"><span class="icon">📦</span> My Orders</a>
                 <a href="#" class="logout-btn" id="logoutBtn"><span class="icon">🚪</span> Logout</a>
             </div>
@@ -712,61 +712,6 @@
     } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
 
     // =============================================
-    // SERVICES DROPDOWN TOGGLE
-    // =============================================
-    let navDropdownOpen = false;
-
-    function toggleNavDropdown() {
-        navDropdownOpen = !navDropdownOpen;
-        updateNavUI();
-    }
-
-    function closeNavDropdown() {
-        navDropdownOpen = false;
-        updateNavUI();
-    }
-
-    function updateNavUI() {
-        const menu = document.getElementById('navDropdownMenu');
-        const arrow = document.getElementById('navDropdownArrow');
-        if (!menu || !arrow) return;
-        if (navDropdownOpen) {
-            menu.classList.add('open');
-            arrow.classList.add('open');
-        } else {
-            menu.classList.remove('open');
-            arrow.classList.remove('open');
-        }
-    }
-
-    // Dropdown label click
-    const navLabel = document.getElementById('navDropdownLabel');
-    if (navLabel) {
-        navLabel.addEventListener('click', function(e) {
-            e.stopPropagation();
-            toggleNavDropdown();
-        });
-    }
-
-    // Dropdown item click - navigate to services.html with category param
-    document.querySelectorAll('.dropdown-item').forEach(item => {
-        item.addEventListener('click', function(e) {
-            e.stopPropagation();
-            const category = this.dataset.category;
-            closeNavDropdown();
-            window.location.href = `pages/services.html?category=${encodeURIComponent(category)}`;
-        });
-    });
-
-    // Close dropdown when clicking outside
-    document.addEventListener('click', function(e) {
-        const navDropdown = document.getElementById('navDropdown');
-        if (navDropdown && !navDropdown.contains(e.target)) {
-            closeNavDropdown();
-        }
-    });
-
-    // =============================================
     // DOM ELEMENTS
     // =============================================
     const errorMessage = document.getElementById('errorMessage');
@@ -775,14 +720,37 @@
     // =============================================
     // CHECK IF USER IS LOGGED IN
     // =============================================
-    const user = getCurrentUser();
-    if (!user) {
-        window.location.replace('login.html');
+    let currentUser = null;
+    
+    try {
+        currentUser = getCurrentUser();
+    } catch (error) {
+        console.error('Error getting current user:', error);
+        // Don't redirect immediately - wait for auth state
     }
 
-    // Display user info in sidebar
-    document.getElementById('userName').textContent = user.displayName || 'User';
-    document.getElementById('userEmail').textContent = user.email;
+    // =============================================
+    // AUTH STATE LISTENER - This is the key fix!
+    // =============================================
+    onAuthChange((user) => {
+        if (user) {
+            currentUser = user;
+            // Display user info in sidebar
+            document.getElementById('userName').textContent = user.displayName || 'User';
+            document.getElementById('userEmail').textContent = user.email;
+            updateAuthUI(user);
+            loadUserProfile();
+        } else {
+            // User is not logged in - redirect to login
+            window.location.replace('login.html');
+        }
+    });
+
+    // Display user info in sidebar if user exists
+    if (currentUser) {
+        document.getElementById('userName').textContent = currentUser.displayName || 'User';
+        document.getElementById('userEmail').textContent = currentUser.email;
+    }
 
     // =============================================
     // AUTH NAVIGATION - SHOW/HIDE LINKS
@@ -809,33 +777,38 @@
     // LOAD USER PROFILE FROM FIRESTORE
     // =============================================
     async function loadUserProfile() {
+        if (!currentUser) return;
+        
         try {
-            const userDoc = doc(db, 'users', user.uid);
+            const userDoc = doc(db, 'users', currentUser.uid);
             const docSnap = await getDoc(userDoc);
             
             if (docSnap.exists()) {
                 const data = docSnap.data();
-                document.getElementById('fullName').value = data.displayName || user.displayName || '';
-                document.getElementById('email').value = user.email;
+                document.getElementById('fullName').value = data.displayName || currentUser.displayName || '';
+                document.getElementById('email').value = currentUser.email;
                 document.getElementById('phone').value = data.phone || '';
                 document.getElementById('address').value = data.address || '';
             } else {
                 // If no profile exists, use auth data
-                document.getElementById('fullName').value = user.displayName || '';
-                document.getElementById('email').value = user.email;
+                document.getElementById('fullName').value = currentUser.displayName || '';
+                document.getElementById('email').value = currentUser.email;
             }
         } catch (error) {
             console.error('Error loading profile:', error);
         }
     }
 
-    loadUserProfile();
-
     // =============================================
     // UPDATE PROFILE
     // =============================================
     document.getElementById('profileForm').addEventListener('submit', async function(e) {
         e.preventDefault();
+        
+        if (!currentUser) {
+            showError('Please login first.');
+            return;
+        }
         
         const fullName = document.getElementById('fullName').value.trim();
         const phone = document.getElementById('phone').value.trim();
@@ -853,15 +826,15 @@
         
         try {
             // Update Auth profile
-            await updateProfile(user, { displayName: fullName });
+            await updateProfile(currentUser, { displayName: fullName });
             
             // Save to Firestore
-            const userDoc = doc(db, 'users', user.uid);
+            const userDoc = doc(db, 'users', currentUser.uid);
             await setDoc(userDoc, {
                 displayName: fullName,
                 phone: phone,
                 address: address,
-                email: user.email,
+                email: currentUser.email,
                 updatedAt: new Date().toISOString()
             }, { merge: true });
             
@@ -890,6 +863,11 @@
     document.getElementById('passwordForm').addEventListener('submit', async function(e) {
         e.preventDefault();
         
+        if (!currentUser) {
+            showError('Please login first.');
+            return;
+        }
+        
         const currentPassword = document.getElementById('currentPassword').value;
         const newPassword = document.getElementById('newPassword').value;
         const confirmPassword = document.getElementById('confirmNewPassword').value;
@@ -916,11 +894,11 @@
         
         try {
             // Re-authenticate user
-            const credential = EmailAuthProvider.credential(user.email, currentPassword);
-            await reauthenticateWithCredential(user, credential);
+            const credential = EmailAuthProvider.credential(currentUser.email, currentPassword);
+            await reauthenticateWithCredential(currentUser, credential);
             
             // Update password
-            await updatePassword(user, newPassword);
+            await updatePassword(currentUser, newPassword);
             
             showSuccess('✅ Password updated successfully!');
             passwordBtn.textContent = '✅ Updated!';
@@ -992,6 +970,61 @@
             document.querySelectorAll('.cart-badge').forEach(el => el.textContent = total);
         } catch { /* ignore */ }
     }
+
+    // =============================================
+    // SERVICES DROPDOWN TOGGLE
+    // =============================================
+    let navDropdownOpen = false;
+
+    function toggleNavDropdown() {
+        navDropdownOpen = !navDropdownOpen;
+        updateNavUI();
+    }
+
+    function closeNavDropdown() {
+        navDropdownOpen = false;
+        updateNavUI();
+    }
+
+    function updateNavUI() {
+        const menu = document.getElementById('navDropdownMenu');
+        const arrow = document.getElementById('navDropdownArrow');
+        if (!menu || !arrow) return;
+        if (navDropdownOpen) {
+            menu.classList.add('open');
+            arrow.classList.add('open');
+        } else {
+            menu.classList.remove('open');
+            arrow.classList.remove('open');
+        }
+    }
+
+    // Dropdown label click
+    const navLabel = document.getElementById('navDropdownLabel');
+    if (navLabel) {
+        navLabel.addEventListener('click', function(e) {
+            e.stopPropagation();
+            toggleNavDropdown();
+        });
+    }
+
+    // Dropdown item click - navigate to services.html with category param
+    document.querySelectorAll('.dropdown-item').forEach(item => {
+        item.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const category = this.dataset.category;
+            closeNavDropdown();
+            window.location.href = `pages/services.html?category=${encodeURIComponent(category)}`;
+        });
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+        const navDropdown = document.getElementById('navDropdown');
+        if (navDropdown && !navDropdown.contains(e.target)) {
+            closeNavDropdown();
+        }
+    });
 
     // =============================================
     // MOBILE MENU CONTROLS
@@ -1076,17 +1109,23 @@
     }
 
     // =============================================
+    // FIX: Handle "Edit Profile" link click
+    // =============================================
+    document.getElementById('editProfileLink').addEventListener('click', function(e) {
+        e.preventDefault();
+        // We're already on the edit profile page, just scroll to top
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // =============================================
     // DOM CONTENT LOADED
     // =============================================
     document.addEventListener('DOMContentLoaded', function() {
-        // Check auth state
-        const user = getCurrentUser();
-        updateAuthUI(user);
-        
-        // Listen for auth changes
-        onAuthChange((user) => {
-            updateAuthUI(user);
-        });
+        // Initialize mobile menu
+        initMobileMenu();
+
+        // Update cart badge
+        updateCartBadge();
 
         // Logout buttons
         const logoutBtn = document.getElementById('logoutBtn');
@@ -1099,10 +1138,10 @@
             logoutLink.addEventListener('click', handleLogout);
         }
 
-        // Initialize mobile menu
-        initMobileMenu();
-
-        updateCartBadge();
+        // If we have a user already, load profile
+        if (currentUser) {
+            loadUserProfile();
+        }
     });
 </script>
 
