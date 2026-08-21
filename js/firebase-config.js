@@ -1,11 +1,12 @@
 // =============================================
-// FIREBASE CONFIGURATION - KARIS PRINTERS
+// FIREBASE CONFIGURATION - RISE AXIS SOLUTIONS
 // =============================================
 
 // Import the functions you need from the SDKs
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js";
+import { getStorage } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-storage.js";
 
 // 🔴 REPLACE THIS WITH YOUR ACTUAL FIREBASE CONFIG
 const firebaseConfig = {
@@ -31,8 +32,11 @@ const auth = getAuth(app);
 // Initialize Cloud Firestore
 const db = getFirestore(app);
 
+// Initialize Firebase Storage (for file uploads)
+const storage = getStorage(app);
+
 // =============================================
 // EXPORT FOR USE IN OTHER FILES
 // =============================================
 
-export { app, auth, db };
+export { app, auth, db, storage };

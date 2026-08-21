@@ -780,17 +780,110 @@
             cursor: not-allowed;
             transform: none;
         }
-        .checkout-modal .mpesa-info {
-            background: #f0f7e8;
+
+        /* ===== PAYMENT OPTIONS STYLES ===== */
+        .payment-option-label {
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            background: #f8fafc;
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .payment-option-label:hover {
+            background: #eef3fc !important;
+            border-color: #d0dce8;
+        }
+
+        .payment-option-label input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--brand-blue);
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+
+        .payment-option-label .payment-icon {
+            font-size: 1.2rem;
+        }
+
+        .payment-option-label .payment-name {
+            font-weight: 600;
+        }
+
+        .payment-details {
+            animation: fadeIn 0.3s ease;
             padding: 14px 18px;
             border-radius: 12px;
-            margin: 12px 0 16px;
-            border-left: 4px solid var(--brand-green);
+            margin: 4px 0 16px;
         }
-        .checkout-modal .mpesa-info .paybill {
+
+        .payment-details .payment-title {
+            font-weight: 700;
+            font-size: 1rem;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .payment-details .detail-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 3px 0;
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        .payment-details .detail-row .label {
+            font-weight: 600;
+            min-width: 120px;
+        }
+
+        .payment-details .detail-row .value {
+            font-weight: 500;
+        }
+
+        .payment-details .highlight {
             font-weight: 700;
             color: var(--brand-blue);
-            font-size: 1.1rem;
+            font-size: 1.05rem;
+        }
+
+        .payment-details .note {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 6px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-5px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .payment-details.paybill-style {
+            background: #f0f7e8;
+            border-left: 4px solid var(--brand-green);
+        }
+
+        .payment-details.bank-style {
+            background: #f0f4fa;
+            border-left: 4px solid var(--brand-blue);
+        }
+
+        .payment-details.sendmoney-style {
+            background: #f0f7f0;
+            border-left: 4px solid #2d8f4e;
         }
 
         /* ===== SUCCESS OVERLAY ===== */
@@ -958,6 +1051,56 @@
             to { transform: translateY(0); opacity: 1; }
         }
 
+        /* ===== DESIGN FILE UPLOAD ===== */
+        .file-upload-area {
+            border: 2px dashed #dce4ee;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+            background: #fafcff;
+            margin-bottom: 10px;
+        }
+        .file-upload-area:hover {
+            border-color: var(--brand-blue);
+            background: #f0f6fe;
+        }
+        .file-upload-area.dragover {
+            border-color: var(--brand-blue);
+            background: #e8f0fe;
+        }
+        .file-upload-area .upload-icon {
+            font-size: 2rem;
+            color: #6a8aa8;
+        }
+        .file-upload-area .upload-text {
+            color: #6a8aa8;
+            font-size: 0.9rem;
+        }
+        .file-upload-area .uploaded-file {
+            color: var(--brand-green);
+            font-weight: 600;
+            margin-top: 8px;
+        }
+        .file-input-hidden {
+            display: none;
+        }
+
+        .design-file-link {
+            display: inline-block;
+            background: #e8f0fe;
+            color: var(--brand-blue);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-top: 4px;
+            text-decoration: none;
+        }
+        .design-file-link:hover {
+            background: #d4e4f7;
+        }
+
         /* ===== FOOTER ===== */
         footer {
             background: #1a1a1a;
@@ -1039,6 +1182,13 @@
             .slide-menu {
                 padding: 20px 16px 24px;
             }
+            .payment-option-label {
+                padding: 10px 12px !important;
+                font-size: 0.9rem;
+            }
+            .payment-details .detail-row .label {
+                min-width: 80px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -1066,6 +1216,14 @@
             .order-notification .notif-content p {
                 font-size: 0.8rem;
             }
+            .payment-details .detail-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0;
+            }
+            .payment-details .detail-row .label {
+                min-width: auto;
+            }
         }
     </style>
 </head>
@@ -1073,8 +1231,8 @@
 
 <!-- ===== HEADER ===== -->
 <header>
-    <div class="container">
-        <div class="logo">Rise Axis<span> Solutions</span></div>
+   <div class="container">
+    <a href="/index.html" class="logo">Rise Axis<span> Solutions</span></a>
 
         <!-- Hamburger -->
         <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
@@ -1232,16 +1390,101 @@
             <textarea id="checkoutInstructions" placeholder="Any additional notes..."></textarea>
         </div>
 
-        <div class="mpesa-info">
-            <strong>💰 M-Pesa Payment</strong><br>
-            Paybill: <span class="paybill">123456</span> &nbsp;|&nbsp; Account: <span id="checkoutOrderId">Order ID</span>
-            <p style="font-size: 0.85rem; color: #666; margin-top: 6px;">
-                Enter your M-Pesa transaction code below after payment.
-            </p>
+        <!-- ===== DESIGN FILE UPLOAD ===== -->
+        <div class="form-group">
+            <label>Upload Design File (Optional)</label>
+            <div class="file-upload-area" id="fileUploadArea">
+                <div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                <div class="upload-text">Click or drag and drop your design file here</div>
+                <div class="uploaded-file" id="uploadedFileName"></div>
+            </div>
+            <input type="file" class="file-input-hidden" id="designFileInput" accept=".pdf,.jpg,.jpeg,.png,.gif,.svg,.ai,.eps,.psd,.doc,.docx">
+            <small style="color: #6a8aa8; display: block; margin-top: 4px;">Supported formats: PDF, JPG, PNG, GIF, SVG, AI, EPS, PSD, DOC, DOCX (Max 10MB)</small>
+        </div>
+
+        <!-- ===== PAYMENT OPTIONS ===== -->
+        <div style="margin: 16px 0 12px;">
+            <label style="display: block; font-weight: 700; font-size: 0.95rem; color: #0a1e33; margin-bottom: 10px;">Select Payment Method</label>
+            
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+                <!-- M-Pesa Paybill -->
+                <label class="payment-option-label" id="paybillOption">
+                    <input type="radio" name="paymentMethod" value="paybill" checked>
+                    <span class="payment-icon">💳</span>
+                    <span class="payment-name">M-Pesa Paybill</span>
+                </label>
+
+                <!-- Bank Transfer -->
+                <label class="payment-option-label" id="bankOption">
+                    <input type="radio" name="paymentMethod" value="bank">
+                    <span class="payment-icon">🏦</span>
+                    <span class="payment-name">Bank Transfer</span>
+                </label>
+
+                <!-- Send Money (Phone Number) -->
+                <label class="payment-option-label" id="sendMoneyOption">
+                    <input type="radio" name="paymentMethod" value="sendmoney">
+                    <span class="payment-icon">📱</span>
+                    <span class="payment-name">Send Money (Phone Number)</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- ===== DYNAMIC PAYMENT DETAILS ===== -->
+        <div id="paymentDetailsContainer" style="transition: 0.3s ease;">
+            <!-- Paybill Details (default) -->
+            <div id="paybillDetails" class="payment-details paybill-style">
+                <span class="payment-title">💰 M-Pesa Paybill</span>
+                <div class="detail-row">
+                    <span class="label">Paybill:</span>
+                    <span class="value highlight">123456</span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Account:</span>
+                    <span class="value highlight" id="checkoutOrderId">Order ID</span>
+                </div>
+                <div class="note">Enter your M-Pesa transaction code below after payment.</div>
+            </div>
+
+            <!-- Bank Details (hidden by default) -->
+            <div id="bankDetails" class="payment-details bank-style" style="display: none;">
+                <span class="payment-title">🏦 Bank Transfer</span>
+                <div class="detail-row">
+                    <span class="label">Bank:</span>
+                    <span class="value">Equity Bank</span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Account Name:</span>
+                    <span class="value">Rise Axis Solutions</span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Account Number:</span>
+                    <span class="value highlight">0123456789</span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Branch:</span>
+                    <span class="value">Westlands, Nairobi</span>
+                </div>
+                <div class="note">Please use your Order ID as the reference.</div>
+            </div>
+
+            <!-- Send Money Details (hidden by default) -->
+            <div id="sendMoneyDetails" class="payment-details sendmoney-style" style="display: none;">
+                <span class="payment-title">📱 Send Money (M-Pesa)</span>
+                <div class="detail-row">
+                    <span class="label">Phone Number:</span>
+                    <span class="value highlight">+254 700 123 456</span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Account Name:</span>
+                    <span class="value">Rise Axis Solutions</span>
+                </div>
+                <div class="note">Send payment to the above phone number and enter the transaction code below.</div>
+            </div>
         </div>
 
         <div class="form-group">
-            <label>M-Pesa Transaction Code</label>
+            <label>Transaction Code / Reference</label>
             <input type="text" id="checkoutTransaction" placeholder="e.g., QWERTY123">
         </div>
 
@@ -1290,41 +1533,42 @@
     <span id="toastText">Item removed</span>
 </div>
 
-<!-- ===== FOOTER ===== -->
 <footer>
-    <div class="container">
-        <div class="footer-grid">
-            <div>
-                <h4>Rise Axis Solutions</h4>
-                <p style="color: #aaa; font-size: 0.95rem;">Clarity, Direction, Results.</p>
-            </div>
-            <div>
-                <h4>Quick Links</h4>
-                <a href="catalog.html">Catalog</a>
-                <a href="cart.html">Order Now</a>
-                <a href="about.html">About Us</a>
-                <a href="contact.html">Contact</a>
-            </div>
-            <div>
-                <h4>Contact</h4>
-                <a href="tel:+254-700-123-456">📞 +254-700-123-456</a>
-                <a href="mailto:contact@riseaxis.co.ke">✉️ contact@riseaxis.co.ke</a>
-                <a href="#"><p>📍 188 Hood Avenue, 3rd Floor 72 Riverside Drive, Office 5</p></a>
-            </div>
-        </div>
-        <div class="copyright">&copy; 2026 Rise Axis Solutions. All rights reserved.</div>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <h4>Rise Axis Solutions</h4>
+        <p style="color: #aaa; font-size: 0.95rem;">Clarity, Direction, Results.</p>
+      </div>
+      <div>
+        <h4>Quick Links</h4>
+        <a href="catalog.html">Catalog</a>
+        <a href="cart.html">Order Now</a>
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <a href="tel:+254-700-123-456">📞 +254-700-123-456</a>
+        <a href="mailto:contact@riseaxissolutions.com">✉️ contact@riseaxissolutions.com</a>
+        <a href="#"><p>📍 188 Hood Avenue, 3rd Floor</p><p>72 Riverside Drive, Office 5</p></a>
+      </div>
     </div>
+    <div class="copyright">&copy; 2026 Rise Axis Solutions. All rights reserved.</div>
+  </div>
 </footer>
-
 <script type="module">
     // =============================================
     // IMPORTS
     // =============================================
     import { getCurrentUser, logoutUser, onAuthChange } from '../js/auth.js';
-    import { db } from '../js/firebase-config.js';
+    import { db, storage } from '../js/firebase-config.js';
     import { 
         collection, addDoc, serverTimestamp 
     } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js";
+    import {
+        ref, uploadBytes, getDownloadURL
+    } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-storage.js";
 
     // =============================================
     // SLIDE MENU LOGIC
@@ -1403,7 +1647,6 @@
         toggleNavDropdown();
     });
     
-    // ===== FIX: Use services.html instead of service.html =====
     document.querySelectorAll('#navDropdownMenu .dropdown-item, #slideDropdownMenu .dropdown-item').forEach(item => {
         item.addEventListener('click', function(e) {
             e.stopPropagation();
@@ -1422,7 +1665,7 @@
     // =============================================
     // INITIALIZE EMAILJS
     // =============================================
-    emailjs.init('ExzmFqrSqTxWvr1LN');
+    emailjs.init('MtTUyrgdJxDrzQLH2');
 
     // =============================================
     // CART DATA
@@ -1503,6 +1746,107 @@
         { id: 'product-seal-stickers', name: 'Product Seal Stickers', category: 'labels', subcategory: 'Labels & Stickers', startingPrice: 600, image: 'images/products/product-seal-stickers.jpg' },
         { id: 'window-graphics', name: 'Window Graphics', category: 'labels', subcategory: 'Labels & Stickers', startingPrice: 3500, image: 'images/products/window-graphics.jpg' }
     ];
+
+    // =============================================
+    // FILE UPLOAD HANDLING
+    // =============================================
+    let selectedFile = null;
+    let uploadedFileUrl = null;
+    let isUploading = false;
+
+    const fileUploadArea = document.getElementById('fileUploadArea');
+    const fileInput = document.getElementById('designFileInput');
+    const uploadedFileName = document.getElementById('uploadedFileName');
+
+    // Click to upload
+    fileUploadArea.addEventListener('click', () => {
+        fileInput.click();
+    });
+
+    // File selected
+    fileInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) {
+            handleFile(e.target.files[0]);
+        }
+    });
+
+    // Drag and drop
+    fileUploadArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        fileUploadArea.classList.add('dragover');
+    });
+
+    fileUploadArea.addEventListener('dragleave', () => {
+        fileUploadArea.classList.remove('dragover');
+    });
+
+    fileUploadArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        fileUploadArea.classList.remove('dragover');
+        if (e.dataTransfer.files.length > 0) {
+            handleFile(e.dataTransfer.files[0]);
+        }
+    });
+
+    function handleFile(file) {
+        // Validate file size (10MB max)
+        if (file.size > 10 * 1024 * 1024) {
+            showToast('File is too large. Maximum size is 10MB.');
+            return;
+        }
+
+        // Validate file type
+        const allowedTypes = [
+            'application/pdf',
+            'image/jpeg', 'image/png', 'image/gif', 'image/svg+xml',
+            'application/postscript', 'application/illustrator',
+            'application/eps', 'application/photoshop',
+            'application/msword', 
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        ];
+        
+        // Check by extension as well
+        const allowedExtensions = ['.pdf', '.jpg', '.jpeg', '.png', '.gif', '.svg', '.ai', '.eps', '.psd', '.doc', '.docx'];
+        const fileExt = '.' + file.name.split('.').pop().toLowerCase();
+        
+        if (!allowedTypes.includes(file.type) && !allowedExtensions.includes(fileExt)) {
+            showToast('Unsupported file format. Please upload a valid design file.');
+            return;
+        }
+
+        selectedFile = file;
+        uploadedFileName.textContent = `📎 ${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
+        uploadedFileName.style.color = 'var(--brand-green)';
+        fileUploadArea.style.borderColor = 'var(--brand-green)';
+        showToast(`File "${file.name}" selected!`);
+    }
+
+    async function uploadDesignFile(orderId) {
+        if (!selectedFile) return null;
+
+        try {
+            isUploading = true;
+            const fileName = `designs/${orderId}/${selectedFile.name}`;
+            const storageRef = ref(storage, fileName);
+            
+            // Upload file
+            const snapshot = await uploadBytes(storageRef, selectedFile);
+            console.log('✅ File uploaded successfully!');
+            
+            // Get download URL
+            const downloadUrl = await getDownloadURL(storageRef);
+            console.log('📎 Download URL:', downloadUrl);
+            
+            uploadedFileUrl = downloadUrl;
+            return downloadUrl;
+        } catch (error) {
+            console.error('❌ File upload failed:', error);
+            showToast('Failed to upload design file. Please try again.');
+            return null;
+        } finally {
+            isUploading = false;
+        }
+    }
 
     // =============================================
     // GENERATE ORDER ID
@@ -1711,6 +2055,69 @@
     }
 
     // =============================================
+    // PAYMENT METHOD TOGGLE
+    // =============================================
+    function setupPaymentToggle() {
+        const paymentRadios = document.querySelectorAll('input[name="paymentMethod"]');
+        const paybillDetails = document.getElementById('paybillDetails');
+        const bankDetails = document.getElementById('bankDetails');
+        const sendMoneyDetails = document.getElementById('sendMoneyDetails');
+        const transactionInput = document.getElementById('checkoutTransaction');
+
+        function updatePaymentDetails(method) {
+            // Hide all details
+            paybillDetails.style.display = 'none';
+            bankDetails.style.display = 'none';
+            sendMoneyDetails.style.display = 'none';
+
+            // Show selected details
+            if (method === 'paybill') {
+                paybillDetails.style.display = 'block';
+                transactionInput.placeholder = 'e.g., QWERTY123 (M-Pesa Transaction Code)';
+            } else if (method === 'bank') {
+                bankDetails.style.display = 'block';
+                transactionInput.placeholder = 'e.g., BNK-2026-001 (Bank Reference)';
+            } else if (method === 'sendmoney') {
+                sendMoneyDetails.style.display = 'block';
+                transactionInput.placeholder = 'e.g., QWERTY123 (M-Pesa Transaction Code)';
+            }
+        }
+
+        // Add change event to each radio button
+        paymentRadios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.checked) {
+                    // Update visual styling for selected option
+                    document.querySelectorAll('.payment-option-label').forEach(label => {
+                        label.style.borderColor = 'transparent';
+                        label.style.background = '#f8fafc';
+                    });
+                    
+                    const parentLabel = this.closest('.payment-option-label');
+                    if (parentLabel) {
+                        parentLabel.style.borderColor = 'var(--brand-blue)';
+                        parentLabel.style.background = '#eef3fc';
+                    }
+
+                    updatePaymentDetails(this.value);
+                }
+            });
+        });
+
+        // Set initial state (Paybill selected by default)
+        const defaultRadio = document.querySelector('input[name="paymentMethod"][value="paybill"]');
+        if (defaultRadio) {
+            defaultRadio.checked = true;
+            const parentLabel = defaultRadio.closest('.payment-option-label');
+            if (parentLabel) {
+                parentLabel.style.borderColor = 'var(--brand-blue)';
+                parentLabel.style.background = '#eef3fc';
+            }
+            updatePaymentDetails('paybill');
+        }
+    }
+
+    // =============================================
     // OPEN CHECKOUT MODAL
     // =============================================
     function openCheckoutModal() {
@@ -1719,6 +2126,13 @@
             showToast('Your cart is empty!');
             return;
         }
+
+        // Reset file upload state
+        selectedFile = null;
+        uploadedFileUrl = null;
+        uploadedFileName.textContent = '';
+        fileInput.value = '';
+        fileUploadArea.style.borderColor = '#dce4ee';
 
         const subtotal = cart.reduce((sum, item) => {
             const product = products.find(p => p.id === item.productId);
@@ -1757,6 +2171,23 @@
 
         document.getElementById('checkoutModal').classList.add('show');
         document.body.style.overflow = 'hidden';
+
+        // Reset payment selection to default
+        const defaultRadio = document.querySelector('input[name="paymentMethod"][value="paybill"]');
+        if (defaultRadio) {
+            defaultRadio.checked = true;
+            document.querySelectorAll('.payment-option-label').forEach(label => {
+                label.style.borderColor = 'transparent';
+                label.style.background = '#f8fafc';
+            });
+            const parentLabel = defaultRadio.closest('.payment-option-label');
+            if (parentLabel) {
+                parentLabel.style.borderColor = 'var(--brand-blue)';
+                parentLabel.style.background = '#eef3fc';
+            }
+            // Trigger the change event to update details
+            defaultRadio.dispatchEvent(new Event('change'));
+        }
     }
 
     function closeCheckoutModal() {
@@ -1774,6 +2205,10 @@
         const address = document.getElementById('checkoutAddress').value.trim();
         const instructions = document.getElementById('checkoutInstructions').value.trim();
         const transactionCode = document.getElementById('checkoutTransaction').value.trim();
+        
+        // Get selected payment method
+        const selectedPayment = document.querySelector('input[name="paymentMethod"]:checked');
+        const paymentMethod = selectedPayment ? selectedPayment.value : 'paybill';
 
         if (!name || !email || !phone || !address) {
             alert('Please fill in all required fields.');
@@ -1804,7 +2239,8 @@
             phone: sanitizeInput(phone),
             address: sanitizeInput(address),
             instructions: sanitizeInput(instructions),
-            transactionCode: sanitizeInput(transactionCode)
+            transactionCode: sanitizeInput(transactionCode),
+            paymentMethod: sanitizeInput(paymentMethod)
         };
 
         try {
@@ -1837,7 +2273,32 @@
         const user = getCurrentUser();
         const isGuest = user ? false : true;
 
-        // Save order to Firestore
+        // =============================================
+        // UPLOAD DESIGN FILE TO FIREBASE STORAGE
+        // =============================================
+        let designFileUrl = null;
+        if (selectedFile) {
+            try {
+                showToast('Uploading design file...');
+                designFileUrl = await uploadDesignFile(orderId);
+                if (designFileUrl) {
+                    showToast('✅ Design file uploaded successfully!');
+                    // Update the design file URL in order items
+                    orderItems.forEach(item => {
+                        if (item.hasDesign === 'Yes' || item.designFile !== 'None') {
+                            item.designFile = designFileUrl;
+                        }
+                    });
+                }
+            } catch (error) {
+                console.warn('⚠️ File upload failed but continuing with order:', error);
+                showToast('⚠️ Design file upload failed. You can send it later via email.');
+            }
+        }
+
+        // =============================================
+        // SAVE ORDER TO FIRESTORE
+        // =============================================
         try {
             const orderData = {
                 orderId: orderId,
@@ -1848,11 +2309,14 @@
                 deliveryAddress: sanitized.address,
                 instructions: sanitized.instructions || 'None',
                 transactionCode: sanitized.transactionCode || 'Not provided',
+                paymentMethod: sanitized.paymentMethod,
                 items: orderItems,
                 itemCount: totalItems,
                 subtotal: subtotal,
                 total: subtotal,
                 status: 'Pending',
+                designFileUrl: designFileUrl || null,
+                hasDesignFile: !!designFileUrl,
                 createdAt: new Date().toISOString(),
                 updatedAt: new Date().toISOString(),
                 isGuest: isGuest
@@ -1866,66 +2330,62 @@
             console.warn('⚠️ Firestore save failed:', firestoreError);
         }
 
-        // Build HTML table for email
-        let itemsRows = '';
+        // =============================================
+        // BUILD ITEMS LIST FOR EMAIL (NO TABLES)
+        // =============================================
+        let itemsList = '';
         orderItems.forEach(item => {
-            const designDisplay = item.hasDesign === 'Yes' 
-                ? `<span class="design-file">📎 ${item.designFile}</span>` 
-                : `<span class="no-design">— No design</span>`;
-            
-            itemsRows += `
-                <tr>
-                    <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">${item.index}</td>
-                    <td style="padding: 10px; border: 1px solid #ddd; text-align: left;">
-                        <span class="product-name">${item.name}</span>
-                        <span class="product-sub">${item.subcategory}</span>
-                        <span style="display:block;font-size:0.8rem;color:#666;">Quality: ${item.quality}</span>
-                    </td>
-                    <td style="padding: 10px; border: 1px solid #ddd; text-align: center; font-weight: 600;">${item.quantity}</td>
-                    <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">${item.price.toLocaleString()}</td>
-                    <td style="padding: 10px; border: 1px solid #ddd; text-align: center; font-weight: 600; color: var(--brand-blue);">${item.subtotal.toLocaleString()}</td>
-                    <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">${designDisplay}</td>
-                </tr>`;
+            let designDisplay = 'No design';
+            if (item.hasDesign === 'Yes' || item.designFile !== 'None') {
+                designDisplay = designFileUrl 
+                    ? `<a href="${designFileUrl}" target="_blank" style="color:#19589d;text-decoration:underline;">📎 Download Design</a>`
+                    : '📎 File uploaded';
+            }
+
+            itemsList += `
+                <div style="background:#f8fafc;padding:10px 14px;border-radius:6px;margin-bottom:6px;border-left:3px solid #19589d;">
+                    <div style="font-weight:600;font-size:14px;">${item.index}. ${item.name}</div>
+                    <div style="font-size:13px;color:#555;margin-top:2px;">${item.subcategory} · Quality: ${item.quality}</div>
+                    <div style="font-size:13px;color:#555;">Quantity: ${item.quantity} × KSh ${item.price.toLocaleString()}</div>
+                    <div style="font-size:14px;font-weight:600;color:#19589d;margin-top:3px;">Subtotal: KSh ${item.subtotal.toLocaleString()}</div>
+                    <div style="font-size:12px;color:#666;margin-top:2px;">Design: ${designDisplay}</div>
+                </div>
+            `;
         });
 
-        const itemsTable = `
-            <table style="width:100%;border-collapse:collapse;font-size:14px;">
-                <thead>
-                    <tr style="background:#f0f4f8;">
-                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left; width: 40px;">#</th>
-                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">Product</th>
-                        <th style="padding: 10px; border: 1px solid #ddd; text-align: center; width: 70px;">Qty</th>
-                        <th style="padding: 10px; border: 1px solid #ddd; text-align: center; width: 90px;">Price (KSh)</th>
-                        <th style="padding: 10px; border: 1px solid #ddd; text-align: center; width: 110px;">Subtotal (KSh)</th>
-                        <th style="padding: 10px; border: 1px solid #ddd; text-align: center; width: 150px;">Design File</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    ${itemsRows}
-                </tbody>
-                <tfoot>
-                    <tr style="background: #f5f8fc;">
-                        <td colspan="4" style="padding: 10px; border: 1px solid #ddd; text-align: right; font-weight: 700;">Total Items:</td>
-                        <td style="padding: 10px; border: 1px solid #ddd; text-align: center; font-weight: 700;">${totalItems}</td>
-                        <td style="padding: 10px; border: 1px solid #ddd; text-align: center;"></td>
-                    </tr>
-                    <tr style="background: #e8f0fe;">
-                        <td colspan="4" style="padding: 10px; border: 1px solid #ddd; text-align: right; font-weight: 700; font-size: 16px;">GRAND TOTAL:</td>
-                        <td colspan="2" style="padding: 10px; border: 1px solid #ddd; text-align: center; font-weight: 700; font-size: 18px; color: var(--brand-blue);">KSh ${subtotal.toLocaleString()}</td>
-                    </tr>
-                </tfoot>
-            </table>
+        // Add summary
+        itemsList += `
+            <hr style="border:none;border-top:1px dashed #ddd;margin:12px 0;">
+            <div style="display:flex;justify-content:space-between;padding:8px 4px;font-weight:600;font-size:15px;">
+                <span>Total Items: ${totalItems}</span>
+                <span style="color:#19589d;">Total: KSh ${subtotal.toLocaleString()}</span>
+            </div>
         `;
 
-        // Send email
+        // =============================================
+        // SEND EMAIL WITH EMAILJS
+        // =============================================
         const btn = document.getElementById('placeOrderBtn');
         btn.textContent = '⏳ Processing...';
         btn.disabled = true;
 
+        const paymentLabels = {
+            'paybill': 'M-Pesa Paybill (123456)',
+            'bank': 'Bank Transfer (Equity Bank)',
+            'sendmoney': 'Send Money (+254 700 123 456)'
+        };
+
         try {
+            // Include design file link in email if available
+            const designFileInfo = designFileUrl 
+                ? `<div style="background:#fff3cd;padding:10px 16px;border-radius:8px;border-left:4px solid #ffc107;margin:10px 0;">
+                    <strong>📎 Design File:</strong> <a href="${designFileUrl}" target="_blank" style="color:#19589d;font-weight:600;">Download Design File</a>
+                   </div>` 
+                : '<div style="background:#fff3cd;padding:10px 16px;border-radius:8px;border-left:4px solid #ffc107;margin:10px 0;"><strong>📎 Design File:</strong> No file uploaded</div>';
+
             const response = await emailjs.send(
-                'service_56efobd',
-                'template_3h5vdjv',
+                'service_rm5geys',
+                'template_79024if',
                 {
                     orderId: orderId,
                     customerName: sanitized.name,
@@ -1934,7 +2394,8 @@
                     customerAddress: sanitized.address,
                     instructions: sanitized.instructions || 'None',
                     transactionCode: sanitized.transactionCode || 'Not provided',
-                    itemsTable: itemsTable,
+                    paymentMethod: paymentLabels[paymentMethod] || paymentMethod,
+                    itemsList: itemsList,  // ← Changed from itemsTable to itemsList
                     itemCount: totalItems,
                     subtotal: `KSh ${subtotal.toLocaleString()}`,
                     total: `KSh ${subtotal.toLocaleString()}`,
@@ -1945,7 +2406,8 @@
                         year: 'numeric',
                         hour: '2-digit',
                         minute: '2-digit'
-                    })
+                    }),
+                    designFileInfo: designFileInfo
                 }
             );
 
@@ -2044,6 +2506,9 @@
                 closeCheckoutModal();
             }
         });
+
+        // Setup payment toggle
+        setupPaymentToggle();
 
         renderCart();
         updateCartBadge();

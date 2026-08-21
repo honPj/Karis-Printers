@@ -23,7 +23,6 @@
     <link rel="icon" type="image/x-icon" href="../images/teardrop.jpg">
     <link rel="apple-touch-icon" href="../images/apple-touch-icon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
         /* === BRAND COLORS === */
         :root {
@@ -897,8 +896,8 @@
 
 <!-- ===== HEADER ===== -->
 <header>
-    <div class="container">
-        <div class="logo">Rise Axis<span> Solutions</span></div>
+   <div class="container">
+    <a href="/index.html" class="logo">Rise Axis<span> Solutions</span></a>
 
         <!-- Hamburger -->
         <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
@@ -1017,14 +1016,14 @@
                     <div class="icon">✉️</div>
                     <div class="text">
                         Email
-                        <small>Contact@riseaxis.co.ke</small>
+                        <small>contact@riseaxissolutions.com</small>
                     </div>
                 </div>
                 <div class="info-item">
                     <div class="icon">📍</div>
                     <div class="text">
                         Location
-                        <small><p>188 Hood Avenue, 3rd Floor 72 Riverside Drive, Office 5</p></small>
+                        <small>188 Hood Avenue, 3rd Floor 72 Riverside Drive, Office 5</small>
                     </div>
                 </div>
 
@@ -1041,27 +1040,49 @@
             </div>
             <div class="contact-form">
                 <h3>Send Us a Message</h3>
-                <form id="contactForm">
+                
+                <!-- Web3Forms Contact Form -->
+                <form id="contactForm" action="https://api.web3forms.com/submit" method="POST">
+                    
+                    <!-- YOUR ACCESS KEY - Replace with your actual key -->
+                    <input type="hidden" name="access_key" value="6a5676f9-a5a7-417a-a3de-1e65798c4b3e">
+                    
+                    <!-- Honeypot Spam Protection -->
+                    <input type="checkbox" name="botcheck" style="display: none;">
+                    
+                    <!-- Form Settings -->
+                    <input type="hidden" name="subject" value="New Contact Form - Rise Axis Solutions">
+                    <input type="hidden" name="redirect" value="https://riseaxis.co.ke/pages/contact.html?success=true">
+                    
+                    <!-- Form Fields -->
                     <label for="name">Full Name *</label>
-                    <input type="text" id="name" placeholder="John Mwangi" required>
+                    <input type="text" id="name" name="name" placeholder="John Mwangi" required>
+
                     <label for="email">Email Address *</label>
-                    <input type="email" id="email" placeholder="john@example.com" required>
+                    <input type="email" id="email" name="email" placeholder="john@example.com" required>
+
                     <label for="subject">Subject *</label>
-                    <select id="subject" required>
+                    <select id="subject" name="subject" required>
                         <option value="">Select a subject...</option>
-                        <option value="order">Order Inquiry</option>
-                        <option value="design">Design Help</option>
-                        <option value="delivery">Delivery Question</option>
-                        <option value="quote">Pricing Question</option>
-                        <option value="other">Other</option>
+                        <option value="Order Inquiry">Order Inquiry</option>
+                        <option value="Design Help">Design Help</option>
+                        <option value="Delivery Question">Delivery Question</option>
+                        <option value="Pricing Question">Pricing Question</option>
+                        <option value="Other">Other</option>
                     </select>
+
                     <label for="message">Message *</label>
-                    <textarea id="message" placeholder="Tell us how we can help..." required></textarea>
-                    <button type="submit" class="btn-primary" id="submitBtn">Send Message →</button>
-                    <div class="form-success" id="formSuccess">
+                    <textarea id="message" name="message" placeholder="Tell us how we can help..." required></textarea>
+
+                    <button type="submit" class="btn-primary" id="submitBtn">
+                        <i class="fas fa-paper-plane"></i> Send Message
+                    </button>
+
+                    <!-- Status Messages -->
+                    <div id="formSuccess" class="form-success">
                         ✅ Your message has been sent! We'll respond within 24 hours.
                     </div>
-                    <div class="form-error" id="formError">
+                    <div id="formError" class="form-error">
                         ❌ There was an error sending your message. Please try again or call us directly.
                     </div>
                 </form>
@@ -1111,38 +1132,33 @@
     <span id="toastText">Item added</span>
 </div>
 
-<!-- ===== FOOTER ===== -->
 <footer>
-    <div class="container">
-        <div class="footer-grid">
-            <div>
-                <h4>Rise Axis Solutions</h4>
-                <p style="color: #aaa; font-size: 0.95rem;">Clarity, Direction, Results.</p>
-            </div>
-            <div>
-                <h4>Quick Links</h4>
-                <a href="catalog.html">Catalog</a>
-                <a href="cart.html">Order Now</a>
-                <a href="about.html">About Us</a>
-                <a href="contact.html">Contact</a>
-            </div>
-            <div>
-                <h4>Contact</h4>
-                <a href="tel:+254-700-123-456">📞 +254-700-123-456</a>
-                <a href="mailto:contact@riseaxis.co.ke">✉️ contact@riseaxis.co.ke</a>
-                <a href="#"><p>📍 188 Hood Avenue, 3rd Floor 72 Riverside Drive, Office 5</p></a>
-            </div>
-        </div>
-        <div class="copyright">&copy; 2026 Rise Axis Solutions. All rights reserved.</div>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <h4>Rise Axis Solutions</h4>
+        <p style="color: #aaa; font-size: 0.95rem;">Clarity, Direction, Results.</p>
+      </div>
+      <div>
+        <h4>Quick Links</h4>
+        <a href="catalog.html">Catalog</a>
+        <a href="cart.html">Order Now</a>
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <a href="tel:+254-700-123-456">📞 +254-700-123-456</a>
+        <a href="mailto:contact@riseaxissolutions.com">✉️ contact@riseaxissolutions.com</a>
+        <a href="#"><p>📍 188 Hood Avenue, 3rd Floor</p><p>72 Riverside Drive, Office 5</p></a>
+      </div>
     </div>
+    <div class="copyright">&copy; 2026 Rise Axis Solutions. All rights reserved.</div>
+  </div>
 </footer>
 
-<script type="module">
-    // =============================================
-    // IMPORTS
-    // =============================================
-    import { getCurrentUser, logoutUser, onAuthChange } from '../js/auth.js';
-
+<script>
+document.addEventListener('DOMContentLoaded', function() {
     // =============================================
     // SLIDE MENU LOGIC
     // =============================================
@@ -1220,13 +1236,12 @@
         toggleNavDropdown();
     });
     
-    // ===== FIX: Proper navigation for dropdown items =====
+    // Navigation for dropdown items
     document.querySelectorAll('#navDropdownMenu .dropdown-item, #slideDropdownMenu .dropdown-item').forEach(item => {
         item.addEventListener('click', function(e) {
             e.stopPropagation();
             const category = this.dataset.category;
             closeNavDropdown();
-            // Use the correct service page URL
             window.location.href = `service.html?category=${encodeURIComponent(category)}`;
         });
     });
@@ -1237,50 +1252,40 @@
     });
 
     // =============================================
-    // AUTH NAVIGATION
+    // WEB3FORMS - Check for success parameter
     // =============================================
-    function updateAuthUI(user) {
-        const authLinks = document.getElementById('authLinks');
-        const userLinks = document.getElementById('userLinks');
-        const accountLink = document.getElementById('accountLink');
-        const slideAuth = document.getElementById('slideAuthLinks');
-        const slideUser = document.getElementById('slideUserLinks');
-        const slideAccount = document.getElementById('slideAccountLink');
-
-        if (user) {
-            authLinks.style.display = 'none';
-            userLinks.style.display = 'inline';
-            if (accountLink) accountLink.textContent = user.displayName || 'My Account';
-            slideAuth.style.display = 'none';
-            slideUser.style.display = 'block';
-            if (slideAccount) slideAccount.textContent = user.displayName || 'My Account';
-        } else {
-            authLinks.style.display = 'inline';
-            userLinks.style.display = 'none';
-            slideAuth.style.display = 'block';
-            slideUser.style.display = 'none';
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('success') === 'true') {
+        const successDiv = document.getElementById('formSuccess');
+        if (successDiv) {
+            successDiv.style.display = 'block';
+            successDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
-    }
-
-    async function handleLogout(e) {
-        if (e) e.preventDefault();
-        if (confirm('Are you sure you want to logout?')) {
-            const result = await logoutUser();
-            if (result.success) {
-                window.location.replace('login.html');
-            }
-        }
+        // Clean URL (remove ?success=true)
+        window.history.replaceState({}, document.title, window.location.pathname);
     }
 
     // =============================================
-    // INITIALIZE EMAILJS
+    // WEB3FORMS - Form submission UI feedback
     // =============================================
-    (function() {
-        emailjs.init('ExzmFqrSqTxWvr1LN');
-    })();
+    const form = document.getElementById('contactForm');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.innerHTML = '⏳ Sending...';
+            submitBtn.disabled = true;
+            
+            // Hide previous messages
+            document.getElementById('formSuccess').style.display = 'none';
+            document.getElementById('formError').style.display = 'none';
+            
+            // The form will submit to Web3Forms automatically
+            // Success/failure will be handled by the redirect
+        });
+    }
 
     // =============================================
-    // PRODUCT DATA (for the cart modal)
+    // CART MODAL
     // =============================================
     const products = [
         { id: 't-shirts', name: 'Custom T-shirts', startingPrice: 1200 },
@@ -1291,9 +1296,6 @@
         { id: 'brochures-trifold', name: 'Brochures (Tri-fold)', startingPrice: 3500 }
     ];
 
-    // =============================================
-    // CART HELPERS
-    // =============================================
     function getCart() {
         try { return JSON.parse(localStorage.getItem('karis_cart')) || []; } catch { return []; }
     }
@@ -1309,9 +1311,6 @@
         document.querySelectorAll('.cart-badge').forEach(el => el.textContent = total);
     }
 
-    // =============================================
-    // CART MODAL
-    // =============================================
     let currentProduct = null;
 
     function openCartModal(productId) {
@@ -1381,128 +1380,34 @@
         window.toastTimeout = setTimeout(() => toast.classList.remove('show'), 3000);
     }
 
-    // =============================================
-    // SANITIZE INPUT
-    // =============================================
-    function sanitizeInput(input) {
-        if (!input) return '';
-        let sanitized = input.replace(/<[^>]*>/g, '');
-        sanitized = sanitized.replace(/&/g, '&amp;')
-            .replace(/"/g, '&quot;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;');
-        return sanitized.trim();
-    }
-
-    // =============================================
-    // CONTACT FORM SUBMISSION
-    // =============================================
-    document.getElementById('contactForm').addEventListener('submit', async function(e) {
-        e.preventDefault();
-
-        const name = document.getElementById('name').value.trim();
-        const email = document.getElementById('email').value.trim();
-        const subject = document.getElementById('subject').value;
-        const message = document.getElementById('message').value.trim();
-
-        if (!name || !email || !subject || !message) {
-            alert('Please fill in all required fields.');
-            return;
-        }
-
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            alert('Please enter a valid email address.');
-            return;
-        }
-
-        const sanitizedData = {
-            name: sanitizeInput(name),
-            email: sanitizeInput(email),
-            subject: sanitizeInput(subject),
-            message: sanitizeInput(message),
-            timestamp: new Date().toLocaleString('en-KE', {
-                timeZone: 'Africa/Nairobi',
-                day: '2-digit',
-                month: 'short',
-                year: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
-            })
-        };
-
-        try {
-            const submitBtn = document.getElementById('submitBtn');
-            submitBtn.textContent = '⏳ Sending...';
-            submitBtn.disabled = true;
-
-            document.getElementById('formSuccess').classList.remove('show');
-            document.getElementById('formError').classList.remove('show');
-
-            const response = await emailjs.send(
-                'service_56efobd',
-                'template_wezqqoh',
-                sanitizedData
-            );
-
-            console.log('Contact email sent successfully!', response);
-
-            document.getElementById('formSuccess').classList.add('show');
-            document.getElementById('formSuccess').scrollIntoView({ behavior: 'smooth' });
-
-            this.reset();
-            submitBtn.textContent = 'Send Message →';
-            submitBtn.disabled = false;
-
-        } catch (error) {
-            console.error('Error sending contact message:', error);
-            document.getElementById('formError').classList.add('show');
-            document.getElementById('formError').scrollIntoView({ behavior: 'smooth' });
-
-            const submitBtn = document.getElementById('submitBtn');
-            submitBtn.textContent = 'Send Message →';
-            submitBtn.disabled = false;
+    document.getElementById('closeModalBtn').addEventListener('click', closeCartModal);
+    document.getElementById('cartModal').addEventListener('click', function(e) {
+        if (e.target === this) closeCartModal();
+    });
+    document.getElementById('quantityInput').addEventListener('input', updateModalPrice);
+    document.getElementById('designFile').addEventListener('change', function() {
+        const display = document.getElementById('fileNameDisplay');
+        if (this.files && this.files.length > 0) {
+            display.textContent = `📎 ${this.files[0].name}`;
+            display.classList.add('show');
+        } else {
+            display.classList.remove('show');
         }
     });
-
-    // =============================================
-    // DOM CONTENT LOADED
-    // =============================================
-    document.addEventListener('DOMContentLoaded', function() {
-        const user = getCurrentUser();
-        updateAuthUI(user);
-
-        onAuthChange((user) => {
-            updateAuthUI(user);
-        });
-
-        const logoutLink = document.getElementById('logoutLink');
-        if (logoutLink) {
-            logoutLink.addEventListener('click', handleLogout);
-        }
-        document.getElementById('slideLogoutLink')?.addEventListener('click', handleLogout);
-
-        document.getElementById('closeModalBtn').addEventListener('click', closeCartModal);
-        document.getElementById('cartModal').addEventListener('click', function(e) {
-            if (e.target === this) closeCartModal();
-        });
-        document.getElementById('quantityInput').addEventListener('input', updateModalPrice);
-        document.getElementById('designFile').addEventListener('change', function() {
-            const display = document.getElementById('fileNameDisplay');
-            if (this.files && this.files.length > 0) {
-                display.textContent = `📎 ${this.files[0].name}`;
-                display.classList.add('show');
-            } else {
-                display.classList.remove('show');
-            }
-        });
-        document.getElementById('confirmAddToCartBtn').addEventListener('click', confirmAddToCart);
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') closeCartModal();
-        });
-
-        updateBadge();
+    document.getElementById('confirmAddToCartBtn').addEventListener('click', confirmAddToCart);
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeCartModal();
     });
+
+    updateBadge();
+
+    // =============================================
+    // AUTH NAVIGATION (Simple version)
+    // =============================================
+    // You can add auth logic here if needed
+    // For now, we'll just keep the existing structure
+});
 </script>
+
 </body>
 </html>
