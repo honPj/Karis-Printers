@@ -6,13 +6,12 @@
     <link rel="icon" type="image/x-icon" href="../images/teardrop.jpg">
     <title>Rise Axis Solutions - Shopping Cart</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js">
-    </script>
-    <!-- html2pdf for quote generation -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer">
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+    <!-- jsPDF only — no html2canvas, no html2pdf -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
     <style>
-        /* === BRAND COLORS === */
         :root {
             --brand-blue: #19589d;
             --brand-red: #dc1c2c;
@@ -20,45 +19,20 @@
             --brand-brown: #8f5c38;
             --slide-width: 300px;
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html,
-        body {
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body {
             height: 100%;
             font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
             background: #f8f9fa;
             color: #1a1a1a;
             line-height: 1.6;
         }
+        .page-wrapper { display: flex; flex-direction: column; min-height: 100vh; }
+        .content-wrap { flex: 1 0 auto; }
+        a { text-decoration: none; color: inherit; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
-        /* flex layout: push footer down */
-        .page-wrapper {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .content-wrap {
-            flex: 1 0 auto;
-        }
-
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* ===== HEADER ===== */
+        /* HEADER */
         header {
             background: #fff;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
@@ -74,1376 +48,632 @@
             flex-wrap: wrap;
             position: relative;
         }
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--brand-blue);
-            order: 0;
-            margin-right: auto;
+        .logo { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; }
+        .logo img {
+            height: 60px; width: auto; max-width: 180px;
+            object-fit: contain; display: block; flex-shrink: 0;
+            transition: transform 0.2s ease;
         }
-        .logo span {
-            color: var(--brand-red);
-        }
+        .logo:hover img { transform: scale(1.03); }
 
-        /* ===== HAMBURGER (mobile) ===== */
         .hamburger {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-            gap: 5px;
-            padding: 5px;
-            background: none;
-            border: none;
-            z-index: 300;
-            order: 1;
-            margin-left: 10px;
+            display: none; flex-direction: column; cursor: pointer;
+            gap: 5px; padding: 5px; background: none; border: none;
+            z-index: 300; order: 1; margin-left: 10px;
         }
         .hamburger span {
-            display: block;
-            width: 28px;
-            height: 3px;
-            background: var(--brand-blue);
-            border-radius: 3px;
+            display: block; width: 28px; height: 3px;
+            background: var(--brand-blue); border-radius: 3px;
             transition: all 0.3s ease;
         }
-        .hamburger.active span:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 6px);
-        }
-        .hamburger.active span:nth-child(2) {
-            opacity: 0;
-        }
-        .hamburger.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(5px, -6px);
-        }
+        .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 6px); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -6px); }
 
-        /* ===== MOBILE CART BUTTON ===== */
         .mobile-cart-btn {
-            display: none;
-            background: var(--brand-red);
-            color: #fff;
-            padding: 6px 14px;
-            border-radius: 25px;
-            font-weight: 600;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.85rem;
-            order: 2;
-            margin-left: 5px;
+            display: none; background: var(--brand-red); color: #fff;
+            padding: 6px 14px; border-radius: 25px; font-weight: 600;
+            align-items: center; gap: 6px; font-size: 0.85rem;
+            order: 2; margin-left: 5px;
         }
-        .mobile-cart-btn:hover {
-            background: #b31624;
-            color: #fff !important;
-        }
+        .mobile-cart-btn:hover { background: #b31624; color: #fff !important; }
         .mobile-cart-btn .cart-badge {
-            background: rgba(255, 255, 255, 0.25);
-            font-size: 0.65rem;
-            padding: 1px 7px;
-            min-width: 18px;
-            border-radius: 20px;
-            margin-left: 0;
+            background: rgba(255, 255, 255, 0.25); font-size: 0.65rem;
+            padding: 1px 7px; min-width: 18px; border-radius: 20px; margin-left: 0;
         }
 
-        /* ===== SLIDE MENU (mobile) ===== */
+        /* SLIDE MENU */
         .slide-menu {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: var(--slide-width);
-            max-width: 80vw;
-            height: 100vh;
-            background: #ffffff;
-            box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
-            z-index: 500;
-            transform: translateX(-110%);
+            position: fixed; top: 0; left: 0;
+            width: var(--slide-width); max-width: 80vw; height: 100vh;
+            background: #ffffff; box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
+            z-index: 500; transform: translateX(-110%);
             transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-            padding: 24px 20px 30px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
+            padding: 24px 20px 30px; overflow-y: auto;
+            display: flex; flex-direction: column; gap: 8px;
         }
-        .slide-menu.open {
-            transform: translateX(0);
-        }
-
+        .slide-menu.open { transform: translateX(0); }
         .menu-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.35);
-            z-index: 499;
-            display: none;
-            opacity: 0;
-            transition: opacity 0.25s ease;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.35); z-index: 499; display: none;
+            opacity: 0; transition: opacity 0.25s ease;
         }
-        .menu-overlay.show {
-            display: block;
-            opacity: 1;
-        }
-
+        .menu-overlay.show { display: block; opacity: 1; }
         .slide-menu .close-slide {
-            align-self: flex-end;
-            background: none;
-            border: none;
-            font-size: 2rem;
-            color: #555;
-            cursor: pointer;
-            padding: 0 4px 12px 0;
-            transition: 0.2s;
+            align-self: flex-end; background: none; border: none;
+            font-size: 2rem; color: #555; cursor: pointer;
+            padding: 0 4px 12px 0; transition: 0.2s;
         }
-        .slide-menu .close-slide:hover {
-            color: #111;
-            transform: rotate(90deg);
-        }
-
+        .slide-menu .close-slide:hover { color: #111; transform: rotate(90deg); }
         .slide-menu .slide-logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--brand-blue);
-            margin-bottom: 12px;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 16px;
+            font-size: 1.8rem; font-weight: 700; color: var(--brand-blue);
+            margin-bottom: 12px; border-bottom: 1px solid #eee; padding-bottom: 16px;
         }
-        .slide-menu .slide-logo span {
-            color: var(--brand-red);
+        .slide-menu .slide-logo span { color: var(--brand-red); }
+        .slide-menu a, .slide-menu .slide-dropdown-label {
+            display: block; padding: 12px 6px; font-weight: 500;
+            font-size: 1.05rem; color: #1a1a1a; border-radius: 8px;
+            transition: background 0.15s; cursor: pointer;
         }
-
-        .slide-menu a,
-        .slide-menu .slide-dropdown-label {
-            display: block;
-            padding: 12px 6px;
-            font-weight: 500;
-            font-size: 1.05rem;
-            color: #1a1a1a;
-            border-radius: 8px;
-            transition: background 0.15s;
-            cursor: pointer;
-        }
-        .slide-menu a:hover,
-        .slide-menu .slide-dropdown-label:hover {
-            background: #f0f6fe;
-            color: var(--brand-blue);
+        .slide-menu a:hover, .slide-menu .slide-dropdown-label:hover {
+            background: #f0f6fe; color: var(--brand-blue);
         }
         .slide-menu a.active {
-            color: var(--brand-blue);
-            font-weight: 600;
-            background: #ecf3fa;
+            color: var(--brand-blue); font-weight: 600; background: #ecf3fa;
         }
-
-        .slide-dropdown {
-            margin-bottom: 4px;
-        }
+        .slide-dropdown { margin-bottom: 4px; }
         .slide-dropdown-label {
-            display: flex !important;
-            justify-content: space-between;
-            align-items: center;
+            display: flex !important; justify-content: space-between; align-items: center;
         }
         .slide-dropdown-label .arrow-icon {
-            font-size: 0.7rem;
-            transition: transform 0.25s ease;
+            font-size: 0.7rem; transition: transform 0.25s ease;
         }
-        .slide-dropdown-label .arrow-icon.open {
-            transform: rotate(180deg);
-        }
+        .slide-dropdown-label .arrow-icon.open { transform: rotate(180deg); }
         .slide-dropdown-menu {
-            overflow: hidden;
-            max-height: 0;
+            overflow: hidden; max-height: 0;
             transition: max-height 0.3s ease, padding 0.2s ease;
-            padding-left: 16px;
-            background: #f8fafc;
-            border-radius: 8px;
-            margin: 4px 0 2px;
+            padding-left: 16px; background: #f8fafc;
+            border-radius: 8px; margin: 4px 0 2px;
         }
-        .slide-dropdown-menu.open {
-            max-height: 400px;
-            padding: 6px 0;
-        }
+        .slide-dropdown-menu.open { max-height: 400px; padding: 6px 0; }
         .slide-dropdown-menu .dropdown-item {
-            display: block;
-            padding: 10px 12px;
-            font-weight: 500;
-            color: #2a3b4e;
-            border-left: 3px solid transparent;
-            transition: 0.15s;
-            cursor: pointer;
+            display: block; padding: 10px 12px; font-weight: 500;
+            color: #2a3b4e; border-left: 3px solid transparent;
+            transition: 0.15s; cursor: pointer;
         }
         .slide-dropdown-menu .dropdown-item:hover {
-            background: #e8f0fe;
-            border-left-color: var(--brand-blue);
-            color: var(--brand-blue);
+            background: #e8f0fe; border-left-color: var(--brand-blue); color: var(--brand-blue);
         }
-
         .slide-menu .slide-auth {
-            margin-top: 12px;
-            border-top: 1px solid #eef2f6;
-            padding-top: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
+            margin-top: 12px; border-top: 1px solid #eef2f6;
+            padding-top: 16px; display: flex; flex-direction: column; gap: 4px;
         }
-        .slide-menu .slide-auth a {
-            font-weight: 500;
-            padding: 10px 6px;
-        }
-
+        .slide-menu .slide-auth a { font-weight: 500; padding: 10px 6px; }
         .slide-menu .slide-cta {
-            background: var(--brand-red);
-            color: #fff !important;
-            text-align: center;
-            border-radius: 40px;
-            padding: 12px 16px !important;
-            font-weight: 600;
-            margin-top: 8px;
+            background: var(--brand-red); color: #fff !important;
+            text-align: center; border-radius: 40px;
+            padding: 12px 16px !important; font-weight: 600; margin-top: 8px;
         }
-        .slide-menu .slide-cta:hover {
-            background: #b31624 !important;
-            color: #fff !important;
-        }
+        .slide-menu .slide-cta:hover { background: #b31624 !important; color: #fff !important; }
 
-        /* ===== DESKTOP NAV ===== */
-        .desktop-nav {
-            display: flex;
-            gap: 25px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        .desktop-nav a {
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-        .desktop-nav a:hover {
-            color: var(--brand-blue);
-        }
-        .desktop-nav a.active {
-            color: var(--brand-blue);
-            font-weight: 600;
-        }
-
+        /* DESKTOP NAV */
+        .desktop-nav { display: flex; gap: 25px; align-items: center; flex-wrap: wrap; }
+        .desktop-nav a { font-weight: 500; transition: color 0.3s ease; }
+        .desktop-nav a:hover { color: var(--brand-blue); }
+        .desktop-nav a.active { color: var(--brand-blue); font-weight: 600; }
         .desktop-nav .nav-dropdown {
-            position: relative;
-            display: inline-block;
-            cursor: pointer;
+            position: relative; display: inline-block; cursor: pointer;
         }
         .desktop-nav .nav-dropdown-label {
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            color: #1a1a1a;
-            transition: color 0.3s ease;
+            font-weight: 500; display: flex; align-items: center;
+            gap: 6px; color: #1a1a1a; transition: color 0.3s ease;
         }
-        .desktop-nav .nav-dropdown-label:hover {
-            color: var(--brand-blue);
-        }
+        .desktop-nav .nav-dropdown-label:hover { color: var(--brand-blue); }
         .desktop-nav .nav-dropdown-label .arrow-icon {
-            font-size: 0.65rem;
-            transition: transform 0.25s ease;
+            font-size: 0.65rem; transition: transform 0.25s ease;
         }
-        .desktop-nav .nav-dropdown-label .arrow-icon.open {
-            transform: rotate(180deg);
-        }
+        .desktop-nav .nav-dropdown-label .arrow-icon.open { transform: rotate(180deg); }
         .desktop-nav .nav-dropdown-menu {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background: #fff;
-            min-width: 260px;
-            border-radius: 16px;
+            position: absolute; top: 100%; left: 0; background: #fff;
+            min-width: 260px; border-radius: 16px;
             box-shadow: 0 12px 36px rgba(0, 0, 0, 0.12);
-            border: 1px solid #eef2f6;
-            padding: 8px 0;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(8px);
+            border: 1px solid #eef2f6; padding: 8px 0;
+            opacity: 0; visibility: hidden; transform: translateY(8px);
             transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
             z-index: 200;
         }
         .desktop-nav .nav-dropdown-menu.open {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0px);
+            opacity: 1; visibility: visible; transform: translateY(0px);
         }
         .desktop-nav .nav-dropdown-menu .dropdown-item {
-            display: block;
-            padding: 10px 20px;
-            font-weight: 500;
-            color: #1d2b3a;
-            font-size: 0.92rem;
-            transition: background 0.15s;
-            cursor: pointer;
-            border-left: 3px solid transparent;
+            display: block; padding: 10px 20px; font-weight: 500;
+            color: #1d2b3a; font-size: 0.92rem; transition: background 0.15s;
+            cursor: pointer; border-left: 3px solid transparent;
         }
         .desktop-nav .nav-dropdown-menu .dropdown-item:hover {
-            background: #f0f6fe;
-            border-left-color: var(--brand-blue);
-            color: var(--brand-blue);
+            background: #f0f6fe; border-left-color: var(--brand-blue); color: var(--brand-blue);
         }
         .desktop-nav .nav-dropdown-menu .dropdown-item.active {
-            background: #e8f0fe;
-            border-left-color: var(--brand-blue);
-            color: var(--brand-blue);
-            font-weight: 600;
+            background: #e8f0fe; border-left-color: var(--brand-blue);
+            color: var(--brand-blue); font-weight: 600;
         }
-
         .desktop-nav .nav-cta {
-            background: var(--brand-red);
-            color: #fff;
-            padding: 8px 20px;
-            border-radius: 25px;
-            font-weight: 600;
+            background: var(--brand-red); color: #fff;
+            padding: 8px 20px; border-radius: 25px; font-weight: 600;
         }
-        .desktop-nav .nav-cta:hover {
-            background: #b31624;
-            color: #fff !important;
-        }
-
+        .desktop-nav .nav-cta:hover { background: #b31624; color: #fff !important; }
         .cart-badge {
-            background: var(--brand-red);
-            color: #fff;
-            font-size: 0.7rem;
-            font-weight: 700;
-            padding: 2px 8px;
-            border-radius: 20px;
-            min-width: 20px;
-            text-align: center;
-            line-height: 1.4;
-            margin-left: 4px;
+            background: var(--brand-red); color: #fff;
+            font-size: 0.7rem; font-weight: 700;
+            padding: 2px 8px; border-radius: 20px;
+            min-width: 20px; text-align: center;
+            line-height: 1.4; margin-left: 4px;
         }
+        #authLinks { display: inline; }
+        #userLinks { display: none; }
 
-        #authLinks {
-            display: inline;
-        }
-        #userLinks {
-            display: none;
-        }
-
-        /* ===== PAGE HEADER ===== */
+        /* PAGE HEADER */
         .page-header {
             background: linear-gradient(135deg, #e8f0fe 0%, #d4e4f7 100%);
-            padding: 40px 0 30px;
-            text-align: center;
+            padding: 40px 0 30px; text-align: center;
         }
-        .page-header h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #1a1a1a;
-        }
-        .page-header p {
-            color: #555;
-            font-size: 1.1rem;
-        }
+        .page-header h1 { font-size: 2.5rem; font-weight: 700; color: #1a1a1a; }
+        .page-header p { color: #555; font-size: 1.1rem; }
 
-        /* ===== CART SECTION ===== */
-        .cart-section {
-            margin: 40px 0 60px;
-        }
-        .cart-grid {
-            display: grid;
-            grid-template-columns: 1fr 380px;
-            gap: 40px;
-        }
-
+        /* CART */
+        .cart-section { margin: 40px 0 60px; }
+        .cart-grid { display: grid; grid-template-columns: 1fr 380px; gap: 40px; }
         .cart-items {
-            background: #fff;
-            border-radius: 20px;
+            background: #fff; border-radius: 20px;
             box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
-            border: 1px solid #eef2f6;
-            overflow: hidden;
+            border: 1px solid #eef2f6; overflow: hidden;
         }
         .cart-items .cart-header {
-            padding: 20px 28px;
-            border-bottom: 1px solid #eef2f6;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            padding: 20px 28px; border-bottom: 1px solid #eef2f6;
+            display: flex; justify-content: space-between; align-items: center;
             background: #fafcff;
         }
-        .cart-items .cart-header h2 {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #0a1e33;
-        }
-        .cart-items .cart-header .item-count {
-            color: #6a8aa8;
-            font-size: 0.9rem;
-        }
+        .cart-items .cart-header h2 { font-size: 1.2rem; font-weight: 700; color: #0a1e33; }
+        .cart-items .cart-header .item-count { color: #6a8aa8; font-size: 0.9rem; }
         .cart-item {
-            display: grid;
-            grid-template-columns: 100px 1fr auto;
-            gap: 20px;
-            padding: 20px 28px;
+            display: grid; grid-template-columns: 100px 1fr auto;
+            gap: 20px; padding: 20px 28px;
             border-bottom: 1px solid #f0f3f8;
-            align-items: center;
-            transition: 0.2s;
+            align-items: center; transition: 0.2s;
         }
-        .cart-item:last-child {
-            border-bottom: none;
-        }
-        .cart-item:hover {
-            background: #fafcff;
-        }
+        .cart-item:last-child { border-bottom: none; }
+        .cart-item:hover { background: #fafcff; }
         .cart-item .item-image {
-            width: 100px;
-            height: 100px;
-            border-radius: 12px;
-            background: #eef2f7;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 100px; height: 100px; border-radius: 12px;
+            background: #eef2f7; overflow: hidden;
+            display: flex; align-items: center; justify-content: center;
             flex-shrink: 0;
         }
-        .cart-item .item-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .cart-item .item-image .no-image {
-            font-size: 2rem;
-            color: #a0b8d0;
-        }
-        .cart-item .item-details {
-            flex: 1;
-        }
+        .cart-item .item-image img { width: 100%; height: 100%; object-fit: cover; }
+        .cart-item .item-image .no-image { font-size: 2rem; color: #a0b8d0; }
+        .cart-item .item-details { flex: 1; }
         .cart-item .item-details h3 {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #0a1e33;
-            margin-bottom: 2px;
+            font-size: 1.1rem; font-weight: 700; color: #0a1e33; margin-bottom: 2px;
         }
-        .cart-item .item-details .item-sub {
-            font-size: 0.8rem;
-            color: #6a8aa8;
-            margin-bottom: 6px;
-        }
-        .cart-item .item-details .item-price {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #0f3b5e;
-        }
-        .cart-item .item-details .design-status {
-            font-size: 0.8rem;
-            color: var(--brand-green);
-            margin-top: 4px;
-        }
-        .cart-item .item-details .design-status i {
-            margin-right: 4px;
-        }
+        .cart-item .item-details .item-sub { font-size: 0.8rem; color: #6a8aa8; margin-bottom: 6px; }
+        .cart-item .item-details .item-price { font-size: 1rem; font-weight: 600; color: #0f3b5e; }
+        .cart-item .item-details .design-status { font-size: 0.8rem; color: var(--brand-green); margin-top: 4px; }
+        .cart-item .item-details .design-status i { margin-right: 4px; }
         .cart-item .item-actions {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 10px;
+            display: flex; flex-direction: column;
+            align-items: flex-end; gap: 10px;
         }
         .cart-item .item-actions .qty-control {
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            display: flex; align-items: center; gap: 8px;
         }
         .cart-item .item-actions .qty-control button {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            border: 2px solid #dce4ee;
-            background: #fff;
-            cursor: pointer;
-            font-weight: 700;
-            color: #1a2e44;
-            transition: 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 32px; height: 32px; border-radius: 50%;
+            border: 2px solid #dce4ee; background: #fff;
+            cursor: pointer; font-weight: 700; color: #1a2e44;
+            transition: 0.2s; display: flex;
+            align-items: center; justify-content: center;
         }
         .cart-item .item-actions .qty-control button:hover {
-            border-color: var(--brand-blue);
-            background: #eef3fc;
+            border-color: var(--brand-blue); background: #eef3fc;
         }
         .cart-item .item-actions .qty-control .qty-display {
-            font-weight: 700;
-            font-size: 1.1rem;
-            min-width: 30px;
-            text-align: center;
-            color: #0a1e33;
+            font-weight: 700; font-size: 1.1rem; min-width: 30px;
+            text-align: center; color: #0a1e33;
         }
-        .cart-item .item-actions .item-total {
-            font-weight: 700;
-            font-size: 1.1rem;
-            color: #0f3b5e;
-        }
+        .cart-item .item-actions .item-total { font-weight: 700; font-size: 1.1rem; color: #0f3b5e; }
         .cart-item .item-actions .remove-btn {
-            background: none;
-            border: none;
-            color: #b0c0d0;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: 0.2s;
+            background: none; border: none; color: #b0c0d0;
+            cursor: pointer; font-size: 0.9rem; transition: 0.2s;
         }
-        .cart-item .item-actions .remove-btn:hover {
-            color: var(--brand-red);
-        }
+        .cart-item .item-actions .remove-btn:hover { color: var(--brand-red); }
 
         .cart-summary {
-            background: #fff;
-            border-radius: 20px;
+            background: #fff; border-radius: 20px;
             box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
             border: 1px solid #eef2f6;
-            padding: 28px 24px;
-            height: fit-content;
-            position: sticky;
-            top: 100px;
+            padding: 28px 24px; height: fit-content;
+            position: sticky; top: 100px;
         }
         .cart-summary h3 {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #0a1e33;
-            margin-bottom: 20px;
-            padding-bottom: 16px;
+            font-size: 1.2rem; font-weight: 700; color: #0a1e33;
+            margin-bottom: 20px; padding-bottom: 16px;
             border-bottom: 1px solid #eef2f6;
         }
         .cart-summary .summary-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            font-size: 0.95rem;
-            color: #1a2e44;
+            display: flex; justify-content: space-between;
+            padding: 8px 0; font-size: 0.95rem; color: #1a2e44;
         }
-        .cart-summary .summary-row .label {
-            color: #6a8aa8;
-        }
-        .cart-summary .summary-row .value {
-            font-weight: 600;
-        }
+        .cart-summary .summary-row .label { color: #6a8aa8; }
+        .cart-summary .summary-row .value { font-weight: 600; }
         .cart-summary .summary-row.total {
-            border-top: 2px solid #dce4ee;
-            margin-top: 12px;
-            padding-top: 16px;
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #0a1e33;
+            border-top: 2px solid #dce4ee; margin-top: 12px;
+            padding-top: 16px; font-size: 1.2rem;
+            font-weight: 700; color: #0a1e33;
         }
-        .cart-summary .summary-row.total .value {
-            color: #0f3b5e;
-        }
+        .cart-summary .summary-row.total .value { color: #0f3b5e; }
         .cart-summary .checkout-btn {
-            width: 100%;
-            padding: 14px;
-            background: var(--brand-blue);
-            color: #fff;
-            border: none;
-            border-radius: 60px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.2s;
+            width: 100%; padding: 14px;
+            background: var(--brand-blue); color: #fff;
+            border: none; border-radius: 60px;
+            font-size: 1.1rem; font-weight: 700;
+            cursor: pointer; transition: 0.2s;
             margin-top: 20px;
             box-shadow: 0 4px 16px rgba(25, 88, 157, 0.3);
         }
-        .cart-summary .checkout-btn:hover {
-            background: #0e3f70;
-            transform: scale(1.01);
-        }
+        .cart-summary .checkout-btn:hover { background: #0e3f70; transform: scale(1.01); }
         .cart-summary .checkout-btn:disabled {
-            background: #b0b8c0;
-            cursor: not-allowed;
-            transform: none;
+            background: #b0b8c0; cursor: not-allowed; transform: none;
         }
-        /* ---- QUOTE BUTTON ---- */
         .cart-summary .quote-btn {
-            width: 100%;
-            padding: 14px;
-            background: #fff;
-            color: var(--brand-blue);
+            width: 100%; padding: 14px;
+            background: #fff; color: var(--brand-blue);
             border: 2px solid var(--brand-blue);
-            border-radius: 60px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.2s;
-            margin-top: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
+            border-radius: 60px; font-size: 1.1rem;
+            font-weight: 700; cursor: pointer;
+            transition: 0.2s; margin-top: 12px;
+            display: flex; align-items: center;
+            justify-content: center; gap: 8px;
         }
-        .cart-summary .quote-btn:hover {
-            background: #eef3fc;
-            transform: scale(1.01);
-        }
+        .cart-summary .quote-btn:hover { background: #eef3fc; transform: scale(1.01); }
         .cart-summary .quote-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
+            opacity: 0.5; cursor: not-allowed; transform: none;
         }
         .cart-summary .continue-shopping {
-            display: block;
-            text-align: center;
-            margin-top: 14px;
-            color: #6a8aa8;
-            font-size: 0.9rem;
-            transition: 0.2s;
+            display: block; text-align: center; margin-top: 14px;
+            color: #6a8aa8; font-size: 0.9rem; transition: 0.2s;
         }
-        .cart-summary .continue-shopping:hover {
-            color: var(--brand-blue);
-        }
+        .cart-summary .continue-shopping:hover { color: var(--brand-blue); }
 
         .empty-cart {
-            text-align: center;
-            padding: 60px 20px;
-            background: #fff;
-            border-radius: 20px;
+            text-align: center; padding: 60px 20px;
+            background: #fff; border-radius: 20px;
             border: 1px solid #eef2f6;
         }
-        .empty-cart .empty-icon {
-            font-size: 4rem;
-            color: #c0d0e0;
-            margin-bottom: 16px;
-        }
-        .empty-cart h2 {
-            font-size: 1.6rem;
-            color: #0a1e33;
-            margin-bottom: 8px;
-        }
-        .empty-cart p {
-            color: #6a8aa8;
-            margin-bottom: 20px;
-        }
+        .empty-cart .empty-icon { font-size: 4rem; color: #c0d0e0; margin-bottom: 16px; }
+        .empty-cart h2 { font-size: 1.6rem; color: #0a1e33; margin-bottom: 8px; }
+        .empty-cart p { color: #6a8aa8; margin-bottom: 20px; }
         .empty-cart .btn-primary {
-            display: inline-block;
-            background: var(--brand-blue);
-            color: #fff;
-            padding: 12px 32px;
-            border-radius: 60px;
-            font-weight: 600;
-            transition: 0.2s;
+            display: inline-block; background: var(--brand-blue);
+            color: #fff; padding: 12px 32px;
+            border-radius: 60px; font-weight: 600; transition: 0.2s;
         }
-        .empty-cart .btn-primary:hover {
-            background: #0e3f70;
-            transform: scale(1.01);
-        }
+        .empty-cart .btn-primary:hover { background: #0e3f70; transform: scale(1.01); }
 
-        /* ===== CHECKOUT MODAL ===== */
+        /* CHECKOUT MODAL */
         .checkout-modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+            display: none; position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5); z-index: 1000;
+            justify-content: center; align-items: center; padding: 20px;
         }
-        .checkout-modal-overlay.show {
-            display: flex;
-        }
+        .checkout-modal-overlay.show { display: flex; }
         .checkout-modal {
-            background: #fff;
-            border-radius: 28px;
-            max-width: 560px;
-            width: 100%;
+            background: #fff; border-radius: 28px;
+            max-width: 560px; width: 100%;
             padding: 36px 32px 32px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-            position: relative;
-            animation: modalSlideIn 0.3s ease;
-            max-height: 90vh;
-            overflow-y: auto;
+            position: relative; animation: modalSlideIn 0.3s ease;
+            max-height: 90vh; overflow-y: auto;
         }
         @keyframes modalSlideIn {
-            from {
-                transform: translateY(30px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
         .checkout-modal .close-modal {
-            position: absolute;
-            top: 16px;
-            right: 20px;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: #999;
-            cursor: pointer;
+            position: absolute; top: 16px; right: 20px;
+            background: none; border: none; font-size: 1.5rem;
+            color: #999; cursor: pointer;
         }
-        .checkout-modal .close-modal:hover {
-            color: #333;
-            transform: rotate(90deg);
-        }
-        .checkout-modal h2 {
-            font-size: 1.6rem;
-            font-weight: 700;
-            color: #0a1e33;
-            margin-bottom: 6px;
-        }
-        .checkout-modal .subtitle {
-            color: #6a8aa8;
-            font-size: 0.95rem;
-            margin-bottom: 20px;
-        }
-        .checkout-modal .form-group {
-            margin-bottom: 15px;
-        }
+        .checkout-modal .close-modal:hover { color: #333; transform: rotate(90deg); }
+        .checkout-modal h2 { font-size: 1.6rem; font-weight: 700; color: #0a1e33; margin-bottom: 6px; }
+        .checkout-modal .subtitle { color: #6a8aa8; font-size: 0.95rem; margin-bottom: 20px; }
+        .checkout-modal .form-group { margin-bottom: 15px; }
         .checkout-modal .form-group label {
-            display: block;
-            font-weight: 600;
-            font-size: 0.9rem;
-            color: #1a2e44;
-            margin-bottom: 5px;
+            display: block; font-weight: 600; font-size: 0.9rem;
+            color: #1a2e44; margin-bottom: 5px;
         }
         .checkout-modal .form-group input,
         .checkout-modal .form-group textarea {
-            width: 100%;
-            padding: 12px 14px;
-            border: 2px solid #e0e6ed;
-            border-radius: 12px;
-            font-size: 1rem;
-            transition: 0.2s;
-            font-family: inherit;
+            width: 100%; padding: 12px 14px;
+            border: 2px solid #e0e6ed; border-radius: 12px;
+            font-size: 1rem; transition: 0.2s; font-family: inherit;
         }
         .checkout-modal .form-group input:focus,
         .checkout-modal .form-group textarea:focus {
-            outline: none;
-            border-color: var(--brand-blue);
+            outline: none; border-color: var(--brand-blue);
         }
-        .checkout-modal .form-group textarea {
-            min-height: 60px;
-            resize: vertical;
-        }
+        .checkout-modal .form-group textarea { min-height: 60px; resize: vertical; }
         .checkout-modal .order-summary-mini {
-            background: #f5f8fc;
-            border-radius: 14px;
-            padding: 16px 20px;
-            margin: 16px 0 20px;
+            background: #f5f8fc; border-radius: 14px;
+            padding: 16px 20px; margin: 16px 0 20px;
         }
         .checkout-modal .order-summary-mini .mini-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 4px 0;
-            font-size: 0.9rem;
+            display: flex; justify-content: space-between;
+            padding: 4px 0; font-size: 0.9rem;
         }
         .checkout-modal .order-summary-mini .mini-row.total {
-            border-top: 2px solid #dce4ee;
-            margin-top: 8px;
-            padding-top: 10px;
-            font-weight: 700;
-            font-size: 1.1rem;
+            border-top: 2px solid #dce4ee; margin-top: 8px;
+            padding-top: 10px; font-weight: 700; font-size: 1.1rem;
         }
         .checkout-modal .btn-place-order {
-            width: 100%;
-            padding: 14px;
-            background: var(--brand-green);
-            color: #fff;
-            border: none;
-            border-radius: 60px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.2s;
+            width: 100%; padding: 14px;
+            background: var(--brand-green); color: #fff;
+            border: none; border-radius: 60px;
+            font-size: 1.1rem; font-weight: 700;
+            cursor: pointer; transition: 0.2s;
             box-shadow: 0 4px 16px rgba(16, 170, 81, 0.3);
         }
-        .checkout-modal .btn-place-order:hover {
-            background: #0b8a44;
-            transform: scale(1.01);
-        }
+        .checkout-modal .btn-place-order:hover { background: #0b8a44; transform: scale(1.01); }
         .checkout-modal .btn-place-order:disabled {
-            background: #888;
-            cursor: not-allowed;
-            transform: none;
+            background: #888; cursor: not-allowed; transform: none;
         }
 
-        /* ===== PAYMENT OPTIONS STYLES ===== */
+        /* PAYMENT OPTIONS */
         .payment-option-label {
-            transition: all 0.2s ease;
-            border: 2px solid transparent;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 16px;
-            background: #f8fafc;
-            border-radius: 12px;
-            position: relative;
+            transition: all 0.2s ease; border: 2px solid transparent;
+            cursor: pointer; display: flex; align-items: center;
+            gap: 12px; padding: 12px 16px;
+            background: #f8fafc; border-radius: 12px; position: relative;
         }
-
-        .payment-option-label:hover {
-            background: #eef3fc !important;
-            border-color: #d0dce8;
-        }
-
+        .payment-option-label:hover { background: #eef3fc !important; border-color: #d0dce8; }
         .payment-option-label input[type="radio"] {
-            width: 18px;
-            height: 18px;
-            accent-color: var(--brand-blue);
-            flex-shrink: 0;
-            cursor: pointer;
+            width: 18px; height: 18px; accent-color: var(--brand-blue);
+            flex-shrink: 0; cursor: pointer;
         }
-
-        .payment-option-label .payment-icon {
-            font-size: 1.2rem;
-        }
-
-        .payment-option-label .payment-name {
-            font-weight: 600;
-        }
-
+        .payment-option-label .payment-icon { font-size: 1.2rem; }
+        .payment-option-label .payment-name { font-weight: 600; }
         .payment-details {
-            animation: fadeIn 0.3s ease;
-            padding: 14px 18px;
-            border-radius: 12px;
-            margin: 4px 0 16px;
+            animation: fadeIn 0.3s ease; padding: 14px 18px;
+            border-radius: 12px; margin: 4px 0 16px;
         }
-
         .payment-details .payment-title {
-            font-weight: 700;
-            font-size: 1rem;
-            display: block;
-            margin-bottom: 6px;
+            font-weight: 700; font-size: 1rem;
+            display: block; margin-bottom: 6px;
         }
-
         .payment-details .detail-row {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 3px 0;
-            font-size: 0.95rem;
-            line-height: 1.8;
+            display: flex; align-items: center;
+            gap: 8px; padding: 3px 0;
+            font-size: 0.95rem; line-height: 1.8;
         }
-
-        .payment-details .detail-row .label {
-            font-weight: 600;
-            min-width: 120px;
-        }
-
-        .payment-details .detail-row .value {
-            font-weight: 500;
-        }
-
+        .payment-details .detail-row .label { font-weight: 600; min-width: 120px; }
+        .payment-details .detail-row .value { font-weight: 500; }
         .payment-details .highlight {
-            font-weight: 700;
-            color: var(--brand-blue);
-            font-size: 1.05rem;
+            font-weight: 700; color: var(--brand-blue); font-size: 1.05rem;
         }
-
-        .payment-details .note {
-            font-size: 0.85rem;
-            color: #666;
-            margin-top: 6px;
-        }
-
+        .payment-details .note { font-size: 0.85rem; color: #666; margin-top: 6px; }
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-5px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
         }
+        .payment-details.paybill-style { background: #f0f7e8; border-left: 4px solid var(--brand-green); }
+        .payment-details.bank-style { background: #f0f4fa; border-left: 4px solid var(--brand-blue); }
 
-        .payment-details.paybill-style {
-            background: #f0f7e8;
-            border-left: 4px solid var(--brand-green);
-        }
-
-        .payment-details.bank-style {
-            background: #f0f4fa;
-            border-left: 4px solid var(--brand-blue);
-        }
-
-        .payment-details.sendmoney-style {
-            background: #f0f7f0;
-            border-left: 4px solid #2d8f4e;
-        }
-
-        /* ===== SUCCESS OVERLAY ===== */
+        /* SUCCESS OVERLAY */
         .success-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+            display: none; position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5); z-index: 2000;
+            justify-content: center; align-items: center; padding: 20px;
         }
-        .success-overlay.show {
-            display: flex;
-        }
+        .success-overlay.show { display: flex; }
         .success-modal {
-            background: #fff;
-            border-radius: 28px;
-            max-width: 480px;
-            width: 100%;
-            padding: 40px 32px;
-            text-align: center;
+            background: #fff; border-radius: 28px;
+            max-width: 480px; width: 100%;
+            padding: 40px 32px; text-align: center;
             animation: modalSlideIn 0.3s ease;
         }
-        .success-modal .icon {
-            font-size: 4rem;
-            color: var(--brand-green);
-            margin-bottom: 12px;
-        }
-        .success-modal h2 {
-            color: #0a1e33;
-            margin-bottom: 8px;
-        }
-        .success-modal p {
-            color: #6a8aa8;
-            margin-bottom: 6px;
-        }
+        .success-modal .icon { font-size: 4rem; color: var(--brand-green); margin-bottom: 12px; }
+        .success-modal h2 { color: #0a1e33; margin-bottom: 8px; }
+        .success-modal p { color: #6a8aa8; margin-bottom: 6px; }
         .success-modal .order-id {
-            background: #f5f8fc;
-            padding: 10px;
-            border-radius: 8px;
-            font-weight: 700;
-            color: var(--brand-blue);
-            margin: 12px 0 20px;
-            font-size: 1.1rem;
+            background: #f5f8fc; padding: 10px; border-radius: 8px;
+            font-weight: 700; color: var(--brand-blue);
+            margin: 12px 0 20px; font-size: 1.1rem;
         }
+        .success-modal .btn-continue {
+            background: var(--brand-blue); color: #fff;
+            padding: 12px 30px; border: none; border-radius: 60px;
+            font-weight: 600; font-size: 1rem;
+            cursor: pointer; transition: 0.2s;
+        }
+        .success-modal .btn-continue:hover { background: #0e3f70; }
 
-        /* ===== ORDER NOTIFICATION ===== */
+        /* ORDER NOTIFICATION */
         .order-notification {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            max-width: 550px;
-            width: 90%;
-            padding: 18px 24px;
-            border-radius: 16px;
+            position: fixed; bottom: 30px; left: 50%;
+            transform: translateX(-50%); max-width: 550px; width: 90%;
+            padding: 18px 24px; border-radius: 16px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-            z-index: 5000;
-            display: none;
-            animation: slideUpNotif 0.5s ease;
-            text-align: left;
+            z-index: 5000; display: none;
+            animation: slideUpNotif 0.5s ease; text-align: left;
             border-left: 5px solid;
         }
-        .order-notification.show {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        .order-notification .notif-icon {
-            font-size: 2rem;
-            flex-shrink: 0;
-        }
-        .order-notification .notif-content {
-            flex: 1;
-        }
-        .order-notification .notif-content h4 {
-            margin-bottom: 2px;
-            font-size: 1rem;
-        }
-        .order-notification .notif-content p {
-            font-size: 0.9rem;
-            margin: 0;
-            opacity: 0.9;
-        }
+        .order-notification.show { display: flex; align-items: center; gap: 15px; }
+        .order-notification .notif-icon { font-size: 2rem; flex-shrink: 0; }
+        .order-notification .notif-content { flex: 1; }
+        .order-notification .notif-content h4 { margin-bottom: 2px; font-size: 1rem; }
+        .order-notification .notif-content p { font-size: 0.9rem; margin: 0; opacity: 0.9; }
         .order-notification .notif-close {
-            background: none;
-            border: none;
-            font-size: 1.2rem;
-            cursor: pointer;
-            opacity: 0.6;
-            transition: 0.2s;
-            color: inherit;
+            background: none; border: none; font-size: 1.2rem;
+            cursor: pointer; opacity: 0.6; transition: 0.2s; color: inherit;
         }
-        .order-notification .notif-close:hover {
-            opacity: 1;
-        }
-
+        .order-notification .notif-close:hover { opacity: 1; }
         .order-notification.guest {
-            background: #fff3cd;
-            border-left-color: #ffc107;
-            color: #856404;
+            background: #fff3cd; border-left-color: #ffc107; color: #856404;
         }
-        .order-notification.guest .notif-icon {
-            color: #ffc107;
-        }
+        .order-notification.guest .notif-icon { color: #ffc107; }
         .order-notification.registered {
-            background: #d4edda;
-            border-left-color: var(--brand-green);
-            color: #155724;
+            background: #d4edda; border-left-color: var(--brand-green); color: #155724;
         }
-        .order-notification.registered .notif-icon {
-            color: var(--brand-green);
-        }
-
+        .order-notification.registered .notif-icon { color: var(--brand-green); }
         @keyframes slideUpNotif {
-            from {
-                transform: translateX(-50%) translateY(30px);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(-50%) translateY(0);
-                opacity: 1;
-            }
+            from { transform: translateX(-50%) translateY(30px); opacity: 0; }
+            to { transform: translateX(-50%) translateY(0); opacity: 1; }
         }
 
-        .success-modal .btn-continue {
-            background: var(--brand-blue);
-            color: #fff;
-            padding: 12px 30px;
-            border: none;
-            border-radius: 60px;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .success-modal .btn-continue:hover {
-            background: #0e3f70;
-        }
-
+        /* TOAST */
         .toast-message {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            padding: 16px 24px;
-            background: #e5f4e6;
-            border-radius: 60px;
-            color: var(--brand-green);
-            font-weight: 500;
-            font-size: 0.95rem;
-            display: none;
-            align-items: center;
-            gap: 12px;
+            position: fixed; bottom: 30px; right: 30px;
+            padding: 16px 24px; background: #e5f4e6;
+            border-radius: 60px; color: var(--brand-green);
+            font-weight: 500; font-size: 0.95rem;
+            display: none; align-items: center; gap: 12px;
             border: 1px solid #b8d9b8;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            z-index: 3000;
-            animation: slideUp 0.3s ease;
+            z-index: 3000; animation: slideUp 0.3s ease;
         }
-        .toast-message.show {
-            display: flex;
-        }
+        .toast-message.show { display: flex; }
         @keyframes slideUp {
-            from {
-                transform: translateY(20px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
 
-        /* ===== DESIGN FILE UPLOAD ===== */
+        /* FILE UPLOAD */
         .file-upload-area {
-            border: 2px dashed #dce4ee;
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: 0.3s;
-            background: #fafcff;
-            margin-bottom: 10px;
+            border: 2px dashed #dce4ee; border-radius: 12px;
+            padding: 20px; text-align: center;
+            cursor: pointer; transition: 0.3s;
+            background: #fafcff; margin-bottom: 10px;
         }
-        .file-upload-area:hover {
-            border-color: var(--brand-blue);
-            background: #f0f6fe;
-        }
-        .file-upload-area.dragover {
-            border-color: var(--brand-blue);
-            background: #e8f0fe;
-        }
-        .file-upload-area .upload-icon {
-            font-size: 2rem;
-            color: #6a8aa8;
-        }
-        .file-upload-area .upload-text {
-            color: #6a8aa8;
-            font-size: 0.9rem;
-        }
+        .file-upload-area:hover { border-color: var(--brand-blue); background: #f0f6fe; }
+        .file-upload-area.dragover { border-color: var(--brand-blue); background: #e8f0fe; }
+        .file-upload-area .upload-icon { font-size: 2rem; color: #6a8aa8; }
+        .file-upload-area .upload-text { color: #6a8aa8; font-size: 0.9rem; }
         .file-upload-area .uploaded-file {
-            color: var(--brand-green);
-            font-weight: 600;
-            margin-top: 8px;
+            color: var(--brand-green); font-weight: 600; margin-top: 8px;
         }
-        .file-input-hidden {
-            display: none;
-        }
+        .file-input-hidden { display: none; }
 
-        .design-file-link {
-            display: inline-block;
-            background: #e8f0fe;
-            color: var(--brand-blue);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            margin-top: 4px;
-            text-decoration: none;
-        }
-        .design-file-link:hover {
-            background: #d4e4f7;
-        }
-
-        /* ===== QUOTE CLIENT FORM (MODAL) ===== */
+        /* QUOTE FORM MODAL */
         .quote-form-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 1500;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+            display: none; position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5); z-index: 1500;
+            justify-content: center; align-items: center; padding: 20px;
         }
-        .quote-form-overlay.show {
-            display: flex;
-        }
+        .quote-form-overlay.show { display: flex; }
         .quote-form-modal {
-            background: #fff;
-            border-radius: 28px;
-            max-width: 540px;
-            width: 100%;
+            background: #fff; border-radius: 28px;
+            max-width: 540px; width: 100%;
             padding: 32px 30px 30px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-            position: relative;
-            animation: modalSlideIn 0.3s ease;
-            max-height: 90vh;
-            overflow-y: auto;
+            position: relative; animation: modalSlideIn 0.3s ease;
+            max-height: 90vh; overflow-y: auto;
         }
         .quote-form-modal .close-quote-form {
-            position: absolute;
-            top: 16px;
-            right: 20px;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: #999;
-            cursor: pointer;
+            position: absolute; top: 16px; right: 20px;
+            background: none; border: none; font-size: 1.5rem;
+            color: #999; cursor: pointer;
         }
-        .quote-form-modal .close-quote-form:hover {
-            color: #333;
-            transform: rotate(90deg);
-        }
-        .quote-form-modal h2 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #0a1e33;
-            margin-bottom: 6px;
-        }
-        .quote-form-modal .subtitle {
-            color: #6a8aa8;
-            font-size: 0.95rem;
-            margin-bottom: 20px;
-        }
-        .quote-form-modal .form-group {
-            margin-bottom: 14px;
-        }
+        .quote-form-modal .close-quote-form:hover { color: #333; transform: rotate(90deg); }
+        .quote-form-modal h2 { font-size: 1.5rem; font-weight: 700; color: #0a1e33; margin-bottom: 6px; }
+        .quote-form-modal .subtitle { color: #6a8aa8; font-size: 0.95rem; margin-bottom: 20px; }
+        .quote-form-modal .form-group { margin-bottom: 14px; }
         .quote-form-modal .form-group label {
-            display: block;
-            font-weight: 600;
-            font-size: 0.9rem;
-            color: #1a2e44;
-            margin-bottom: 4px;
+            display: block; font-weight: 600; font-size: 0.9rem;
+            color: #1a2e44; margin-bottom: 4px;
         }
         .quote-form-modal .form-group input,
         .quote-form-modal .form-group textarea {
-            width: 100%;
-            padding: 10px 14px;
-            border: 2px solid #e0e6ed;
-            border-radius: 10px;
-            font-size: 1rem;
-            transition: 0.2s;
-            font-family: inherit;
+            width: 100%; padding: 10px 14px;
+            border: 2px solid #e0e6ed; border-radius: 10px;
+            font-size: 1rem; transition: 0.2s; font-family: inherit;
         }
         .quote-form-modal .form-group input:focus,
         .quote-form-modal .form-group textarea:focus {
-            outline: none;
-            border-color: var(--brand-blue);
+            outline: none; border-color: var(--brand-blue);
         }
-        .quote-form-modal .form-group textarea {
-            min-height: 50px;
-            resize: vertical;
-        }
+        .quote-form-modal .form-group textarea { min-height: 50px; resize: vertical; }
         .quote-form-modal .btn-generate-quote {
-            width: 100%;
-            padding: 14px;
-            background: var(--brand-blue);
-            color: #fff;
-            border: none;
-            border-radius: 60px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.2s;
+            width: 100%; padding: 14px;
+            background: var(--brand-blue); color: #fff;
+            border: none; border-radius: 60px;
+            font-size: 1.1rem; font-weight: 700;
+            cursor: pointer; transition: 0.2s;
             margin-top: 8px;
             box-shadow: 0 4px 16px rgba(25, 88, 157, 0.3);
         }
-        .quote-form-modal .btn-generate-quote:hover {
-            background: #0e3f70;
-            transform: scale(1.01);
-        }
+        .quote-form-modal .btn-generate-quote:hover { background: #0e3f70; transform: scale(1.01); }
 
-        /* ===== FOOTER ===== */
+        /* FOOTER */
         footer {
-            flex-shrink: 0;
-            background: #1a1a1a;
-            color: #ccc;
-            padding: 40px 0 20px;
-            margin-top: 30px;
-            width: 100%;
+            flex-shrink: 0; background: #1a1a1a;
+            color: #ccc; padding: 40px 0 20px;
+            margin-top: 30px; width: 100%;
         }
         footer .footer-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 30px;
-            margin-bottom: 30px;
+            gap: 30px; margin-bottom: 30px;
         }
-        footer h4 {
-            color: #fff;
-            margin-bottom: 12px;
-        }
-        footer a {
-            display: block;
-            color: #aaa;
-            margin-bottom: 6px;
-            transition: color 0.3s;
-        }
-        footer a:hover {
-            color: #fff;
-        }
+        footer h4 { color: #fff; margin-bottom: 12px; }
+        footer a { display: block; color: #aaa; margin-bottom: 6px; transition: color 0.3s; }
+        footer a:hover { color: #fff; }
         footer .copyright {
-            text-align: center;
-            border-top: 1px solid #333;
-            padding-top: 20px;
-            font-size: 0.9rem;
-            color: #777;
+            text-align: center; border-top: 1px solid #333;
+            padding-top: 20px; font-size: 0.9rem; color: #777;
         }
 
-        /* ===== RESPONSIVE ===== */
+        /* RESPONSIVE */
         @media (max-width: 992px) {
-            .cart-grid {
-                grid-template-columns: 1fr;
-            }
-            .cart-summary {
-                position: static;
-            }
+            .cart-grid { grid-template-columns: 1fr; }
+            .cart-summary { position: static; }
         }
-
         @media (max-width: 768px) {
-            .hamburger {
-                display: flex;
-            }
-            .mobile-cart-btn {
-                display: inline-flex;
-            }
-            .desktop-nav {
-                display: none !important;
-            }
-            .logo {
-                font-size: 1.4rem;
-            }
-            .cart-item {
-                grid-template-columns: 80px 1fr;
-                gap: 14px;
-                padding: 16px 18px;
-            }
-            .cart-item .item-image {
-                width: 80px;
-                height: 80px;
-            }
+            .hamburger { display: flex; }
+            .mobile-cart-btn { display: inline-flex; }
+            .desktop-nav { display: none !important; }
+            .cart-item { grid-template-columns: 80px 1fr; gap: 14px; padding: 16px 18px; }
+            .cart-item .item-image { width: 80px; height: 80px; }
             .cart-item .item-actions {
-                grid-column: 1 / -1;
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
-                padding-top: 10px;
-                border-top: 1px solid #f0f3f8;
+                grid-column: 1 / -1; flex-direction: row;
+                justify-content: space-between; align-items: center;
+                padding-top: 10px; border-top: 1px solid #f0f3f8;
             }
             .cart-items .cart-header {
-                padding: 16px 18px;
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 4px;
+                padding: 16px 18px; flex-direction: column;
+                align-items: flex-start; gap: 4px;
             }
-            .page-header h1 {
-                font-size: 1.8rem;
-            }
-            .cart-summary {
-                padding: 20px 18px;
-            }
-            .checkout-modal {
-                padding: 24px 18px;
-            }
-            .slide-menu {
-                padding: 20px 16px 24px;
-            }
-            .payment-option-label {
-                padding: 10px 12px !important;
-                font-size: 0.9rem;
-            }
-            .payment-details .detail-row .label {
-                min-width: 80px;
-            }
-            .quote-form-modal {
-                padding: 24px 18px;
-            }
+            .page-header h1 { font-size: 1.8rem; }
+            .cart-summary { padding: 20px 18px; }
+            .checkout-modal { padding: 24px 18px; }
+            .slide-menu { padding: 20px 16px 24px; }
+            .payment-option-label { padding: 10px 12px !important; font-size: 0.9rem; }
+            .payment-details .detail-row .label { min-width: 80px; }
+            .quote-form-modal { padding: 24px 18px; }
         }
-
         @media (max-width: 480px) {
-            .logo {
-                font-size: 1.2rem;
-            }
-            .hamburger span {
-                width: 24px;
-                height: 2.5px;
-            }
-            .hamburger {
-                gap: 4px;
-                margin-left: 5px;
-            }
-            .mobile-cart-btn {
-                padding: 5px 10px;
-                font-size: 0.75rem;
-            }
-            .mobile-cart-btn .cart-badge {
-                font-size: 0.55rem;
-                padding: 1px 5px;
-                min-width: 14px;
-            }
-            .cart-item {
-                grid-template-columns: 1fr;
-                gap: 10px;
-                padding: 14px;
-            }
-            .cart-item .item-image {
-                width: 100%;
-                height: 120px;
-            }
-            .cart-item .item-actions {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            .order-notification .notif-content h4 {
-                font-size: 0.85rem;
-            }
-            .order-notification .notif-content p {
-                font-size: 0.8rem;
-            }
-            .payment-details .detail-row {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0;
-            }
-            .payment-details .detail-row .label {
-                min-width: auto;
-            }
+            .hamburger span { width: 24px; height: 2.5px; }
+            .hamburger { gap: 4px; margin-left: 5px; }
+            .mobile-cart-btn { padding: 5px 10px; font-size: 0.75rem; }
+            .mobile-cart-btn .cart-badge { font-size: 0.55rem; padding: 1px 5px; min-width: 14px; }
+            .cart-item { grid-template-columns: 1fr; gap: 10px; padding: 14px; }
+            .cart-item .item-image { width: 100%; height: 120px; }
+            .cart-item .item-actions { flex-wrap: wrap; justify-content: center; }
+            .order-notification .notif-content h4 { font-size: 0.85rem; }
+            .order-notification .notif-content p { font-size: 0.8rem; }
+            .payment-details .detail-row { flex-direction: column; align-items: flex-start; gap: 0; }
+            .payment-details .detail-row .label { min-width: auto; }
         }
     </style>
 </head>
@@ -1451,24 +681,20 @@
 
     <div class="page-wrapper">
         <div class="content-wrap">
-            <!-- ===== HEADER ===== -->
             <header>
                 <div class="container">
-                    <a href="/index.html" class="logo">Rise Axis<span> Solutions</span></a>
+                    <a href="../index.html" class="logo">
+                        <img src="/images/RISE AXIS LOGO FILE.png" alt="Rise Axis Solutions logo">
+                    </a>
 
-                    <!-- Hamburger -->
                     <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
-                        <span></span>
-                        <span></span>
-                        <span></span>
+                        <span></span><span></span><span></span>
                     </button>
 
-                    <!-- Mobile cart -->
                     <a href="cart.html" class="mobile-cart-btn" id="mobileCartBtn">
                         <i class="fas fa-shopping-cart"></i> Cart <span class="cart-badge" id="mobileCartBadge">0</span>
                     </a>
 
-                    <!-- Desktop navigation -->
                     <nav class="desktop-nav" id="desktopNav">
                         <a href="../index.html">Home</a>
                         <div class="nav-dropdown" id="navDropdown">
@@ -1503,15 +729,11 @@
                 </div>
             </header>
 
-            <!-- ===== SLIDE MENU (mobile) ===== -->
             <div class="menu-overlay" id="menuOverlay"></div>
             <div class="slide-menu" id="slideMenu">
                 <button class="close-slide" id="closeSlideBtn">&times;</button>
                 <div class="slide-logo">Rise Axis<span> Solutions</span></div>
-
                 <a href="../index.html">Home</a>
-
-                <!-- slide dropdown: Services -->
                 <div class="slide-dropdown">
                     <div class="slide-dropdown-label" id="slideDropdownLabel">
                         Services
@@ -1526,11 +748,9 @@
                         <div class="dropdown-item" data-category="Website development">Website Development</div>
                     </div>
                 </div>
-
                 <a href="catalog.html">Catalog</a>
                 <a href="about.html">About</a>
                 <a href="contact.html">Contact</a>
-
                 <div class="slide-auth">
                     <span id="slideAuthLinks">
                         <a href="login.html">Login</a>
@@ -1541,13 +761,11 @@
                         <a href="#" id="slideLogoutLink" style="color: var(--brand-red);">Logout</a>
                     </span>
                 </div>
-
                 <a href="cart.html" class="slide-cta">
                     <i class="fas fa-shopping-cart"></i> Cart <span class="cart-badge" id="slideCartBadge">0</span>
                 </a>
             </div>
 
-            <!-- ===== PAGE HEADER ===== -->
             <section class="page-header">
                 <div class="container">
                     <h1>Shopping Cart</h1>
@@ -1555,12 +773,10 @@
                 </div>
             </section>
 
-            <!-- ===== CART SECTION ===== -->
             <section class="cart-section">
                 <div class="container">
                     <div class="cart-grid" id="cartGrid">
                         <div id="cartItemsColumn"></div>
-
                         <div class="cart-summary" id="cartSummary">
                             <h3>Order Summary</h3>
                             <div id="summaryContent">
@@ -1577,7 +793,6 @@
                                     <span class="value" id="grandTotal">KSh 0</span>
                                 </div>
                                 <button class="checkout-btn" id="checkoutBtn" disabled>Proceed to Checkout</button>
-                                <!-- QUOTE BUTTON -->
                                 <button class="quote-btn" id="quoteBtn" disabled>
                                     <i class="fas fa-file-pdf"></i> Download Quote
                                 </button>
@@ -1587,9 +802,8 @@
                     </div>
                 </div>
             </section>
-        </div> <!-- end content-wrap -->
+        </div>
 
-        <!-- ===== FOOTER (always at bottom) ===== -->
         <footer>
             <div class="container">
                 <div class="footer-grid">
@@ -1614,9 +828,9 @@
                 <div class="copyright">&copy; 2026 Rise Axis Solutions. All rights reserved.</div>
             </div>
         </footer>
-    </div> <!-- end page-wrapper -->
+    </div>
 
-    <!-- ===== QUOTE CLIENT FORM (MODAL) ===== -->
+    <!-- QUOTE CLIENT FORM -->
     <div class="quote-form-overlay" id="quoteFormOverlay">
         <div class="quote-form-modal">
             <button class="close-quote-form" id="closeQuoteForm">&times;</button>
@@ -1650,7 +864,7 @@
         </div>
     </div>
 
-    <!-- ===== CHECKOUT MODAL ===== -->
+    <!-- CHECKOUT MODAL -->
     <div class="checkout-modal-overlay" id="checkoutModal">
         <div class="checkout-modal">
             <button class="close-modal" id="closeCheckoutModal">&times;</button>
@@ -1678,7 +892,6 @@
                 <textarea id="checkoutInstructions" placeholder="Any additional notes..."></textarea>
             </div>
 
-            <!-- ===== DESIGN FILE UPLOAD ===== -->
             <div class="form-group">
                 <label>Upload Design File (Optional)</label>
                 <div class="file-upload-area" id="fileUploadArea">
@@ -1690,84 +903,36 @@
                 <small style="color: #6a8aa8; display: block; margin-top: 4px;">Supported formats: PDF, JPG, PNG, GIF, SVG, AI, EPS, PSD, DOC, DOCX (Max 10MB)</small>
             </div>
 
-            <!-- ===== PAYMENT OPTIONS ===== -->
             <div style="margin: 16px 0 12px;">
                 <label style="display: block; font-weight: 700; font-size: 0.95rem; color: #0a1e33; margin-bottom: 10px;">Select Payment Method</label>
-
                 <div style="display: flex; flex-direction: column; gap: 10px;">
-                    <!-- M-Pesa Paybill -->
                     <label class="payment-option-label" id="paybillOption">
                         <input type="radio" name="paymentMethod" value="paybill" checked>
                         <span class="payment-icon">💳</span>
                         <span class="payment-name">M-Pesa Paybill</span>
                     </label>
-
-                    <!-- Bank Transfer -->
                     <label class="payment-option-label" id="bankOption">
                         <input type="radio" name="paymentMethod" value="bank">
                         <span class="payment-icon">🏦</span>
                         <span class="payment-name">Bank Transfer</span>
                     </label>
-
-                    <!-- Send Money (Phone Number) -->
-                    <label class="payment-option-label" id="sendMoneyOption">
-                        <input type="radio" name="paymentMethod" value="sendmoney">
-                        <span class="payment-icon">📱</span>
-                        <span class="payment-name">Send Money (Phone Number)</span>
-                    </label>
                 </div>
             </div>
 
-            <!-- ===== DYNAMIC PAYMENT DETAILS ===== -->
-            <div id="paymentDetailsContainer" style="transition: 0.3s ease;">
-                <!-- Paybill Details (default) -->
+            <div id="paymentDetailsContainer">
                 <div id="paybillDetails" class="payment-details paybill-style">
                     <span class="payment-title">💰 M-Pesa Paybill</span>
-                    <div class="detail-row">
-                        <span class="label">Paybill:</span>
-                        <span class="value highlight">123456</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="label">Account:</span>
-                        <span class="value highlight" id="checkoutOrderId">Order ID</span>
-                    </div>
+                    <div class="detail-row"><span class="label">Paybill:</span><span class="value highlight">123456</span></div>
+                    <div class="detail-row"><span class="label">Account:</span><span class="value highlight" id="checkoutOrderId">Order ID</span></div>
                     <div class="note">Enter your M-Pesa transaction code below after payment.</div>
                 </div>
-
-                <!-- Bank Details (hidden by default) -->
                 <div id="bankDetails" class="payment-details bank-style" style="display: none;">
                     <span class="payment-title">🏦 Bank Transfer</span>
-                    <div class="detail-row">
-                        <span class="label">Bank:</span>
-                        <span class="value">Equity Bank</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="label">Account Name:</span>
-                        <span class="value">Rise Axis Solutions</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="label">Account Number:</span>
-                        <span class="value highlight">0123456789</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="label">Branch:</span>
-                        <span class="value">Westlands, Nairobi</span>
-                    </div>
+                    <div class="detail-row"><span class="label">Bank:</span><span class="value">Equity Bank</span></div>
+                    <div class="detail-row"><span class="label">Account Name:</span><span class="value">Rise Axis Solutions</span></div>
+                    <div class="detail-row"><span class="label">Account Number:</span><span class="value highlight">0123456789</span></div>
+                    <div class="detail-row"><span class="label">Branch:</span><span class="value">Westlands, Nairobi</span></div>
                     <div class="note">Please use your Order ID as the reference.</div>
-                </div>
-
-                <!-- Send Money Details (hidden by default) -->
-                <div id="sendMoneyDetails" class="payment-details sendmoney-style" style="display: none;">
-                    <span class="payment-title">📱 Send Money (M-Pesa)</span>
-                    <div class="detail-row">
-                        <span class="label">Phone Number:</span>
-                        <span class="value highlight">+254 700 123 456</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="label">Account Name:</span>
-                        <span class="value">Rise Axis Solutions</span>
-                    </div>
-                    <div class="note">Send payment to the above phone number and enter the transaction code below.</div>
                 </div>
             </div>
 
@@ -1788,16 +953,14 @@
         </div>
     </div>
 
-    <!-- ===== SUCCESS OVERLAY ===== -->
+    <!-- SUCCESS OVERLAY -->
     <div class="success-overlay" id="successOverlay">
         <div class="success-modal">
             <div class="icon">✅</div>
             <h2>Order Placed Successfully!</h2>
             <p>Your order has been received and is being processed.</p>
             <div class="order-id">Order ID: <span id="successOrderId">KARIS-XXXX</span></div>
-            <p style="font-size: 0.9rem; color: #888;">
-                We'll confirm your payment and start production within 2 hours.
-            </p>
+            <p style="font-size: 0.9rem; color: #888;">We'll confirm your payment and start production within 2 hours.</p>
             <br>
             <button class="btn-continue" onclick="closeSuccessAndClearCart()">
                 <i class="fas fa-arrow-left"></i> Continue Shopping
@@ -1805,7 +968,6 @@
         </div>
     </div>
 
-    <!-- ===== ORDER NOTIFICATION POPUP ===== -->
     <div class="order-notification" id="orderNotification">
         <div class="notif-icon" id="notifIcon">📧</div>
         <div class="notif-content">
@@ -1815,67 +977,9 @@
         <button class="notif-close" onclick="closeNotification()">&times;</button>
     </div>
 
-    <!-- ===== TOAST ===== -->
     <div class="toast-message" id="toastMessage">
         <i class="fas fa-check-circle" style="color:var(--brand-green);"></i>
         <span id="toastText">Item removed</span>
-    </div>
-
-    <!-- Hidden quote container for PDF generation -->
-    <div id="quoteContainer" style="display: none;">
-        <div id="quoteContent" style="font-family: 'Segoe UI', Arial, sans-serif; padding: 30px 40px; background: white; max-width: 800px; margin: 0 auto;">
-            <!-- Header -->
-            <div style="text-align: center; border-bottom: 3px solid #19589d; padding-bottom: 18px; margin-bottom: 24px;">
-                <h1 style="font-size: 28px; color: #19589d; margin: 0; letter-spacing: 1px;">Rise Axis<span style="color: #dc1c2c;"> Solutions</span></h1>
-                <p style="margin: 6px 0 0; color: #333; font-size: 15px;">Clarity, Direction, Results.</p>
-                <p style="margin: 4px 0 0; color: #555; font-size: 14px;">📞 +254-700-123-456 | ✉️ contact@riseaxissolutions.com</p>
-                <p style="margin: 2px 0 0; color: #555; font-size: 14px;">📍 188 Hood Avenue, 3rd Floor, 72 Riverside Drive, Office 5</p>
-            </div>
-
-            <!-- Client Details Section -->
-            <div style="background: #f5f8fc; padding: 14px 18px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #19589d;">
-                <h3 style="margin: 0 0 6px; font-size: 16px; color: #19589d;">BILL TO</h3>
-                <div id="quoteClientDetails" style="font-size: 14px; color: #1a2e44; line-height: 1.7;">
-                    <div><strong>Client:</strong> <span id="qClientName">-</span></div>
-                    <div><strong>Company:</strong> <span id="qCompanyName">-</span></div>
-                    <div><strong>Address:</strong> <span id="qBillingAddress">-</span></div>
-                    <div><strong>Email:</strong> <span id="qContactEmail">-</span></div>
-                    <div><strong>Phone:</strong> <span id="qContactPhone">-</span></div>
-                </div>
-            </div>
-
-            <h2 style="text-align: center; color: #1a2e44; font-weight: 600; margin: 0 0 8px;">QUOTATION</h2>
-            <p style="text-align: center; color: #666; margin-top: 0; font-size: 14px;">Date: <span id="quoteDate"></span></p>
-
-            <!-- Table -->
-            <table style="width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px;">
-                <thead>
-                    <tr style="background: #19589d; color: white;">
-                        <th style="padding: 10px 12px; text-align: left; border: 1px solid #1a2e44;">Serial No.</th>
-                        <th style="padding: 10px 12px; text-align: left; border: 1px solid #1a2e44;">Item</th>
-                        <th style="padding: 10px 12px; text-align: left; border: 1px solid #1a2e44;">Quality</th>
-                        <th style="padding: 10px 12px; text-align: center; border: 1px solid #1a2e44;">Quantity</th>
-                        <th style="padding: 10px 12px; text-align: right; border: 1px solid #1a2e44;">Price (KSh)</th>
-                    </tr>
-                </thead>
-                <tbody id="quoteTableBody">
-                    <!-- rows inserted by JS -->
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan="4" style="padding: 12px 12px; text-align: right; font-weight: 700; border: 1px solid #1a2e44; background: #f0f6fe;">GRAND TOTAL</td>
-                        <td style="padding: 12px 12px; text-align: right; font-weight: 700; border: 1px solid #1a2e44; background: #f0f6fe;" id="quoteGrandTotal">KSh 0</td>
-                    </tr>
-                </tfoot>
-            </table>
-
-            <!-- Footer -->
-            <div style="text-align: center; border-top: 2px solid #19589d; padding-top: 16px; margin-top: 24px; font-size: 13px; color: #444;">
-                <p style="margin: 0;">Thank you for choosing Rise Axis Solutions. This is a system-generated quotation.</p>
-                <p style="margin: 4px 0 0; font-weight: 500;">Terms: Payment before delivery | Validity: 7 days</p>
-                <p style="margin: 6px 0 0; color: #19589d; font-weight: 600;">www.riseaxissolutions.com</p>
-            </div>
-        </div>
     </div>
 
     <script type="module">
@@ -1884,15 +988,11 @@
     // =============================================
     import { getCurrentUser, logoutUser, onAuthChange } from '../js/auth.js';
     import { db, storage } from '../js/firebase-config.js';
-    import {
-        collection, addDoc, serverTimestamp
-    } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js";
-    import {
-        ref, uploadBytes, getDownloadURL
-    } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-storage.js";
+    import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js";
+    import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-storage.js";
 
     // =============================================
-    // SLIDE MENU LOGIC (unchanged)
+    // SLIDE MENU
     // =============================================
     const hamburger = document.getElementById('hamburgerBtn');
     const slideMenu = document.getElementById('slideMenu');
@@ -1905,7 +1005,6 @@
         document.body.style.overflow = 'hidden';
         hamburger.classList.add('active');
     }
-
     function closeSlide() {
         slideMenu.classList.remove('open');
         overlay.classList.remove('show');
@@ -1914,54 +1013,38 @@
         document.getElementById('slideDropdownMenu').classList.remove('open');
         document.getElementById('slideDropdownArrow').classList.remove('open');
     }
-
     hamburger.addEventListener('click', (e) => {
         e.stopPropagation();
         if (slideMenu.classList.contains('open')) closeSlide();
         else openSlide();
     });
-
     closeSlideBtn.addEventListener('click', closeSlide);
     overlay.addEventListener('click', closeSlide);
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && slideMenu.classList.contains('open')) closeSlide();
     });
 
-    // slide dropdown toggle
     const slideDropdownLabel = document.getElementById('slideDropdownLabel');
     const slideDropdownMenu = document.getElementById('slideDropdownMenu');
     const slideDropdownArrow = document.getElementById('slideDropdownArrow');
     let slideDropdownOpen = false;
-
     slideDropdownLabel.addEventListener('click', (e) => {
         e.stopPropagation();
         slideDropdownOpen = !slideDropdownOpen;
         slideDropdownMenu.classList.toggle('open', slideDropdownOpen);
         slideDropdownArrow.classList.toggle('open', slideDropdownOpen);
     });
-
-    // close slide menu when a link/item is clicked
     document.querySelectorAll('.slide-menu a, .slide-menu .dropdown-item').forEach(el => {
         el.addEventListener('click', () => {
-            if (el.classList.contains('dropdown-item')) {
-                setTimeout(closeSlide, 100);
-            } else {
-                closeSlide();
-            }
+            if (el.classList.contains('dropdown-item')) setTimeout(closeSlide, 100);
+            else closeSlide();
         });
     });
 
-    // =============================================
-    // DESKTOP DROPDOWN - FIXED
-    // =============================================
+    // DESKTOP DROPDOWN
     let navDropdownOpen = false;
-
-    function toggleNavDropdown() { navDropdownOpen = !navDropdownOpen;
-        updateNavUI(); }
-
-    function closeNavDropdown() { navDropdownOpen = false;
-        updateNavUI(); }
-
+    function toggleNavDropdown() { navDropdownOpen = !navDropdownOpen; updateNavUI(); }
+    function closeNavDropdown() { navDropdownOpen = false; updateNavUI(); }
     function updateNavUI() {
         const menu = document.getElementById('navDropdownMenu');
         const arrow = document.getElementById('navDropdownArrow');
@@ -1973,7 +1056,6 @@
         e.stopPropagation();
         toggleNavDropdown();
     });
-
     document.querySelectorAll('#navDropdownMenu .dropdown-item, #slideDropdownMenu .dropdown-item').forEach(item => {
         item.addEventListener('click', function(e) {
             e.stopPropagation();
@@ -1983,208 +1065,104 @@
             window.location.href = `service.html?category=${encodeURIComponent(category)}`;
         });
     });
-
     document.addEventListener('click', function(e) {
         const dd = document.getElementById('navDropdown');
         if (dd && !dd.contains(e.target)) closeNavDropdown();
     });
 
-    // =============================================
-    // INITIALIZE EMAILJS
-    // =============================================
+    // EMAILJS
     emailjs.init('MtTUyrgdJxDrzQLH2');
 
-    // =============================================
-    // CART DATA
-    // =============================================
+    // CART
     function getCart() {
-        try {
-            return JSON.parse(localStorage.getItem('karis_cart')) || [];
-        } catch {
-            return [];
-        }
+        try { return JSON.parse(localStorage.getItem('karis_cart')) || []; } catch { return []; }
     }
-
     function saveCart(cart) {
         localStorage.setItem('karis_cart', JSON.stringify(cart));
         updateCartBadge();
     }
-
     function updateCartBadge() {
         const cart = getCart();
         const total = cart.reduce((sum, item) => sum + item.quantity, 0);
-        document.querySelectorAll('.cart-badge').forEach(badge => {
-            badge.textContent = total;
-        });
+        document.querySelectorAll('.cart-badge').forEach(badge => { badge.textContent = total; });
     }
 
-    // =============================================
-    // PRODUCT DATA
-    // =============================================
+    // PRODUCTS
     const products = [
-        { id: 'business-cards', name: 'Business Cards', category: 'stationery', subcategory: 'Business Stationery',
-            startingPrice: 2500, image: '/images/business card.avif' },
-        { id: 'letterheads', name: 'Letterheads', category: 'stationery', subcategory: 'Business Stationery',
-            startingPrice: 1500, image: '/images/letterhead.jpg' },
-        { id: 'branded-envelopes', name: 'Branded Envelopes', category: 'stationery', subcategory: 'Business Stationery',
-            startingPrice: 1800, image: '/images/envelope.jpg' },
-        { id: 'presentation-folders', name: 'Presentation Folders', category: 'stationery',
-            subcategory: 'Business Stationery', startingPrice: 3500, image: '/images/presentation folder.jpg' },
-        { id: 'invoice-books', name: 'Carbonless Invoice Books (NCR)', category: 'stationery',
-            subcategory: 'Business Stationery', startingPrice: 1800, image: '/images/carbonless.jpg' },
-        { id: 'flyers', name: 'Flyers (A5)', category: 'promotional', subcategory: 'Promotional Print',
-            startingPrice: 1200, image: '/images/flyers.jpg' },
-        { id: 'brochures-trifold', name: 'Brochures (Tri-fold)', category: 'promotional',
-            subcategory: 'Promotional Print', startingPrice: 3500, image: '/images/brochures tri.jpg' },
-        { id: 'brochures-bifold', name: 'Brochures (Bi-fold)', category: 'promotional',
-            subcategory: 'Promotional Print', startingPrice: 3200, image: '/images/bronchure bi.jpg' },
-        { id: 'postcards', name: 'Postcards', category: 'promotional', subcategory: 'Promotional Print',
-            startingPrice: 1500, image: '/images/postcards.jpg' },
-        { id: 'door-hangers', name: 'Door Hangers', category: 'promotional', subcategory: 'Promotional Print',
-            startingPrice: 2000, image: '/images/door hangers.jpg' },
-        { id: 'rack-cards', name: 'Rack Cards', category: 'promotional', subcategory: 'Promotional Print',
-            startingPrice: 1800, image: '/images/rack cards.jpg' },
-        { id: 'menu-cards', name: 'Menu Cards', category: 'promotional', subcategory: 'Promotional Print',
-            startingPrice: 2200, image: '/images/menucard.jpg' },
-        { id: 'catalogs', name: 'Catalogs', category: 'publications', subcategory: 'Publications', startingPrice: 3500,
-            image: '/images/catalog.jpg' },
-        { id: 'magazines', name: 'Magazines', category: 'publications', subcategory: 'Publications', startingPrice: 4500,
-            image: '/images/magazine.jpg' },
-        { id: 'booklets', name: 'Booklets', category: 'publications', subcategory: 'Publications', startingPrice: 2500,
-            image: '/images/booklets.jpg' },
-        { id: 'company-manuals', name: 'Company Manuals', category: 'publications', subcategory: 'Publications',
-            startingPrice: 4000, image: '/images/manuals.jpg' },
-        { id: 'annual-reports', name: 'Annual Reports', category: 'publications', subcategory: 'Publications',
-            startingPrice: 5000, image: 'images/products/annual-reports.jpg' },
-        { id: 'perfect-bound-books', name: 'Perfect-Bound Books', category: 'publications',
-            subcategory: 'Publications', startingPrice: 3000, image: 'images/products/perfect-bound-books.jpg' },
-        { id: 'vinyl-banners', name: 'Vinyl Banners', category: 'banners', subcategory: 'Banners & Display',
-            startingPrice: 4500, image: '/images/vinyl.jpg' },
-        { id: 'pullup-banners', name: 'Pull-up / Roll-up Banners', category: 'banners',
-            subcategory: 'Banners & Display', startingPrice: 8500, image: '/images/pull up.jpg' },
-        { id: 'teardrop-flags', name: 'Teardrop Flags', category: 'banners', subcategory: 'Banners & Display',
-            startingPrice: 6500, image: '/images/teardrop.jpg' },
-        { id: 'backdrop-banners', name: 'Backdrop Banners', category: 'banners', subcategory: 'Banners & Display',
-            startingPrice: 12000, image: '/images/backdrop.jpg' },
-        { id: 'foamboard-prints', name: 'Foam-board Prints', category: 'signs', subcategory: 'Rigid Signs',
-            startingPrice: 2800, image: 'images/products/foamboard-prints.jpg' },
-        { id: 'correx-signs', name: 'Correx Directional Signs', category: 'signs', subcategory: 'Rigid Signs',
-            startingPrice: 3500, image: '/images/corex.jpg' },
-        { id: 'acrylic-wall-plaques', name: 'Acrylic Wall Plaques', category: 'signs', subcategory: 'Rigid Signs',
-            startingPrice: 4500, image: 'images/products/acrylic-wall-plaques.jpg' },
-        { id: 'aluminum-composite-signs', name: 'Aluminum Composite Signage', category: 'signs',
-            subcategory: 'Rigid Signs', startingPrice: 5500, image: 'images/products/aluminum-composite-signs.jpg' },
-        { id: 'blueprints', name: 'Architectural Blueprints', category: 'posters', subcategory: 'Posters & Art',
-            startingPrice: 1500, image: '/images/blueprint.jpg' },
-        { id: 'advertising-posters', name: 'High-gloss Advertising Posters', category: 'posters',
-            subcategory: 'Posters & Art', startingPrice: 1200, image: 'images/products/advertising-posters.jpg' },
-        { id: 'canvas-prints', name: 'Canvas Photo Prints', category: 'posters', subcategory: 'Posters & Art',
-            startingPrice: 3500, image: '/images/canvas.jpg' },
-        { id: 'wall-murals', name: 'Wall Murals & Decals', category: 'posters', subcategory: 'Posters & Art',
-            startingPrice: 6000, image: 'images/products/wall-murals.jpg' },
-        { id: 't-shirts', name: 'Custom T-shirts', category: 'apparel', subcategory: 'Custom Apparel',
-            startingPrice: 1200, image: '/images/t shirt.jpg' },
-        { id: 'hoodies', name: 'Custom Hoodies', category: 'apparel', subcategory: 'Custom Apparel',
-            startingPrice: 2500, image: '/images/download.jpg' },
-        { id: 'jerseys', name: 'Custom Jerseys', category: 'apparel', subcategory: 'Custom Apparel',
-            startingPrice: 1800, image: 'images/products/jerseys.jpg' },
-        { id: 'caps', name: 'Custom Caps', category: 'apparel', subcategory: 'Custom Apparel', startingPrice: 800,
-            image: 'images/products/caps.jpg' },
-        { id: 'totes', name: 'Custom Totes', category: 'apparel', subcategory: 'Custom Apparel', startingPrice: 600,
-            image: 'images/products/totes.jpg' },
-        { id: 'workwear-uniforms', name: 'Workwear Uniforms', category: 'apparel', subcategory: 'Custom Apparel',
-            startingPrice: 2000, image: 'images/products/workwear-uniforms.jpg' },
-        { id: 'mugs', name: 'Custom Mugs', category: 'promo-items', subcategory: 'Promotional Items', startingPrice: 400,
-            image: 'images/products/mugs.jpg' },
-        { id: 'water-bottles', name: 'Custom Water Bottles', category: 'promo-items', subcategory: 'Promotional Items',
-            startingPrice: 450, image: 'images/products/water-bottles.jpg' },
-        { id: 'keychains', name: 'Custom Keychains', category: 'promo-items', subcategory: 'Promotional Items',
-            startingPrice: 250, image: 'images/products/keychains.jpg' },
-        { id: 'lanyards', name: 'Custom Lanyards', category: 'promo-items', subcategory: 'Promotional Items',
-            startingPrice: 180, image: 'images/products/lanyards.jpg' },
-        { id: 'mousepads', name: 'Custom Mousepads', category: 'promo-items', subcategory: 'Promotional Items',
-            startingPrice: 300, image: 'images/products/mousepads.jpg' },
-        { id: 'branded-pens', name: 'Branded Pens', category: 'promo-items', subcategory: 'Promotional Items',
-            startingPrice: 150, image: 'images/products/branded-pens.jpg' },
-        { id: 'product-boxes', name: 'Custom Product Boxes', category: 'packaging', subcategory: 'Custom Packaging',
-            startingPrice: 2500, image: 'images/products/product-boxes.jpg' },
-        { id: 'mailer-sleeves', name: 'Mailer Sleeves', category: 'packaging', subcategory: 'Custom Packaging',
-            startingPrice: 1800, image: 'images/products/mailer-sleeves.jpg' },
-        { id: 'shopping-bags', name: 'Paper Shopping Bags', category: 'packaging', subcategory: 'Custom Packaging',
-            startingPrice: 1500, image: 'images/products/shopping-bags.jpg' },
-        { id: 'tissue-paper', name: 'Custom Tissue Paper', category: 'packaging', subcategory: 'Custom Packaging',
-            startingPrice: 1200, image: 'images/products/tissue-paper.jpg' },
-        { id: 'diecut-stickers', name: 'Die-cut Vinyl Stickers', category: 'labels', subcategory: 'Labels & Stickers',
-            startingPrice: 800, image: 'images/products/diecut-stickers.jpg' },
-        { id: 'roll-labels', name: 'Roll Labels (Bottles/Jars)', category: 'labels', subcategory: 'Labels & Stickers',
-            startingPrice: 1200, image: 'images/products/roll-labels.jpg' },
-        { id: 'product-seal-stickers', name: 'Product Seal Stickers', category: 'labels',
-            subcategory: 'Labels & Stickers', startingPrice: 600, image: 'images/products/product-seal-stickers.jpg' },
-        { id: 'window-graphics', name: 'Window Graphics', category: 'labels', subcategory: 'Labels & Stickers',
-            startingPrice: 3500, image: 'images/products/window-graphics.jpg' }
+        { id: 'business-cards', name: 'Business Cards', category: 'stationery', subcategory: 'Business Stationery', startingPrice: 2500, image: '/images/business card.avif' },
+        { id: 'letterheads', name: 'Letterheads', category: 'stationery', subcategory: 'Business Stationery', startingPrice: 1500, image: '/images/letterhead.jpg' },
+        { id: 'branded-envelopes', name: 'Branded Envelopes', category: 'stationery', subcategory: 'Business Stationery', startingPrice: 1800, image: '/images/envelope.jpg' },
+        { id: 'presentation-folders', name: 'Presentation Folders', category: 'stationery', subcategory: 'Business Stationery', startingPrice: 3500, image: '/images/presentation folder.jpg' },
+        { id: 'invoice-books', name: 'Carbonless Invoice Books (NCR)', category: 'stationery', subcategory: 'Business Stationery', startingPrice: 1800, image: '/images/carbonless.jpg' },
+        { id: 'flyers', name: 'Flyers (A5)', category: 'promotional', subcategory: 'Promotional Print', startingPrice: 1200, image: '/images/flyers.jpg' },
+        { id: 'brochures-trifold', name: 'Brochures (Tri-fold)', category: 'promotional', subcategory: 'Promotional Print', startingPrice: 3500, image: '/images/foldable-brochures.png' },
+        { id: 'brochures-bifold', name: 'Brochures (Bi-fold)', category: 'promotional', subcategory: 'Promotional Print', startingPrice: 3200, image: '/images/foldable-brochures.png' },
+        { id: 'postcards', name: 'Postcards', category: 'promotional', subcategory: 'Promotional Print', startingPrice: 1500, image: '/images/postcards.jpg' },
+        { id: 'door-hangers', name: 'Door Hangers', category: 'promotional', subcategory: 'Promotional Print', startingPrice: 2000, image: '/images/door hangers.jpg' },
+        { id: 'rack-cards', name: 'Rack Cards', category: 'promotional', subcategory: 'Promotional Print', startingPrice: 1800, image: '/images/rack cards.jpg' },
+        { id: 'menu-cards', name: 'Menu Cards', category: 'promotional', subcategory: 'Promotional Print', startingPrice: 2200, image: '/images/menucard.jpg' },
+        { id: 'catalogs', name: 'Catalogs', category: 'publications', subcategory: 'Publications', startingPrice: 3500, image: '/images/catalog.jpg' },
+        { id: 'magazines', name: 'Magazines', category: 'publications', subcategory: 'Publications', startingPrice: 4500, image: '/images/magazine.jpg' },
+        { id: 'booklets', name: 'Booklets', category: 'publications', subcategory: 'Publications', startingPrice: 2500, image: '/images/booklets.jpg' },
+        { id: 'company-manuals', name: 'Company Manuals', category: 'publications', subcategory: 'Publications', startingPrice: 4000, image: '/images/manuals.jpg' },
+        { id: 'annual-reports', name: 'Annual Reports', category: 'publications', subcategory: 'Publications', startingPrice: 5000, image: 'images/products/annual-reports.jpg' },
+        { id: 'perfect-bound-books', name: 'Perfect-Bound Books', category: 'publications', subcategory: 'Publications', startingPrice: 3000, image: 'images/products/perfect-bound-books.jpg' },
+        { id: 'vinyl-banners', name: 'Vinyl Banners', category: 'banners', subcategory: 'Banners & Display', startingPrice: 4500, image: '/images/vinyl.jpg' },
+        { id: 'pullup-banners', name: 'Pull-up / Roll-up Banners', category: 'banners', subcategory: 'Banners & Display', startingPrice: 8500, image: '/images/pull up.jpg' },
+        { id: 'teardrop-flags', name: 'Teardrop Flags', category: 'banners', subcategory: 'Banners & Display', startingPrice: 6500, image: '/images/teardrop.jpg' },
+        { id: 'backdrop-banners', name: 'Backdrop Banners', category: 'banners', subcategory: 'Banners & Display', startingPrice: 12000, image: '/images/backdrop.jpg' },
+        { id: 'foamboard-prints', name: 'Foam-board Prints', category: 'signs', subcategory: 'Rigid Signs', startingPrice: 2800, image: 'images/products/foamboard-prints.jpg' },
+        { id: 'correx-signs', name: 'Correx Directional Signs', category: 'signs', subcategory: 'Rigid Signs', startingPrice: 3500, image: '/images/corex.jpg' },
+        { id: 'acrylic-wall-plaques', name: 'Acrylic Wall Plaques', category: 'signs', subcategory: 'Rigid Signs', startingPrice: 4500, image: 'images/products/acrylic-wall-plaques.jpg' },
+        { id: 'aluminum-composite-signs', name: 'Aluminum Composite Signage', category: 'signs', subcategory: 'Rigid Signs', startingPrice: 5500, image: 'images/products/aluminum-composite-signs.jpg' },
+        { id: 'blueprints', name: 'Architectural Blueprints', category: 'posters', subcategory: 'Posters & Art', startingPrice: 1500, image: '/images/blueprint.jpg' },
+        { id: 'advertising-posters', name: 'High-gloss Advertising Posters', category: 'posters', subcategory: 'Posters & Art', startingPrice: 1200, image: 'images/products/advertising-posters.jpg' },
+        { id: 'canvas-prints', name: 'Canvas Photo Prints', category: 'posters', subcategory: 'Posters & Art', startingPrice: 3500, image: '/images/canvas.jpg' },
+        { id: 'wall-murals', name: 'Wall Murals & Decals', category: 'posters', subcategory: 'Posters & Art', startingPrice: 6000, image: 'images/products/wall-murals.jpg' },
+        { id: 't-shirts', name: 'Custom T-shirts', category: 'apparel', subcategory: 'Custom Apparel', startingPrice: 1200, image: '/images/t shirt.jpg' },
+        { id: 'hoodies', name: 'Custom Hoodies', category: 'apparel', subcategory: 'Custom Apparel', startingPrice: 2500, image: '/images/download.jpg' },
+        { id: 'jerseys', name: 'Custom Jerseys', category: 'apparel', subcategory: 'Custom Apparel', startingPrice: 1800, image: 'images/products/jerseys.jpg' },
+        { id: 'caps', name: 'Custom Caps', category: 'apparel', subcategory: 'Custom Apparel', startingPrice: 800, image: 'images/products/caps.jpg' },
+        { id: 'totes', name: 'Custom Totes', category: 'apparel', subcategory: 'Custom Apparel', startingPrice: 600, image: 'images/products/totes.jpg' },
+        { id: 'workwear-uniforms', name: 'Workwear Uniforms', category: 'apparel', subcategory: 'Custom Apparel', startingPrice: 2000, image: 'images/products/workwear-uniforms.jpg' },
+        { id: 'mugs', name: 'Custom Mugs', category: 'promo-items', subcategory: 'Promotional Items', startingPrice: 400, image: 'images/products/mugs.jpg' },
+        { id: 'water-bottles', name: 'Custom Water Bottles', category: 'promo-items', subcategory: 'Promotional Items', startingPrice: 450, image: 'images/products/water-bottles.jpg' },
+        { id: 'keychains', name: 'Custom Keychains', category: 'promo-items', subcategory: 'Promotional Items', startingPrice: 250, image: 'images/products/keychains.jpg' },
+        { id: 'lanyards', name: 'Custom Lanyards', category: 'promo-items', subcategory: 'Promotional Items', startingPrice: 180, image: 'images/products/lanyards.jpg' },
+        { id: 'mousepads', name: 'Custom Mousepads', category: 'promo-items', subcategory: 'Promotional Items', startingPrice: 300, image: 'images/products/mousepads.jpg' },
+        { id: 'branded-pens', name: 'Branded Pens', category: 'promo-items', subcategory: 'Promotional Items', startingPrice: 150, image: 'images/products/branded-pens.jpg' },
+        { id: 'product-boxes', name: 'Custom Product Boxes', category: 'packaging', subcategory: 'Custom Packaging', startingPrice: 2500, image: 'images/products/product-boxes.jpg' },
+        { id: 'mailer-sleeves', name: 'Mailer Sleeves', category: 'packaging', subcategory: 'Custom Packaging', startingPrice: 1800, image: 'images/products/mailer-sleeves.jpg' },
+        { id: 'shopping-bags', name: 'Paper Shopping Bags', category: 'packaging', subcategory: 'Custom Packaging', startingPrice: 1500, image: 'images/products/shopping-bags.jpg' },
+        { id: 'tissue-paper', name: 'Custom Tissue Paper', category: 'packaging', subcategory: 'Custom Packaging', startingPrice: 1200, image: 'images/products/tissue-paper.jpg' },
+        { id: 'diecut-stickers', name: 'Die-cut Vinyl Stickers', category: 'labels', subcategory: 'Labels & Stickers', startingPrice: 800, image: 'images/products/diecut-stickers.jpg' },
+        { id: 'roll-labels', name: 'Roll Labels (Bottles/Jars)', category: 'labels', subcategory: 'Labels & Stickers', startingPrice: 1200, image: 'images/products/roll-labels.jpg' },
+        { id: 'product-seal-stickers', name: 'Product Seal Stickers', category: 'labels', subcategory: 'Labels & Stickers', startingPrice: 600, image: 'images/products/product-seal-stickers.jpg' },
+        { id: 'window-graphics', name: 'Window Graphics', category: 'labels', subcategory: 'Labels & Stickers', startingPrice: 3500, image: 'images/products/window-graphics.jpg' }
     ];
 
-    // =============================================
-    // FILE UPLOAD HANDLING (IMPROVED)
-    // =============================================
+    // FILE UPLOAD
     let selectedFile = null;
     let uploadedFileUrl = null;
-    let isUploading = false;
 
     const fileUploadArea = document.getElementById('fileUploadArea');
     const fileInput = document.getElementById('designFileInput');
     const uploadedFileName = document.getElementById('uploadedFileName');
 
-    fileUploadArea.addEventListener('click', () => {
-        fileInput.click();
-    });
-
-    fileInput.addEventListener('change', (e) => {
-        if (e.target.files.length > 0) {
-            handleFile(e.target.files[0]);
-        }
-    });
-
-    fileUploadArea.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        fileUploadArea.classList.add('dragover');
-    });
-
-    fileUploadArea.addEventListener('dragleave', () => {
-        fileUploadArea.classList.remove('dragover');
-    });
-
+    fileUploadArea.addEventListener('click', () => { fileInput.click(); });
+    fileInput.addEventListener('change', (e) => { if (e.target.files.length > 0) handleFile(e.target.files[0]); });
+    fileUploadArea.addEventListener('dragover', (e) => { e.preventDefault(); fileUploadArea.classList.add('dragover'); });
+    fileUploadArea.addEventListener('dragleave', () => { fileUploadArea.classList.remove('dragover'); });
     fileUploadArea.addEventListener('drop', (e) => {
-        e.preventDefault();
-        fileUploadArea.classList.remove('dragover');
-        if (e.dataTransfer.files.length > 0) {
-            handleFile(e.dataTransfer.files[0]);
-        }
+        e.preventDefault(); fileUploadArea.classList.remove('dragover');
+        if (e.dataTransfer.files.length > 0) handleFile(e.dataTransfer.files[0]);
     });
 
     function handleFile(file) {
-        if (file.size > 10 * 1024 * 1024) {
-            showToast('File is too large. Maximum size is 10MB.');
-            return;
-        }
-        const allowedTypes = [
-            'application/pdf',
-            'image/jpeg', 'image/png', 'image/gif', 'image/svg+xml',
-            'application/postscript', 'application/illustrator',
-            'application/eps', 'application/photoshop',
-            'application/msword',
-            'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-        ];
-        const allowedExtensions = ['.pdf', '.jpg', '.jpeg', '.png', '.gif', '.svg', '.ai', '.eps', '.psd', '.doc',
-            '.docx'
-        ];
+        if (file.size > 10 * 1024 * 1024) { showToast('File is too large. Maximum size is 10MB.'); return; }
+        const allowedExtensions = ['.pdf', '.jpg', '.jpeg', '.png', '.gif', '.svg', '.ai', '.eps', '.psd', '.doc', '.docx'];
         const fileExt = '.' + file.name.split('.').pop().toLowerCase();
-
-        if (!allowedTypes.includes(file.type) && !allowedExtensions.includes(fileExt)) {
-            showToast('Unsupported file format. Please upload a valid design file.');
-            return;
-        }
-
+        if (!allowedExtensions.includes(fileExt)) { showToast('Unsupported file format. Please upload a valid design file.'); return; }
         selectedFile = file;
         uploadedFileName.textContent = `📎 ${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
         uploadedFileName.style.color = 'var(--brand-green)';
@@ -2195,29 +1173,20 @@
     async function uploadDesignFile(orderId) {
         if (!selectedFile) return null;
         try {
-            isUploading = true;
-            // ADD TIMESTAMP TO PREVENT OVERWRITES
             const timestamp = Date.now();
             const fileName = `designs/${orderId}/${timestamp}_${selectedFile.name}`;
             const storageRef = ref(storage, fileName);
-            const snapshot = await uploadBytes(storageRef, selectedFile);
-            console.log('✅ File uploaded successfully!');
+            await uploadBytes(storageRef, selectedFile);
             const downloadUrl = await getDownloadURL(storageRef);
-            console.log('📎 Download URL:', downloadUrl);
             uploadedFileUrl = downloadUrl;
             return downloadUrl;
         } catch (error) {
             console.error('❌ File upload failed:', error);
             showToast('Failed to upload design file. Please try again.');
             return null;
-        } finally {
-            isUploading = false;
         }
     }
 
-    // =============================================
-    // GENERATE ORDER ID
-    // =============================================
     function generateOrderId() {
         const date = new Date();
         const timestamp = date.getFullYear() +
@@ -2229,75 +1198,41 @@
         return `KARIS-${timestamp}-${random}`;
     }
 
-    // =============================================
-    // SANITIZATION (IMPROVED)
-    // =============================================
     function sanitizeInput(input) {
         if (!input) return '';
-        // Remove HTML tags
         let sanitized = input.replace(/<[^>]*>/g, '');
-        // Escape special characters
-        sanitized = sanitized.replace(/&/g, '&amp;')
-            .replace(/"/g, '&quot;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;');
+        sanitized = sanitized.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
         return sanitized.trim();
     }
 
-    // =============================================
-    // SHOW NOTIFICATION
-    // =============================================
+    // NOTIFICATION
     let notificationTimeout = null;
-
     function showNotification(isGuest, orderId) {
         const notification = document.getElementById('orderNotification');
         const icon = document.getElementById('notifIcon');
         const title = document.getElementById('notifTitle');
         const message = document.getElementById('notifMessage');
-
-        if (notificationTimeout) {
-            clearTimeout(notificationTimeout);
-        }
-
+        if (notificationTimeout) clearTimeout(notificationTimeout);
         if (isGuest) {
             notification.className = 'order-notification guest show';
             icon.textContent = '📧';
             title.textContent = '📩 Guest Order Confirmed!';
-            message.innerHTML = `
-                        <strong>Order ID: ${orderId}</strong><br>
-                        To track your order, please email us at 
-                        <strong><a href="mailto:contact@riseaxis.co.ke" style="color: #856404; text-decoration: underline;">contact@riseaxis.co.ke</a></strong> 
-                        with your Order ID.
-                    `;
+            message.innerHTML = `<strong>Order ID: ${orderId}</strong><br>To track your order, please email us at <strong><a href="mailto:contact@riseaxis.co.ke" style="color: #856404; text-decoration: underline;">contact@riseaxis.co.ke</a></strong> with your Order ID.`;
         } else {
             notification.className = 'order-notification registered show';
             icon.textContent = '👤';
             title.textContent = '✅ Order Confirmed!';
-            message.innerHTML = `
-                        <strong>Order ID: ${orderId}</strong><br>
-                        Track your order anytime in your 
-                        <strong><a href="account.html" style="color: #155724; text-decoration: underline;">My Account</a></strong> 
-                        under "My Orders".
-                    `;
+            message.innerHTML = `<strong>Order ID: ${orderId}</strong><br>Track your order anytime in your <strong><a href="account.html" style="color: #155724; text-decoration: underline;">My Account</a></strong> under "My Orders".`;
         }
-
-        notificationTimeout = setTimeout(() => {
-            closeNotification();
-        }, 10000);
+        notificationTimeout = setTimeout(() => { closeNotification(); }, 10000);
     }
-
     function closeNotification() {
         const notification = document.getElementById('orderNotification');
         notification.classList.remove('show');
-        if (notificationTimeout) {
-            clearTimeout(notificationTimeout);
-            notificationTimeout = null;
-        }
+        if (notificationTimeout) { clearTimeout(notificationTimeout); notificationTimeout = null; }
     }
 
-    // =============================================
     // RENDER CART
-    // =============================================
     function renderCart() {
         const cart = getCart();
         const container = document.getElementById('cartItemsColumn');
@@ -2309,13 +1244,13 @@
 
         if (cart.length === 0) {
             container.innerHTML = `
-                        <div class="empty-cart">
-                            <div class="empty-icon"><i class="fas fa-shopping-cart"></i></div>
-                            <h2>Your cart is empty</h2>
-                            <p>Looks like you haven't added any items yet.</p>
-                            <a href="catalog.html" class="btn-primary"><i class="fas fa-arrow-left"></i> Browse Products</a>
-                        </div>
-                    `;
+                <div class="empty-cart">
+                    <div class="empty-icon"><i class="fas fa-shopping-cart"></i></div>
+                    <h2>Your cart is empty</h2>
+                    <p>Looks like you haven't added any items yet.</p>
+                    <a href="catalog.html" class="btn-primary"><i class="fas fa-arrow-left"></i> Browse Products</a>
+                </div>
+            `;
             subtotalEl.textContent = 'KSh 0';
             grandTotalEl.textContent = 'KSh 0';
             itemCountEl.textContent = '0';
@@ -2325,52 +1260,45 @@
         }
 
         let html = `
-                    <div class="cart-items">
-                        <div class="cart-header">
-                            <h2>Shopping Cart</h2>
-                            <span class="item-count">${cart.reduce((sum, i) => sum + i.quantity, 0)} items</span>
-                        </div>
-                `;
+            <div class="cart-items">
+                <div class="cart-header">
+                    <h2>Shopping Cart</h2>
+                    <span class="item-count">${cart.reduce((sum, i) => sum + i.quantity, 0)} items</span>
+                </div>
+        `;
 
         cart.forEach((item, index) => {
             const product = products.find(p => p.id === item.productId);
             if (!product) return;
-
             const pricePerUnit = item.pricePerUnit || product.startingPrice;
             const total = pricePerUnit * item.quantity;
-            const qualityLabel = item.quality ? item.quality.charAt(0).toUpperCase() + item.quality.slice(1) :
-                'Standard';
-
+            const qualityLabel = item.quality ? item.quality.charAt(0).toUpperCase() + item.quality.slice(1) : 'Standard';
             const designStatus = item.hasDesign ?
-                '<span class="design-status"><i class="fas fa-check-circle"></i> Design uploaded: ' + (item
-                    .designFile || 'Yes') + '</span>' :
+                '<span class="design-status"><i class="fas fa-check-circle"></i> Design uploaded: ' + (item.designFile || 'Yes') + '</span>' :
                 '<span class="design-status" style="color:#888;"><i class="fas fa-circle" style="font-size:0.5rem;"></i> No design</span>';
 
             html += `
-                        <div class="cart-item" data-index="${index}">
-                            <div class="item-image">
-                                ${product.image ? 
-                                    `<img src="${product.image}" alt="${product.name}" onerror="this.style.display='none'; this.parentElement.innerHTML='<span class=\\'no-image\\'>📄</span>'">` : 
-                                    `<span class="no-image">📄</span>`
-                                }
-                            </div>
-                            <div class="item-details">
-                                <h3>${product.name}</h3>
-                                <div class="item-sub">${product.subcategory} · <strong>${qualityLabel}</strong></div>
-                                <div class="item-price">KSh ${pricePerUnit.toLocaleString()} / unit</div>
-                                ${designStatus}
-                            </div>
-                            <div class="item-actions">
-                                <div class="qty-control">
-                                    <button onclick="window.updateQuantity(${index}, -1)">−</button>
-                                    <span class="qty-display">${item.quantity}</span>
-                                    <button onclick="window.updateQuantity(${index}, 1)">+</button>
-                                </div>
-                                <div class="item-total">KSh ${total.toLocaleString()}</div>
-                                <button class="remove-btn" onclick="window.removeItem(${index})"><i class="fas fa-trash"></i></button>
-                            </div>
+                <div class="cart-item" data-index="${index}">
+                    <div class="item-image">
+                        ${product.image ? `<img src="${product.image}" alt="${product.name}" onerror="this.style.display='none'; this.parentElement.innerHTML='<span class=\\'no-image\\'>📄</span>'">` : `<span class="no-image">📄</span>`}
+                    </div>
+                    <div class="item-details">
+                        <h3>${product.name}</h3>
+                        <div class="item-sub">${product.subcategory} · <strong>${qualityLabel}</strong></div>
+                        <div class="item-price">KSh ${pricePerUnit.toLocaleString()} / unit</div>
+                        ${designStatus}
+                    </div>
+                    <div class="item-actions">
+                        <div class="qty-control">
+                            <button onclick="window.updateQuantity(${index}, -1)">−</button>
+                            <span class="qty-display">${item.quantity}</span>
+                            <button onclick="window.updateQuantity(${index}, 1)">+</button>
                         </div>
-                    `;
+                        <div class="item-total">KSh ${total.toLocaleString()}</div>
+                        <button class="remove-btn" onclick="window.removeItem(${index})"><i class="fas fa-trash"></i></button>
+                    </div>
+                </div>
+            `;
         });
 
         html += `</div>`;
@@ -2382,7 +1310,6 @@
             return sum + (price * item.quantity);
         }, 0);
         const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-
         subtotalEl.textContent = `KSh ${subtotal.toLocaleString()}`;
         grandTotalEl.textContent = `KSh ${subtotal.toLocaleString()}`;
         itemCountEl.textContent = totalItems;
@@ -2390,9 +1317,6 @@
         quoteBtn.disabled = false;
     }
 
-    // =============================================
-    // CART OPERATIONS
-    // =============================================
     window.updateQuantity = function(index, change) {
         const cart = getCart();
         if (!cart[index]) return;
@@ -2406,7 +1330,6 @@
         renderCart();
         showToast('Cart updated!');
     };
-
     window.removeItem = function(index) {
         const cart = getCart();
         if (!cart[index]) return;
@@ -2416,42 +1339,31 @@
         renderCart();
         showToast(product ? `"${product.name}" removed from cart` : 'Item removed');
     };
-
     function showToast(message) {
         const toast = document.getElementById('toastMessage');
         const text = document.getElementById('toastText');
         text.textContent = message;
         toast.classList.add('show');
         clearTimeout(window.toastTimeout);
-        window.toastTimeout = setTimeout(() => {
-            toast.classList.remove('show');
-        }, 3000);
+        window.toastTimeout = setTimeout(() => { toast.classList.remove('show'); }, 3000);
     }
 
-    // =============================================
-    // PAYMENT METHOD TOGGLE
-    // =============================================
+    // PAYMENT TOGGLE
     function setupPaymentToggle() {
         const paymentRadios = document.querySelectorAll('input[name="paymentMethod"]');
         const paybillDetails = document.getElementById('paybillDetails');
         const bankDetails = document.getElementById('bankDetails');
-        const sendMoneyDetails = document.getElementById('sendMoneyDetails');
         const transactionInput = document.getElementById('checkoutTransaction');
 
         function updatePaymentDetails(method) {
             paybillDetails.style.display = 'none';
             bankDetails.style.display = 'none';
-            sendMoneyDetails.style.display = 'none';
-
             if (method === 'paybill') {
                 paybillDetails.style.display = 'block';
                 transactionInput.placeholder = 'e.g., QWERTY123 (M-Pesa Transaction Code)';
             } else if (method === 'bank') {
                 bankDetails.style.display = 'block';
                 transactionInput.placeholder = 'e.g., BNK-2026-001 (Bank Reference)';
-            } else if (method === 'sendmoney') {
-                sendMoneyDetails.style.display = 'block';
-                transactionInput.placeholder = 'e.g., QWERTY123 (M-Pesa Transaction Code)';
             }
         }
 
@@ -2484,15 +1396,10 @@
         }
     }
 
-    // =============================================
-    // OPEN CHECKOUT MODAL
-    // =============================================
+    // OPEN CHECKOUT
     function openCheckoutModal() {
         const cart = getCart();
-        if (cart.length === 0) {
-            showToast('Your cart is empty!');
-            return;
-        }
+        if (cart.length === 0) { showToast('Your cart is empty!'); return; }
 
         selectedFile = null;
         uploadedFileUrl = null;
@@ -2513,7 +1420,6 @@
         document.getElementById('checkoutSubtotal').textContent = `KSh ${subtotal.toLocaleString()}`;
         document.getElementById('checkoutTotal').textContent = `KSh ${subtotal.toLocaleString()}`;
         document.getElementById('successOrderId').textContent = orderId;
-
         window._currentOrderId = orderId;
 
         const user = getCurrentUser();
@@ -2524,7 +1430,7 @@
                 const userData = JSON.parse(localStorage.getItem('karis_user_data')) || {};
                 document.getElementById('checkoutPhone').value = userData.phone || '';
                 document.getElementById('checkoutAddress').value = userData.address || '';
-            } catch { /* ignore */ }
+            } catch {}
         } else {
             document.getElementById('checkoutName').value = '';
             document.getElementById('checkoutEmail').value = '';
@@ -2534,7 +1440,6 @@
 
         document.getElementById('checkoutInstructions').value = '';
         document.getElementById('checkoutTransaction').value = '';
-
         document.getElementById('checkoutModal').classList.add('show');
         document.body.style.overflow = 'hidden';
 
@@ -2559,9 +1464,7 @@
         document.body.style.overflow = '';
     }
 
-    // =============================================
-    // PLACE ORDER (IMPROVED)
-    // =============================================
+    // PLACE ORDER
     async function placeOrder() {
         const name = document.getElementById('checkoutName').value.trim();
         const email = document.getElementById('checkoutEmail').value.trim();
@@ -2571,42 +1474,21 @@
         const transactionCode = document.getElementById('checkoutTransaction').value.trim();
 
         const selectedPayment = document.querySelector('input[name="paymentMethod"]:checked');
-        
-        // FIX: Validate payment method selection
-        if (!selectedPayment) {
-            alert('Please select a payment method.');
-            return;
-        }
-        
+        if (!selectedPayment) { alert('Please select a payment method.'); return; }
         const paymentMethod = selectedPayment.value;
 
-        if (!name || !email || !phone || !address) {
-            alert('Please fill in all required fields.');
-            return;
-        }
+        if (!name || !email || !phone || !address) { alert('Please fill in all required fields.'); return; }
 
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            alert('Please enter a valid email address.');
-            return;
-        }
+        if (!emailRegex.test(email)) { alert('Please enter a valid email address.'); return; }
 
         const phoneRegex = /^(07|01|02)\d{8}$/;
-        if (!phoneRegex.test(phone.replace(/\s/g, ''))) {
-            alert('Please enter a valid Kenyan phone number (e.g., 0712 345 678).');
-            return;
-        }
+        if (!phoneRegex.test(phone.replace(/\s/g, ''))) { alert('Please enter a valid Kenyan phone number (e.g., 0712 345 678).'); return; }
 
-        // FIX: Confirm order before placing
-        if (!confirm('Are you sure you want to place this order?')) {
-            return;
-        }
+        if (!confirm('Are you sure you want to place this order?')) return;
 
         const cart = getCart();
-        if (cart.length === 0) {
-            alert('Your cart is empty!');
-            return;
-        }
+        if (cart.length === 0) { alert('Your cart is empty!'); return; }
 
         const sanitized = {
             name: sanitizeInput(name),
@@ -2619,11 +1501,8 @@
         };
 
         try {
-            localStorage.setItem('karis_user_data', JSON.stringify({
-                phone: phone,
-                address: address
-            }));
-        } catch { /* ignore */ }
+            localStorage.setItem('karis_user_data', JSON.stringify({ phone: phone, address: address }));
+        } catch {}
 
         const orderItems = cart.map((item, index) => {
             const product = products.find(p => p.id === item.productId);
@@ -2644,7 +1523,6 @@
         const subtotal = orderItems.reduce((sum, item) => sum + item.subtotal, 0);
         const totalItems = orderItems.reduce((sum, item) => sum + item.quantity, 0);
         const orderId = window._currentOrderId || generateOrderId();
-
         const user = getCurrentUser();
         const isGuest = user ? false : true;
 
@@ -2662,7 +1540,7 @@
                     });
                 }
             } catch (error) {
-                console.warn('⚠️ File upload failed but continuing with order:', error);
+                console.warn('⚠️ File upload failed:', error);
                 showToast('⚠️ Design file upload failed. You can send it later via email.');
             }
         }
@@ -2689,11 +1567,8 @@
                 updatedAt: new Date().toISOString(),
                 isGuest: isGuest
             };
-
             const ordersRef = collection(db, 'orders');
-            const docRef = await addDoc(ordersRef, orderData);
-            console.log('✅ Order saved to Firestore with ID:', docRef.id);
-
+            await addDoc(ordersRef, orderData);
         } catch (firestoreError) {
             console.warn('⚠️ Firestore save failed:', firestoreError);
         }
@@ -2706,25 +1581,23 @@
                     `<a href="${designFileUrl}" target="_blank" style="color:#19589d;text-decoration:underline;">📎 Download Design</a>` :
                     '📎 File uploaded';
             }
-
             itemsList += `
-                        <div style="background:#f8fafc;padding:10px 14px;border-radius:6px;margin-bottom:6px;border-left:3px solid #19589d;">
-                            <div style="font-weight:600;font-size:14px;">${item.index}. ${item.name}</div>
-                            <div style="font-size:13px;color:#555;margin-top:2px;">${item.subcategory} · Quality: ${item.quality}</div>
-                            <div style="font-size:13px;color:#555;">Quantity: ${item.quantity} × KSh ${item.price.toLocaleString()}</div>
-                            <div style="font-size:14px;font-weight:600;color:#19589d;margin-top:3px;">Subtotal: KSh ${item.subtotal.toLocaleString()}</div>
-                            <div style="font-size:12px;color:#666;margin-top:2px;">Design: ${designDisplay}</div>
-                        </div>
-                    `;
+                <div style="background:#f8fafc;padding:10px 14px;border-radius:6px;margin-bottom:6px;border-left:3px solid #19589d;">
+                    <div style="font-weight:600;font-size:14px;">${item.index}. ${item.name}</div>
+                    <div style="font-size:13px;color:#555;margin-top:2px;">${item.subcategory} · Quality: ${item.quality}</div>
+                    <div style="font-size:13px;color:#555;">Quantity: ${item.quantity} × KSh ${item.price.toLocaleString()}</div>
+                    <div style="font-size:14px;font-weight:600;color:#19589d;margin-top:3px;">Subtotal: KSh ${item.subtotal.toLocaleString()}</div>
+                    <div style="font-size:12px;color:#666;margin-top:2px;">Design: ${designDisplay}</div>
+                </div>
+            `;
         });
-
         itemsList += `
-                    <hr style="border:none;border-top:1px dashed #ddd;margin:12px 0;">
-                    <div style="display:flex;justify-content:space-between;padding:8px 4px;font-weight:600;font-size:15px;">
-                        <span>Total Items: ${totalItems}</span>
-                        <span style="color:#19589d;">Total: KSh ${subtotal.toLocaleString()}</span>
-                    </div>
-                `;
+            <hr style="border:none;border-top:1px dashed #ddd;margin:12px 0;">
+            <div style="display:flex;justify-content:space-between;padding:8px 4px;font-weight:600;font-size:15px;">
+                <span>Total Items: ${totalItems}</span>
+                <span style="color:#19589d;">Total: KSh ${subtotal.toLocaleString()}</span>
+            </div>
+        `;
 
         const btn = document.getElementById('placeOrderBtn');
         btn.textContent = '⏳ Processing...';
@@ -2732,57 +1605,43 @@
 
         const paymentLabels = {
             'paybill': 'M-Pesa Paybill (123456)',
-            'bank': 'Bank Transfer (Equity Bank)',
-            'sendmoney': 'Send Money (+254 700 123 456)'
+            'bank': 'Bank Transfer (Equity Bank)'
         };
 
         try {
             const designFileInfo = designFileUrl ?
-                `<div style="background:#fff3cd;padding:10px 16px;border-radius:8px;border-left:4px solid #ffc107;margin:10px 0;">
-                            <strong>📎 Design File:</strong> <a href="${designFileUrl}" target="_blank" style="color:#19589d;font-weight:600;">Download Design File</a>
-                       </div>` :
+                `<div style="background:#fff3cd;padding:10px 16px;border-radius:8px;border-left:4px solid #ffc107;margin:10px 0;"><strong>📎 Design File:</strong> <a href="${designFileUrl}" target="_blank" style="color:#19589d;font-weight:600;">Download Design File</a></div>` :
                 '<div style="background:#fff3cd;padding:10px 16px;border-radius:8px;border-left:4px solid #ffc107;margin:10px 0;"><strong>📎 Design File:</strong> No file uploaded</div>';
 
-            const response = await emailjs.send(
-                'service_rm5geys',
-                'template_79024if', {
-                    orderId: orderId,
-                    customerName: sanitized.name,
-                    customerEmail: sanitized.email,
-                    customerPhone: sanitized.phone,
-                    customerAddress: sanitized.address,
-                    instructions: sanitized.instructions || 'None',
-                    transactionCode: sanitized.transactionCode || 'Not provided',
-                    paymentMethod: paymentLabels[paymentMethod] || paymentMethod,
-                    itemsList: itemsList,
-                    itemCount: totalItems,
-                    subtotal: `KSh ${subtotal.toLocaleString()}`,
-                    total: `KSh ${subtotal.toLocaleString()}`,
-                    timestamp: new Date().toLocaleString('en-KE', {
-                        timeZone: 'Africa/Nairobi',
-                        day: '2-digit',
-                        month: 'short',
-                        year: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit'
-                    }),
-                    designFileInfo: designFileInfo
-                }
-            );
+            await emailjs.send('service_rm5geys', 'template_79024if', {
+                orderId: orderId,
+                customerName: sanitized.name,
+                customerEmail: sanitized.email,
+                customerPhone: sanitized.phone,
+                customerAddress: sanitized.address,
+                instructions: sanitized.instructions || 'None',
+                transactionCode: sanitized.transactionCode || 'Not provided',
+                paymentMethod: paymentLabels[paymentMethod] || paymentMethod,
+                itemsList: itemsList,
+                itemCount: totalItems,
+                subtotal: `KSh ${subtotal.toLocaleString()}`,
+                total: `KSh ${subtotal.toLocaleString()}`,
+                timestamp: new Date().toLocaleString('en-KE', {
+                    timeZone: 'Africa/Nairobi',
+                    day: '2-digit', month: 'short', year: 'numeric',
+                    hour: '2-digit', minute: '2-digit'
+                }),
+                designFileInfo: designFileInfo
+            });
 
-            console.log('✅ Order email sent!', response);
             closeCheckoutModal();
             document.getElementById('successOrderId').textContent = orderId;
             document.getElementById('successOverlay').classList.add('show');
             saveCart([]);
             renderCart();
-            updateCartBadge(); // FIX: Update badge after clearing cart
+            updateCartBadge();
             btn.textContent = '✅ Order Placed!';
-
-            setTimeout(() => {
-                showNotification(isGuest, orderId);
-            }, 500);
-
+            setTimeout(() => { showNotification(isGuest, orderId); }, 500);
         } catch (error) {
             console.error('❌ Order failed:', error);
             alert('There was an error placing your order. Please try again or contact us directly.');
@@ -2791,17 +1650,12 @@
         }
     }
 
-    // =============================================
-    // CLOSE SUCCESS & CLEAR CART
-    // =============================================
     window.closeSuccessAndClearCart = function() {
         document.getElementById('successOverlay').classList.remove('show');
         window.location.href = 'catalog.html';
     };
 
-    // =============================================
-    // AUTH NAVIGATION (IMPROVED)
-    // =============================================
+    // AUTH
     function updateAuthUI(user) {
         const authLinks = document.getElementById('authLinks');
         const userLinks = document.getElementById('userLinks');
@@ -2830,29 +1684,23 @@
         if (confirm('Are you sure you want to logout?')) {
             const result = await logoutUser();
             if (result.success) {
-                // FIX: Clear user data on logout
                 localStorage.removeItem('karis_user_data');
                 window.location.replace('login.html');
             }
         }
     }
 
-    // =============================================
-    // QUOTE FORM AND PDF GENERATION (IMPROVED)
-    // =============================================
+    // ============================================================
+    // QUOTE FORM OPEN/CLOSE
+    // ============================================================
     const quoteFormOverlay = document.getElementById('quoteFormOverlay');
     const closeQuoteFormBtn = document.getElementById('closeQuoteForm');
     const generateQuoteBtn = document.getElementById('generateQuoteBtn');
     let isGeneratingQuote = false;
 
-    // Open quote form when quote button is clicked
     document.getElementById('quoteBtn').addEventListener('click', function() {
         const cart = getCart();
-        if (cart.length === 0) {
-            showToast('Your cart is empty!');
-            return;
-        }
-        // Pre-fill with logged-in user data if available
+        if (cart.length === 0) { showToast('Your cart is empty!'); return; }
         const user = getCurrentUser();
         if (user) {
             document.getElementById('quoteClientName').value = user.displayName || '';
@@ -2861,9 +1709,8 @@
                 const userData = JSON.parse(localStorage.getItem('karis_user_data')) || {};
                 document.getElementById('quoteBillingAddress').value = userData.address || '';
                 document.getElementById('quoteContactPhone').value = userData.phone || '';
-            } catch { /* ignore */ }
+            } catch {}
         } else {
-            // Clear fields if no user
             document.getElementById('quoteClientName').value = '';
             document.getElementById('quoteCompanyName').value = '';
             document.getElementById('quoteBillingAddress').value = '';
@@ -2878,25 +1725,47 @@
         quoteFormOverlay.classList.remove('show');
         document.body.style.overflow = '';
     }
-
     closeQuoteFormBtn.addEventListener('click', closeQuoteForm);
     quoteFormOverlay.addEventListener('click', function(e) {
         if (e.target === this) closeQuoteForm();
     });
 
-    // Generate PDF with client details (IMPROVED)
-    generateQuoteBtn.addEventListener('click', function() {
-        // FIX: Prevent multiple clicks
-        if (isGeneratingQuote) {
-            showToast('Please wait, generating PDF...');
-            return;
-        }
+    // ============================================================
+    // HELPER: Load image as base64 data URL
+    // ============================================================
+    function loadImageAsDataURL(src) {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.crossOrigin = 'anonymous';
+            img.onload = function () {
+                try {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = img.naturalWidth;
+                    canvas.height = img.naturalHeight;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0);
+                    const dataURL = canvas.toDataURL('image/png');
+                    resolve({ dataURL, width: img.naturalWidth, height: img.naturalHeight });
+                } catch (err) {
+                    reject(err);
+                }
+            };
+            img.onerror = function () { reject(new Error('Failed to load image: ' + src)); };
+            img.src = src;
+        });
+    }
 
-        const clientName = document.getElementById('quoteClientName').value.trim();
-        const companyName = document.getElementById('quoteCompanyName').value.trim();
+    // ============================================================
+    // GENERATE QUOTE PDF — using direct jsPDF drawing
+    // ============================================================
+    generateQuoteBtn.addEventListener('click', async function() {
+        if (isGeneratingQuote) { showToast('Please wait, generating PDF...'); return; }
+
+        const clientName     = document.getElementById('quoteClientName').value.trim();
+        const companyName    = document.getElementById('quoteCompanyName').value.trim();
         const billingAddress = document.getElementById('quoteBillingAddress').value.trim();
-        const contactEmail = document.getElementById('quoteContactEmail').value.trim();
-        const contactPhone = document.getElementById('quoteContactPhone').value.trim();
+        const contactEmail   = document.getElementById('quoteContactEmail').value.trim();
+        const contactPhone   = document.getElementById('quoteContactPhone').value.trim();
 
         if (!clientName || !billingAddress || !contactEmail || !contactPhone) {
             showToast('Please fill in all required fields (*)');
@@ -2904,118 +1773,374 @@
         }
 
         const cart = getCart();
-        if (cart.length === 0) {
-            showToast('Your cart is empty!');
-            return;
-        }
+        if (cart.length === 0) { showToast('Your cart is empty!'); return; }
 
-        // FIX: Disable button during generation
         isGeneratingQuote = true;
         generateQuoteBtn.disabled = true;
         generateQuoteBtn.textContent = '⏳ Generating...';
 
-        // Build table rows
-        let rowsHtml = '';
-        let grandTotal = 0;
-        cart.forEach((item, idx) => {
-            const product = products.find(p => p.id === item.productId);
-            if (!product) return;
-            const price = item.pricePerUnit || product.startingPrice;
-            const total = price * item.quantity;
-            grandTotal += total;
-            const qualityLabel = item.quality ? item.quality.charAt(0).toUpperCase() + item.quality.slice(1) :
-                'Standard';
-            rowsHtml += `
-                        <tr>
-                            <td style="padding: 8px 12px; border: 1px solid #dce4ee; text-align: center;">${idx + 1}</td>
-                            <td style="padding: 8px 12px; border: 1px solid #dce4ee;">${product.name}</td>
-                            <td style="padding: 8px 12px; border: 1px solid #dce4ee;">${qualityLabel}</td>
-                            <td style="padding: 8px 12px; border: 1px solid #dce4ee; text-align: center;">${item.quantity}</td>
-                            <td style="padding: 8px 12px; border: 1px solid #dce4ee; text-align: right;">${total.toLocaleString()}</td>
-                        </tr>
-                    `;
-        });
+        try {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait', compress: true });
 
-        // FIX: Add design file status to quote
-        const hasDesignFile = cart.some(item => item.hasDesign);
-        const designStatus = hasDesignFile ? 
-            '📎 Design file uploaded' : 
-            '📎 No design file provided';
+            // ---------- A4 dimensions ----------
+            const PAGE_W = 210;
+            const PAGE_H = 297;
+            const MARGIN_X = 15;
+            const CONTENT_W = PAGE_W - MARGIN_X * 2;   // 180mm
 
-        // Set client details in the quote
-        document.getElementById('qClientName').textContent = clientName;
-        document.getElementById('qCompanyName').textContent = companyName || 'N/A';
-        document.getElementById('qBillingAddress').textContent = billingAddress;
-        document.getElementById('qContactEmail').textContent = contactEmail;
-        document.getElementById('qContactPhone').textContent = contactPhone;
+            // ---------- Colors ----------
+            const BLUE       = [25, 88, 157];
+            const RED        = [220, 28, 44];
+            const GREEN      = [16, 170, 81];
+            const DARK       = [26, 46, 68];
+            const GRAY       = [120, 130, 145];
+            const LIGHT_BLUE = [240, 246, 254];
+            const LIGHT_GREEN= [240, 247, 232];
+            const WHITE      = [255, 255, 255];
+            const LIGHT_GRAY = [248, 250, 252];
 
-        // Set date
-        document.getElementById('quoteDate').textContent = new Date().toLocaleDateString('en-KE', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-        });
+            // ---------- Helper: draw text ----------
+            function txt(text, x, y, opts = {}) {
+                const {
+                    size = 10, color = DARK, style = 'normal',
+                    align = 'left', font = 'helvetica', maxWidth = 0
+                } = opts;
+                doc.setFont(font, style);
+                doc.setFontSize(size);
+                doc.setTextColor(...color);
+                if (maxWidth > 0) {
+                    const lines = doc.splitTextToSize(String(text), maxWidth);
+                    doc.text(lines, x, y, { align });
+                } else {
+                    doc.text(String(text), x, y, { align });
+                }
+            }
 
-        // Inject rows and grand total
-        document.getElementById('quoteTableBody').innerHTML = rowsHtml;
-        document.getElementById('quoteGrandTotal').textContent = `KSh ${grandTotal.toLocaleString()}`;
+            // ---------- Helper: rounded filled rect ----------
+            function fillRect(x, y, w, h, color, radius = 0) {
+                doc.setFillColor(...color);
+                if (radius > 0) {
+                    doc.roundedRect(x, y, w, h, radius, radius, 'F');
+                } else {
+                    doc.rect(x, y, w, h, 'F');
+                }
+            }
 
-        // FIX: Add design status to quote footer
-        const footerElement = document.querySelector('#quoteContent > div:last-child');
-        if (footerElement) {
-            const designNote = document.createElement('p');
-            designNote.style.cssText = 'margin: 4px 0 0; font-size: 13px; color: #19589d;';
-            designNote.textContent = designStatus;
-            footerElement.insertBefore(designNote, footerElement.lastChild);
-        }
+            // ---------- Helper: horizontal line ----------
+            function line(x1, y1, x2, y2, color, width = 0.3) {
+                doc.setDrawColor(...color);
+                doc.setLineWidth(width);
+                doc.line(x1, y1, x2, y2);
+            }
 
-        // Generate PDF
-        const element = document.getElementById('quoteContent');
-        const opt = {
-            margin: 0.5,
-            filename: `Quote_RiseAxis_${new Date().toISOString().slice(0,10)}.pdf`,
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2, useCORS: true },
-            jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-        };
+            // ==================================================
+            // HEADER
+            // ==================================================
+            let y = 15;
 
-        showToast('Generating PDF...');
-        html2pdf().set(opt).from(element).save().then(() => {
+            // Logo (try to load)
+            try {
+                const logo = await loadImageAsDataURL('/images/RISE AXIS LOGO FILE.png');
+                const maxLogoH = 22;
+                const maxLogoW = 60;
+                const logoRatio = logo.width / logo.height;
+                let logoW = maxLogoH * logoRatio;
+                let logoH = maxLogoH;
+                if (logoW > maxLogoW) {
+                    logoW = maxLogoW;
+                    logoH = logoW / logoRatio;
+                }
+                const logoX = (PAGE_W - logoW) / 2;
+                doc.addImage(logo.dataURL, 'PNG', logoX, y, logoW, logoH);
+                y += logoH + 3;
+            } catch (err) {
+                console.warn('Logo could not load, skipping:', err);
+            }
+
+            // // Brand name
+            // txt('Rise Axis', PAGE_W / 2 - 6, y + 2, { size: 18, color: BLUE, style: 'bold', align: 'center' });
+            // // Red "Solutions" appended — need manual positioning
+            // doc.setFont('helvetica', 'bold');
+            // doc.setFontSize(18);
+            // const riseAxisWidth = doc.getTextWidth('Rise Axis ');
+            // doc.setTextColor(...BLUE);
+            // doc.text('Rise Axis ', PAGE_W / 2 - riseAxisWidth / 2 - doc.getTextWidth('Solutions') / 2, y + 2, { align: 'left' });
+            // doc.setTextColor(...RED);
+            // doc.text('Solutions', PAGE_W / 2 - riseAxisWidth / 2 - doc.getTextWidth('Solutions') / 2 + riseAxisWidth, y + 2, { align: 'left' });
+            // y += 6;
+
+            // Tagline
+            // txt('Clarity, Direction, Results.', PAGE_W / 2, y, { size: 9, color: GRAY, style: 'italic', align: 'center' });
+            // y += 5;
+
+            // Contact lines — EMOJIS REMOVED FOR CONSISTENT FONT
+            txt('+254-700-123-456   |   contact@riseaxissolutions.com', PAGE_W / 2, y, { size: 8.5, color: DARK, align: 'center' });
+            y += 4;
+            txt('188 Hood Avenue, 3rd Floor, 72 Riverside Drive, Office 5', PAGE_W / 2, y, { size: 8.5, color: DARK, align: 'center' });
+            y += 4;
+
+            // Blue divider
+            line(MARGIN_X, y, PAGE_W - MARGIN_X, y, BLUE, 1.2);
+            y += 6;
+
+            // ==================================================
+            // BILL TO (left) + PAYMENT DETAILS (right)
+            // ==================================================
+            const boxY = y;
+            const boxH = 58;
+            const gap = 4;
+            const boxW = (CONTENT_W - gap) / 2;
+
+            // ---- Left box: BILL TO ----
+            fillRect(MARGIN_X, boxY, boxW, boxH, LIGHT_BLUE, 2);
+            fillRect(MARGIN_X, boxY, 1.2, boxH, BLUE, 0);
+
+            let leftX = MARGIN_X + 5;
+            let leftY = boxY + 6;
+            txt('BILL TO', leftX, leftY, { size: 9, color: BLUE, style: 'bold' });
+            leftY += 5.5;
+
+            const clientLines = [
+                ['Client:',  clientName],
+                ['Company:', companyName || 'N/A'],
+                ['Address:', billingAddress],
+                ['Email:',   contactEmail],
+                ['Phone:',   contactPhone]
+            ];
+            clientLines.forEach(([lbl, val]) => {
+                txt(lbl, leftX, leftY, { size: 8.5, color: DARK, style: 'bold' });
+                txt(val, leftX + 18, leftY, { size: 8.5, color: DARK, maxWidth: boxW - 24 });
+                leftY += 5;
+            });
+
+            // ---- Right box: PAYMENT DETAILS ----
+            const rightX = MARGIN_X + boxW + gap;
+            fillRect(rightX, boxY, boxW, boxH, LIGHT_GREEN, 2);
+            fillRect(rightX, boxY, 1.2, boxH, GREEN, 0);
+
+            let rx = rightX + 5;
+            let ry = boxY + 6;
+            txt('PAYMENT DETAILS', rx, ry, { size: 9, color: GREEN, style: 'bold' });
+            ry += 5.5;
+
+            // Paybill
+            txt('M-Pesa Paybill', rx, ry, { size: 8.5, color: GREEN, style: 'bold' });
+            ry += 4;
+            txt('Paybill No:', rx, ry, { size: 8.5, color: DARK, style: 'bold' });
+            txt('123456', rx + 22, ry, { size: 8.5, color: DARK, style: 'bold' });
+            ry += 4;
+            txt('Account:', rx, ry, { size: 8.5, color: DARK, style: 'bold' });
+            txt('Your Name / Order ID', rx + 22, ry, { size: 8.5, color: DARK });
+            ry += 6;
+
+            // Bank
+            txt('Bank Transfer', rx, ry, { size: 8.5, color: BLUE, style: 'bold' });
+            ry += 4;
+            txt('Bank:', rx, ry, { size: 8.5, color: DARK, style: 'bold' });
+            txt('Equity Bank', rx + 22, ry, { size: 8.5, color: DARK });
+            ry += 4;
+            txt('Account No:', rx, ry, { size: 8.5, color: DARK, style: 'bold' });
+            txt('0123456789', rx + 22, ry, { size: 8.5, color: DARK, style: 'bold' });
+            ry += 4;
+            txt('Name:', rx, ry, { size: 8.5, color: DARK, style: 'bold' });
+            txt('Rise Axis Solutions', rx + 22, ry, { size: 8.5, color: DARK });
+            ry += 5.5;
+            // txt('Use your Order ID as the payment reference.', rx, ry, { size: 7.5, color: GRAY, style: 'italic' });
+
+            y = boxY + boxH + 8;
+
+            // ==================================================
+            // QUOTATION TITLE
+            // ==================================================
+            txt('QUOTATION', PAGE_W / 2, y, { size: 16, color: BLUE, style: 'bold', align: 'center' });
+            y += 6;
+
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('en-KE', { year: 'numeric', month: 'long', day: 'numeric' });
+            const quoteRef = 'Q-' + now.getFullYear() +
+                String(now.getMonth() + 1).padStart(2, '0') +
+                String(now.getDate()).padStart(2, '0') + '-' +
+                Math.random().toString(36).substr(2, 4).toUpperCase();
+            txt(`Date: ${dateStr}        Quote Ref: ${quoteRef}`, PAGE_W / 2, y, { size: 9, color: DARK, align: 'center' });
+            y += 7;
+
+            // ==================================================
+            // TABLE
+            // ==================================================
+            const cols = [
+                { label: 'No.',        w: 12,  align: 'center' },
+                { label: 'Item',       w: 78,  align: 'left' },
+                { label: 'Quality',    w: 30,  align: 'left' },
+                { label: 'Qty',        w: 15,  align: 'center' },
+                { label: 'Price (KSh)',w: 45,  align: 'right' }
+            ];
+            const totalColW = cols.reduce((s, c) => s + c.w, 0);
+            cols[cols.length - 1].w += CONTENT_W - totalColW;
+
+            const rowH = 8;
+            const headerH = 9;
+
+            // ---- Table header ----
+            fillRect(MARGIN_X, y, CONTENT_W, headerH, BLUE, 0);
+            let colX = MARGIN_X;
+            cols.forEach((c, i) => {
+                const textX = c.align === 'center' ? colX + c.w / 2
+                            : c.align === 'right'  ? colX + c.w - 2
+                            : colX + 2;
+                txt(c.label, textX, y + headerH / 2 + 1.2, {
+                    size: 9, color: WHITE, style: 'bold', align: c.align
+                });
+                colX += c.w;
+            });
+            y += headerH;
+
+            // ---- Table body ----
+            let grandTotal = 0;
+            const bodyRows = [];
+
+            cart.forEach((item, idx) => {
+                const product = products.find(p => p.id === item.productId);
+                if (!product) return;
+                const price = item.pricePerUnit || product.startingPrice;
+                const total = price * item.quantity;
+                grandTotal += total;
+                const qualityLabel = item.quality
+                    ? item.quality.charAt(0).toUpperCase() + item.quality.slice(1)
+                    : 'Standard';
+                bodyRows.push({
+                    no: idx + 1,
+                    item: product.name,
+                    quality: qualityLabel,
+                    qty: item.quantity,
+                    price: total.toLocaleString()
+                });
+            });
+
+            const bottomReserve = 55;
+            const maxRowsThisPage = () => Math.floor((PAGE_H - bottomReserve - y) / rowH);
+
+            let rowIndex = 0;
+            while (rowIndex < bodyRows.length) {
+                const remaining = bodyRows.length - rowIndex;
+                let rowsOnThisPage = Math.min(remaining, maxRowsThisPage());
+
+                if (rowIndex > 0) {
+                    doc.addPage();
+                    y = 15;
+                    txt('Rise Axis Solutions  —  Quotation (continued)', MARGIN_X, y, { size: 10, color: BLUE, style: 'bold' });
+                    y += 6;
+                    line(MARGIN_X, y, PAGE_W - MARGIN_X, y, BLUE, 0.6);
+                    y += 4;
+                    fillRect(MARGIN_X, y, CONTENT_W, headerH, BLUE, 0);
+                    let cx = MARGIN_X;
+                    cols.forEach(c => {
+                        const textX = c.align === 'center' ? cx + c.w / 2
+                                    : c.align === 'right'  ? cx + c.w - 2
+                                    : cx + 2;
+                        txt(c.label, textX, y + headerH / 2 + 1.2, {
+                            size: 9, color: WHITE, style: 'bold', align: c.align
+                        });
+                        cx += c.w;
+                    });
+                    y += headerH;
+                }
+
+                for (let i = 0; i < rowsOnThisPage; i++) {
+                    const row = bodyRows[rowIndex + i];
+                    const isEven = (rowIndex + i) % 2 === 0;
+
+                    if (isEven) {
+                        fillRect(MARGIN_X, y, CONTENT_W, rowH, LIGHT_GRAY, 0);
+                    }
+
+                    let cX = MARGIN_X;
+                    txt(row.no, cX + cols[0].w / 2, y + rowH / 2 + 1.2, { size: 8.5, color: DARK, align: 'center' });
+                    cX += cols[0].w;
+                    const itemText = String(row.item);
+                    const itemMaxW = cols[1].w - 4;
+                    let displayItem = itemText;
+                    if (doc.getTextWidth(itemText) > itemMaxW) {
+                        while (displayItem.length > 3 && doc.getTextWidth(displayItem + '…') > itemMaxW) {
+                            displayItem = displayItem.slice(0, -1);
+                        }
+                        displayItem += '…';
+                    }
+                    txt(displayItem, cX + 2, y + rowH / 2 + 1.2, { size: 8.5, color: DARK });
+                    cX += cols[1].w;
+                    txt(row.quality, cX + 2, y + rowH / 2 + 1.2, { size: 8.5, color: DARK });
+                    cX += cols[2].w;
+                    txt(row.qty, cX + cols[3].w / 2, y + rowH / 2 + 1.2, { size: 8.5, color: DARK, align: 'center' });
+                    cX += cols[3].w;
+                    txt(row.price, cX + cols[4].w - 2, y + rowH / 2 + 1.2, { size: 8.5, color: DARK, style: 'bold', align: 'right' });
+
+                    line(MARGIN_X, y + rowH, PAGE_W - MARGIN_X, y + rowH, [220, 228, 238], 0.15);
+
+                    y += rowH;
+                }
+
+                rowIndex += rowsOnThisPage;
+            }
+
+            // ---- Grand total row ----
+            fillRect(MARGIN_X, y, CONTENT_W, headerH, LIGHT_BLUE, 0);
+            txt('GRAND TOTAL', MARGIN_X + CONTENT_W - cols[4].w - 2, y + headerH / 2 + 1.5, {
+                size: 10, color: DARK, style: 'bold', align: 'right'
+            });
+            txt(`KSh ${grandTotal.toLocaleString()}`, PAGE_W - MARGIN_X - 2, y + headerH / 2 + 1.5, {
+                size: 11, color: BLUE, style: 'bold', align: 'right'
+            });
+            y += headerH + 8;
+
+            // ==================================================
+            // FOOTER — EMOJIS REMOVED FOR CONSISTENT FONT
+            // ==================================================
+            line(MARGIN_X, y, PAGE_W - MARGIN_X, y, BLUE, 0.6);
+            y += 5;
+
+            txt('Thank you for choosing Rise Axis Solutions!', PAGE_W / 2, y, {
+                size: 10, color: BLUE, style: 'bold', align: 'center'
+            });
+            y += 5;
+            txt('Terms: Payment before delivery. This quotation is valid for 7 days from the date above.', PAGE_W / 2, y, {
+                size: 8, color: DARK, align: 'center'
+            });
+            y += 5;
+            txt('+254-700-123-456  •  contact@riseaxissolutions.com  •  188 Hood Avenue, 3rd Floor, 72 Riverside Drive, Office 5', PAGE_W / 2, y, {
+                size: 7.5, color: GRAY, align: 'center'
+            });
+            y += 4;
+            txt('www.riseaxissolutions.com', PAGE_W / 2, y, {
+                size: 8.5, color: BLUE, style: 'bold', align: 'center'
+            });
+
+            const fileName = `Quote_RiseAxis_${now.toISOString().slice(0, 10)}.pdf`;
+            doc.save(fileName);
+
             showToast('✅ Quote downloaded!');
             closeQuoteForm();
-            // FIX: Re-enable button
-            isGeneratingQuote = false;
-            generateQuoteBtn.disabled = false;
-            generateQuoteBtn.textContent = '<i class="fas fa-file-pdf"></i> Generate Quotation';
-        }).catch((err) => {
-            console.error('PDF generation error:', err);
+        } catch (err) {
+            console.error('❌ PDF generation error:', err);
             showToast('❌ Failed to generate PDF. Please try again.');
-            // FIX: Re-enable button on error
+        } finally {
             isGeneratingQuote = false;
             generateQuoteBtn.disabled = false;
-            generateQuoteBtn.textContent = '<i class="fas fa-file-pdf"></i> Generate Quotation';
-        });
+            generateQuoteBtn.innerHTML = '<i class="fas fa-file-pdf"></i> Generate Quotation';
+        }
     });
 
     // =============================================
     // INIT
     // =============================================
     document.addEventListener('DOMContentLoaded', function() {
-        // Auth
         const user = getCurrentUser();
         updateAuthUI(user);
-
-        onAuthChange((user) => {
-            updateAuthUI(user);
-        });
+        onAuthChange((user) => { updateAuthUI(user); });
 
         const logoutLink = document.getElementById('logoutLink');
-        if (logoutLink) {
-            logoutLink.addEventListener('click', handleLogout);
-        }
+        if (logoutLink) logoutLink.addEventListener('click', handleLogout);
         document.getElementById('slideLogoutLink')?.addEventListener('click', handleLogout);
 
-        // Checkout
         document.getElementById('checkoutBtn').addEventListener('click', openCheckoutModal);
         document.getElementById('closeCheckoutModal').addEventListener('click', closeCheckoutModal);
         document.getElementById('checkoutModal').addEventListener('click', function(e) {
@@ -3034,7 +2159,7 @@
         renderCart();
         updateCartBadge();
     });
-</script>
+    </script>
 
 </body>
 </html>

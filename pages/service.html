@@ -60,15 +60,72 @@
       align-items: center;
       flex-wrap: wrap;
     }
-    .logo {
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: var(--brand-blue);
-      letter-spacing: -0.5px;
-      order: 0;
-      margin-right: auto;
-    }
-    .logo span { color: var(--brand-red); }
+    /* ===== LOGO IN HEADER — ENLARGED ===== */
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+.logo img {
+  height: 60px;
+  width: auto;
+  max-width: 180px;
+  object-fit: contain;
+  display: block;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+.logo:hover img {
+  transform: scale(1.03);
+}
+.logo-text {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--brand-blue);
+  line-height: 1.1;
+  white-space: nowrap;
+}
+.logo-text em {
+  font-style: normal;
+  color: var(--brand-red);
+}
+
+/* Slide menu logo — also enlarged */
+.slide-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.slide-logo img {
+  height: 52px;
+  width: auto;
+  max-width: 140px;
+  object-fit: contain;
+  display: block;
+  flex-shrink: 0;
+}
+.slide-logo .logo-text {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--brand-blue);
+  line-height: 1.1;
+}
+.slide-logo .logo-text em {
+  font-style: normal;
+  color: var(--brand-red);
+}
+
+/* Responsive — logo shrinks a bit but stays clear */
+@media (max-width: 820px) {
+  .logo img { height: 48px; max-width: 130px; }
+  .logo-text { font-size: 1.3rem; }
+}
+@media (max-width: 480px) {
+  .logo img { height: 38px; max-width: 100px; }
+  .logo-text { font-size: 1.1rem; }
+  .slide-logo img { height: 40px; max-width: 100px; }
+}
 
     /* ===== HAMBURGER (mobile) ===== */
     .hamburger {
@@ -421,35 +478,55 @@
       font-size: 1.05rem;
     }
 
-    /* product grid */
+    /* ===== product grid (with images) ===== */
     .product-grid {
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 16px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
     }
     .product-card {
-      background: #f8f9fb;
-      border-radius: 8px;
-      padding: 14px 16px;
-      border-left: 4px solid var(--brand-blue);
-      transition: background 0.2s ease, box-shadow 0.2s ease;
+      background: #ffffff;
+      border-radius: 12px;
+      border: 1px solid #eef2f6;
+      overflow: hidden;
+      transition: box-shadow 0.25s ease, transform 0.25s ease;
       cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    }
+    .product-card:hover {
+      box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+      transform: translateY(-2px);
+    }
+    .product-card .card-thumb {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      background: #eef2f6;
+      overflow: hidden;
+    }
+    .product-card .card-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    .product-card:hover .card-thumb img {
+      transform: scale(1.06);
+    }
+    .product-card .card-text {
+      padding: 12px 14px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #1a2634;
+      line-height: 1.35;
       min-height: 56px;
       display: flex;
       align-items: center;
-    }
-    .product-card:hover {
-      background: #f1f4f9;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-    }
-    .product-card .card-text {
-      font-weight: 500;
-      color: #1a2634;
-      font-size: 0.9rem;
       letter-spacing: -0.01em;
-      line-height: 1.4;
     }
-    .product-card.selected { background: #e8f0fe; border-left-color: var(--brand-blue); }
+    .product-card.selected { background: #e8f0fe; }
     .grid-empty { /* placeholder */ }
 
     /* lightbox */
@@ -534,24 +611,27 @@
     }
 
     /* ---- responsive ---- */
+    @media (max-width: 992px) {
+      .product-grid { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    }
     @media (max-width: 768px) {
       .hamburger { display: flex; }
       .mobile-cart-btn { display: inline-flex; }
       .desktop-nav { display: none !important; }
       .logo { font-size: 1.4rem; }
       .product-grid {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
         gap: 12px;
       }
       .slide-menu { padding: 20px 16px 24px; }
+      .product-card .card-text { font-size: 0.85rem; min-height: 50px; }
     }
     @media (max-width: 550px) {
       .product-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 10px;
       }
-      .product-card { padding: 10px 12px; min-height: 48px; }
-      .product-card .card-text { font-size: 0.8rem; }
+      .product-card .card-text { font-size: 0.78rem; min-height: 46px; padding: 10px 10px; }
     }
     @media (max-width: 480px) {
       .category-title { font-size: 1.5rem; }
@@ -568,8 +648,12 @@
 
 <!-- ===== HEADER ===== -->
 <header>
-   <div class="container">
-    <a href="/index.html" class="logo">Rise Axis<span> Solutions</span></a>
+  <div class="container">
+    <div class="container">
+    <a href="../index.html" class="logo">
+      <img src="/images/RISE AXIS LOGO FILE.png" alt="Rise Axis Solutions logo">
+      <!-- <span class="logo-text">Rise Axis<em> Solutions</em></span> -->
+    </a>
 
     <!-- Hamburger -->
     <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
@@ -695,77 +779,83 @@
 
 <script>
   (function() {
+    // ---------- IMAGE BASE PATH ----------
+    // If this HTML file lives inside /pages/, keep '../images/'.
+    // If it lives at the project root, change to 'images/'.
+    const IMG = '../images/';
+
     // ---------- PRODUCT DATA ----------
     const productMap = {
       'Commercial & Marketing Materials': {
         desc: 'Commercial and marketing materials encompass printed and digital collateral like business cards, flyers, brochures, posters, and catalogs, designed to promote products, services, or brand identity. These tangible or virtual assets serve as essential tools for advertising, informing customers, and driving sales across various channels.',
         products: [
-          { name: 'Business Cards', image: 'https://placehold.co/600x400/0a1e33/fff?text=Business+Cards' },
-          { name: 'Letterheads', image: 'https://placehold.co/600x400/0a1e33/fff?text=Letterheads' },
-          { name: 'Branded Envelopes', image: 'https://placehold.co/600x400/0a1e33/fff?text=Branded+Envelopes' },
-          { name: 'Presentation Folders', image: 'https://placehold.co/600x400/0a1e33/fff?text=Presentation+Folders' },
-          { name: 'Carbonless Invoice Books (NCR)', image: 'https://placehold.co/600x400/0a1e33/fff?text=NCR+Invoice+Books' },
-          { name: 'Flyers (A5)', image: 'https://placehold.co/600x400/0a1e33/fff?text=Flyers+A5' },
-          { name: 'Brochures (Tri-fold)', image: 'https://placehold.co/600x400/0a1e33/fff?text=Brochures+Tri-fold' },
-          { name: 'Brochures (Bi-fold)', image: 'https://placehold.co/600x400/0a1e33/fff?text=Brochures+Bi-fold' },
-          { name: 'Postcards', image: 'https://placehold.co/600x400/0a1e33/fff?text=Postcards' },
-          { name: 'Door Hangers', image: 'https://placehold.co/600x400/0a1e33/fff?text=Door+Hangers' },
-          { name: 'Rack Cards', image: 'https://placehold.co/600x400/0a1e33/fff?text=Rack+Cards' },
-          { name: 'Menu Cards', image: 'https://placehold.co/600x400/0a1e33/fff?text=Menu+Cards' },
-          { name: 'Catalogs', image: 'https://placehold.co/600x400/0a1e33/fff?text=Catalogs' },
-          { name: 'Magazines', image: 'https://placehold.co/600x400/0a1e33/fff?text=Magazines' },
-          { name: 'Booklets', image: 'https://placehold.co/600x400/0a1e33/fff?text=Booklets' },
-          { name: 'Company Manuals', image: 'https://placehold.co/600x400/0a1e33/fff?text=Company+Manuals' },
-          { name: 'Annual Reports', image: 'https://placehold.co/600x400/0a1e33/fff?text=Annual+Reports' },
-          { name: 'Perfect-Bound Books', image: 'https://placehold.co/600x400/0a1e33/fff?text=Perfect-Bound+Books' }
+          { name: 'Business Cards',                 image: IMG + 'business card mockup.png' },
+          { name: 'Letterheads',                    image: IMG + 'letterheads.png' },
+          { name: 'Branded Envelopes',              image: IMG + 'Branded Envelopes.png' },
+          { name: 'Presentation Folders',           image: IMG + 'Presentation Folders.png' },
+          { name: 'Carbonless Invoice Books (NCR)', image: IMG + 'Carbonless Invoice Books (NCR).png' },
+          { name: 'Flyers (A5)',                    image: IMG + 'Fliers.png' },
+          { name: 'Brochures (Tri-fold)',           image: IMG + 'Foldable Bronchures.png' },
+          { name: 'Brochures (Bi-fold)',            image: IMG + 'Foldable Bronchures.png' },
+          { name: 'Postcards',                      image: IMG + 'postcards.jpg' },
+          { name: 'Door Hangers',                   image: IMG + 'Acrylic wall plaques.png' },
+          { name: 'Rack Cards',                     image: IMG + 'rack-cards.jpg' },
+          { name: 'Menu Cards',                     image: IMG + 'menu-cards.jpg' },
+          { name: 'Catalogs',                       image: IMG + 'Company Mannuals.png' },
+          { name: 'Magazines',                      image: IMG + 'Magazines.png' },
+          { name: 'Booklets',                       image: IMG + 'Booklets.png' },
+          { name: 'Company Manuals',                image: IMG + 'Company Mannuals.png' },
+          { name: 'Annual Reports',                 image: IMG + 'Annual Reports.png' },
+          { name: 'Perfect-Bound Books',            image: IMG + 'perfect-bound-books.jpg' }
         ]
       },
       'Large Format & Signage': {
         desc: 'Large-format printing transforms oversized graphics into high-impact marketing tools, from portable banners and roll-ups to durable outdoor signage. It also includes specialized applications like eye-catching window graphics and full-coverage vehicle wraps for mobile advertising.',
         products: [
-          { name: 'Banners (vinyl)', image: 'https://placehold.co/600x400/0a1e33/fff?text=Banners+Vinyl' },
-          { name: 'Roll-up Banners', image: 'https://placehold.co/600x400/0a1e33/fff?text=Roll-up+Banners' },
-          { name: 'Outdoor Signage', image: 'https://placehold.co/600x400/0a1e33/fff?text=Outdoor+Signage' },
-          { name: 'Window Graphics', image: 'https://placehold.co/600x400/0a1e33/fff?text=Window+Graphics' },
-          { name: 'Vehicle Graphics', image: 'https://placehold.co/600x400/0a1e33/fff?text=Vehicle+Graphics' }
+          { name: 'Banners (vinyl)',  image: IMG + 'Vinyl Banner2.png' },
+          { name: 'Roll-up Banners',  image: IMG + 'Roll Up Banners.png' },
+          { name: 'Outdoor Signage',  image: IMG + 'Correx Directional signs.png' },
+          { name: 'Window Graphics',  image: IMG + 'Window Graphics.png' },
+          { name: 'Vehicle Graphics', image: IMG + 'vehicle-graphics.png' }
         ]
       },
       'Branded Merchandise & Apparel': {
         desc: 'Branded merchandise and apparel covers customizable items like T-shirts, hoodies, caps, and tote bags, along with stationery, used to promote a brands identity. These products serve as practical marketing tools, enhancing visibility and fostering customer loyalty through everyday use.',
         products: [
-          { name: 'Custom T-shirts', image: 'https://placehold.co/600x400/0a1e33/fff?text=T-shirts' },
-          { name: 'Custom Hoodies', image: 'https://placehold.co/600x400/0a1e33/fff?text=Hoodies' },
-          { name: 'Branded Caps', image: 'https://placehold.co/600x400/0a1e33/fff?text=Branded+Caps' },
-          { name: 'Tote Bags', image: 'https://placehold.co/600x400/0a1e33/fff?text=Tote+Bags' },
-          { name: 'Pens & Stationery', image: 'https://placehold.co/600x400/0a1e33/fff?text=Pens+Stationery' }
+          { name: 'Custom T-shirts',   image: IMG + 'Custom Sportswear branding.png' },
+          { name: 'Custom Hoodies',    image: IMG + 'Sweatshirt.png' },
+          { name: 'Branded Caps',      image: IMG + 'Custom Caps.png' },
+          { name: 'Tote Bags',         image: IMG + 'Papper bags.png' },
+           { name: 'Mouse Pads',         image: IMG + 'Custom MousePads.png' },
+          { name: 'Pens & Stationery', image: IMG + 'Branded Pens.png' }
         ]
       },
       'Packaging & Labels': {
         desc: 'Custom packaging that turns your product into an experience from branded boxes and kraft bags to custom stickers and shrink sleeves. Everything you need to protect, present, and promote your goods with distinctive, shelf-ready design.',
         products: [
-          { name: 'Custom Labels (rolls)', image: 'https://placehold.co/600x400/0a1e33/fff?text=Custom+Labels' },
-          { name: 'Product Boxes', image: 'https://placehold.co/600x400/0a1e33/fff?text=Product+Boxes' },
-          { name: 'Kraft Paper Bags', image: 'https://placehold.co/600x400/0a1e33/fff?text=Kraft+Paper+Bags' },
-          { name: 'Stickers (die-cut)', image: 'https://placehold.co/600x400/0a1e33/fff?text=Stickers' },
-          { name: 'Shrink Sleeves', image: 'https://placehold.co/600x400/0a1e33/fff?text=Shrink+Sleeves' }
+          { name: 'Custom Labels (rolls)', image: IMG + 'Table Roll Stickers.png' },
+          { name: 'Product Boxes',         image: IMG + 'Custom Product box.png' },
+          { name: 'Kraft Paper Bags',      image: IMG + 'Papper bags.png' },
+          { name: 'Stickers (die-cut)',    image: IMG + 'Table Roll Stickers.png' },
+          { name: 'Shrink Sleeves',        image: IMG + 'Mailer Sleeve.png' }
         ]
       },
       'Graphic design': {
         desc: 'Visually communicating ideas through typography, imagery, and color to build brand identity and engage audiences. This category covers both print and digital collateral, from business cards and packaging to social media posts and ad banners.',
         products: [
-          { name: 'Logo Design', image: 'https://placehold.co/600x400/0a1e33/fff?text=Logo+Design' },
-          { name: 'Flyer / Poster Design', image: 'https://placehold.co/600x400/0a1e33/fff?text=Flyer+Poster+Design' },
-          { name: 'Brochure / Catalogue Design', image: 'https://placehold.co/600x400/0a1e33/fff?text=Brochure+Design' },
-          { name: 'Packaging Design', image: 'https://placehold.co/600x400/0a1e33/fff?text=Packaging+Design' },
-          { name: 'Social Media Graphics', image: 'https://placehold.co/600x400/0a1e33/fff?text=Social+Media+Graphics' }
+          { name: 'Logo Design',                 image: IMG + 'logo-design.jpg' },
+          { name: 'Flyer / Poster Design',       image: IMG + 'Fliers.png' },
+          { name: 'Brochure / Catalogue Design', image: IMG + 'Foldable Bronchures.png' },
+          { name: 'Packaging Design',            image: IMG + 'Custom Wrapping materials.png' },
+          { name: 'Social Media Graphics',       image: IMG + 'High gloss posters.png' }
         ]
       },
       'Website development': {
         desc: 'Building custom, responsive websites that establish a strong online presence for businesses, from informational homepages to full-scale e‑commerce stores. This also includes ongoing maintenance, speed optimization, and security updates to ensure reliable, high-performance functionality over time.',
         products: [
-          { name: 'Business Website', image: 'https://placehold.co/600x400/0a1e33/fff?text=Business+Website' },
-          { name: 'E-commerce Store', image: 'https://placehold.co/600x400/0a1e33/fff?text=E-commerce+Store' },
-          { name: 'Website Maintenance', image: 'https://placehold.co/600x400/0a1e33/fff?text=Website+Maintenance' }
+          { name: 'Business Website',    image: IMG + 'business-website.jpg' },
+          { name: 'E-commerce Store',    image: IMG + 'ecommerce-store.jpg' },
+          { name: 'Website Maintenance', image: IMG + 'website-maintenance.jpg' }
         ]
       }
     };
@@ -786,12 +876,10 @@
     }
 
     // Get category from URL or default
-    let activeCategory = categoryKeys[0]; // default
-    
-    // Check if there's a category parameter in the URL
+    let activeCategory = categoryKeys[0];
+
     const categoryParam = getUrlParameter('category');
     if (categoryParam) {
-      // URL decode and check if it's a valid category
       const decodedCategory = decodeURIComponent(categoryParam);
       if (categoryKeys.includes(decodedCategory)) {
         activeCategory = decodedCategory;
@@ -846,7 +934,6 @@
       slideDropdownArrow.classList.toggle('open', slideDropdownOpen);
     });
 
-    // close slide menu when a link/item is clicked
     document.querySelectorAll('.slide-menu a, .slide-menu .dropdown-item').forEach(el => {
       el.addEventListener('click', () => {
         if (el.classList.contains('dropdown-item')) {
@@ -915,7 +1002,7 @@
     }
 
     // =============================================
-    // RENDER DROPDOWN (both desktop & mobile)
+    // RENDER DROPDOWN
     // =============================================
     function renderDropdowns() {
       const containers = [
@@ -927,7 +1014,6 @@
         let html = '';
         categoryKeys.forEach(cat => {
           const activeClass = (cat === activeCategory) ? 'active' : '';
-          // Create clickable links that navigate with category parameter
           html += `<div class="dropdown-item ${activeClass}" data-category="${cat}">${cat}</div>`;
         });
         container.innerHTML = html;
@@ -936,19 +1022,14 @@
             e.stopPropagation();
             const cat = this.dataset.category;
             if (cat && productMap[cat]) {
-              // Update URL with category parameter
               const url = new URL(window.location.href);
               url.searchParams.set('category', cat);
               window.history.pushState({}, '', url);
-              
+
               activeCategory = cat;
               renderDropdowns();
               renderProducts(cat);
-              // close mobile menu after selection
-              if (window.innerWidth <= 768) {
-                closeSlide();
-              }
-              // close desktop dropdown
+              if (window.innerWidth <= 768) closeSlide();
               desktopDropdownOpen = false;
               ddMenu.classList.remove('open');
               ddArrow.classList.remove('open');
@@ -959,7 +1040,7 @@
     }
 
     // =============================================
-    // RENDER PRODUCTS
+    // RENDER PRODUCTS (with image thumbnails)
     // =============================================
     function renderProducts(category) {
       const data = productMap[category];
@@ -978,14 +1059,13 @@
       products.forEach((p) => {
         html += `
           <div class="product-card" data-image="${p.image}" data-name="${p.name}">
+            <div class="card-thumb">
+              <img src="${p.image}" alt="${p.name} — Rise Axis Solutions" loading="lazy" />
+            </div>
             <span class="card-text">${p.name}</span>
           </div>
         `;
       });
-      // Add empty placeholders for consistent grid (for first category only)
-      if (category === 'Commercial & Marketing Materials') {
-        html += `<div class="grid-empty"></div><div class="grid-empty"></div>`;
-      }
       grid.innerHTML = html;
       grid.querySelectorAll('.product-card').forEach(card => {
         card.addEventListener('click', function() {
@@ -1030,7 +1110,6 @@
       renderProducts(activeCategory);
       updateBadge();
 
-      // Lightbox close
       const overlay = document.getElementById('lightboxOverlay');
       const closeBtn = document.getElementById('lightboxClose');
       if (overlay) {
@@ -1051,13 +1130,11 @@
         }
       });
 
-      // Auth placeholder
       const authLinks = document.getElementById('authLinks');
       const userLinks = document.getElementById('userLinks');
       if (authLinks) authLinks.style.display = 'inline';
       if (userLinks) userLinks.style.display = 'none';
 
-      // Logout handlers
       document.getElementById('logoutLink')?.addEventListener('click', function(e) {
         e.preventDefault();
         if (confirm('Logout?')) window.location.href = 'login.html';
