@@ -905,8 +905,8 @@
                 <input type="text" id="checkoutAddress" placeholder="Nairobi, Westlands, ABC Building">
             </div>
             <div class="form-group">
-                <label>Special Instructions (Optional)</label>
-                <textarea id="checkoutInstructions" placeholder="Any additional notes..."></textarea>
+                <label>Add instructions about how your Design should look like *</label>
+                <textarea id="checkoutInstructions" placeholder="Any Design notes..."></textarea>
             </div>
 
             <div class="form-group">
@@ -939,8 +939,8 @@
             <div id="paymentDetailsContainer">
                 <div id="paybillDetails" class="payment-details paybill-style">
                     <span class="payment-title">💰 M-Pesa Paybill</span>
-                    <div class="detail-row"><span class="label">Paybill:</span><span class="value highlight">123456</span></div>
-                    <div class="detail-row"><span class="label">Account:</span><span class="value highlight" id="checkoutOrderId">Order ID</span></div>
+                    <div class="detail-row"><span class="label">Paybill:</span><span class="value highlight">123456789</span></div>
+                    <div class="detail-row"><span class="label">Account:</span><span class="value highlight" id="checkoutOrderId">0123456789</span></div>
                     <div class="note">Enter your M-Pesa transaction code below after payment.</div>
                 </div>
                 <div id="bankDetails" class="payment-details bank-style" style="display: none;">
@@ -976,7 +976,7 @@
             <div class="icon">✅</div>
             <h2>Order Placed Successfully!</h2>
             <p>Your order has been received and is being processed.</p>
-            <div class="order-id">Order ID: <span id="successOrderId">KARIS-XXXX</span></div>
+            <div class="order-id">Order ID: <span id="successOrderId">Rise Axis-XXXX</span></div>
             <p style="font-size: 0.9rem; color: #888;">We'll confirm your payment and start production within 2 hours.</p>
             <br>
             <button class="btn-continue" onclick="closeSuccessAndClearCart()">
@@ -1212,7 +1212,7 @@
             String(date.getHours()).padStart(2, '0') +
             String(date.getMinutes()).padStart(2, '0');
         const random = Math.random().toString(36).substr(2, 4).toUpperCase();
-        return `KARIS-${timestamp}-${random}`;
+        return `Rise Axis-${timestamp}-${random}`;
     }
 
     function sanitizeInput(input) {
@@ -1432,7 +1432,8 @@
         const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
         const orderId = generateOrderId();
 
-        document.getElementById('checkoutOrderId').textContent = orderId;
+        // Set the Paybill Account number to the fixed number
+        document.getElementById('checkoutOrderId').textContent = '0123456789';
         document.getElementById('checkoutItemCount').textContent = totalItems;
         document.getElementById('checkoutSubtotal').textContent = `KSh ${subtotal.toLocaleString()}`;
         document.getElementById('checkoutTotal').textContent = `KSh ${subtotal.toLocaleString()}`;
@@ -1875,18 +1876,6 @@
                 console.warn('Logo could not load, skipping:', err);
             }
 
-            // // Brand name
-            // txt('Rise Axis', PAGE_W / 2 - 6, y + 2, { size: 18, color: BLUE, style: 'bold', align: 'center' });
-            // // Red "Solutions" appended — need manual positioning
-            // doc.setFont('helvetica', 'bold');
-            // doc.setFontSize(18);
-            // const riseAxisWidth = doc.getTextWidth('Rise Axis ');
-            // doc.setTextColor(...BLUE);
-            // doc.text('Rise Axis ', PAGE_W / 2 - riseAxisWidth / 2 - doc.getTextWidth('Solutions') / 2, y + 2, { align: 'left' });
-            // doc.setTextColor(...RED);
-            // doc.text('Solutions', PAGE_W / 2 - riseAxisWidth / 2 - doc.getTextWidth('Solutions') / 2 + riseAxisWidth, y + 2, { align: 'left' });
-            // y += 6;
-
             // Tagline
             // txt('Clarity, Direction, Results.', PAGE_W / 2, y, { size: 9, color: GRAY, style: 'italic', align: 'center' });
             // y += 5;
@@ -1948,7 +1937,7 @@
             txt('123456', rx + 22, ry, { size: 8.5, color: DARK, style: 'bold' });
             ry += 4;
             txt('Account:', rx, ry, { size: 8.5, color: DARK, style: 'bold' });
-            txt('Your Name / Order ID', rx + 22, ry, { size: 8.5, color: DARK });
+            txt('0123456789', rx + 22, ry, { size: 8.5, color: DARK });
             ry += 6;
 
             // Bank
@@ -1963,7 +1952,6 @@
             txt('Name:', rx, ry, { size: 8.5, color: DARK, style: 'bold' });
             txt('Rise Axis Solutions', rx + 22, ry, { size: 8.5, color: DARK });
             ry += 5.5;
-            // txt('Use your Order ID as the payment reference.', rx, ry, { size: 7.5, color: GRAY, style: 'italic' });
 
             y = boxY + boxH + 8;
 

@@ -1542,40 +1542,40 @@
     // =============================================
     const products = [
       { id: 'business-cards', name: 'Business Cards', category: 'stationery', subcategory: 'Business Stationery', startingPrice: 2500, image: '/images/Business Card Mockup2.png' },
-      { id: 'letterheads', name: 'Letterheads', category: 'stationery', subcategory: 'Business Stationery', startingPrice: 1500, image: '/images/letterhead.jpg' },
+      { id: 'letterheads', name: 'Letterheads', category: 'stationery', subcategory: 'Business Stationery', startingPrice: 1500, image: '/images/letter-head.png' },
       { id: 'branded-envelopes', name: 'Branded Envelopes', category: 'stationery', subcategory: 'Business Stationery', startingPrice: 1800, image: '/images/Branded Envelopes.png' },
       { id: 'presentation-folders', name: 'Presentation Folders', category: 'stationery', subcategory: 'Business Stationery', startingPrice: 3500, image: '/images/Presentation Folders.png' },
       { id: 'invoice-books', name: 'Carbonless Invoice Books (NCR)', category: 'stationery', subcategory: 'Business Stationery', startingPrice: 1800, image: '/images/Carbonless Invoice Books.png' },
       { id: 'flyers', name: 'Flyers (A5)', category: 'promotional', subcategory: 'Promotional Print', startingPrice: 1200, image: '/images/Fliers.png' },
       { id: 'brochures-trifold', name: 'Brochures (Tri-fold)', category: 'promotional', subcategory: 'Promotional Print', startingPrice: 3500, image: '/images/Foldable Bronchures.png' },
       { id: 'brochures-bifold', name: 'Brochures (Bi-fold)', category: 'promotional', subcategory: 'Promotional Print', startingPrice: 3200, image: '/images/Foldable Bronchures.png' },
-      { id: 'postcards', name: 'Postcards', category: 'promotional', subcategory: 'Promotional Print', startingPrice: 1500, image: '/images/postcards.jpg' },
-      { id: 'door-hangers', name: 'Door Hangers', category: 'promotional', subcategory: 'Promotional Print', startingPrice: 2000, image: '/images/door hangers.jpg' },
-      { id: 'rack-cards', name: 'Rack Cards', category: 'promotional', subcategory: 'Promotional Print', startingPrice: 1800, image: '/images/rack cards.jpg' },
-      { id: 'menu-cards', name: 'Menu Cards', category: 'promotional', subcategory: 'Promotional Print', startingPrice: 2200, image: '/images/menucard.jpg' },
+      
+      { id: 'door-hangers', name: 'Door Hangers', category: 'promotional', subcategory: 'Promotional Print', startingPrice: 2000, image: '/images/Door-hangers.jpg' },
+      { id: 'rack-cards', name: 'Rack Cards', category: 'promotional', subcategory: 'Promotional Print', startingPrice: 1800, image: '/images/rack-cards.jpg' },
+      { id: 'menu-cards', name: 'Menu Cards', category: 'promotional', subcategory: 'Promotional Print', startingPrice: 2200, image: '/images/Menu-card.jpg' },
       { id: 'catalogs', name: 'Catalogs', category: 'publications', subcategory: 'Publications', startingPrice: 3500, image: '/images/Company Mannuals.png' },
       { id: 'magazines', name: 'Magazines', category: 'publications', subcategory: 'Publications', startingPrice: 4500, image: '/images/Magazines.png' },
       { id: 'booklets', name: 'Booklets', category: 'publications', subcategory: 'Publications', startingPrice: 2500, image: '/images/Booklets.png' },
       { id: 'company-manuals', name: 'Company Manuals', category: 'publications', subcategory: 'Publications', startingPrice: 4000, image: '/images/Company Mannuals.png' },
-      { id: 'annual-reports', name: 'Annual Reports', category: 'publications', subcategory: 'Publications', startingPrice: 5000, image: 'images/Annual Reports.png' },
-      { id: 'perfect-bound-books', name: 'Perfect-Bound Books', category: 'publications', subcategory: 'Publications', startingPrice: 3000, image: 'images/perfect-bound-books.jpg' },
+      { id: 'annual-reports', name: 'Annual Reports', category: 'publications', subcategory: 'Publications', startingPrice: 5000, image: '/images/Annual Reports.png' },
+      { id: 'perfect-bound-books', name: 'Perfect-Bound Books', category: 'publications', subcategory: 'Publications', startingPrice: 3000, image: '/images/Perfect-Bound Books.jpg' },
       { id: 'vinyl-banners', name: 'Vinyl Banners', category: 'banners', subcategory: 'Banners & Display', startingPrice: 4500, image: '/images/Vinyl Banner2.png' },
       { id: 'pullup-banners', name: 'Pull-up / Roll-up Banners', category: 'banners', subcategory: 'Banners & Display', startingPrice: 8500, image: '/images/Roll Up Banners.png' },
-      { id: 'teardrop-flags', name: 'Teardrop Flags', category: 'banners', subcategory: 'Banners & Display', startingPrice: 6500, image: '/images/teardrop Banner.png' },
-      { id: 'backdrop-banners', name: 'Backdrop Banners', category: 'banners', subcategory: 'Banners & Display', startingPrice: 12000, image: '/images/Backdrop Banner.png' },
-      { id: 'foamboard-prints', name: 'Foam-board Prints', category: 'signs', subcategory: 'Rigid Signs', startingPrice: 2800, image: 'images/products/foamboard-prints.jpg' },
-      { id: 'correx-signs', name: 'Correx Directional Signs', category: 'signs', subcategory: 'Rigid Signs', startingPrice: 3500, image: '/images/Correx Directional Signs.png' },
-      { id: 'acrylic-wall-plaques', name: 'Acrylic Wall Plaques', category: 'signs', subcategory: 'Rigid Signs', startingPrice: 4500, image: 'images/Acrylic wall Plaques.png' },
-      { id: 'aluminum-composite-signs', name: 'Aluminum Composite Signage', category: 'signs', subcategory: 'Rigid Signs', startingPrice: 5500, image: 'images/Aluminum Composite Signages.png' },
-      { id: 'blueprints', name: 'Architectural Blueprints', category: 'posters', subcategory: 'Posters & Art', startingPrice: 1500, image: '/images/blueprint.jpg' },
-      { id: 'advertising-posters', name: 'High-gloss Advertising Posters', category: 'posters', subcategory: 'Posters & Art', startingPrice: 1200, image: 'images/High gloss posters.png' },
-      { id: 'canvas-prints', name: 'Canvas Photo Prints', category: 'posters', subcategory: 'Posters & Art', startingPrice: 3500, image: '/images/High gloss Posters.png' },
+      { id: 'teardrop-flags', name: 'Teardrop Flags', category: 'banners', subcategory: 'Banners & Display', startingPrice: 6500, image: '/images/Teardrop Banner.png' },
+      { id: 'backdrop-banners', name: 'Backdrop Banners', category: 'banners', subcategory: 'Banners & Display', startingPrice: 12000, image: '/images/BackDrop Banner.png' },
+    
+      { id: 'correx-signs', name: 'Correx Directional Signs', category: 'signs', subcategory: 'Rigid Signs', startingPrice: 3500, image: '/images/Correx Directional signs.png' },
+      { id: 'acrylic-wall-plaques', name: 'Acrylic Wall Plaques', category: 'signs', subcategory: 'Rigid Signs', startingPrice: 4500, image: '/images/Acrylic wall Plaques.png' },
+      { id: 'aluminum-composite-signs', name: 'Aluminum Composite Signage', category: 'signs', subcategory: 'Rigid Signs', startingPrice: 5500, image: '/images/Aluminium Composite signages.png' },
+      { id: 'blueprints', name: 'Architectural Blueprints', category: 'posters', subcategory: 'Posters & Art', startingPrice: 1500, image: '/images/blueprints.jpg' },
+      { id: 'advertising-posters', name: 'High-gloss Advertising Posters', category: 'posters', subcategory: 'Posters & Art', startingPrice: 1200, image: '/images/High gloss posters.png' },
+      { id: 'canvas-prints', name: 'Canvas Photo Prints', category: 'posters', subcategory: 'Posters & Art', startingPrice: 3500, image: '/images/High gloss posters.png' },
       { id: 'wall-murals', name: 'Wall Murals & Decals', category: 'posters', subcategory: 'Posters & Art', startingPrice: 6000, image: '/images/Wall Mural Installation.png' },
       { id: 't-shirts', name: 'Custom T-shirts', category: 'apparel', subcategory: 'Custom Apparel', startingPrice: 1200, image: '/images/White Tshirt.png' },
-      { id: 'hoodies', name: 'Custom Hoodies', category: 'apparel', subcategory: 'Custom Apparel', startingPrice: 2500, image: '/images/download.jpg' },
+      { id: 'hoodies', name: 'Custom Hoodies', category: 'apparel', subcategory: 'Custom Apparel', startingPrice: 2500, image: '/images/Sweatshirt.png' },
       { id: 'jerseys', name: 'Custom Jerseys', category: 'apparel', subcategory: 'Custom Apparel', startingPrice: 1800, image: '/images/Custom Sportswear branding.png' },
       { id: 'caps', name: 'Custom Caps', category: 'apparel', subcategory: 'Custom Apparel', startingPrice: 800, image: '/images/Custom Caps.png' },
-      { id: 'totes', name: 'Custom Totes', category: 'apparel', subcategory: 'Custom Apparel', startingPrice: 600, image: '/images/Papper Bags.png' },
+      { id: 'totes', name: 'Custom Totes', category: 'apparel', subcategory: 'Custom Apparel', startingPrice: 600, image: '/images/Papper bags.png' },
       { id: 'workwear-uniforms', name: 'Workwear Uniforms', category: 'apparel', subcategory: 'Custom Apparel', startingPrice: 2000, image: '/images/workwear uniforms.png' },
       { id: 'mugs', name: 'Custom Mugs', category: 'promo-items', subcategory: 'Promotional Items', startingPrice: 400, image: '/images/cup mockup2.png' },
       { id: 'water-bottles', name: 'Custom Water Bottles', category: 'promo-items', subcategory: 'Promotional Items', startingPrice: 450, image: '/images/water bottle mockup.png' },
@@ -1586,7 +1586,7 @@
       { id: 'product-boxes', name: 'Custom Product Boxes', category: 'packaging', subcategory: 'Custom Packaging', startingPrice: 2500, image: '/images/Custom Product box.png' },
       { id: 'mailer-sleeves', name: 'Mailer Sleeves', category: 'packaging', subcategory: 'Custom Packaging', startingPrice: 1800, image: '/images/Mailer Sleeve.png' },
       { id: 'shopping-bags', name: 'Paper Shopping Bags', category: 'packaging', subcategory: 'Custom Packaging', startingPrice: 1500, image: '/images/Papper bags.png' },
-      { id: 'tissue-paper', name: 'Custom Tissue Paper', category: 'packaging', subcategory: 'Custom Packaging', startingPrice: 1200, image: '/images/products/tissue-paper.jpg' },
+    
       { id: 'diecut-stickers', name: 'Die-cut Vinyl Stickers', category: 'labels', subcategory: 'Labels & Stickers', startingPrice: 800, image: '/images/Table Roll Stickers.png' },
       { id: 'roll-labels', name: 'Roll Labels (Bottles/Jars)', category: 'labels', subcategory: 'Labels & Stickers', startingPrice: 1200, image: '/images/Custom Wrapping materials.png' },
       { id: 'product-seal-stickers', name: 'Product Seal Stickers', category: 'labels', subcategory: 'Labels & Stickers', startingPrice: 600, image: '/images/Product seal stickers.png' },
@@ -1623,7 +1623,7 @@
     }
 
     function getPriceForQuality(basePrice, quality) {
-      const multipliers = { standard: 1, premium: 1.25, executive: 1.5 };
+      const multipliers = { standard: 1, premium: 1.15, executive: 1.25 };
       return Math.round(basePrice * (multipliers[quality] || 1));
     }
 
